@@ -56,11 +56,11 @@ function filterMenu(menuData, keyword) {
   const isCho = isChosung(lowerKeyword);
 
   return menuData.map(cat => {
-    // 카테고리 제목 매칭
     const catTitle = cat.title.toLowerCase();
     const catCho = Hangul.getChosung(catTitle);
     const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword);
 
+    // [Step 2] 대분류 매칭 시 하위 모든 중분류 노출 (Phase 2-5)
     const processedMids = cat.children.map(mid => {
       const midTitle = mid.title.toLowerCase();
       const midCho = Hangul.getChosung(midTitle);
@@ -71,28 +71,32 @@ function filterMenu(menuData, keyword) {
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
         return { ...small, _directMatch: smallMatch };
-      });
+      }).filter(s => catMatch || midMatch || s._directMatch); // 부모 매칭 시 모든 자식 노출
 
       const hasSmallDirectMatch = processedSmalls.some(s => s._directMatch);
 
+      if (catMatch || midMatch || processedSmalls.length > 0) {
+        return { 
+          ...mid, 
+          children: processedSmalls, 
+          _directMatch: midMatch, 
+          _hasSmallMatch: hasSmallDirectMatch 
+        };
+      }
+      return null;
+    }).filter(Boolean);
+
+    if (catMatch || processedMids.length > 0) {
+      const hasSmallMatchInCat = processedMids.some(m => m._hasSmallMatch);
       return { 
-        ...mid, 
-        children: processedSmalls, 
-        _directMatch: midMatch, 
-        _hasSmallMatch: hasSmallDirectMatch 
+        ...cat, 
+        children: processedMids, 
+        _directMatch: catMatch, 
+        _hasSmallMatch: hasSmallMatchInCat
       };
-    });
-
-    const hasSmallMatchInCat = processedMids.some(m => m._hasSmallMatch);
-    const hasMidDirectMatchInCat = processedMids.some(m => m._directMatch);
-
-    return { 
-      ...cat, 
-      children: processedMids, 
-      _directMatch: catMatch, 
-      _hasSmallMatch: hasSmallMatchInCat || hasMidDirectMatchInCat
-    };
-  });
+    }
+    return null;
+  }).filter(Boolean);
 }
 
 window.JJSTAR_SEARCH = {
