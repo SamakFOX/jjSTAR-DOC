@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JJSTAR Guide Demo</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    :root {
+      --blue: #005da8;
+      --blue-dark: #00427a;
+      --line: #dde5ee;
+      --bg: #f5f7fb;
+      --group-bg: #f3f4f6;
+      --mid-bg: #eef3f9;
+      --small-bg: #fafcff;
+      --active: #dceeff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .08);
+      --radius: 16px;
+      --sidebar-width: 360px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%
+    }
+
+    body {
+      font-family: Pretendard, "Noto Sans KR", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
+
+    .sidebar-top {
+      background: var(--blue);
+      color: #fff;
+      padding: 18px
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 12px
+    }
+
+    .search {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 14px;
+      font-size: 14px
+    }
+
+    .nav {
+      padding: 10px 0 18px;
+      overflow: auto;
+      flex: 1
+    }
+
+    .group {
+      background: var(--group-bg);
+      border-bottom: 1px solid #edf2f7;
+      margin-bottom: 4px
+    }
+
+    .group-btn,
+    .mid-btn,
+    .small-btn {
+      width: 100%;
+      border: 0;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .group-btn {
+      background: var(--group-bg);
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 800
+    }
+
+    .group-children {
+      display: none;
+      background: #fff;
+      padding: 8px;
+      border-top: 1px solid #e5e7eb
+    }
+
+    .group.open .group-children {
+      display: block
+    }
+
+    .mid {
+      border: 1px solid #e7edf5;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--mid-bg);
+      margin-bottom: 8px
+    }
+
+    .mid-btn {
+      background: var(--mid-bg);
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700
+    }
+
+    .mid.open>.mid-children {
+      display: block
+    }
+
+    .mid.active>.mid-btn {
+      background: var(--active);
+      color: var(--blue-dark)
+    }
+
+    .mid-children {
+      display: none;
+      padding: 8px;
+      border-top: 1px solid #dde7f2;
+      background: #fff
+    }
+
+    .small-btn {
+      background: var(--small-bg);
+      border: 1px solid #edf2f7;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      font-size: 13px
+    }
+
+    .small-btn.active {
+      background: var(--active);
+      color: var(--blue-dark);
+      font-weight: 700;
+      border-color: #c8ddf5
+    }
+
+    .label {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .indicator {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .75);
+      color: #475569;
+      font-weight: 800
+    }
+
+    .content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column
+    }
+
+    .topbar {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .page {
+      padding: 28px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .status {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 10px
+    }
+
+    .viewer {
+      margin-top: 18px
+    }
+
+    .loading,
+    .empty {
+      padding: 36px;
+      border: 1px dashed #cfd8e3;
+      border-radius: 16px;
+      color: #64748b;
+      background: #fafcff
+    }
+
+    .pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px
+    }
+
+    .pager button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      min-width: 120px
+    }
+
+    .pager button:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .dim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .35);
+      z-index: 15
+    }
+
+    @media (max-width:900px) {
+      .app {
+        grid-template-columns: 1fr
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: min(88vw, 360px);
+        transform: translateX(-100%);
+        transition: transform .22s ease;
+        z-index: 20
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .menu-toggle {
+        display: inline-flex
+      }
+
+      .dim.show {
+        display: block
+      }
+
+      .page {
+        padding: 18px
+      }
+
+      .card {
+        padding: 22px 18px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">JJSTAR 이용 가이드</div>
+        <input id="searchInput" class="search" type="text" placeholder="메뉴 검색" />
+      </div>
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <button class="menu-toggle" id="menuToggle">☰ 메뉴</button>
+        <div class="breadcrumb" id="breadcrumb">JJSTAR 이용 가이드</div>
+      </div>
+      <section class="page">
+        <article class="card">
+          <div class="status" id="statusText">fetch 기반 상세 문서 구조 데모</div>
+          <div id="viewer" class="viewer">
+            <div class="loading">문서를 로드하는 중입니다.</div>
+          </div>
+          <div class="pager">
+            <button id="prevBtn">← 이전</button>
+            <button id="nextBtn">다음 →</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <div class="dim" id="dim"></div>
+
+  <!-- Image Lightbox -->
+  <div id="lightbox">
+    <span class="close-btn">&times;</span>
+    <img src="" id="lightbox-img">
+  </div>
+
+  <script src="data/menu.js"></script>
+  <script>
+    const menu = window.JJSTAR_MENU || [];
+    const docs = [];
+    menu.forEach(cat => {
+      cat.children.forEach(mid => {
+        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
+        mid.children.forEach(small => docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path }));
+      });
+    });
+
+    const nav = document.getElementById('nav');
+    const viewer = document.getElementById('viewer');
+    const breadcrumb = document.getElementById('breadcrumb');
+    const statusText = document.getElementById('statusText');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const searchInput = document.getElementById('searchInput');
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const dim = document.getElementById('dim');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    let currentIndex = 0;
+    let openCategory = menu[0]?.title || '';
+    let openMid = menu[0]?.children[0]?.title || '';
+    let keyword = '';
+
+    function toggleMark(v) { return v ? '−' : '+'; }
+    function match(t) { return !keyword || t.toLowerCase().includes(keyword); }
+
+    function buildFiltered() {
+      if (!keyword) return menu;
+      return menu.map(cat => {
+        const mids = cat.children.map(mid => {
+          const midMatch = match(`${cat.title} ${mid.title}`);
+          const children = mid.children.filter(small => match(`${cat.title} ${mid.title} ${small.title}`));
+          if (midMatch) return { ...mid, children: [...mid.children] };
+          if (children.length) return { ...mid, children };
+          return null;
+        }).filter(Boolean);
+        if (match(cat.title)) return { ...cat, children: [...cat.children] };
+        if (mids.length) return { ...cat, children: mids };
+        return null;
+      }).filter(Boolean);
+    }
+
+    function syncOpenFromCurrent() {
+      const current = docs[currentIndex];
+      if (!current) return;
+      openCategory = current.category;
+      openMid = current.mid;
+    }
+
+    function renderNav() {
+      const filtered = buildFiltered();
+      nav.innerHTML = '';
+      const current = docs[currentIndex];
+      filtered.forEach(cat => {
+        const groupOpen = keyword || cat.title === openCategory;
+        const group = document.createElement('section');
+        group.className = `group ${groupOpen ? 'open' : ''}`;
+        const gbtn = document.createElement('button');
+        gbtn.className = 'group-btn';
+        gbtn.innerHTML = `<span class="label">${cat.title}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
+        gbtn.onclick = () => {
+          if (!keyword && openCategory === cat.title) { openCategory = ''; openMid = ''; }
+          else { openCategory = cat.title; openMid = cat.children[0]?.title || ''; }
+          renderNav();
+        };
+        const gchildren = document.createElement('div');
+        gchildren.className = 'group-children';
+
+        cat.children.forEach(mid => {
+          const midOpen = keyword || (openCategory === cat.title && openMid === mid.title);
+          const active = current && current.category === cat.title && current.mid === mid.title;
+          const midWrap = document.createElement('div');
+          midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
+          const mbtn = document.createElement('button');
+          mbtn.className = 'mid-btn';
+          mbtn.innerHTML = `<span class="label">${mid.title}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
+          mbtn.onclick = () => {
+            openCategory = cat.title;
+            openMid = mid.title;
+            currentIndex = docs.findIndex(d => d.type === 'mid' && d.category === cat.title && d.mid === mid.title);
+            renderDetail();
+            renderNav();
+            closeSidebar();
+          };
+          const mchildren = document.createElement('div');
+          mchildren.className = 'mid-children';
+          mid.children.forEach(small => {
+            const btn = document.createElement('button');
+            btn.className = 'small-btn';
+            btn.innerHTML = `<span class="label">${small.title}</span>`;
+            const idx = docs.findIndex(d => d.type === 'small' && d.category === cat.title && d.mid === mid.title && d.small === small.title);
+            if (idx === currentIndex) btn.classList.add('active');
+            btn.onclick = () => {
+              openCategory = cat.title;
+              openMid = mid.title;
+              currentIndex = idx;
+              renderDetail();
+              renderNav();
+              closeSidebar();
+            };
+            mchildren.appendChild(btn);
+          });
+          midWrap.appendChild(mbtn);
+          midWrap.appendChild(mchildren);
+          gchildren.appendChild(midWrap);
+        });
+        group.appendChild(gbtn);
+        group.appendChild(gchildren);
+        nav.appendChild(group);
+      });
+    }
+
+    async function renderDetail() {
+      const current = docs[currentIndex];
+      if (!current) return;
+      syncOpenFromCurrent();
+      
+      // Auto-update breadcrumb: Category > Mid > Small
+      const parts = [current.category];
+      if (current.mid) parts.push(current.mid);
+      if (current.small) parts.push(current.small);
+      breadcrumb.innerText = parts.join(' › ');
+
+      statusText.textContent = `현재 문서: ${current.path}`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === docs.length - 1;
+      viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
+      try {
+        const res = await fetch(current.path);
+        if (!res.ok) throw new Error('missing');
+        const html = await res.text();
+        viewer.innerHTML = html;
+        
+        // Scroll to top on load
+        document.querySelector('.page').scrollTop = 0;
+      } catch (e) {
+        viewer.innerHTML = `<div class="empty"><strong>${current.title}</strong><br><br>아직 상세 HTML이 생성되지 않았습니다.</div>`;
+      }
+    }
+
+    // Lightbox Functionality
+    viewer.addEventListener('click', e => {
+      if (e.target.tagName === 'IMG') {
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add('show');
+      }
+    });
+
+    lightbox.onclick = () => lightbox.classList.remove('show');
+
+    function closeSidebar() { sidebar.classList.remove('open'); dim.classList.remove('show'); }
+    function openSidebar() { sidebar.classList.add('open'); dim.classList.add('show'); }
+
+    menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    dim.onclick = closeSidebar;
+    searchInput.addEventListener('input', e => { keyword = e.target.value.trim().toLowerCase(); renderNav(); });
+    prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
+    nextBtn.onclick = () => { if (currentIndex < docs.length - 1) { currentIndex++; renderDetail(); renderNav(); } };
+
+    // Initial load
+    const startPath = 'pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html';
+    const startIdx = docs.findIndex(d => d.path === startPath);
+    currentIndex = startIdx !== -1 ? startIdx : 0;
+    renderDetail();
+    renderNav();
+  </script>
+</body>
+
+</html>
