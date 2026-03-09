@@ -16,6 +16,9 @@
   --guide-muted: #6b7280;
   --guide-radius: 12px;
   --guide-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --sidebar-active-bg: #e0f2fe;
+  --sidebar-active-text: #0369a1;
+  --highlight-bg: #fde68a;
 }
 
 /* Typography & Layout */
@@ -211,6 +214,45 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Sidebar Active & Highlight */
+.search-highlight {
+  background-color: var(--highlight-bg);
+  color: #1e2937;
+  border-radius: 2px;
+  padding: 0 2px;
+  font-weight: 700;
+}
+
+.is-active {
+  background-color: var(--sidebar-active-bg) !important;
+  color: var(--sidebar-active-text) !important;
+  font-weight: 800 !important;
+  border-left: 3px solid var(--sidebar-active-text);
+}
+
+.search-count {
+  font-size: 12px;
+  color: #fff;
+  opacity: 0.8;
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* Custom Scrollbar for Sidebar */
+.nav::-webkit-scrollbar {
+  width: 6px;
+}
+.nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nav::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.nav::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 @media (max-width: 768px) {
