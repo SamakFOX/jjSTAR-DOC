@@ -49,9 +49,6 @@ function isChosung(str) {
   return choRegex.test(str);
 }
 
-/**
- * 메뉴 데이터 필터링 로직 (초성 지원)
- */
 function filterMenu(menuData, keyword) {
   if (!keyword) return menuData;
   
@@ -64,43 +61,38 @@ function filterMenu(menuData, keyword) {
     const catCho = Hangul.getChosung(catTitle);
     const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword);
 
-    const filteredMids = cat.children.map(mid => {
+    const processedMids = cat.children.map(mid => {
       const midTitle = mid.title.toLowerCase();
       const midCho = Hangul.getChosung(midTitle);
       const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
 
-      const filteredSmalls = mid.children.map(small => {
+      const processedSmalls = mid.children.map(small => {
         const smallTitle = small.title.toLowerCase();
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
         return { ...small, _directMatch: smallMatch };
-      }).filter(s => midMatch || s._directMatch);
+      });
 
-      const hasSmallDirectMatch = filteredSmalls.some(s => s._directMatch);
+      const hasSmallDirectMatch = processedSmalls.some(s => s._directMatch);
 
-      if (midMatch || filteredSmalls.length > 0) {
-        return { 
-          ...mid, 
-          children: filteredSmalls, 
-          _directMatch: midMatch, 
-          _hasSmallMatch: hasSmallDirectMatch 
-        };
-      }
-      return null;
-    }).filter(Boolean);
-
-    const hasSmallMatchInCat = filteredMids.some(m => m._hasSmallMatch);
-
-    if (catMatch || filteredMids.length > 0) {
       return { 
-        ...cat, 
-        children: filteredMids, 
-        _directMatch: catMatch, 
-        _hasSmallMatch: hasSmallMatchInCat
+        ...mid, 
+        children: processedSmalls, 
+        _directMatch: midMatch, 
+        _hasSmallMatch: hasSmallDirectMatch 
       };
-    }
-    return null;
-  }).filter(Boolean);
+    });
+
+    const hasSmallMatchInCat = processedMids.some(m => m._hasSmallMatch);
+    const hasMidDirectMatchInCat = processedMids.some(m => m._directMatch);
+
+    return { 
+      ...cat, 
+      children: processedMids, 
+      _directMatch: catMatch, 
+      _hasSmallMatch: hasSmallMatchInCat || hasMidDirectMatchInCat
+    };
+  });
 }
 
 window.JJSTAR_SEARCH = {

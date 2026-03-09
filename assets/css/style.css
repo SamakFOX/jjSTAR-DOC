@@ -233,8 +233,8 @@
 }
 
 .non-direct-match {
-  opacity: 0.6;
-  filter: grayscale(0.5);
+  opacity: 0.4;
+  filter: grayscale(0.8);
 }
 
 .search-count {
