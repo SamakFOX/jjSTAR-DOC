@@ -60,22 +60,23 @@ function filterMenu(menuData, keyword) {
     const catCho = Hangul.getChosung(catTitle);
     const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword);
 
-    // [Step 2] 대분류 매칭 시 하위 모든 중분류 노출 (Phase 2-5)
     const processedMids = cat.children.map(mid => {
       const midTitle = mid.title.toLowerCase();
       const midCho = Hangul.getChosung(midTitle);
       const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
 
+      // [Step 1.1] 검색어를 포함하지 않는 소분류는 무조건 숨김 (Phase 2-6)
       const processedSmalls = mid.children.map(small => {
         const smallTitle = small.title.toLowerCase();
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
         return { ...small, _directMatch: smallMatch };
-      }).filter(s => catMatch || midMatch || s._directMatch); // 부모 매칭 시 모든 자식 노출
+      }).filter(s => s._directMatch);
 
-      const hasSmallDirectMatch = processedSmalls.some(s => s._directMatch);
+      const hasSmallDirectMatch = processedSmalls.length > 0;
 
-      if (catMatch || midMatch || processedSmalls.length > 0) {
+      // [Step 1.2/1.3] 중분류 노출 조건: 대분류 매칭 OR 중분류 매칭 OR 하위 매칭 존재
+      if (catMatch || midMatch || hasSmallDirectMatch) {
         return { 
           ...mid, 
           children: processedSmalls, 
@@ -86,6 +87,7 @@ function filterMenu(menuData, keyword) {
       return null;
     }).filter(Boolean);
 
+    // [Step 1.2/1.3] 대분류 노출 조건: 대분류 매칭 OR 하위 매칭 존재
     if (catMatch || processedMids.length > 0) {
       const hasSmallMatchInCat = processedMids.some(m => m._hasSmallMatch);
       return { 

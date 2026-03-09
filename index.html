@@ -438,8 +438,8 @@
           if (openCategories.has(cat.title)) {
             openCategories.delete(cat.title);
           } else {
-            // [Step 1.1] 배타적 펼침 (Single Expand): 항상 활성화
-            openCategories.clear();
+            // [Phase 2-6] 일반 모드(keyword 없음)에서만 배타적 펼침 적용
+            if (!keyword) openCategories.clear();
             openCategories.add(cat.title);
           }
           renderNav();
@@ -465,8 +465,8 @@
             if (openMids.has(mid.title)) {
               openMids.delete(mid.title);
             } else {
-              // [Step 1.1] 배타적 펼침 (중분류): 동일 카테고리 내 다른 중분류 닫기
-              cat.children.forEach(m => openMids.delete(m.title));
+              // [Phase 2-6] 일반 모드에서만 동일 카테고리 내 다른 중분류 닫기
+              if (!keyword) cat.children.forEach(m => openMids.delete(m.title));
               openMids.add(mid.title);
               openCategories.add(cat.title);
             }
@@ -513,11 +513,11 @@
         nav.appendChild(group);
       });
 
-      // [Step 2] 검색 결과 카운트 업데이트 (Phase 2-5)
+      // [Phase 2-6] 검색 결과 카운트: 매칭된 총 항목 수
       searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${docs.length}건`;
       
       if (keyword && totalVisibleItems === 0) {
-        nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center; opacity:0.7;">검색 결과가 없습니다.</div>';
+        nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center;">일치하는 검색 결과가 없습니다.</div>';
       }
 
       // Scroll active item into view
