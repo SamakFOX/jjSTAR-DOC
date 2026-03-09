@@ -417,6 +417,8 @@
       let filtered = menu;
       if (keyword && typeof JJSTAR_SEARCH !== 'undefined') {
         filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
+      } else if (!keyword) {
+        // Clear search-driven states if search is empty
       }
 
       nav.innerHTML = '';
@@ -424,16 +426,28 @@
       let totalItems = 0;
 
       filtered.forEach(cat => {
-        const groupOpen = keyword || openCategories.has(cat.title);
+        // [Step 1] 지능형 개폐 로직: 검색어가 있는 경우 자식 매칭이 있을 때만 기본 펼침
+        let groupOpen = openCategories.has(cat.title);
+        if (keyword) {
+          groupOpen = cat._hasSmallMatch; // 소분류 매칭이 있을 때만 자동 펼침 (Phase 2-2)
+        }
+
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
+        if (keyword && !cat._directMatch && !cat._hasSmallMatch) group.classList.add('non-direct-match');
         
         const gbtn = document.createElement('button');
         gbtn.className = 'group-btn';
         gbtn.innerHTML = `<span class="label">${highlight(cat.title)}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
-        gbtn.onclick = () => {
-          if (openCategories.has(cat.title)) openCategories.delete(cat.title);
-          else openCategories.add(cat.title);
+        gbtn.onclick = (e) => {
+          e.stopPropagation();
+          if (openCategories.has(cat.title)) {
+            openCategories.delete(cat.title);
+          } else {
+            // [Step 2.2] 배타적 펼침: 다른 대분류는 닫음
+            openCategories.clear();
+            openCategories.add(cat.title);
+          }
           renderNav();
         };
 
@@ -442,25 +456,39 @@
 
         cat.children.forEach(mid => {
           totalItems++;
-          const midOpen = keyword || openMids.has(mid.title);
+          
+          let midOpen = openMids.has(mid.title);
+          if (keyword) {
+            midOpen = mid._hasSmallMatch; // 소분류 매칭이 있을 때만 자동 펼침
+          }
+
           const active = current && current.category === cat.title && current.mid === mid.title;
           const midWrap = document.createElement('div');
           midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
+          if (keyword && !mid._directMatch && !mid._hasSmallMatch) midWrap.classList.add('non-direct-match');
           
           const mbtn = document.createElement('button');
           mbtn.className = 'mid-btn';
           if (active) mbtn.classList.add('is-active');
           mbtn.innerHTML = `<span class="label">${highlight(mid.title)}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
-          mbtn.onclick = () => {
-            if (openMids.has(mid.title)) openMids.delete(mid.title);
-            else {
-              openCategories.add(cat.title);
+          
+          mbtn.onclick = (e) => {
+            e.stopPropagation();
+            // [Step 2.1] 중분류 접기 추가 
+            if (openMids.has(mid.title)) {
+              openMids.delete(mid.title);
+            } else {
+              // [Step 2.2] 배타적 펼침: 같은 카테고리 내 다른 중분류 닫음
+              cat.children.forEach(m => openMids.delete(m.title));
               openMids.add(mid.title);
+              openCategories.add(cat.title); // 부모는 항상 염
             }
+            
+            // 문서 이동
             currentIndex = docs.findIndex(d => d.type === 'mid' && d.category === cat.title && d.mid === mid.title);
             renderDetail();
             renderNav();
-            closeSidebar();
+            if (window.innerWidth <= 900) closeSidebar();
           };
 
           const mchildren = document.createElement('div');
@@ -477,13 +505,16 @@
               btn.classList.add('is-active');
             }
             
-            btn.onclick = () => {
+            if (keyword && !small._directMatch) btn.classList.add('non-direct-match');
+
+            btn.onclick = (e) => {
+              e.stopPropagation();
               openCategories.add(cat.title);
               openMids.add(mid.title);
               currentIndex = idx;
               renderDetail();
               renderNav();
-              closeSidebar();
+              if (window.innerWidth <= 900) closeSidebar();
             };
             mchildren.appendChild(btn);
           });
@@ -504,13 +535,15 @@
         nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center; opacity:0.7;">검색 결과가 없습니다.</div>';
       }
 
-      // Scroll active item into view
-      setTimeout(() => {
-        const activeItem = nav.querySelector('.is-active');
-        if (activeItem) {
-          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
+      // Scroll active item into view (only if not searching)
+      if (!keyword) {
+        setTimeout(() => {
+          const activeItem = nav.querySelector('.is-active');
+          if (activeItem) {
+            activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
     }
 
     async function renderDetail() {

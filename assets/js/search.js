@@ -69,25 +69,35 @@ function filterMenu(menuData, keyword) {
       const midCho = Hangul.getChosung(midTitle);
       const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
 
-      const filteredSmalls = mid.children.filter(small => {
+      const filteredSmalls = mid.children.map(small => {
         const smallTitle = small.title.toLowerCase();
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
-        return smallMatch;
-      });
+        return { ...small, _directMatch: smallMatch };
+      }).filter(s => midMatch || s._directMatch);
 
-      if (midMatch) {
-        return { ...mid, children: [...mid.children], _match: true };
-      } else if (filteredSmalls.length > 0) {
-        return { ...mid, children: filteredSmalls, _childMatch: true };
+      const hasSmallDirectMatch = filteredSmalls.some(s => s._directMatch);
+
+      if (midMatch || filteredSmalls.length > 0) {
+        return { 
+          ...mid, 
+          children: filteredSmalls, 
+          _directMatch: midMatch, 
+          _hasSmallMatch: hasSmallDirectMatch 
+        };
       }
       return null;
     }).filter(Boolean);
 
-    if (catMatch) {
-      return { ...cat, children: [...cat.children], _match: true };
-    } else if (filteredMids.length > 0) {
-      return { ...cat, children: filteredMids, _childMatch: true };
+    const hasSmallMatchInCat = filteredMids.some(m => m._hasSmallMatch);
+
+    if (catMatch || filteredMids.length > 0) {
+      return { 
+        ...cat, 
+        children: filteredMids, 
+        _directMatch: catMatch, 
+        _hasSmallMatch: hasSmallMatchInCat
+      };
     }
     return null;
   }).filter(Boolean);
