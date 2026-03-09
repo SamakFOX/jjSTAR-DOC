@@ -417,8 +417,6 @@
       let filtered = menu;
       if (keyword && typeof JJSTAR_SEARCH !== 'undefined') {
         filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
-      } else if (!keyword) {
-        // Clear search-driven states if search is empty
       }
 
       nav.innerHTML = '';
@@ -426,14 +424,12 @@
       let totalItems = 0;
 
       filtered.forEach(cat => {
-        // [Step 1] 지능형 개폐 로직: 검색어가 있는 경우 자식 매칭이 있을 때만 기본 펼침
-        let groupOpen = openCategories.has(cat.title);
-        if (keyword) {
-          groupOpen = cat._hasSmallMatch; // 소분류 매칭이 있을 때만 자동 펼침 (Phase 2-2)
-        }
+        // [Step 1] 대분류 개방 상태: 사용자의 수동 개방(Set) 상태를 우선함
+        const groupOpen = openCategories.has(cat.title);
 
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
+        // 검색 중이며 직접 매칭도 자식 매칭도 없는 경우 흐리게 처리
         if (keyword && !cat._directMatch && !cat._hasSmallMatch) group.classList.add('non-direct-match');
         
         const gbtn = document.createElement('button');
@@ -444,7 +440,7 @@
           if (openCategories.has(cat.title)) {
             openCategories.delete(cat.title);
           } else {
-            // [Step 2.2] 배타적 펼침: 다른 대분류는 닫음
+            // [Step 3.1] 배타적 펼침 (대분류): 다른 대분류는 모두 닫음
             openCategories.clear();
             openCategories.add(cat.title);
           }
@@ -457,10 +453,8 @@
         cat.children.forEach(mid => {
           totalItems++;
           
-          let midOpen = openMids.has(mid.title);
-          if (keyword) {
-            midOpen = mid._hasSmallMatch; // 소분류 매칭이 있을 때만 자동 펼침
-          }
+          // [Step 2] 중분류 개방 상태
+          const midOpen = openMids.has(mid.title);
 
           const active = current && current.category === cat.title && current.mid === mid.title;
           const midWrap = document.createElement('div');
@@ -474,17 +468,17 @@
           
           mbtn.onclick = (e) => {
             e.stopPropagation();
-            // [Step 2.1] 중분류 접기 추가 
+            // [Step 2] 중분류 접기 및 배타적 펼침
             if (openMids.has(mid.title)) {
               openMids.delete(mid.title);
             } else {
-              // [Step 2.2] 배타적 펼침: 같은 카테고리 내 다른 중분류 닫음
+              // [Step 3.1] 동일 카테고리 내 다른 중분류 닫기
               cat.children.forEach(m => openMids.delete(m.title));
               openMids.add(mid.title);
-              openCategories.add(cat.title); // 부모는 항상 염
+              openCategories.add(cat.title);
             }
             
-            // 문서 이동
+            // 페이지 로드 (Fetch)
             currentIndex = docs.findIndex(d => d.type === 'mid' && d.category === cat.title && d.mid === mid.title);
             renderDetail();
             renderNav();
@@ -505,6 +499,7 @@
               btn.classList.add('is-active');
             }
             
+            // 직접 매칭되지 않은 소분류는 흐리게
             if (keyword && !small._directMatch) btn.classList.add('non-direct-match');
 
             btn.onclick = (e) => {
@@ -535,7 +530,7 @@
         nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center; opacity:0.7;">검색 결과가 없습니다.</div>';
       }
 
-      // Scroll active item into view (only if not searching)
+      // Scroll active item into view (검색 중이 아닐 때만)
       if (!keyword) {
         setTimeout(() => {
           const activeItem = nav.querySelector('.is-active');
@@ -550,7 +545,7 @@
       const current = docs[currentIndex];
       if (!current) return;
       
-      // Auto-open parent menus
+      // 문서 로드 시 부모 메뉴 자동 개방
       openCategories.add(current.category);
       openMids.add(current.mid);
       
@@ -571,7 +566,7 @@
         viewer.innerHTML = html;
         document.querySelector('.page').scrollTop = 0;
         
-        // Update H1 based on current doc title
+        // 제목 자동 동기화
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
         
@@ -599,9 +594,26 @@
     searchInput.addEventListener('input', e => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
+        const prevKeyword = keyword;
         keyword = e.target.value.trim().toLowerCase();
+        
+        // [Step 3.2] 검색 시 소분류 매칭이 있는 경우 자동으로 펼침 처리
+        if (keyword && keyword !== prevKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
+          const filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
+          filtered.forEach(cat => {
+            if (cat._hasSmallMatch) openCategories.add(cat.title);
+            cat.children.forEach(mid => {
+              if (mid._hasSmallMatch) openMids.add(mid.title);
+            });
+          });
+        } else if (!keyword) {
+            // 검색어 삭제 시 초기 메뉴 상태로 (필요 시 주석 해제)
+            // openCategories.clear();
+            // openMids.clear();
+        }
+        
         renderNav();
-      }, 200);
+      }, 250);
     });
 
     prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
