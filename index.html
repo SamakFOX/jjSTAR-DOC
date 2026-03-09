@@ -76,6 +76,14 @@
       font-size: 14px
     }
 
+    .search-count {
+      font-size: 12px;
+      color: #fff;
+      opacity: 0.82;
+      margin-top: 8px;
+      text-align: right;
+    }
+
     .nav {
       padding: 10px 0 18px;
       overflow: auto;
@@ -333,6 +341,7 @@
       <div class="sidebar-top">
         <div class="brand">JJSTAR 이용 가이드</div>
         <input id="searchInput" class="search" type="text" placeholder="메뉴 검색" />
+        <div id="searchCount" class="search-count">전체 0건</div>
       </div>
       <nav class="nav" id="nav"></nav>
     </aside>
@@ -365,6 +374,7 @@
   </div>
 
   <script src="data/menu.js"></script>
+  <script src="assets/js/search.js"></script>
   <script>
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
@@ -382,6 +392,7 @@
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const searchInput = document.getElementById('searchInput');
+    const searchCountDisplay = document.getElementById('searchCount');
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.getElementById('menuToggle');
     const dim = document.getElementById('dim');
@@ -389,82 +400,86 @@
     const lightboxImg = document.getElementById('lightbox-img');
 
     let currentIndex = 0;
-    let openCategory = menu[0]?.title || '';
-    let openMid = menu[0]?.children[0]?.title || '';
     let keyword = '';
+    let openCategories = new Set([menu[0]?.title]);
+    let openMids = new Set([menu[0]?.children[0]?.title]);
 
     function toggleMark(v) { return v ? '−' : '+'; }
-    function match(t) { return !keyword || t.toLowerCase().includes(keyword); }
 
-    function buildFiltered() {
-      if (!keyword) return menu;
-      return menu.map(cat => {
-        const mids = cat.children.map(mid => {
-          const midMatch = match(`${cat.title} ${mid.title}`);
-          const children = mid.children.filter(small => match(`${cat.title} ${mid.title} ${small.title}`));
-          if (midMatch) return { ...mid, children: [...mid.children] };
-          if (children.length) return { ...mid, children };
-          return null;
-        }).filter(Boolean);
-        if (match(cat.title)) return { ...cat, children: [...cat.children] };
-        if (mids.length) return { ...cat, children: mids };
-        return null;
-      }).filter(Boolean);
-    }
-
-    function syncOpenFromCurrent() {
-      const current = docs[currentIndex];
-      if (!current) return;
-      openCategory = current.category;
-      openMid = current.mid;
+    function highlight(text) {
+      if (typeof JJSTAR_SEARCH !== 'undefined') {
+        return JJSTAR_SEARCH.highlightText(text, keyword);
+      }
+      return text;
     }
 
     function renderNav() {
-      const filtered = buildFiltered();
+      let filtered = menu;
+      if (keyword && typeof JJSTAR_SEARCH !== 'undefined') {
+        filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
+      }
+
       nav.innerHTML = '';
       const current = docs[currentIndex];
+      let totalItems = 0;
+
       filtered.forEach(cat => {
-        const groupOpen = keyword || cat.title === openCategory;
+        const groupOpen = keyword || openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
+        
         const gbtn = document.createElement('button');
         gbtn.className = 'group-btn';
-        gbtn.innerHTML = `<span class="label">${cat.title}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
+        gbtn.innerHTML = `<span class="label">${highlight(cat.title)}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
         gbtn.onclick = () => {
-          if (!keyword && openCategory === cat.title) { openCategory = ''; openMid = ''; }
-          else { openCategory = cat.title; openMid = cat.children[0]?.title || ''; }
+          if (openCategories.has(cat.title)) openCategories.delete(cat.title);
+          else openCategories.add(cat.title);
           renderNav();
         };
+
         const gchildren = document.createElement('div');
         gchildren.className = 'group-children';
 
         cat.children.forEach(mid => {
-          const midOpen = keyword || (openCategory === cat.title && openMid === mid.title);
+          totalItems++;
+          const midOpen = keyword || openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
           const midWrap = document.createElement('div');
           midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
+          
           const mbtn = document.createElement('button');
           mbtn.className = 'mid-btn';
-          mbtn.innerHTML = `<span class="label">${mid.title}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
+          if (active) mbtn.classList.add('is-active');
+          mbtn.innerHTML = `<span class="label">${highlight(mid.title)}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
           mbtn.onclick = () => {
-            openCategory = cat.title;
-            openMid = mid.title;
+            if (openMids.has(mid.title)) openMids.delete(mid.title);
+            else {
+              openCategories.add(cat.title);
+              openMids.add(mid.title);
+            }
             currentIndex = docs.findIndex(d => d.type === 'mid' && d.category === cat.title && d.mid === mid.title);
             renderDetail();
             renderNav();
             closeSidebar();
           };
+
           const mchildren = document.createElement('div');
           mchildren.className = 'mid-children';
           mid.children.forEach(small => {
+            totalItems++;
             const btn = document.createElement('button');
             btn.className = 'small-btn';
-            btn.innerHTML = `<span class="label">${small.title}</span>`;
+            btn.innerHTML = `<span class="label">${highlight(small.title)}</span>`;
+            
             const idx = docs.findIndex(d => d.type === 'small' && d.category === cat.title && d.mid === mid.title && d.small === small.title);
-            if (idx === currentIndex) btn.classList.add('active');
+            if (idx === currentIndex) {
+              btn.classList.add('active');
+              btn.classList.add('is-active');
+            }
+            
             btn.onclick = () => {
-              openCategory = cat.title;
-              openMid = mid.title;
+              openCategories.add(cat.title);
+              openMids.add(mid.title);
               currentIndex = idx;
               renderDetail();
               renderNav();
@@ -472,22 +487,40 @@
             };
             mchildren.appendChild(btn);
           });
+          
           midWrap.appendChild(mbtn);
           midWrap.appendChild(mchildren);
           gchildren.appendChild(midWrap);
         });
+
         group.appendChild(gbtn);
         group.appendChild(gchildren);
         nav.appendChild(group);
       });
+
+      searchCountDisplay.textContent = keyword ? `검색 결과: ${totalItems}건` : `전체 메뉴: ${docs.length}건`;
+      
+      if (totalItems === 0 && keyword) {
+        nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center; opacity:0.7;">검색 결과가 없습니다.</div>';
+      }
+
+      // Scroll active item into view
+      setTimeout(() => {
+        const activeItem = nav.querySelector('.is-active');
+        if (activeItem) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
     }
 
     async function renderDetail() {
       const current = docs[currentIndex];
       if (!current) return;
-      syncOpenFromCurrent();
       
-      // Auto-update breadcrumb: Category > Mid > Small
+      // Auto-open parent menus
+      openCategories.add(current.category);
+      openMids.add(current.mid);
+      
       const parts = [current.category];
       if (current.mid) parts.push(current.mid);
       if (current.small) parts.push(current.small);
@@ -497,20 +530,23 @@
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === docs.length - 1;
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
+      
       try {
         const res = await fetch(current.path);
         if (!res.ok) throw new Error('missing');
         const html = await res.text();
         viewer.innerHTML = html;
-        
-        // Scroll to top on load
         document.querySelector('.page').scrollTop = 0;
+        
+        // Update H1 based on current doc title
+        const h1 = viewer.querySelector('h1');
+        if (h1) h1.textContent = current.small || current.mid || current.title;
+        
       } catch (e) {
         viewer.innerHTML = `<div class="empty"><strong>${current.title}</strong><br><br>아직 상세 HTML이 생성되지 않았습니다.</div>`;
       }
     }
 
-    // Lightbox Functionality
     viewer.addEventListener('click', e => {
       if (e.target.tagName === 'IMG') {
         lightboxImg.src = e.target.src;
@@ -525,11 +561,19 @@
 
     menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     dim.onclick = closeSidebar;
-    searchInput.addEventListener('input', e => { keyword = e.target.value.trim().toLowerCase(); renderNav(); });
+
+    let searchTimer;
+    searchInput.addEventListener('input', e => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        keyword = e.target.value.trim().toLowerCase();
+        renderNav();
+      }, 200);
+    });
+
     prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
     nextBtn.onclick = () => { if (currentIndex < docs.length - 1) { currentIndex++; renderDetail(); renderNav(); } };
 
-    // Initial load
     const startPath = 'pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html';
     const startIdx = docs.findIndex(d => d.path === startPath);
     currentIndex = startIdx !== -1 ? startIdx : 0;
