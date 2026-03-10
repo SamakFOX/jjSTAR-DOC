@@ -653,6 +653,17 @@
     currentIndex = startIdx !== -1 ? startIdx : 0;
     renderDetail();
     renderNav();
+
+    // [Phase 3-10] iframe 내 로드 시 스크롤 정책 강제 활성화
+    window.addEventListener('load', () => {
+      if (window.self !== window.top) {
+        document.documentElement.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
+        // 콘텐츠 영역(.page)의 스크롤바가 생기도록 보장
+        const page = document.querySelector('.page');
+        if (page) page.style.overflowY = 'auto';
+      }
+    });
   </script>
 </body>
 

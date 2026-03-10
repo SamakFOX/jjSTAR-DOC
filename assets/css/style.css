@@ -360,14 +360,14 @@ html, body {
 
 /* Phase 3-6: iframe 임베드 최적화 전용 스타일 */
 .app {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-columns: 360px 1fr;
   overflow: hidden;
 }
 
 .sidebar {
-  height: 100vh;
+  height: 100%;
   display: flex !important;
   flex-direction: column;
   background-color: #fff;
@@ -376,7 +376,7 @@ html, body {
 }
 
 .content {
-  height: 100vh;
+  height: 100%;
   display: flex !important;
   flex-direction: column;
   background-color: transparent;
