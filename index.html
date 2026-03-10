@@ -406,7 +406,7 @@
 
     // [Phase 3-1] 중앙 관리형 링크 데이터셋
     const GUIDE_LINKS = {
-      "c01_m02_s06": "https://jjstar.jbnu.ac.kr/main/scholarship/history",
+      "c01_m02_s06": "jjstar_mockup.html",
       // 향후 추가될 메뉴 코드와 URL 매핑
     };
 
@@ -433,11 +433,11 @@
         const groupOpen = openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
-        
+
         const gbtn = document.createElement('button');
         gbtn.className = 'group-btn';
         gbtn.innerHTML = `<span class="label">${highlight(cat.title)}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
-        
+
         // [Step 1] 대분류 클릭 시 하위 메뉴 토글 (Phase 2-5)
         gbtn.onclick = (e) => {
           e.stopPropagation();
@@ -460,12 +460,12 @@
           const active = current && current.category === cat.title && current.mid === mid.title;
           const midWrap = document.createElement('div');
           midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
-          
+
           const mbtn = document.createElement('button');
           mbtn.className = 'mid-btn';
           if (active) mbtn.classList.add('is-active');
           mbtn.innerHTML = `<span class="label">${highlight(mid.title)}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
-          
+
           mbtn.onclick = (e) => {
             e.stopPropagation();
             if (openMids.has(mid.title)) {
@@ -476,7 +476,7 @@
               openMids.add(mid.title);
               openCategories.add(cat.title);
             }
-            
+
             currentIndex = docs.findIndex(d => d.type === 'mid' && d.category === cat.title && d.mid === mid.title);
             renderDetail();
             renderNav();
@@ -490,13 +490,13 @@
             const btn = document.createElement('button');
             btn.className = 'small-btn';
             btn.innerHTML = `<span class="label">${highlight(small.title)}</span>`;
-            
+
             const idx = docs.findIndex(d => d.type === 'small' && d.category === cat.title && d.mid === mid.title && d.small === small.title);
             if (idx === currentIndex) {
               btn.classList.add('active');
               btn.classList.add('is-active');
             }
-            
+
             btn.onclick = (e) => {
               e.stopPropagation();
               openCategories.add(cat.title);
@@ -508,7 +508,7 @@
             };
             mchildren.appendChild(btn);
           });
-          
+
           midWrap.appendChild(mbtn);
           midWrap.appendChild(mchildren);
           gchildren.appendChild(midWrap);
@@ -521,7 +521,7 @@
 
       // [Phase 2-6] 검색 결과 카운트: 매칭된 총 항목 수
       searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${docs.length}건`;
-      
+
       if (keyword && totalVisibleItems === 0) {
         nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center;">일치하는 검색 결과가 없습니다.</div>';
       }
@@ -538,11 +538,11 @@
     async function renderDetail() {
       const current = docs[currentIndex];
       if (!current) return;
-      
+
       // Explore focus: active and expand current doc lineage
       openCategories.add(current.category);
       openMids.add(current.mid);
-      
+
       const parts = [current.category];
       if (current.mid) parts.push(current.mid);
       if (current.small) parts.push(current.small);
@@ -552,14 +552,14 @@
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === docs.length - 1;
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
-      
+
       try {
         const res = await fetch(current.path);
         if (!res.ok) throw new Error('missing');
         const html = await res.text();
         viewer.innerHTML = html;
         document.querySelector('.page').scrollTop = 0;
-        
+
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
 
@@ -570,7 +570,7 @@
           const fileName = current.path.split('/').pop();
           const match = fileName.match(/^[a-z0-9]+_[a-z0-9]+_[a-z0-9]+/);
           const menuCode = match ? match[0] : null;
-          
+
           if (menuCode && GUIDE_LINKS[menuCode]) {
             directLinkBtn.href = GUIDE_LINKS[menuCode];
             directLinkBtn.target = "_blank";
@@ -578,7 +578,7 @@
             directLinkBtn.style.display = 'none'; // 링크가 없는 경우 버튼 숨김
           }
         }
-        
+
       } catch (e) {
         viewer.innerHTML = `<div class="empty"><strong>${current.title}</strong><br><br>아직 상세 HTML이 생성되지 않았습니다.</div>`;
       }
@@ -605,7 +605,7 @@
       searchTimer = setTimeout(() => {
         const prevKeyword = keyword;
         keyword = e.target.value.trim().toLowerCase();
-        
+
         if (keyword && keyword !== prevKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
           const filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
           filtered.forEach(cat => {
@@ -619,11 +619,11 @@
           openCategories.clear();
           openMids.clear();
           if (docs[currentIndex]) {
-             openCategories.add(docs[currentIndex].category);
-             openMids.add(docs[currentIndex].mid);
+            openCategories.add(docs[currentIndex].category);
+            openMids.add(docs[currentIndex].mid);
           }
         }
-        
+
         renderNav();
       }, 250);
     });

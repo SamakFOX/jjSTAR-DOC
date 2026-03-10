@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전주대학교 - 장학금 수혜현황</title>
+    <link rel="stylesheet" href="assets/css/jjmockup_style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/img_main_logo.png" alt="전주대학교 로고">
+            </div>
+            <div class="user-profile">
+                <img src="assets/images/title_char.png" alt="캐릭터">
+                <div class="profile-name">star(학생지원)</div>
+            </div>
+            <nav class="side-menu">
+                <ul>
+                    <li>+ star관리</li>
+                    <li class="active-category">- 장학관리
+                        <ul>
+                            <li>장학 공지사항</li>
+                            <li>장학금 온라인신청</li>
+                            <li>장학금 지급계좌관리</li>
+                            <li class="active-item">장학금 수혜현황</li>
+                            <li>장학금 환수</li>
+                        </ul>
+                    </li>
+                    <li>+ 등록관리</li>
+                    <li>+ 진단검사</li>
+                    <li>+ 심리/학업/진로 상담</li>
+                    <li>+ 통학버스</li>
+                    <li>+ 학생생활관</li>
+                    <li>+ 학교홍보</li>
+                    <li>+ JJSTAR 이용 매뉴얼</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="top-nav">
+                <div class="search-bar">
+                    <input type="text" placeholder="검색어를 입력하세요">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <div class="top-menu">
+                    <span>star(학생지원)</span>
+                    <span>학사정보</span>
+                    <span>대학생활</span>
+                    <span>진로개발</span>
+                    <span>취업지원</span>
+                    <span>SUPER STAR</span>
+                    <span>정보공유</span>
+                    <span>My Page</span>
+                </div>
+            </header>
+
+            <section class="main-body">
+                <div class="breadcrumb">
+                    🏠 > 장학관리 > 장학금 수혜현황
+                </div>
+                <div class="page-title">
+                    <div class="title-text">
+                        <span class="icon">📘</span> 장학금 수혜현황
+                    </div>
+                    <div class="action-btns">
+                        <button class="btn refresh">🔄 새로고침</button>
+                        <button class="btn search">🔍 조회</button>
+                    </div>
+                </div>
+
+                <div class="filter-box">
+                    <label>학년도</label>
+                    <input type="text" style="width: 80px;">
+                    <label>학기</label>
+                    <select>
+                        <option>전체</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-label">● 장학금 수혜현황</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>년도</th>
+                                <th>학기</th>
+                                <th>구분</th>
+                                <th>장학금명</th>
+                                <th>장학금</th>
+                                <th>지급처</th>
+                                <th>지급예정일</th>
+                                <th>비고</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="empty-row">
+                                <td colspan="8">
+                                    <div class="no-data">
+                                        📁<br>데이터가 없습니다.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <div class="total-label">합계</div>
+                        <div class="total-value">₩0</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
