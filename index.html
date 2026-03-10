@@ -538,7 +538,10 @@
     async function renderDetail() {
       const current = docs[currentIndex];
       if (!current) return;
-
+      
+      // [Phase 3-6] 기준 경로(baseUrl) 확보
+      const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+      
       // Explore focus: active and expand current doc lineage
       openCategories.add(current.category);
       openMids.add(current.mid);
@@ -554,9 +557,14 @@
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
 
       try {
-        const res = await fetch(current.path);
+        // [Phase 3-6] baseUrl과 결합하여 절대 경로로 fetch 요청
+        const res = await fetch(baseUrl + current.path);
         if (!res.ok) throw new Error('missing');
-        const html = await res.text();
+        let html = await res.text();
+
+        // [Phase 3-6] 콘텐츠 내 상대 경로(../../assets/ 혹은 ../assets/)를 기준 경로(baseUrl)로 일괄 치환
+        html = html.replace(/src="(\.\.\/)+assets\//g, `src="${baseUrl}assets/`);
+        
         viewer.innerHTML = html;
         document.querySelector('.page').scrollTop = 0;
 

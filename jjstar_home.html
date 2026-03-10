@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>전주대학교 STAR 시스템</title>
+    <link rel="stylesheet" href="assets/css/jjstar_home_style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="top-bar">
+                <div class="logo">
+                    <img src="assets/images/img_main_logo.png" alt="로고">
+                </div>
+                <div class="search-area">
+                    <input type="text" placeholder="검색어를 입력하세요">
+                    <button>🔍</button>
+                </div>
+                <div class="top-icons"> 🔔 ⚙️ 👤 </div>
+            </div>
+
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item mega-dropdown">
+                        <a href="#" class="active">star(학생지원)</a>
+                        <div class="dropdown-content">
+                            <div class="dropdown-inner">
+                                <div class="menu-column">
+                                    <h3>star관리</h3>
+                                    <ul>
+                                        <li>사제동행교수선택</li>
+                                        <li>희망학과 선택</li>
+                                        <li>학사일정</li>
+                                    </ul>
+                                </div>
+                                <div class="menu-column">
+                                    <h3>장학관리</h3>
+                                    <ul>
+                                        <li>장학 공지사항</li>
+                                        <li>장학금 수혜현황</li>
+                                    </ul>
+                                </div>
+                                <div class="menu-column">
+                                    <h3>등록관리</h3>
+                                    <ul>
+                                        <li>등록금 고지서</li>
+                                        <li>분할납부 신청</li>
+                                    </ul>
+                                </div>
+                                <div class="menu-column">
+                                    <h3>JJSTAR 이용 매뉴얼</h3>
+                                    <ul>
+                                        <li><a href="#" onclick="loadGuide()">JJSTAR 가이드</a></li>
+                                        <li>ONE-STOP 메뉴란?</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#">학사정보</a></li>
+                    <li class="nav-item"><a href="#">대학생활</a></li>
+                    <li class="nav-item"><a href="#">진로개발</a></li>
+                    <li class="nav-item"><a href="#">취업지원</a></li>
+                    <li class="nav-item"><a href="#">SUPER STAR</a></li>
+                    <li class="nav-item"><a href="#">정보공유</a></li>
+                    <li class="nav-item"><a href="#">My Page</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="main-container">
+            <aside class="sidebar" id="sidebar">
+                <div class="profile-card">
+                    <div class="profile-img">👤</div>
+                    <div class="profile-info">
+                        <strong>제이제이</strong><br>
+                        <span>시각디자인학과</span>
+                    </div>
+                </div>
+                <div class="side-menu">
+                    <div class="menu-group">나의 메뉴</div>
+                    <ul>
+                        <li>성적조회</li>
+                        <li>수강신청</li>
+                        <li class="active-sub">JJSTAR 가이드</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="content-area">
+                <div id="home-view">
+                    <div class="dashboard-mock">
+                        <h2>나의 콘텐츠</h2>
+                        <div class="grid-layout">
+                            <div class="card">시간표</div>
+                            <div class="card">SCHEDULE</div>
+                            <div class="card">MY VALUE</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="guide-view" style="display: none;">
+                    <div class="breadcrumb">🏠 > JJSTAR 이용 매뉴얼 > JJSTAR 가이드</div>
+                    <div class="content-header">
+                        <h3>📘 JJSTAR 가이드</h3>
+                        <div class="btns">
+                            <button>🔄 새로고침</button>
+                            <button>🔍 조회</button>
+                        </div>
+                    </div>
+                    <iframe src="about:blank" id="content-iframe" frameborder="0"></iframe>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function loadGuide() {
+            // 홈 화면 숨기고 가이드 화면 보이기
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('guide-view').style.display = 'block';
+
+            document.getElementById('content-iframe').src = 'index.html';
+        }
+    </script>
+</body>
+
+</html>
