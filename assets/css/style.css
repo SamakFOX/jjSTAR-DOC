@@ -335,7 +335,7 @@
 }
 
 /* 부모 페이지와의 조화를 위해 iframe 내 배경을 투명하게 처리 가능 */
-body {
+html, body {
   background-color: transparent !important;
 }
 
