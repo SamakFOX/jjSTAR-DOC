@@ -353,7 +353,9 @@
       <div class="topbar">
         <button class="menu-toggle" id="menuToggle">☰ 메뉴</button>
         <div class="breadcrumb" id="breadcrumb">JJSTAR 이용 가이드</div>
-        <a href="jjstar_home.html" target="_top" class="home-link">🏠 시스템 홈</a>
+        <a href="jjstar_home.html" target="_top" class="home-link">
+          <img src="assets/icons/home_fill.png" alt="시스템 홈" class="home-icon">
+        </a>
       </div>
       <section class="page">
         <article class="card">
@@ -542,10 +544,10 @@
     async function renderDetail() {
       const current = docs[currentIndex];
       if (!current) return;
-      
+
       // [Phase 3-7] 정밀한 Base URL 추출: index.html이 위치한 절대 폴더 경로 확보
       const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
-      
+
       // Explore focus: active and expand current doc lineage
       openCategories.add(current.category);
       openMids.add(current.mid);
@@ -568,7 +570,7 @@
 
         // [Phase 3-7] 모든 로컬 src 경로(../../ 등)를 absoluteBase 기반 절대 경로로 강제 치환
         html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
-        
+
         viewer.innerHTML = html;
         document.querySelector('.page').scrollTop = 0;
 
