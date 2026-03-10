@@ -39,11 +39,13 @@
 }
 
 /* Base Styles */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* Root scroll prevent */
+  overflow: hidden;
+  /* Root scroll prevent */
 }
 
 /* Typography & Layout */
@@ -398,7 +400,8 @@ html, body {
 }
 
 /* 부모 페이지와의 조화를 위해 iframe 내 배경을 투명하게 처리 가능 */
-html, body {
+html,
+body {
   background-color: transparent !important;
 }
 
@@ -406,22 +409,22 @@ html, body {
 .home-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border: 1px solid var(--guide-border);
-  border-radius: 10px;
-  background-color: #fff;
-  color: var(--guide-primary) !important;
+  justify-content: center;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  transition: all 0.2s ease;
-  white-space: nowrap;
+  padding: 5px;
+  /* 클릭 영역 확보 */
+  transition: opacity 0.2s;
 }
 
 .home-link:hover {
-  background-color: var(--guide-bg-info);
-  border-color: var(--guide-primary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  opacity: 0.7;
+  /* 호버 시 살짝 투명하게 피드백 */
+}
+
+.home-icon {
+  width: 23px;
+  height: 23px;
+  display: block;
+  object-fit: contain;
+  /* 이미지 비율 유지 */
 }
