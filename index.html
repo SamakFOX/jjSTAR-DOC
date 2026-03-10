@@ -404,6 +404,12 @@
     let openCategories = new Set([menu[0]?.title]);
     let openMids = new Set([menu[0]?.children[0]?.title]);
 
+    // [Phase 3-1] 중앙 관리형 링크 데이터셋
+    const GUIDE_LINKS = {
+      "c01_m02_s06": "https://jjstar.jbnu.ac.kr/main/scholarship/history",
+      // 향후 추가될 메뉴 코드와 URL 매핑
+    };
+
     function toggleMark(v) { return v ? '−' : '+'; }
 
     function highlight(text) {
@@ -556,6 +562,22 @@
         
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
+
+        // [Phase 3-1] 중앙 관리형 링크 주입
+        const directLinkBtn = viewer.querySelector('#direct-link');
+        if (directLinkBtn) {
+          // 파일명에서 코드 추출 (예: c01_m02_s06_...html -> c01_m02_s06)
+          const fileName = current.path.split('/').pop();
+          const match = fileName.match(/^[a-z0-9]+_[a-z0-9]+_[a-z0-9]+/);
+          const menuCode = match ? match[0] : null;
+          
+          if (menuCode && GUIDE_LINKS[menuCode]) {
+            directLinkBtn.href = GUIDE_LINKS[menuCode];
+            directLinkBtn.target = "_blank";
+          } else {
+            directLinkBtn.style.display = 'none'; // 링크가 없는 경우 버튼 숨김
+          }
+        }
         
       } catch (e) {
         viewer.innerHTML = `<div class="empty"><strong>${current.title}</strong><br><br>아직 상세 HTML이 생성되지 않았습니다.</div>`;
