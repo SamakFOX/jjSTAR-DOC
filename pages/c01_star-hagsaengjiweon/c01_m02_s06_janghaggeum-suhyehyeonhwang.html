@@ -12,122 +12,88 @@
 
     body {
       margin: 0;
-      font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
-      background: #f5f6fb;
+      background: #ffffff;
       color: #222;
-      line-height: 1.7;
+      font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      line-height: 1.75;
     }
 
     .wrap {
-      max-width: 1000px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 40px 20px 80px;
+      padding: 36px 24px 80px;
     }
 
-    .page-title {
-      font-size: 32px;
+    h1 {
+      margin: 0 0 18px;
+      font-size: 36px;
       font-weight: 700;
-      color: #123a70;
-      margin-bottom: 10px;
+      color: #1d2d44;
     }
 
-    .page-desc {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 32px;
+    h2 {
+      margin: 42px 0 14px;
+      font-size: 30px;
+      font-weight: 700;
+      color: #1d2d44;
     }
 
-    .guide-box {
-      background: #fff;
-      border: 1px solid #dbe2ea;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-      margin-bottom: 24px;
-    }
-
-    .step-title {
+    h3 {
+      margin: 30px 0 10px;
       font-size: 22px;
       font-weight: 700;
-      margin-bottom: 14px;
-      color: #0e4d92;
+      color: #1d2d44;
     }
 
-    .step-text {
-      font-size: 16px;
+    p {
+      margin: 0 0 16px;
+      font-size: 18px;
       color: #333;
-      margin-bottom: 18px;
     }
 
-    .step-text strong {
-      color: #0d3f79;
+    .lead {
+      margin-bottom: 28px;
     }
 
-    .img-box {
-      background: #f9fafc;
-      border: 1px solid #e4e8ef;
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
+    .doc-image {
+      margin: 18px 0 30px;
     }
 
-    .img-box img {
+    .doc-image img {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
       display: block;
-      margin: 0 auto;
     }
 
-    .note-box {
-      background: #eef5ff;
-      border: 1px solid #cfe0ff;
-      border-radius: 16px;
-      padding: 20px 22px;
-      margin-top: 32px;
+    .caption {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #666;
     }
 
-    .note-box h3 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      color: #0e4d92;
-    }
-
-    .note-box ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .note-box li {
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    .final-preview {
-      margin-top: 32px;
-    }
-
-    .final-preview h2 {
-      font-size: 24px;
-      color: #123a70;
-      margin-bottom: 14px;
+    .section {
+      margin-bottom: 18px;
     }
 
     @media (max-width: 768px) {
       .wrap {
-        padding: 24px 14px 60px;
+        padding: 24px 16px 60px;
       }
 
-      .page-title {
-        font-size: 26px;
+      h1 {
+        font-size: 28px;
       }
 
-      .guide-box {
-        padding: 20px;
+      h2 {
+        font-size: 24px;
       }
 
-      .step-title {
+      h3 {
         font-size: 20px;
+      }
+
+      p {
+        font-size: 16px;
       }
     }
   </style>
@@ -135,74 +101,56 @@
 
 <body>
   <div class="wrap">
-    <h1 class="page-title">장학금 수혜 이력 조회 방법</h1>
-    <p class="page-desc">
-      학사 시스템에서 장학금 수혜 이력을 조회하는 방법입니다. 아래 순서대로 따라하면
-      연도·학기별 장학금 수혜 내역과 합계 금액을 확인할 수 있습니다.
+    <h1>장학금 수혜 이력 조회 방법</h1>
+
+    <p class="lead">
+      학사 시스템에서 장학금 수혜 이력을 확인하는 방법입니다.
+      조회 조건을 입력한 뒤 장학금 수혜 내역과 합계 금액을 확인할 수 있습니다.
     </p>
 
-    <section class="guide-box">
-      <h2 class="step-title">STEP 1. 학년도와 학기를 선택합니다.</h2>
-      <p class="step-text">
-        조회 화면 상단의 <strong>학년도</strong> 입력란과 <strong>학기</strong> 선택 항목에서
-        확인하고자 하는 조건을 선택합니다. 학기를 전체로 두면 해당 연도의 전체 내역을 확인할 수 있습니다.
-      </p>
-      <div class="img-box">
-        <img src="../../assets/images/janghak-reward-01.png" alt="학년도와 학기 선택 화면">
-      </div>
-    </section>
+    <div class="doc-image">
+      <img src="../../assets/images/images/janghak-reward-05.png" alt="장학금 수혜현황 전체 화면">
+    </div>
 
-    <section class="guide-box">
-      <h2 class="step-title">STEP 2. 조회 버튼을 클릭합니다.</h2>
-      <p class="step-text">
-        조건을 선택한 후 우측의 <strong>조회</strong> 버튼을 눌러 장학금 수혜 이력을 불러옵니다.
-        필요 시 <strong>새로고침</strong> 버튼으로 조건을 초기화할 수 있습니다.
-      </p>
-      <div class="img-box">
-        <img src="../../assets/images/janghak-reward-02.png" alt="새로고침 및 조회 버튼">
-      </div>
-    </section>
+    <h2>장학금 수혜현황</h2>
 
-    <section class="guide-box">
-      <h2 class="step-title">STEP 3. 장학금 수혜현황 목록을 확인합니다.</h2>
-      <p class="step-text">
-        조회 결과에는 <strong>년도, 학기, 구분, 장학금명</strong> 등의 정보가 표시됩니다.
-        화면에 나타난 목록을 통해 어떤 장학금을 수혜했는지 확인할 수 있습니다.
-      </p>
-      <div class="img-box">
-        <img src="../../assets/images/janghak-reward-03.png" alt="장학금 수혜현황 목록">
-      </div>
-    </section>
+    <h3>1. 학년도와 학기를 선택합니다.</h3>
+    <p>
+      상단 조회 영역에서 확인하려는 <strong>학년도</strong>를 입력하고,
+      <strong>학기</strong>를 선택합니다. 전체 내역을 확인하려면 학기를 <strong>전체</strong>로 설정합니다.
+    </p>
 
-    <section class="guide-box">
-      <h2 class="step-title">STEP 4. 합계 금액을 확인합니다.</h2>
-      <p class="step-text">
-        목록 하단의 <strong>합계</strong> 영역에서 전체 장학금 수혜 금액을 확인할 수 있습니다.
-      </p>
-      <div class="img-box">
-        <img src="../../assets/images/janghak-reward-04.png" alt="장학금 수혜 합계 금액">
-      </div>
-    </section>
+    <div class="doc-image">
+      <img src="../../assets/images/images/janghak-reward-01.png" alt="학년도와 학기 선택">
+    </div>
 
-    <section class="guide-box final-preview">
-      <h2 class="step-title">전체 화면 예시</h2>
-      <p class="step-text">
-        아래는 실제 조회 화면에서 확인해야 하는 주요 영역을 표시한 예시입니다.
-        <strong>① 조회 조건 입력</strong>, <strong>② 조회 결과 목록</strong>,
-        <strong>③ 합계 금액</strong> 순으로 확인하면 됩니다.
-      </p>
-      <div class="img-box">
-        <img src="../../assets/images/janghak-reward-05.png" alt="장학금 수혜현황 전체 화면 예시">
-      </div>
-    </section>
+    <h3>2. 조회 버튼을 클릭합니다.</h3>
+    <p>
+      조회 조건을 입력한 뒤 <strong>조회</strong> 버튼을 클릭하면 장학금 수혜 내역이 화면에 표시됩니다.
+      필요 시 <strong>새로고침</strong> 버튼으로 입력값을 초기화할 수 있습니다.
+    </p>
 
-    <div class="note-box">
-      <h3>안내사항</h3>
-      <ul>
-        <li>조회 결과가 없을 경우 선택한 학년도 및 학기를 다시 확인해 주세요.</li>
-        <li>학기를 전체로 설정하면 해당 학년도의 전체 장학금 수혜 내역을 확인할 수 있습니다.</li>
-        <li>장학금 내역 및 금액이 실제와 다를 경우 담당 부서에 문의해 주세요.</li>
-      </ul>
+    <div class="doc-image">
+      <img src="../../assets/images/images/janghak-reward-02.png" alt="조회 버튼">
+    </div>
+
+    <h3>3. 장학금 수혜 내역을 확인합니다.</h3>
+    <p>
+      조회 결과에서 <strong>년도</strong>, <strong>학기</strong>, <strong>구분</strong>,
+      <strong>장학금명</strong> 등의 정보를 확인할 수 있습니다.
+    </p>
+
+    <div class="doc-image">
+      <img src="../../assets/images/images/janghak-reward-03.png" alt="장학금 수혜 내역 목록">
+    </div>
+
+    <h3>4. 합계 금액을 확인합니다.</h3>
+    <p>
+      화면 하단의 <strong>합계</strong> 영역에서 해당 조회 조건에 대한 전체 장학금 수혜 금액을 확인합니다.
+    </p>
+
+    <div class="doc-image">
+      <img src="../../assets/images/janghak-reward-04.png" alt="장학금 합계 금액">
     </div>
   </div>
 </body>

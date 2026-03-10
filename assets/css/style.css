@@ -1,8 +1,3 @@
-/* 
-  JJSTAR Guide - Design System 
-  Phase 1: 콘텐츠 표준화 및 레이아웃 강화
-*/
-
 :root {
   --guide-primary: #005da8;
   --guide-info: #3b82f6;
@@ -31,9 +26,28 @@
   margin: 0 auto;
 }
 
-.guide-article h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -0.025em; }
-.guide-article h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 2px solid var(--guide-border); padding-bottom: 0.5rem; }
-.guide-article h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+.guide-article h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
+
+.guide-article h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--guide-border);
+  padding-bottom: 0.5rem;
+}
+
+.guide-article h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
 
 /* Callout (강조 박스) */
 .guide-callout {
@@ -55,21 +69,30 @@
   border-left-color: var(--guide-info);
   color: #1e40af;
 }
-.guide-callout.info::before { content: "ℹ️"; }
+
+.guide-callout.info::before {
+  content: "ℹ️";
+}
 
 .guide-callout.warning {
   background-color: var(--guide-bg-warning);
   border-left-color: var(--guide-warning);
   color: #92400e;
 }
-.guide-callout.warning::before { content: "⚠️"; }
+
+.guide-callout.warning::before {
+  content: "⚠️";
+}
 
 .guide-callout.tip {
   background-color: var(--guide-bg-tip);
   border-left-color: var(--guide-tip);
   color: #065f46;
 }
-.guide-callout.tip::before { content: "💡"; }
+
+.guide-callout.tip::before {
+  content: "💡";
+}
 
 /* Step Card (절차 안내) */
 .step-grid {
@@ -190,7 +213,7 @@
 #lightbox img {
   max-width: 90%;
   max-height: 90%;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   border-radius: 4px;
   transform: scale(0.95);
   transition: transform 0.3s ease;
@@ -212,8 +235,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Sidebar Active & Highlight */
@@ -244,13 +272,16 @@
 .nav::-webkit-scrollbar {
   width: 6px;
 }
+
 .nav::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .nav::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 10px;
 }
+
 .nav::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -259,6 +290,7 @@
   .step-grid {
     grid-template-columns: 1fr;
   }
+
   .guide-article {
     padding: 0 16px;
   }
