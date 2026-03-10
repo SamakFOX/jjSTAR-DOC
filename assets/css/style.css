@@ -349,3 +349,27 @@ html, body {
     width: min(85vw, 360px);
   }
 }
+
+/* Phase 3-8: 시연용 홈 버튼 스타일 */
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--guide-border);
+  border-radius: 10px;
+  background-color: #fff;
+  color: var(--guide-primary) !important;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.home-link:hover {
+  background-color: var(--guide-bg-info);
+  border-color: var(--guide-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
