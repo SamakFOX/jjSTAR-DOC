@@ -1,85 +1,4 @@
-<div class="janghak-guide min-h-screen bg-white">
-  <style>
-    .janghak-guide { font-family: Pretendard, sans-serif; }
-    .janghak-guide .min-h-screen { min-height: 100vh; }
-    .janghak-guide .bg-white { background-color: #ffffff; }
-    .janghak-guide .max-w-1200 { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-top: 2rem; padding-bottom: 2rem; }
-    .janghak-guide .flex { display: flex; }
-    .janghak-guide .items-center { align-items: center; }
-    .janghak-guide .items-start { align-items: flex-start; }
-    .janghak-guide .justify-between { justify-content: space-between; }
-    .janghak-guide .justify-center { justify-content: center; }
-    .janghak-guide .gap-2 { gap: 0.5rem; }
-    .janghak-guide .gap-3 { gap: 0.75rem; }
-    .janghak-guide .gap-4 { gap: 1rem; }
-    .janghak-guide .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-    .janghak-guide .text-base { font-size: 1rem; line-height: 1.5rem; }
-    .janghak-guide .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-    .janghak-guide .text-2xl { font-size: 1.5rem; line-height: 2rem; }
-    .janghak-guide .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-    .janghak-guide .font-bold { font-weight: 700; }
-    .janghak-guide .font-semibold { font-weight: 600; }
-    .janghak-guide .mb-2 { margin-bottom: 0.5rem; }
-    .janghak-guide .mb-3 { margin-bottom: 0.75rem; }
-    .janghak-guide .mb-6 { margin-bottom: 1.5rem; }
-    .janghak-guide .mb-8 { margin-bottom: 2rem; }
-    .janghak-guide .mb-10 { margin-bottom: 2.5rem; }
-    .janghak-guide .mb-12 { margin-bottom: 3rem; }
-    .janghak-guide .mt-2 { margin-top: 0.5rem; }
-    .janghak-guide .mt-3 { margin-top: 0.75rem; }
-    .janghak-guide .pt-1 { padding-top: 0.25rem; }
-    .janghak-guide .pt-8 { padding-top: 2rem; }
-    .janghak-guide .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-    .janghak-guide .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-    .janghak-guide .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-    .janghak-guide .p-6 { padding: 1.5rem; }
-    .janghak-guide .p-8 { padding: 2rem; }
-    .janghak-guide .text-gray-500 { color: #6b7280; }
-    .janghak-guide .text-gray-600 { color: #4b5563; }
-    .janghak-guide .text-gray-700 { color: #374151; }
-    .janghak-guide .text-gray-900 { color: #111827; }
-    .janghak-guide .text-white { color: #ffffff; }
-    .janghak-guide .text-red-600 { color: #dc2626; }
-    .janghak-guide .text-blue-600 { color: #2563eb; }
-    .janghak-guide .bg-blue-600 { background-color: #2563eb; }
-    .janghak-guide .bg-gray-50 { background-color: #f9fafb; }
-    .janghak-guide .bg-gray-300 { background-color: #d1d5db; }
-    .janghak-guide .bg-gray-400 { background-color: #9ca3af; }
-    .janghak-guide .border { border-width: 1px; }
-    .janghak-guide .border-t { border-top-width: 1px; }
-    .janghak-guide .border-t-2 { border-top-width: 2px; }
-    .janghak-guide .border-l-4 { border-left-width: 4px; }
-    .janghak-guide .border-gray-200 { border-color: #e5e7eb; }
-    .janghak-guide .border-gray-300 { border-color: #d1d5db; }
-    .janghak-guide .border-blue-500 { border-color: #3b82f6; }
-    .janghak-guide .rounded { border-radius: 0.25rem; }
-    .janghak-guide .rounded-lg { border-radius: 0.5rem; }
-    .janghak-guide .rounded-full { border-radius: 9999px; }
-    .janghak-guide .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
-    .janghak-guide .w-3 { width: 0.75rem; }
-    .janghak-guide .h-3 { height: 0.75rem; }
-    .janghak-guide .w-4 { width: 1rem; }
-    .janghak-guide .h-4 { height: 1rem; }
-    .janghak-guide .w-5 { width: 1.25rem; }
-    .janghak-guide .h-5 { height: 1.25rem; }
-    .janghak-guide .w-8 { width: 2rem; }
-    .janghak-guide .h-8 { height: 2rem; }
-    .janghak-guide .w-12 { width: 3rem; }
-    .janghak-guide .h-6 { height: 1.5rem; }
-    .janghak-guide .w-full { width: 100%; }
-    .janghak-guide .flex-shrink-0 { flex-shrink: 0; }
-    .janghak-guide .flex-1 { flex: 1 1 0%; }
-    .janghak-guide .inline-flex { display: inline-flex; }
-    .janghak-guide .text-center { text-align: center; }
-    .janghak-guide .leading-relaxed { line-height: 1.625; text-decoration: none; }
-    .janghak-guide .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
-    .janghak-guide .hover\:bg-gray-50:hover { background-color: #f9fafb; }
-    .janghak-guide .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-    .janghak-guide .space-y-4 > * + * { margin-top: 1rem; }
-    .janghak-guide .lucide { stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
-    .janghak-guide h1, .janghak-guide h2, .janghak-guide h3 { margin: 0; }
-  </style>
-  
+<div class="guide-l3-content min-h-screen bg-white">
   <div class="max-w-1200">
     <nav class="flex items-center gap-2 text-sm mb-8 text-gray-500">
       <svg class="lucide w-4 h-4" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -98,13 +17,11 @@
       <p>조회 조건을 설정하여 상세 내역과 총 수혜 금액을 확인해보세요.</p>
     </div>
 
-    <!-- 바로가기 버튼 영역 -->
-    <a href="#" id="direct-link" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors mb-12 font-semibold" style="text-decoration: none;">
-      장학금 수혜 현황 바로가기
-      <svg class="lucide w-4 h-4" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
+    <!-- 바로가기 버튼 영역 (기존 스타일로 복구) -->
+    <a href="#" id="direct-link" class="btn-direct">장학금 수혜 현황 바로가기</a>
 
     <hr class="border-t-2 border-gray-200 mb-12" />
+
 
     <h2 class="text-2xl mb-6 font-bold">장학금 수혜 현황 한눈에 보기</h2>
     
