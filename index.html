@@ -360,7 +360,6 @@
       </div>
       <section class="page">
         <article class="card">
-          <div class="status" id="statusText">fetch 기반 상세 문서 구조 데모</div>
           <div id="viewer" class="viewer">
             <div class="loading">문서를 로드하는 중입니다.</div>
           </div>
@@ -395,7 +394,6 @@
     const nav = document.getElementById('nav');
     const viewer = document.getElementById('viewer');
     const breadcrumb = document.getElementById('breadcrumb');
-    const statusText = document.getElementById('statusText');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const searchInput = document.getElementById('searchInput');
@@ -558,7 +556,6 @@
       if (current.small) parts.push(current.small);
       breadcrumb.innerText = parts.join(' › ');
 
-      statusText.textContent = `현재 문서: ${current.path}`;
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === docs.length - 1;
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
