@@ -1,41 +1,187 @@
-<div class="guide-article">
-  <h1>장학금 수혜 이력 조회</h1>
-  <p>
-    학사 시스템에서 과거부터 현재까지 지급받은 모든 장학금 내역을 한눈에 확인할 수 있습니다.
-    조회 조건을 설정하여 상세 내역과 총 수혜 금액을 확인해보세요.
-  </p>
+<div class="janghak-guide min-h-screen bg-white">
+  <style>
+    .janghak-guide { font-family: Pretendard, sans-serif; }
+    .janghak-guide .min-h-screen { min-height: 100vh; }
+    .janghak-guide .bg-white { background-color: #ffffff; }
+    .janghak-guide .max-w-1200 { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-top: 2rem; padding-bottom: 2rem; }
+    .janghak-guide .flex { display: flex; }
+    .janghak-guide .items-center { align-items: center; }
+    .janghak-guide .items-start { align-items: flex-start; }
+    .janghak-guide .justify-between { justify-content: space-between; }
+    .janghak-guide .justify-center { justify-content: center; }
+    .janghak-guide .gap-2 { gap: 0.5rem; }
+    .janghak-guide .gap-3 { gap: 0.75rem; }
+    .janghak-guide .gap-4 { gap: 1rem; }
+    .janghak-guide .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .janghak-guide .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .janghak-guide .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .janghak-guide .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .janghak-guide .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+    .janghak-guide .font-bold { font-weight: 700; }
+    .janghak-guide .font-semibold { font-weight: 600; }
+    .janghak-guide .mb-2 { margin-bottom: 0.5rem; }
+    .janghak-guide .mb-3 { margin-bottom: 0.75rem; }
+    .janghak-guide .mb-6 { margin-bottom: 1.5rem; }
+    .janghak-guide .mb-8 { margin-bottom: 2rem; }
+    .janghak-guide .mb-10 { margin-bottom: 2.5rem; }
+    .janghak-guide .mb-12 { margin-bottom: 3rem; }
+    .janghak-guide .mt-2 { margin-top: 0.5rem; }
+    .janghak-guide .mt-3 { margin-top: 0.75rem; }
+    .janghak-guide .pt-1 { padding-top: 0.25rem; }
+    .janghak-guide .pt-8 { padding-top: 2rem; }
+    .janghak-guide .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .janghak-guide .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .janghak-guide .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .janghak-guide .p-6 { padding: 1.5rem; }
+    .janghak-guide .p-8 { padding: 2rem; }
+    .janghak-guide .text-gray-500 { color: #6b7280; }
+    .janghak-guide .text-gray-600 { color: #4b5563; }
+    .janghak-guide .text-gray-700 { color: #374151; }
+    .janghak-guide .text-gray-900 { color: #111827; }
+    .janghak-guide .text-white { color: #ffffff; }
+    .janghak-guide .text-red-600 { color: #dc2626; }
+    .janghak-guide .text-blue-600 { color: #2563eb; }
+    .janghak-guide .bg-blue-600 { background-color: #2563eb; }
+    .janghak-guide .bg-gray-50 { background-color: #f9fafb; }
+    .janghak-guide .bg-gray-300 { background-color: #d1d5db; }
+    .janghak-guide .bg-gray-400 { background-color: #9ca3af; }
+    .janghak-guide .border { border-width: 1px; }
+    .janghak-guide .border-t { border-top-width: 1px; }
+    .janghak-guide .border-t-2 { border-top-width: 2px; }
+    .janghak-guide .border-l-4 { border-left-width: 4px; }
+    .janghak-guide .border-gray-200 { border-color: #e5e7eb; }
+    .janghak-guide .border-gray-300 { border-color: #d1d5db; }
+    .janghak-guide .border-blue-500 { border-color: #3b82f6; }
+    .janghak-guide .rounded { border-radius: 0.25rem; }
+    .janghak-guide .rounded-lg { border-radius: 0.5rem; }
+    .janghak-guide .rounded-full { border-radius: 9999px; }
+    .janghak-guide .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .janghak-guide .w-3 { width: 0.75rem; }
+    .janghak-guide .h-3 { height: 0.75rem; }
+    .janghak-guide .w-4 { width: 1rem; }
+    .janghak-guide .h-4 { height: 1rem; }
+    .janghak-guide .w-5 { width: 1.25rem; }
+    .janghak-guide .h-5 { height: 1.25rem; }
+    .janghak-guide .w-8 { width: 2rem; }
+    .janghak-guide .h-8 { height: 2rem; }
+    .janghak-guide .w-12 { width: 3rem; }
+    .janghak-guide .h-6 { height: 1.5rem; }
+    .janghak-guide .w-full { width: 100%; }
+    .janghak-guide .flex-shrink-0 { flex-shrink: 0; }
+    .janghak-guide .flex-1 { flex: 1 1 0%; }
+    .janghak-guide .inline-flex { display: inline-flex; }
+    .janghak-guide .text-center { text-align: center; }
+    .janghak-guide .leading-relaxed { line-height: 1.625; text-decoration: none; }
+    .janghak-guide .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
+    .janghak-guide .hover\:bg-gray-50:hover { background-color: #f9fafb; }
+    .janghak-guide .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .janghak-guide .space-y-4 > * + * { margin-top: 1rem; }
+    .janghak-guide .lucide { stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+    .janghak-guide h1, .janghak-guide h2, .janghak-guide h3 { margin: 0; }
+  </style>
+  
+  <div class="max-w-1200">
+    <nav class="flex items-center gap-2 text-sm mb-8 text-gray-500">
+      <svg class="lucide w-4 h-4" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <svg class="lucide w-3 h-3" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      <span>STAR 학생지원</span>
+      <svg class="lucide w-3 h-3" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      <span>장학관리</span>
+      <svg class="lucide w-3 h-3" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-gray-900">장학금 수혜 현황</span>
+    </nav>
 
-  <!-- 바로가기 버튼 영역 -->
-  <a href="#" id="direct-link" class="btn-direct">장학금 수혜현황 바로가기</a>
+    <h1 class="text-4xl mb-6 font-bold">장학금 수혜 현황</h1>
 
-  <h3>장학금 수혜현황 한눈에 보기</h3>
-  <p>
-    장학금 조회 화면은 크게 세 영역으로 나뉩니다. 상단에서 조건을 설정하고, 중앙에서 내역을 확인하며, 하단에서 총액을 볼 수 있습니다.
-  </p>
-  <div class="image-wrapper">
-    <img src="assets/images/janghak-reward-01.png" alt="장학금 수혜현황 전체 개요">
-    <div class="caption">장학금 수혜현황 페이지의 전체적인 레이아웃</div>
-  </div>
+    <div class="mb-6 text-gray-700 leading-relaxed">
+      <p class="mb-2">과거부터 현재까지 지급받은 모든 장학금 내역을 한 눈에 확인할 수 있어요.</p>
+      <p>조회 조건을 설정하여 상세 내역과 총 수혜 금액을 확인해보세요.</p>
+    </div>
 
-  <h3>조회 조건 입력</h3>
-  <p>
-    확인하고자 하는 학년도와 학기를 선택하세요. 전체 내역이 궁금하다면 학기를 '전체'로 설정한 뒤 조회 버튼을 클릭합니다.
-  </p>
-  <div class="image-wrapper">
-    <img src="assets/images/janghak-reward-02.png" alt="학년도 및 학기 선택">
-  </div>
-  <div class="image-wrapper">
-    <img src="assets/images/janghak-reward-03.png" alt="조회 버튼 클릭">
-  </div>
+    <!-- 바로가기 버튼 영역 -->
+    <a href="#" id="direct-link" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors mb-12 font-semibold" style="text-decoration: none;">
+      장학금 수혜 현황 바로가기
+      <svg class="lucide w-4 h-4" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
 
-  <h3>수혜 내역 및 합계 확인</h3>
-  <p>
-    선택한 조건에 맞는 장학금 명칭과 지급 금액이 리스트로 출력됩니다. 모든 수혜 금액의 총합은 화면 최하단에서 확인 가능합니다.
-  </p>
-  <div class="image-wrapper">
-    <img src="assets/images/janghak-reward-04.png" alt="상세 수혜 내역 리스트">
-  </div>
-  <div class="image-wrapper">
-    <img src="assets/images/janghak-reward-05.png" alt="수혜금액 합계 확인">
+    <hr class="border-t-2 border-gray-200 mb-12" />
+
+    <h2 class="text-2xl mb-6 font-bold">장학금 수혜 현황 한눈에 보기</h2>
+    
+    <p class="mb-8 text-gray-700 flex items-center gap-2">
+      <svg class="lucide w-5 h-5 text-blue-600" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      장학금 조회 화면은 크게 세 영역으로 나뉘어요.
+    </p>
+
+    <!-- Screenshot -->
+    <div class="mb-8">
+      <img
+        src="assets/images/janghak-reward-01.png"
+        alt="장학금 수혜 현황 페이지 전체 UI 구성" 
+        class="w-full rounded-lg shadow-md border border-gray-200"
+      />
+      <p class="text-center text-sm text-gray-500 mt-3">&#60; 장학금 수혜 현황 페이지 전체 UI 구성 &#62;</p>
+    </div>
+
+    <!-- Three Areas Description -->
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+        <div>
+          <strong class="text-gray-900">조건 설정</strong>
+          <span class="text-gray-600"> : 조회할 연도와 학기를 선택할 수 있어요.</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+        <div>
+          <strong class="text-gray-900">결과 목록</strong>
+          <span class="text-gray-600"> : 받은 장학금 내역이 나와요.</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+        <div>
+          <strong class="text-gray-900">결과 금액</strong>
+          <span class="text-gray-600"> : 전체 장학금 합계금액이 나와요.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note Box -->
+    <div class="bg-gray-50 border-l-4 border-blue-500 p-6 mb-10 rounded">
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 w-12 h-6 bg-gray-400 text-white rounded flex items-center justify-center text-sm font-semibold">Note</div>
+        <div class="flex-1">
+          <p class="text-gray-700" style="margin: 0;">
+            * 조회 연도를 설정하지 않으면 <span class="text-red-600 font-semibold">전 기간</span>으로 출력돼요!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example Section -->
+    <div class="bg-gray-50 p-8 rounded-lg mb-8">
+      <h3 class="text-xl mb-6 font-bold">예시) 2020년도의 장학금 내역을 확인하고 싶을 때!</h3>
+      
+      <div class="space-y-4 mb-6">
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-8 h-8 bg-gray-300 text-gray-700 rounded-full flex items-center justify-center font-bold">1</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            <strong>연도를 2020으로 설정</strong>하고 [ 조회 ] 클릭
+            <img src="assets/images/janghak-reward-02.png" alt="학년도 및 학기 선택" class="w-full rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+            <img src="assets/images/janghak-reward-03.png" alt="조회 버튼 클릭" class="w-full rounded-lg shadow-md border border-gray-200 mt-2 mb-6" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-8 h-8 bg-gray-300 text-gray-700 rounded-full flex items-center justify-center font-bold">2</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            <strong>각 장학금 명칭과 금액을 검토</strong>하고, 총액이 맞는지 확인!
+            <img src="assets/images/janghak-reward-04.png" alt="상세 수혜 내역 리스트" class="w-full rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+            <img src="assets/images/janghak-reward-05.png" alt="수혜금액 합계 확인" class="w-full rounded-lg shadow-md border border-gray-200 mt-2" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
