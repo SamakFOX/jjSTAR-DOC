@@ -1,5 +1,11 @@
 window.JJSTAR_MENU = [
   {
+    title: "메인페이지 (Intro)",
+    code: "L01HOME",
+    path: "pages/L01HOME.html",
+    children: []
+  },
+  {
     title: "star 학생지원",
     code: "L02SUPP",
     path: "pages/L02SUPP.html",
