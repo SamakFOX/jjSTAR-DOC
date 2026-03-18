@@ -227,12 +227,51 @@
     }
 
     .breadcrumb {
-      flex: 1;
-      font-size: 13px;
-      color: var(--muted);
-      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: #f1f5f9;
+      border-radius: 8px;
       overflow: hidden;
-      text-overflow: ellipsis
+      flex: 0 1 auto;
+    }
+
+    .breadcrumb-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 6px 16px 6px 24px;
+      font-size: 13px;
+      color: #64748b;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%);
+      margin-left: -10px;
+      white-space: nowrap;
+    }
+
+    .breadcrumb-item:first-child {
+      margin-left: 0;
+      padding-left: 16px;
+      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%);
+    }
+
+    .breadcrumb-item:hover {
+      background: #f8fafc;
+      color: var(--blue);
+      z-index: 2;
+    }
+
+    .breadcrumb-item.active {
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      z-index: 3;
+    }
+
+    .breadcrumb-item:last-child {
+      padding-right: 18px;
     }
 
     .page {
@@ -551,10 +590,40 @@
       openCategories.add(current.category);
       openMids.add(current.mid);
 
-      const parts = [current.category];
-      if (current.mid) parts.push(current.mid);
-      if (current.small) parts.push(current.small);
-      breadcrumb.innerText = parts.join(' › ');
+      breadcrumb.innerHTML = '';
+      const parts = [{ label: '홈', level: 'home' }];
+      parts.push({ label: current.category, level: 'cat' });
+      if (current.mid) parts.push({ label: current.mid, level: 'mid' });
+      if (current.small) parts.push({ label: current.small, level: 'small' });
+
+      parts.forEach((p, index) => {
+        const span = document.createElement('span');
+        span.className = 'breadcrumb-item';
+        if (index === parts.length - 1) span.classList.add('active');
+        span.textContent = p.label;
+        
+        // 클릭 시 해당 카테고리의 첫 번째 문서로 이동
+        span.onclick = () => {
+          if (index === parts.length - 1) return; // 현재 페이지면 무시
+          
+          let targetIdx = -1;
+          if (p.level === 'home') {
+            targetIdx = docs.findIndex(d => d.path === 'pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html');
+            if (targetIdx === -1) targetIdx = 0;
+          } else if (p.level === 'cat') {
+            targetIdx = docs.findIndex(d => d.category === p.label);
+          } else if (p.level === 'mid') {
+            targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label);
+          }
+          
+          if (targetIdx !== -1) {
+            currentIndex = targetIdx;
+            renderDetail();
+            renderNav();
+          }
+        };
+        breadcrumb.appendChild(span);
+      });
 
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === docs.length - 1;
