@@ -114,7 +114,13 @@
       background: var(--group-bg);
       padding: 14px 18px;
       font-size: 15px;
-      font-weight: 800
+      font-weight: 800;
+      transition: all 0.2s;
+    }
+
+    .group-btn.is-active {
+      background: #e2e8f0;
+      color: var(--blue);
     }
 
     .group-children {
@@ -518,7 +524,10 @@
         gbtn.className = 'group-btn';
         gbtn.innerHTML = `<span class="label">${highlight(cat.title)}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
 
-        // [Step 1] 대분류 클릭 시 하위 메뉴 토글 (Phase 2-5)
+        const isCatActive = current && current.category === cat.title && current.type === 'cat';
+        if (isCatActive) gbtn.classList.add('is-active');
+
+        // [Step 1] 대분류 클릭 시 하위 메뉴 토글 및 해당 페이지 이동
         gbtn.onclick = (e) => {
           e.stopPropagation();
           if (openCategories.has(cat.title)) {
@@ -528,7 +537,11 @@
             if (!keyword) openCategories.clear();
             openCategories.add(cat.title);
           }
+          
+          currentIndex = docs.findIndex(d => d.type === 'cat' && d.category === cat.title);
+          renderDetail();
           renderNav();
+          if (window.innerWidth <= 900) closeSidebar();
         };
 
         const gchildren = document.createElement('div');
