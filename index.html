@@ -230,35 +230,41 @@
       display: flex;
       align-items: center;
       gap: 0;
-      background: #f1f5f9;
+      background: #fff;
       border-radius: 8px;
       overflow: hidden;
       flex: 0 1 auto;
+      border: 1px solid #e2e8f0;
+      padding: 0;
+      height: 38px;
     }
 
     .breadcrumb-item {
       position: relative;
       display: flex;
       align-items: center;
-      padding: 6px 16px 6px 24px;
+      padding: 0 18px 0 28px;
+      height: 100%;
       font-size: 13px;
       color: #64748b;
-      background: #fff;
+      background: #f8fafc;
       cursor: pointer;
       transition: all 0.2s ease;
       clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%);
       margin-left: -10px;
       white-space: nowrap;
+      border: none;
+      outline: none;
     }
 
     .breadcrumb-item:first-child {
       margin-left: 0;
-      padding-left: 16px;
+      padding-left: 18px;
       clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%);
     }
 
-    .breadcrumb-item:hover {
-      background: #f8fafc;
+    .breadcrumb-item:hover:not(.active) {
+      background: #edf2f7;
       color: var(--blue);
       z-index: 2;
     }
@@ -268,10 +274,30 @@
       color: #fff;
       font-weight: 700;
       z-index: 3;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%);
+    }
+    
+    .breadcrumb-item:first-child.active {
+       clip-path: none;
     }
 
-    .breadcrumb-item:last-child {
-      padding-right: 18px;
+    .breadcrumb-item img {
+      width: 14px;
+      height: 14px;
+      margin-right: 0;
+      filter: grayscale(1) opacity(0.6);
+    }
+    
+    .breadcrumb-item.active img {
+      filter: brightness(0) invert(1);
+    }
+    
+    .breadcrumb-item.home-btn {
+      padding-right: 15px;
+    }
+
+    .home-link {
+      margin-left: auto;
     }
 
     .page {
@@ -424,9 +450,14 @@
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
     menu.forEach(cat => {
+      // 대분류를 문서 목록에 직접 포함시키지 않고 하위부터 구성 (요청에 따라)
       cat.children.forEach(mid => {
         docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
-        mid.children.forEach(small => docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path }));
+        if (mid.children) {
+          mid.children.forEach(small => {
+            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path });
+          });
+        }
       });
     });
 
@@ -591,7 +622,7 @@
       openMids.add(current.mid);
 
       breadcrumb.innerHTML = '';
-      const parts = [{ label: '홈', level: 'home' }];
+      const parts = [{ label: '홈', level: 'home', icon: 'assets/icons/home_fill.png' }];
       parts.push({ label: current.category, level: 'cat' });
       if (current.mid) parts.push({ label: current.mid, level: 'mid' });
       if (current.small) parts.push({ label: current.small, level: 'small' });
@@ -599,21 +630,32 @@
       parts.forEach((p, index) => {
         const span = document.createElement('span');
         span.className = 'breadcrumb-item';
+        if (p.level === 'home') span.classList.add('home-btn');
         if (index === parts.length - 1) span.classList.add('active');
-        span.textContent = p.label;
         
-        // 클릭 시 해당 카테고리의 첫 번째 문서로 이동
+        if (p.icon) {
+          const img = document.createElement('img');
+          img.src = p.icon;
+          span.appendChild(img);
+        } else {
+          span.textContent = p.label;
+        }
+        
+        // 클릭 시 해당 카테고리의 첫 번째 문서로 이동 (비즈니스 로직 연동)
         span.onclick = () => {
           if (index === parts.length - 1) return; // 현재 페이지면 무시
           
           let targetIdx = -1;
           if (p.level === 'home') {
-            targetIdx = docs.findIndex(d => d.path === 'pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html');
-            if (targetIdx === -1) targetIdx = 0;
+            targetIdx = 0; // 첫 번째 문서로 이동
           } else if (p.level === 'cat') {
+            // 해당 대분류에 속한 첫 번째 문서를 찾음
             targetIdx = docs.findIndex(d => d.category === p.label);
           } else if (p.level === 'mid') {
-            targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label);
+            // 해당 중분류에 속한 대표(mid) 문서를 찾음
+            targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label && d.type === 'mid');
+            // 만약 mid 타입이 없으면(드문 경우) mid 이름이 일치하는 첫 번째 소분류라도 찾음
+            if (targetIdx === -1) targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label);
           }
           
           if (targetIdx !== -1) {
@@ -647,9 +689,9 @@
         // [Phase 3-1] 중앙 관리형 링크 주입
         const directLinkBtn = viewer.querySelector('#direct-link');
         if (directLinkBtn) {
-          // 파일명에서 코드 추출 (예: c01_m02_s06_...html -> c01_m02_s06)
+          // 파일명에서 코드 추출 (새로운 L04... 형식 대응)
           const fileName = current.path.split('/').pop();
-          const match = fileName.match(/^[a-z0-9]+_[a-z0-9]+_[a-z0-9]+/);
+          const match = fileName.match(/L[0-9]+[A-Z]+/);
           const menuCode = match ? match[0] : null;
 
           if (menuCode && GUIDE_LINKS[menuCode]) {
@@ -717,7 +759,7 @@
     prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
     nextBtn.onclick = () => { if (currentIndex < docs.length - 1) { currentIndex++; renderDetail(); renderNav(); } };
 
-    const startPath = 'pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html';
+    const startPath = 'pages/L03STMG.html';
     const startIdx = docs.findIndex(d => d.path === startPath);
     currentIndex = startIdx !== -1 ? startIdx : 0;
     renderDetail();

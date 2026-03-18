@@ -1,1375 +1,597 @@
 window.JJSTAR_MENU = [
   {
-    "title": "star 학생지원",
-    "code": "c01",
-    "folder": "pages/c01_star-hagsaengjiweon/",
-    "children": [
+    title: "star 학생지원",
+    code: "L02SUPP",
+    path: "pages/L02SUPP.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "star 관리",
-        "code": "c01_m01",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m01_star-gwanri.html",
-        "children": [
-          {
-            "title": "사제동행교수선택(신규)",
-            "code": "c01_m01_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s01_sajedonghaenggyosuseontaeg-singyu.html"
-          },
-          {
-            "title": "희망학과 선택",
-            "code": "c01_m01_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s02_hyimanghaggwa-seontaeg.html"
-          },
-          {
-            "title": "교원 시간표 조회",
-            "code": "c01_m01_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s03_gyoweon-siganpyo-johoe.html"
-          },
-          {
-            "title": "수강편람",
-            "code": "c01_m01_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s04_sugangpyeonram.html"
-          },
-          {
-            "title": "교육과정",
-            "code": "c01_m01_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s05_gyoyuggwajeong.html"
-          },
-          {
-            "title": "학사일정",
-            "code": "c01_m01_s06",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m01_s06_hagsailjeong.html"
-          }
+        title: "star 관리",
+        code: "L03STMG",
+        path: "pages/L03STMG.html",
+        children: [
+          { title: "사제동행교수선택(신규)", code: "L04SAJE", path: "pages/L04SAJE.html" },
+          { title: "희망학과 선택", code: "L04HMJR", path: "pages/L04HMJR.html" },
+          { title: "교원 시간표 조회", code: "L04PRTS", path: "pages/L04PRTS.html" },
+          { title: "수강편람", code: "L04SGGD", path: "pages/L04SGGD.html" },
+          { title: "교육과정", code: "L04EDCR", path: "pages/L04EDCR.html" },
+          { title: "학사일정", code: "L04ACSC", path: "pages/L04ACSC.html" }
         ]
       },
       {
-        "title": "장학관리",
-        "code": "c01_m02",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m02_janghaggwanri.html",
-        "children": [
-          {
-            "title": "장학 공지사항",
-            "code": "c01_m02_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s01_janghag-gongjisahang.html"
-          },
-          {
-            "title": "우리대학 장학 안내",
-            "code": "c01_m02_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s02_uridaehag-janghag-annae.html"
-          },
-          {
-            "title": "장학금 신청 절차",
-            "code": "c01_m02_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s03_janghaggeum-sinceong-jeolca.html"
-          },
-          {
-            "title": "장학금 온라인신청",
-            "code": "c01_m02_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s04_janghaggeum-onrainsinceong.html"
-          },
-          {
-            "title": "장학금 지급계좌관리",
-            "code": "c01_m02_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s05_janghaggeum-jigeubgyejwagwanri.html"
-          },
-          {
-            "title": "장학금 수혜현황",
-            "code": "c01_m02_s06",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s06_janghaggeum-suhyehyeonhwang.html"
-          },
-          {
-            "title": "장학금 환수",
-            "code": "c01_m02_s07",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s07_janghaggeum-hwansu.html"
-          },
-          {
-            "title": "My 수혜 가능 장학 현황",
-            "code": "c01_m02_s08",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m02_s08_my-suhye-ganeung-janghag-hyeonhwang.html"
-          }
+        title: "장학관리",
+        code: "L03SCHL",
+        path: "pages/L03SCHL.html",
+        children: [
+          { title: "장학 공지사항", code: "L04SCHN", path: "pages/L04SCHN.html" },
+          { title: "우리대학 장학 안내", code: "L04SCHI", path: "pages/L04SCHI.html" },
+          { title: "장학금 신청 절차", code: "L04SCHP", path: "pages/L04SCHP.html" },
+          { title: "장학금 온라인신청", code: "L04SCHO", path: "pages/L04SCHO.html" },
+          { title: "장학금 지급계좌관리", code: "L04SCHA", path: "pages/L04SCHA.html" },
+          { title: "장학금 수혜현황", code: "L04SCHS", path: "pages/L04SCHS.html" },
+          { title: "장학금 환수", code: "L04SCHR", path: "pages/L04SCHR.html" },
+          { title: "My 수혜 가능 장학 현황", code: "L04MSCH", path: "pages/L04MSCH.html" }
         ]
       },
       {
-        "title": "등록관리",
-        "code": "c01_m03",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m03_deungroggwanri.html",
-        "children": [
-          {
-            "title": "등록금 고지서",
-            "code": "c01_m03_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m03_s01_deungroggeum-gojiseo.html"
-          },
-          {
-            "title": "분할납부 신청",
-            "code": "c01_m03_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m03_s02_bunhalnabbu-sinceong.html"
-          },
-          {
-            "title": "등록금 납부 내역",
-            "code": "c01_m03_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m03_s03_deungroggeum-nabbu-naeyeog.html"
-          },
-          {
-            "title": "교육비 납입 증명서 출력",
-            "code": "c01_m03_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m03_s04_gyoyugbi-nabib-jeungmyeongseo-culryeog.html"
-          },
-          {
-            "title": "등록금 환불요청",
-            "code": "c01_m03_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m03_s05_deungroggeum-hwanbulyoceong.html"
-          }
+        title: "등록관리",
+        code: "L03REGI",
+        path: "pages/L03REGI.html",
+        children: [
+          { title: "등록금 고지서", code: "L04TUIB", path: "pages/L04TUIB.html" },
+          { title: "분할납부 신청", code: "L04INST", path: "pages/L04INST.html" },
+          { title: "등록금 납부 내역", code: "L04TUHI", path: "pages/L04TUHI.html" },
+          { title: "교육비 납입 증명서 출력", code: "L04PAYC", path: "pages/L04PAYC.html" },
+          { title: "등록금 환불요청", code: "L04REFD", path: "pages/L04REFD.html" }
         ]
       },
       {
-        "title": "진단검사",
-        "code": "c01_m04",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m04_jindangeomsa.html",
-        "children": [
-          {
-            "title": "우리대학 진단 검사 안내",
-            "code": "c01_m04_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m04_s01_uridaehag-jindan-geomsa-annae.html"
-          },
-          {
-            "title": "성격검사 (MBTI)",
-            "code": "c01_m04_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m04_s02_seonggyeoggeomsa-mbti.html"
-          },
-          {
-            "title": "학습유형검사 (U&I)",
-            "code": "c01_m04_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m04_s03_hagseubyuhyeonggeomsa-u-and-i.html"
-          },
-          {
-            "title": "직업흥미검사 (STRONG)",
-            "code": "c01_m04_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m04_s04_jigeobheungmigeomsa-strong.html"
-          },
-          {
-            "title": "기타 진단검사",
-            "code": "c01_m04_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m04_s05_gita-jindangeomsa.html"
-          }
+        title: "진단검사",
+        code: "L03TEST",
+        path: "pages/L03TEST.html",
+        children: [
+          { title: "우리대학 진단 검사 안내", code: "L04TSTI", path: "pages/L04TSTI.html" },
+          { title: "성격검사 (MBTI)", code: "L04MBTI", path: "pages/L04MBTI.html" },
+          { title: "학습유형검사 (U&I)", code: "L04UITY", path: "pages/L04UITY.html" },
+          { title: "직업흥미검사 (STRONG)", code: "L04STRG", path: "pages/L04STRG.html" },
+          { title: "기타 진단검사", code: "L04ETCT", path: "pages/L04ETCT.html" }
         ]
       },
       {
-        "title": "심리/학업/진로 상담",
-        "code": "c01_m05",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m05_simri-hageob-jinro-sangdam.html",
-        "children": [
-          {
-            "title": "상담 안내",
-            "code": "c01_m05_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m05_s01_sangdam-annae.html"
-          },
-          {
-            "title": "1:1 상담",
-            "code": "c01_m05_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m05_s02_1-1-sangdam.html"
-          },
-          {
-            "title": "멘토링",
-            "code": "c01_m05_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m05_s03_mentoring.html"
-          },
-          {
-            "title": "온라인 상담",
-            "code": "c01_m05_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m05_s04_onrain-sangdam.html"
-          },
-          {
-            "title": "카운슬링센터 심리 검사",
-            "code": "c01_m05_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m05_s05_kaunseulringsenteo-simri-geomsa.html"
-          }
+        title: "심리/학업/진로 상담",
+        code: "L03COUN",
+        path: "pages/L03COUN.html",
+        children: [
+          { title: "상담 안내", code: "L04CNGD", path: "pages/L04CNGD.html" },
+          { title: "1:1 상담", code: "L04CN11", path: "pages/L04CN11.html" },
+          { title: "멘토링", code: "L04MENT", path: "pages/L04MENT.html" },
+          { title: "온라인 상담", code: "L04ONCN", path: "pages/L04ONCN.html" },
+          { title: "카운슬링센터 심리 검사", code: "L04PSYC", path: "pages/L04PSYC.html" }
         ]
       },
       {
-        "title": "통학버스",
-        "code": "c01_m06",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m06_tonghagbeoseu.html",
-        "children": [
-          {
-            "title": "통학버스 안내",
-            "code": "c01_m06_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m06_s01_tonghagbeoseu-annae.html"
-          },
-          {
-            "title": "통학버스 노선도",
-            "code": "c01_m06_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m06_s02_tonghagbeoseu-noseondo.html"
-          },
-          {
-            "title": "통학버스 신청",
-            "code": "c01_m06_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m06_s03_tonghagbeoseu-sinceong.html"
-          }
+        title: "통학버스",
+        code: "L03BUSS",
+        path: "pages/L03BUSS.html",
+        children: [
+          { title: "통학버스 안내", code: "L04BUSI", path: "pages/L04BUSI.html" },
+          { title: "통학버스 노선도", code: "L04BUSM", path: "pages/L04BUSM.html" },
+          { title: "통학버스 신청", code: "L04BUSA", path: "pages/L04BUSA.html" }
         ]
       },
       {
-        "title": "학생생활관",
-        "code": "c01_m07",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m07_hagsaengsaenghwalgwan.html",
-        "children": [
-          {
-            "title": "학생생활관 공지사항",
-            "code": "c01_m07_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s01_hagsaengsaenghwalgwan-gongjisahang.html"
-          },
-          {
-            "title": "우리대학 학생생활관 안내",
-            "code": "c01_m07_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s02_uridaehag-hagsaengsaenghwalgwan-annae.html"
-          },
-          {
-            "title": "학생생활관 입사 절차",
-            "code": "c01_m07_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s03_hagsaengsaenghwalgwan-ibsa-jeolca.html"
-          },
-          {
-            "title": "학생생활관 입사 신청",
-            "code": "c01_m07_s04",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s04_hagsaengsaenghwalgwan-ibsa-sinceong.html"
-          },
-          {
-            "title": "입사서약서 작성",
-            "code": "c01_m07_s05",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s05_ibsaseoyagseo-jagseong.html"
-          },
-          {
-            "title": "관실신청",
-            "code": "c01_m07_s06",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s06_gwansilsinceong.html"
-          },
-          {
-            "title": "학생생활관비 납입고지서",
-            "code": "c01_m07_s07",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s07_hagsaengsaenghwalgwanbi-nabibgojiseo.html"
-          },
-          {
-            "title": "학생생활관비 납부확인서",
-            "code": "c01_m07_s08",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s08_hagsaengsaenghwalgwanbi-nabbuhwaginseo.html"
-          },
-          {
-            "title": "늦은귀사신청",
-            "code": "c01_m07_s09",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s09_neujeungwisasinceong.html"
-          },
-          {
-            "title": "상벌점조회",
-            "code": "c01_m07_s10",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s10_sangbeoljeomjohoe.html"
-          },
-          {
-            "title": "외박신청",
-            "code": "c01_m07_s11",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s11_oebagsinceong.html"
-          },
-          {
-            "title": "조기 취침 신청",
-            "code": "c01_m07_s12",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s12_jogi-cwicim-sinceong.html"
-          },
-          {
-            "title": "불편사항 신청",
-            "code": "c01_m07_s13",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s13_bulpyeonsahang-sinceong.html"
-          },
-          {
-            "title": "퇴사 신청",
-            "code": "c01_m07_s14",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m07_s14_toesa-sinceong.html"
-          }
+        title: "학생생활관",
+        code: "L03DORM",
+        path: "pages/L03DORM.html",
+        children: [
+          { title: "학생생활관 공지사항", code: "L04DMNT", path: "pages/L04DMNT.html" },
+          { title: "우리대학 학생생활관 안내", code: "L04DMGD", path: "pages/L04DMGD.html" },
+          { title: "학생생활관 입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html" },
+          { title: "학생생활관 입사 신청", code: "L04DMAP", path: "pages/L04DMAP.html" },
+          { title: "입사서약서 작성", code: "L04DMPG", path: "pages/L04DMPG.html" },
+          { title: "관실신청", code: "L04ROOM", path: "pages/L04ROOM.html" },
+          { title: "학생생활관비 납입고지서", code: "L04DMBI", path: "pages/L04DMBI.html" },
+          { title: "학생생활관비 납부확인서", code: "L04DMCF", path: "pages/L04DMCF.html" },
+          { title: "늦은귀사신청", code: "L04LATR", path: "pages/L04LATR.html" },
+          { title: "상벌점조회", code: "L04PNTS", path: "pages/L04PNTS.html" },
+          { title: "외박신청", code: "L04OUTS", path: "pages/L04OUTS.html" },
+          { title: "조기 취침 신청", code: "L04SLEP", path: "pages/L04SLEP.html" },
+          { title: "불편사항 신청", code: "L04INCV", path: "pages/L04INCV.html" },
+          { title: "퇴사 신청", code: "L04LEVD", path: "pages/L04LEVD.html" }
         ]
       },
       {
-        "title": "학교홍보",
-        "code": "c01_m08",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m08_haggyohongbo.html",
-        "children": [
-          {
-            "title": "학교 소개",
-            "code": "c01_m08_s01",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m08_s01_haggyo-sogae.html"
-          },
-          {
-            "title": "학과 및 전공 소개",
-            "code": "c01_m08_s02",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m08_s02_haggwa-mic-jeongong-sogae.html"
-          },
-          {
-            "title": "SNS 정보",
-            "code": "c01_m08_s03",
-            "path": "pages/c01_star-hagsaengjiweon/c01_m08_s03_sns-jeongbo.html"
-          }
+        title: "학교홍보",
+        code: "L03PROM",
+        path: "pages/L03PROM.html",
+        children: [
+          { title: "학교 소개", code: "L04SCHP", path: "pages/L04SCHP.html" },
+          { title: "학과 및 전공 소개", code: "L04MAJR", path: "pages/L04MAJR.html" },
+          { title: "SNS 정보", code: "L04SNSI", path: "pages/L04SNSI.html" }
         ]
       },
       {
-        "title": "JJSTAR 이용 매뉴얼",
-        "code": "c01_m09",
-        "path": "pages/c01_star-hagsaengjiweon/c01_m09_jjstar-iyong-maenyueol.html",
-        "children": []
+        title: "JJSTAR 이용 매뉴얼",
+        code: "L03JJMN",
+        path: "pages/L03JJMN.html",
+        children: []
       }
     ]
   },
+
   {
-    "title": "학사정보",
-    "code": "c02",
-    "folder": "pages/c02_hagsajeongbo/",
-    "children": [
+    title: "학사정보",
+    code: "L02ACAD",
+    path: "pages/L02ACAD.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "학사관리",
-        "code": "c02_m01",
-        "path": "pages/c02_hagsajeongbo/c02_m01_hagsagwanri.html",
-        "children": [
-          {
-            "title": "학사관리 공지사항",
-            "code": "c02_m01_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m01_s01_hagsagwanri-gongjisahang.html"
-          },
-          {
-            "title": "학사관리 FAQ",
-            "code": "c02_m01_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m01_s02_hagsagwanri-faq.html"
-          },
-          {
-            "title": "학칙개정사항 안내",
-            "code": "c02_m01_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m01_s03_hagciggaejeongsahang-annae.html"
-          }
+        title: "학사관리",
+        code: "L03ADMN",
+        path: "pages/L03ADMN.html",
+        children: [
+          { title: "학사관리 공지사항", code: "L04ADNT", path: "pages/L04ADNT.html" },
+          { title: "학사관리 FAQ", code: "L04ADFA", path: "pages/L04ADFA.html" },
+          { title: "학칙개정사항 안내", code: "L04RULE", path: "pages/L04RULE.html" }
         ]
       },
       {
-        "title": "교육과정",
-        "code": "c02_m02",
-        "path": "pages/c02_hagsajeongbo/c02_m02_gyoyuggwajeong.html",
-        "children": [
-          {
-            "title": "교양 교육과정 조회",
-            "code": "c02_m02_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m02_s01_gyoyang-gyoyuggwajeong-johoe.html"
-          },
-          {
-            "title": "전공 교육과정 조회",
-            "code": "c02_m02_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m02_s02_jeongong-gyoyuggwajeong-johoe.html"
-          },
-          {
-            "title": "교육과정 시뮬레이션",
-            "code": "c02_m02_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m02_s03_gyoyuggwajeong-simyulreisyeon.html"
-          },
-          {
-            "title": "My 교육과정 조회",
-            "code": "c02_m02_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m02_s04_my-gyoyuggwajeong-johoe.html"
-          }
+        title: "교육과정",
+        code: "L03CURR",
+        path: "pages/L03CURR.html",
+        children: [
+          { title: "교양 교육과정 조회", code: "L04GECR", path: "pages/L04GECR.html" },
+          { title: "전공 교육과정 조회", code: "L04MJCR", path: "pages/L04MJCR.html" },
+          { title: "교육과정 시뮬레이션", code: "L04CRSM", path: "pages/L04CRSM.html" },
+          { title: "My 교육과정 조회", code: "L04MCRR", path: "pages/L04MCRR.html" }
         ]
       },
       {
-        "title": "수강관리",
-        "code": "c02_m03",
-        "path": "pages/c02_hagsajeongbo/c02_m03_suganggwanri.html",
-        "children": [
-          {
-            "title": "수강신청 내역",
-            "code": "c02_m03_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s01_sugangsinceong-naeyeog.html"
-          },
-          {
-            "title": "수강취소",
-            "code": "c02_m03_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s02_sugangcwiso.html"
-          },
-          {
-            "title": "수업계획서 조회",
-            "code": "c02_m03_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s03_sueobgyehoegseo-johoe.html"
-          },
-          {
-            "title": "시간표 조회",
-            "code": "c02_m03_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s04_siganpyo-johoe.html"
-          },
-          {
-            "title": "출결확인",
-            "code": "c02_m03_s05",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s05_culgyeolhwagin.html"
-          },
-          {
-            "title": "출석인정신청",
-            "code": "c02_m03_s06",
-            "path": "pages/c02_hagsajeongbo/c02_m03_s06_culseoginjeongsinceong.html"
-          }
+        title: "수강관리",
+        code: "L03COUR",
+        path: "pages/L03COUR.html",
+        children: [
+          { title: "수강신청 내역", code: "L04ENRH", path: "pages/L04ENRH.html" },
+          { title: "수강취소", code: "L04DROP", path: "pages/L04DROP.html" },
+          { title: "수업계획서 조회", code: "L04PLAN", path: "pages/L04PLAN.html" },
+          { title: "시간표 조회", code: "L04TIME", path: "pages/L04TIME.html" },
+          { title: "출결확인", code: "L04ATTD", path: "pages/L04ATTD.html" },
+          { title: "출석인정신청", code: "L04ATAP", path: "pages/L04ATAP.html" }
         ]
       },
       {
-        "title": "수강신청",
-        "code": "c02_m04",
-        "path": "pages/c02_hagsajeongbo/c02_m04_sugangsinceong.html",
-        "children": [
-          {
-            "title": "수강바구니",
-            "code": "c02_m04_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s01_sugangbaguni.html"
-          },
-          {
-            "title": "수강신청",
-            "code": "c02_m04_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s02_sugangsinceong.html"
-          },
-          {
-            "title": "수강신청 내역조회",
-            "code": "c02_m04_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s03_sugangsinceong-naeyeogjohoe.html"
-          },
-          {
-            "title": "교육과정조회",
-            "code": "c02_m04_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s04_gyoyuggwajeongjohoe.html"
-          },
-          {
-            "title": "강좌시간표",
-            "code": "c02_m04_s05",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s05_gangjwasiganpyo.html"
-          },
-          {
-            "title": "졸업이수기준정보조회",
-            "code": "c02_m04_s06",
-            "path": "pages/c02_hagsajeongbo/c02_m04_s06_joleobisugijunjeongbojohoe.html"
-          }
+        title: "수강신청",
+        code: "L03ENRL",
+        path: "pages/L03ENRL.html",
+        children: [
+          { title: "수강바구니", code: "L04BASK", path: "pages/L04BASK.html" },
+          { title: "수강신청", code: "L04ENRA", path: "pages/L04ENRA.html" },
+          { title: "수강신청 내역조회", code: "L04ENRV", path: "pages/L04ENRV.html" },
+          { title: "교육과정조회", code: "L04CURV", path: "pages/L04CURV.html" },
+          { title: "강좌시간표", code: "L04CLTM", path: "pages/L04CLTM.html" },
+          { title: "졸업이수기준정보조회", code: "L04GRDV", path: "pages/L04GRDV.html" }
         ]
       },
       {
-        "title": "성적관리",
-        "code": "c02_m05",
-        "path": "pages/c02_hagsajeongbo/c02_m05_seongjeoggwanri.html",
-        "children": [
-          {
-            "title": "학기별성적조회",
-            "code": "c02_m05_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m05_s01_haggibyeolseongjeogjohoe.html"
-          },
-          {
-            "title": "성적이의신청",
-            "code": "c02_m05_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m05_s02_seongjeogiyisinceong.html"
-          },
-          {
-            "title": "전체 성적 조회",
-            "code": "c02_m05_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m05_s03_jeonce-seongjeog-johoe.html"
-          },
-          {
-            "title": "성적정보분석 (AMC5)",
-            "code": "c02_m05_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m05_s04_seongjeogjeongbobunseog-amc5.html"
-          }
+        title: "성적관리",
+        code: "L03GRAD",
+        path: "pages/L03GRAD.html",
+        children: [
+          { title: "학기별성적조회", code: "L04SEMG", path: "pages/L04SEMG.html" },
+          { title: "성적이의신청", code: "L04GREJ", path: "pages/L04GREJ.html" },
+          { title: "전체 성적 조회", code: "L04ALLG", path: "pages/L04ALLG.html" },
+          { title: "성적정보분석 (AMC5)", code: "L04AMC5", path: "pages/L04AMC5.html" }
         ]
       },
       {
-        "title": "학적관리",
-        "code": "c02_m06",
-        "path": "pages/c02_hagsajeongbo/c02_m06_hagjeoggwanri.html",
-        "children": [
-          {
-            "title": "학적 기초",
-            "code": "c02_m06_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s01_hagjeog-gico.html"
-          },
-          {
-            "title": "복수/부 전공 신청",
-            "code": "c02_m06_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s02_bogsu-bu-jeongong-sinceong.html"
-          },
-          {
-            "title": "복학 신청 및 확인",
-            "code": "c02_m06_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s03_boghag-sinceong-mic-hwagin.html"
-          },
-          {
-            "title": "전과전공 선택 신청 및 확인",
-            "code": "c02_m06_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s04_jeongwajeongong-seontaeg-sinceong-mic-hwagin.html"
-          },
-          {
-            "title": "학과 선택",
-            "code": "c02_m06_s05",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s05_haggwa-seontaeg.html"
-          },
-          {
-            "title": "휴학신청",
-            "code": "c02_m06_s06",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s06_hyuhagsinceong.html"
-          },
-          {
-            "title": "자퇴신청",
-            "code": "c02_m06_s07",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s07_jatoesinceong.html"
-          },
-          {
-            "title": "재입학 신청",
-            "code": "c02_m06_s08",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s08_jaeibhag-sinceong.html"
-          },
-          {
-            "title": "학적 변동 정보 조회",
-            "code": "c02_m06_s09",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s09_hagjeog-byeondong-jeongbo-johoe.html"
-          },
-          {
-            "title": "학부모 학사정보조회 승인",
-            "code": "c02_m06_s10",
-            "path": "pages/c02_hagsajeongbo/c02_m06_s10_hagbumo-hagsajeongbojohoe-seungin.html"
-          }
+        title: "학적관리",
+        code: "L03RECD",
+        path: "pages/L03RECD.html",
+        children: [
+          { title: "학적 기초", code: "L04BASC", path: "pages/L04BASC.html" },
+          { title: "복수/부 전공 신청", code: "L04DBMJ", path: "pages/L04DBMJ.html" },
+          { title: "복학 신청 및 확인", code: "L04RETN", path: "pages/L04RETN.html" },
+          { title: "전과전공 선택 신청 및 확인", code: "L04CHMJ", path: "pages/L04CHMJ.html" },
+          { title: "학과 선택", code: "L04DEPT", path: "pages/L04DEPT.html" },
+          { title: "휴학신청", code: "L04LEAV", path: "pages/L04LEAV.html" },
+          { title: "자퇴신청", code: "L04WITH", path: "pages/L04WITH.html" },
+          { title: "재입학 신청", code: "L04READ", path: "pages/L04READ.html" },
+          { title: "학적 변동 정보 조회", code: "L04RCIV", path: "pages/L04RCIV.html" },
+          { title: "학부모 학사정보조회 승인", code: "L04PAPR", path: "pages/L04PAPR.html" }
         ]
       },
       {
-        "title": "학점신청",
-        "code": "c02_m07",
-        "path": "pages/c02_hagsajeongbo/c02_m07_hagjeomsinceong.html",
-        "children": [
-          {
-            "title": "beSTAR 신청",
-            "code": "c02_m07_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s01_bestar-sinceong.html"
-          },
-          {
-            "title": "연계/융합 전공 신청",
-            "code": "c02_m07_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s02_yeongye-yunghab-jeongong-sinceong.html"
-          },
-          {
-            "title": "Micro Degree 신청",
-            "code": "c02_m07_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s03_micro-degree-sinceong.html"
-          },
-          {
-            "title": "Micro 융합전공 신청",
-            "code": "c02_m07_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s04_micro-yunghabjeongong-sinceong.html"
-          },
-          {
-            "title": "자기설계전공 신청",
-            "code": "c02_m07_s05",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s05_jagiseolgyejeongong-sinceong.html"
-          },
-          {
-            "title": "특별학점",
-            "code": "c02_m07_s06",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s06_teugbyeolhagjeom.html"
-          },
-          {
-            "title": "K0MOOC인정신청",
-            "code": "c02_m07_s07",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s07_k0moocinjeongsinceong.html"
-          },
-          {
-            "title": "학습경험인정신청",
-            "code": "c02_m07_s08",
-            "path": "pages/c02_hagsajeongbo/c02_m07_s08_hagseubgyeongheominjeongsinceong.html"
-          }
+        title: "학점신청",
+        code: "L03CRED",
+        path: "pages/L03CRED.html",
+        children: [
+          { title: "beSTAR 신청", code: "L04BEST", path: "pages/L04BEST.html" },
+          { title: "연계/융합 전공 신청", code: "L04LINK", path: "pages/L04LINK.html" },
+          { title: "Micro Degree 신청", code: "L04MCDE", path: "pages/L04MCDE.html" },
+          { title: "Micro 융합전공 신청", code: "L04MCMJ", path: "pages/L04MCMJ.html" },
+          { title: "자기설계전공 신청", code: "L04SELF", path: "pages/L04SELF.html" },
+          { title: "특별학점", code: "L04SPCR", path: "pages/L04SPCR.html" },
+          { title: "K-MOOC인정신청", code: "L04KMOC", path: "pages/L04KMOC.html" },
+          { title: "학습경험인정신청", code: "L04EXPR", path: "pages/L04EXPR.html" }
         ]
       },
       {
-        "title": "채플관리",
-        "code": "c02_m08",
-        "path": "pages/c02_hagsajeongbo/c02_m08_caepeulgwanri.html",
-        "children": [
-          {
-            "title": "채플/기독교 공지사항",
-            "code": "c02_m08_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m08_s01_caepeul-gidoggyo-gongjisahang.html"
-          },
-          {
-            "title": "채플/기독교 이수현황",
-            "code": "c02_m08_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m08_s02_caepeul-gidoggyo-isuhyeonhwang.html"
-          }
+        title: "채플관리",
+        code: "L03CHPL",
+        path: "pages/L03CHPL.html",
+        children: [
+          { title: "채플/기독교 공지사항", code: "L04CHNT", path: "pages/L04CHNT.html" },
+          { title: "채플/기독교 이수현황", code: "L04CHST", path: "pages/L04CHST.html" }
         ]
       },
       {
-        "title": "사회봉사",
-        "code": "c02_m09",
-        "path": "pages/c02_hagsajeongbo/c02_m09_sahoebongsa.html",
-        "children": [
-          {
-            "title": "사회봉사 공지사항",
-            "code": "c02_m09_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m09_s01_sahoebongsa-gongjisahang.html"
-          },
-          {
-            "title": "사회봉사 교과목신청",
-            "code": "c02_m09_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m09_s02_sahoebongsa-gyogwamogsinceong.html"
-          },
-          {
-            "title": "신청내역 및 인증 확인",
-            "code": "c02_m09_s03",
-            "path": "pages/c02_hagsajeongbo/c02_m09_s03_sinceongnaeyeog-mic-injeung-hwagin.html"
-          },
-          {
-            "title": "활동계획서 제출",
-            "code": "c02_m09_s04",
-            "path": "pages/c02_hagsajeongbo/c02_m09_s04_hwaldonggyehoegseo-jecul.html"
-          },
-          {
-            "title": "결과보고서 제출",
-            "code": "c02_m09_s05",
-            "path": "pages/c02_hagsajeongbo/c02_m09_s05_gyeolgwabogoseo-jecul.html"
-          }
+        title: "사회봉사",
+        code: "L03SERV",
+        path: "pages/L03SERV.html",
+        children: [
+          { title: "사회봉사 공지사항", code: "L04SVNT", path: "pages/L04SVNT.html" },
+          { title: "사회봉사 교과목신청", code: "L04SVAP", path: "pages/L04SVAP.html" },
+          { title: "신청내역 및 인증 확인", code: "L04SVCK", path: "pages/L04SVCK.html" },
+          { title: "활동계획서 제출", code: "L04SVPL", path: "pages/L04SVPL.html" },
+          { title: "결과보고서 제출", code: "L04SVRP", path: "pages/L04SVRP.html" }
         ]
       },
       {
-        "title": "인증관리",
-        "code": "c02_m10",
-        "path": "pages/c02_hagsajeongbo/c02_m10_injeunggwanri.html",
-        "children": [
-          {
-            "title": "마이크로 전공 인증서",
-            "code": "c02_m10_s01",
-            "path": "pages/c02_hagsajeongbo/c02_m10_s01_maikeuro-jeongong-injeungseo.html"
-          },
-          {
-            "title": "성적우수상 내역",
-            "code": "c02_m10_s02",
-            "path": "pages/c02_hagsajeongbo/c02_m10_s02_seongjeogususang-naeyeog.html"
-          }
+        title: "인증관리",
+        code: "L03CERT",
+        path: "pages/L03CERT.html",
+        children: [
+          { title: "마이크로 전공 인증서", code: "L04MCRT", path: "pages/L04MCRT.html" },
+          { title: "성적우수상 내역", code: "L04AWRD", path: "pages/L04AWRD.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "대학생활",
-    "code": "c03",
-    "folder": "pages/c03_daehagsaenghwal/",
-    "children": [
+    title: "대학생활",
+    code: "L02LIFE",
+    path: "pages/L02LIFE.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "전공역량",
-        "code": "c03_m01",
-        "path": "pages/c03_daehagsaenghwal/c03_m01_jeongongyeogryang.html",
-        "children": [
-          {
-            "title": "전공역량 자기평가 진단 검사",
-            "code": "c03_m01_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m01_s01_jeongongyeogryang-jagipyeongga-jindan-geomsa.html"
-          },
-          {
-            "title": "전공역량 자기평가 결과 분석",
-            "code": "c03_m01_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m01_s02_jeongongyeogryang-jagipyeongga-gyeolgwa-bunseog.html"
-          }
+        title: "전공역량",
+        code: "L03MAJC",
+        path: "pages/L03MAJC.html",
+        children: [
+          { title: "전공역량 자기평가 진단 검사", code: "L04MJDG", path: "pages/L04MJDG.html" },
+          { title: "전공역량 자기평가 결과 분석", code: "L04MJRS", path: "pages/L04MJRS.html" }
         ]
       },
       {
-        "title": "공동체",
-        "code": "c03_m02",
-        "path": "pages/c03_daehagsaenghwal/c03_m02_gongdongce.html",
-        "children": [
-          {
-            "title": "My MAP",
-            "code": "c03_m02_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m02_s01_my-map.html"
-          },
-          {
-            "title": "공동체구성 및 활동내역",
-            "code": "c03_m02_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m02_s02_gongdongceguseong-mic-hwaldongnaeyeog.html"
-          },
-          {
-            "title": "공동체 활동 결과보고",
-            "code": "c03_m02_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m02_s03_gongdongce-hwaldong-gyeolgwabogo.html"
-          },
-          {
-            "title": "공동체 멘토상담 입력",
-            "code": "c03_m02_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m02_s04_gongdongce-mentosangdam-ibryeog.html"
-          }
+        title: "공동체",
+        code: "L03COMM",
+        path: "pages/L03COMM.html",
+        children: [
+          { title: "My MAP", code: "L04MYMP", path: "pages/L04MYMP.html" },
+          { title: "공동체구성 및 활동내역", code: "L04CMAC", path: "pages/L04CMAC.html" },
+          { title: "공동체 활동 결과보고", code: "L04CMRP", path: "pages/L04CMRP.html" },
+          { title: "공동체 멘토상담 입력", code: "L04CMMT", path: "pages/L04CMMT.html" }
         ]
       },
       {
-        "title": "해외봉사",
-        "code": "c03_m03",
-        "path": "pages/c03_daehagsaenghwal/c03_m03_haeoebongsa.html",
-        "children": [
-          {
-            "title": "해외봉사 공지사항",
-            "code": "c03_m03_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m03_s01_haeoebongsa-gongjisahang.html"
-          },
-          {
-            "title": "해외봉사 신청",
-            "code": "c03_m03_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m03_s02_haeoebongsa-sinceong.html"
-          },
-          {
-            "title": "해외봉사 신청 내역 확인",
-            "code": "c03_m03_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m03_s03_haeoebongsa-sinceong-naeyeog-hwagin.html"
-          },
-          {
-            "title": "해외봉사 결과보고서 제출",
-            "code": "c03_m03_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m03_s04_haeoebongsa-gyeolgwabogoseo-jecul.html"
-          }
+        title: "해외봉사",
+        code: "L03OVSV",
+        path: "pages/L03OVSV.html",
+        children: [
+          { title: "해외봉사 공지사항", code: "L04OVNT", path: "pages/L04OVNT.html" },
+          { title: "해외봉사 신청", code: "L04OVAP", path: "pages/L04OVAP.html" },
+          { title: "해외봉사 신청 내역 확인", code: "L04OVCK", path: "pages/L04OVCK.html" },
+          { title: "해외봉사 결과보고서 제출", code: "L04OVRP", path: "pages/L04OVRP.html" }
         ]
       },
       {
-        "title": "해외연수",
-        "code": "c03_m04",
-        "path": "pages/c03_daehagsaenghwal/c03_m04_haeoeyeonsu.html",
-        "children": [
-          {
-            "title": "해외 연수 신청",
-            "code": "c03_m04_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m04_s01_haeoe-yeonsu-sinceong.html"
-          },
-          {
-            "title": "해외 입·출국 신고",
-            "code": "c03_m04_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m04_s02_haeoe-ib-culgug-singo.html"
-          },
-          {
-            "title": "해외 연수 내역",
-            "code": "c03_m04_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m04_s03_haeoe-yeonsu-naeyeog.html"
-          }
+        title: "해외연수",
+        code: "L03OVTR",
+        path: "pages/L03OVTR.html",
+        children: [
+          { title: "해외 연수 신청", code: "L04TRAP", path: "pages/L04TRAP.html" },
+          { title: "해외 입·출국 신고", code: "L04TRDG", path: "pages/L04TRDG.html" },
+          { title: "해외 연수 내역", code: "L04TRHI", path: "pages/L04TRHI.html" }
         ]
       },
       {
-        "title": "기타 학사 관리",
-        "code": "c03_m05",
-        "path": "pages/c03_daehagsaenghwal/c03_m05_gita-hagsa-gwanri.html",
-        "children": [
-          {
-            "title": "강의실 잔류 신청",
-            "code": "c03_m05_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m05_s01_gangyisil-janryu-sinceong.html"
-          },
-          {
-            "title": "강의실 잔류 신청 내역",
-            "code": "c03_m05_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m05_s02_gangyisil-janryu-sinceong-naeyeog.html"
-          }
+        title: "기타 학사 관리",
+        code: "L03ETAC",
+        path: "pages/L03ETAC.html",
+        children: [
+          { title: "강의실 잔류 신청", code: "L04ROOMS", path: "pages/L04ROOMS.html" },
+          { title: "강의실 잔류 신청 내역", code: "L04ROOMH", path: "pages/L04ROOMH.html" }
         ]
       },
       {
-        "title": "수상내역",
-        "code": "c03_m06",
-        "path": "pages/c03_daehagsaenghwal/c03_m06_susangnaeyeog.html",
-        "children": [
-          {
-            "title": "교내 수상내역",
-            "code": "c03_m06_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m06_s01_gyonae-susangnaeyeog.html"
-          }
+        title: "수상내역",
+        code: "L03AWAR",
+        path: "pages/L03AWAR.html",
+        children: [
+          { title: "교내 수상내역", code: "L04AWIN", path: "pages/L04AWIN.html" }
         ]
       },
       {
-        "title": "학생증",
-        "code": "c03_m07",
-        "path": "pages/c03_daehagsaenghwal/c03_m07_hagsaengjeung.html",
-        "children": [
-          {
-            "title": "학생증 안내",
-            "code": "c03_m07_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m07_s01_hagsaengjeung-annae.html"
-          },
-          {
-            "title": "발급절차",
-            "code": "c03_m07_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m07_s02_balgeubjeolca.html"
-          },
-          {
-            "title": "분실신고",
-            "code": "c03_m07_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m07_s03_bunsilsingo.html"
-          },
-          {
-            "title": "재발급 절차",
-            "code": "c03_m07_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m07_s04_jaebalgeub-jeolca.html"
-          }
+        title: "학생증",
+        code: "L03STID",
+        path: "pages/L03STID.html",
+        children: [
+          { title: "학생증 안내", code: "L04IDGD", path: "pages/L04IDGD.html" },
+          { title: "발급절차", code: "L04IDPR", path: "pages/L04IDPR.html" },
+          { title: "분실신고", code: "L04IDLS", path: "pages/L04IDLS.html" },
+          { title: "재발급 절차", code: "L04IDRE", path: "pages/L04IDRE.html" }
         ]
       },
       {
-        "title": "증명발급",
-        "code": "c03_m08",
-        "path": "pages/c03_daehagsaenghwal/c03_m08_jeungmyeongbalgeub.html",
-        "children": [
-          {
-            "title": "인터넷 증명발금 안내",
-            "code": "c03_m08_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m08_s01_inteones-jeungmyeongbalgeum-annae.html"
-          },
-          {
-            "title": "제증명 발급",
-            "code": "c03_m08_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m08_s02_jejeungmyeong-balgeub.html"
-          },
-          {
-            "title": "제증명 발급내역",
-            "code": "c03_m08_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m08_s03_jejeungmyeong-balgeubnaeyeog.html"
-          }
+        title: "증명발급",
+        code: "L03CERTI",
+        path: "pages/L03CERTI.html",
+        children: [
+          { title: "인터넷 증명발금 안내", code: "L04CEGD", path: "pages/L04CEGD.html" },
+          { title: "제증명 발급", code: "L04CEIS", path: "pages/L04CEIS.html" },
+          { title: "제증명 발급내역", code: "L04CEHI", path: "pages/L04CEHI.html" }
         ]
       },
       {
-        "title": "SUPER 핵심역량",
-        "code": "c03_m09",
-        "path": "pages/c03_daehagsaenghwal/c03_m09_super-haegsimyeogryang.html",
-        "children": [
-          {
-            "title": "SUPER 핵심역량",
-            "code": "c03_m09_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m09_s01_super-haegsimyeogryang.html"
-          },
-          {
-            "title": "SUPER 핵심역량 인증 정보",
-            "code": "c03_m09_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m09_s02_super-haegsimyeogryang-injeung-jeongbo.html"
-          },
-          {
-            "title": "SUPER 핵심역량 진단검사",
-            "code": "c03_m09_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m09_s03_super-haegsimyeogryang-jindangeomsa.html"
-          },
-          {
-            "title": "SUPER 핵심역량 진단평가 결과 분석",
-            "code": "c03_m09_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m09_s04_super-haegsimyeogryang-jindanpyeongga-gyeolgwa-bunseog.html"
-          }
+        title: "SUPER 핵심역량",
+        code: "L03SUCP",
+        path: "pages/L03SUCP.html",
+        children: [
+          { title: "SUPER 핵심역량", code: "L04SUPE", path: "pages/L04SUPE.html" },
+          { title: "SUPER 핵심역량 인증 정보", code: "L04SUCI", path: "pages/L04SUCI.html" },
+          { title: "SUPER 핵심역량 진단검사", code: "L04SUDG", path: "pages/L04SUDG.html" },
+          { title: "SUPER 핵심역량 진단평가 결과 분석", code: "L04SURS", path: "pages/L04SURS.html" }
         ]
       },
       {
-        "title": "starT",
-        "code": "c03_m10",
-        "path": "pages/c03_daehagsaenghwal/c03_m10_start.html",
-        "children": [
-          {
-            "title": "3C활동 안내",
-            "code": "c03_m10_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s01_3chwaldong-annae.html"
-          },
-          {
-            "title": "starT 트랙제도",
-            "code": "c03_m10_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s02_start-teuraegjedo.html"
-          },
-          {
-            "title": "starT 프로그램 소개",
-            "code": "c03_m10_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s03_start-peurogeuraem-sogae.html"
-          },
-          {
-            "title": "starT 주요혜택",
-            "code": "c03_m10_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s04_start-juyohyetaeg.html"
-          },
-          {
-            "title": "starT 온라인 신청내역",
-            "code": "c03_m10_s05",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s05_start-onrain-sinceongnaeyeog.html"
-          },
-          {
-            "title": "starT 신청 현황",
-            "code": "c03_m10_s06",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s06_start-sinceong-hyeonhwang.html"
-          },
-          {
-            "title": "starT 활동 인증",
-            "code": "c03_m10_s07",
-            "path": "pages/c03_daehagsaenghwal/c03_m10_s07_start-hwaldong-injeung.html"
-          }
+        title: "starT",
+        code: "L03STRT",
+        path: "pages/L03STRT.html",
+        children: [
+          { title: "3C활동 안내", code: "L043CAT", path: "pages/L043CAT.html" },
+          { title: "starT 트랙제도", code: "L04TRCK", path: "pages/L04TRCK.html" },
+          { title: "starT 프로그램 소개", code: "L04STPG", path: "pages/L04STPG.html" },
+          { title: "starT 주요혜택", code: "L04STBF", path: "pages/L04STBF.html" },
+          { title: "starT 온라인 신청내역", code: "L04STOH", path: "pages/L04STOH.html" },
+          { title: "starT 신청 현황", code: "L04STHS", path: "pages/L04STHS.html" },
+          { title: "starT 활동 인증", code: "L04STCF", path: "pages/L04STCF.html" }
         ]
       },
       {
-        "title": "원격교육 TA 운영",
-        "code": "c03_m11",
-        "path": "pages/c03_daehagsaenghwal/c03_m11_weongyeoggyoyug-ta-unyeong.html",
-        "children": [
-          {
-            "title": "TA 근무일지 입력",
-            "code": "c03_m11_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m11_s01_ta-geunmuilji-ibryeog.html"
-          },
-          {
-            "title": "TA 근무일지 내역",
-            "code": "c03_m11_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m11_s02_ta-geunmuilji-naeyeog.html"
-          }
+        title: "원격교육 TA 운영",
+        code: "L03TAOP",
+        path: "pages/L03TAOP.html",
+        children: [
+          { title: "TA 근무일지 입력", code: "L04TALG", path: "pages/L04TALG.html" },
+          { title: "TA 근무일지 내역", code: "L04TAHI", path: "pages/L04TAHI.html" }
         ]
       },
       {
-        "title": "학생회 활동",
-        "code": "c03_m12",
-        "path": "pages/c03_daehagsaenghwal/c03_m12_hagsaenghoe-hwaldong.html",
-        "children": [
-          {
-            "title": "총학생회 선거",
-            "code": "c03_m12_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m12_s01_conghagsaenghoe-seongeo.html"
-          },
-          {
-            "title": "학생회 활동 내역",
-            "code": "c03_m12_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m12_s02_hagsaenghoe-hwaldong-naeyeog.html"
-          }
+        title: "학생회 활동",
+        code: "L03STCN",
+        path: "pages/L03STCN.html",
+        children: [
+          { title: "총학생회 선거", code: "L04ELCT", path: "pages/L04ELCT.html" },
+          { title: "학생회 활동 내역", code: "L04STCH", path: "pages/L04STCH.html" }
         ]
       },
       {
-        "title": "대학생활 상담",
-        "code": "c03_m13",
-        "path": "pages/c03_daehagsaenghwal/c03_m13_daehagsaenghwal-sangdam.html",
-        "children": [
-          {
-            "title": "상담 안내",
-            "code": "c03_m13_s01",
-            "path": "pages/c03_daehagsaenghwal/c03_m13_s01_sangdam-annae.html"
-          },
-          {
-            "title": "1:1 상담",
-            "code": "c03_m13_s02",
-            "path": "pages/c03_daehagsaenghwal/c03_m13_s02_1-1-sangdam.html"
-          },
-          {
-            "title": "멘토링",
-            "code": "c03_m13_s03",
-            "path": "pages/c03_daehagsaenghwal/c03_m13_s03_mentoring.html"
-          },
-          {
-            "title": "온라인 상담 신청",
-            "code": "c03_m13_s04",
-            "path": "pages/c03_daehagsaenghwal/c03_m13_s04_onrain-sangdam-sinceong.html"
-          },
-          {
-            "title": "카운슬링센터 심리 검사",
-            "code": "c03_m13_s05",
-            "path": "pages/c03_daehagsaenghwal/c03_m13_s05_kaunseulringsenteo-simri-geomsa.html"
-          }
+        title: "대학생활 상담",
+        code: "L03LFCN",
+        path: "pages/L03LFCN.html",
+        children: [
+          { title: "상담 안내", code: "L04LFGD", path: "pages/L04LFGD.html" },
+          { title: "1:1 상담", code: "L04LF11", path: "pages/L04LF11.html" },
+          { title: "멘토링", code: "L04LFMT", path: "pages/L04LFMT.html" },
+          { title: "온라인 상담 신청", code: "L04LFON", path: "pages/L04LFON.html" },
+          { title: "카운슬링센터 심리 검사", code: "L04LFPS", path: "pages/L04LFPS.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "진로개발",
-    "code": "c04",
-    "folder": "pages/c04_jinrogaebal/",
-    "children": [
+    title: "진로개발",
+    code: "L02CARE",
+    path: "pages/L02CARE.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "비교과 프로그램",
-        "code": "c04_m01",
-        "path": "pages/c04_jinrogaebal/c04_m01_bigyogwa-peurogeuraem.html",
-        "children": [
-          {
-            "title": "비교과 프로그램 추천",
-            "code": "c04_m01_s01",
-            "path": "pages/c04_jinrogaebal/c04_m01_s01_bigyogwa-peurogeuraem-cuceon.html"
-          },
-          {
-            "title": "비교과 참여 신청",
-            "code": "c04_m01_s02",
-            "path": "pages/c04_jinrogaebal/c04_m01_s02_bigyogwa-camyeo-sinceong.html"
-          },
-          {
-            "title": "비교과 활동 신청 및 이수 현황",
-            "code": "c04_m01_s03",
-            "path": "pages/c04_jinrogaebal/c04_m01_s03_bigyogwa-hwaldong-sinceong-mic-isu-hyeonhwang.html"
-          },
-          {
-            "title": "비교과 만족도 조사",
-            "code": "c04_m01_s04",
-            "path": "pages/c04_jinrogaebal/c04_m01_s04_bigyogwa-manjogdo-josa.html"
-          },
-          {
-            "title": "비교과 활동 증명서",
-            "code": "c04_m01_s05",
-            "path": "pages/c04_jinrogaebal/c04_m01_s05_bigyogwa-hwaldong-jeungmyeongseo.html"
-          }
+        title: "비교과 프로그램",
+        code: "L03NCUR",
+        path: "pages/L03NCUR.html",
+        children: [
+          { title: "비교과 프로그램 추천", code: "L04NCRD", path: "pages/L04NCRD.html" },
+          { title: "비교과 참여 신청", code: "L04NCAP", path: "pages/L04NCAP.html" },
+          { title: "비교과 활동 신청 및 이수 현황", code: "L04NCHS", path: "pages/L04NCHS.html" },
+          { title: "비교과 만족도 조사", code: "L04NCSV", path: "pages/L04NCSV.html" },
+          { title: "비교과 활동 증명서", code: "L04NCCF", path: "pages/L04NCCF.html" }
         ]
       },
       {
-        "title": "커리어로드맵",
-        "code": "c04_m02",
-        "path": "pages/c04_jinrogaebal/c04_m02_keorieorodeumaeb.html",
-        "children": [
-          {
-            "title": "목표직무 탐색",
-            "code": "c04_m02_s01",
-            "path": "pages/c04_jinrogaebal/c04_m02_s01_mogpyojigmu-tamsaeg.html"
-          },
-          {
-            "title": "관심직무 자가진단",
-            "code": "c04_m02_s02",
-            "path": "pages/c04_jinrogaebal/c04_m02_s02_gwansimjigmu-jagajindan.html"
-          },
-          {
-            "title": "My 직무개발현황",
-            "code": "c04_m02_s03",
-            "path": "pages/c04_jinrogaebal/c04_m02_s03_my-jigmugaebalhyeonhwang.html"
-          },
-          {
-            "title": "학과별 커리어로드맵",
-            "code": "c04_m02_s04",
-            "path": "pages/c04_jinrogaebal/c04_m02_s04_haggwabyeol-keorieorodeumaeb.html"
-          },
-          {
-            "title": "My 커리어로드맵",
-            "code": "c04_m02_s05",
-            "path": "pages/c04_jinrogaebal/c04_m02_s05_my-keorieorodeumaeb.html"
-          },
-          {
-            "title": "선도학생 커리어패스",
-            "code": "c04_m02_s06",
-            "path": "pages/c04_jinrogaebal/c04_m02_s06_seondohagsaeng-keorieopaeseu.html"
-          }
+        title: "커리어로드맵",
+        code: "L03CRMP",
+        path: "pages/L03CRMP.html",
+        children: [
+          { title: "목표직무 탐색", code: "L04TGJB", path: "pages/L04TGJB.html" },
+          { title: "관심직무 자가진단", code: "L04INJB", path: "pages/L04INJB.html" },
+          { title: "My 직무개발현황", code: "L04MJDV", path: "pages/L04MJDV.html" },
+          { title: "학과별 커리어로드맵", code: "L04DCRM", path: "pages/L04DCRM.html" },
+          { title: "My 커리어로드맵", code: "L04MCRM", path: "pages/L04MCRM.html" },
+          { title: "선도학생 커리어패스", code: "L04LEAD", path: "pages/L04LEAD.html" }
         ]
       },
       {
-        "title": "직무탐색",
-        "code": "c04_m03",
-        "path": "pages/c04_jinrogaebal/c04_m03_jigmutamsaeg.html",
-        "children": [
-          {
-            "title": "직무역량 소개",
-            "code": "c04_m03_s01",
-            "path": "pages/c04_jinrogaebal/c04_m03_s01_jigmuyeogryang-sogae.html"
-          },
-          {
-            "title": "NCS 직무탐색",
-            "code": "c04_m03_s02",
-            "path": "pages/c04_jinrogaebal/c04_m03_s02_ncs-jigmutamsaeg.html"
-          },
-          {
-            "title": "워크넷 직무탐색",
-            "code": "c04_m03_s03",
-            "path": "pages/c04_jinrogaebal/c04_m03_s03_weokeunes-jigmutamsaeg.html"
-          },
-          {
-            "title": "직무역량 탐색",
-            "code": "c04_m03_s04",
-            "path": "pages/c04_jinrogaebal/c04_m03_s04_jigmuyeogryang-tamsaeg.html"
-          }
+        title: "직무탐색",
+        code: "L03JOBE",
+        path: "pages/L03JOBE.html",
+        children: [
+          { title: "직무역량 소개", code: "L04JBCP", path: "pages/L04JBCP.html" },
+          { title: "NCS 직무탐색", code: "L04NCSJ", path: "pages/L04NCSJ.html" },
+          { title: "워크넷 직무탐색", code: "L04WORK", path: "pages/L04WORK.html" },
+          { title: "직무역량 탐색", code: "L04JBEF", path: "pages/L04JBEF.html" }
         ]
       },
       {
-        "title": "캡스톤디자인",
-        "code": "c04_m04",
-        "path": "pages/c04_jinrogaebal/c04_m04_kaebseutondijain.html",
-        "children": [
-          {
-            "title": "공지사항",
-            "code": "c04_m04_s01",
-            "path": "pages/c04_jinrogaebal/c04_m04_s01_gongjisahang.html"
-          },
-          {
-            "title": "캡스톤디자인 서약서 동의",
-            "code": "c04_m04_s02",
-            "path": "pages/c04_jinrogaebal/c04_m04_s02_kaebseutondijain-seoyagseo-dongyi.html"
-          },
-          {
-            "title": "신청확인 및 관리",
-            "code": "c04_m04_s03",
-            "path": "pages/c04_jinrogaebal/c04_m04_s03_sinceonghwagin-mic-gwanri.html"
-          },
-          {
-            "title": "카드대여",
-            "code": "c04_m04_s04",
-            "path": "pages/c04_jinrogaebal/c04_m04_s04_kadeudaeyeo.html"
-          }
+        title: "진로검사",
+        code: "L03CART",
+        path: "pages/L03CART.html",
+        children: [
+          { title: "적성탐색 검사", code: "L04APTT", path: "pages/L04APTT.html" },
+          { title: "직업심리적성 검사", code: "L04VOCA", path: "pages/L04VOCA.html" },
+          { title: "진로개발 역량검사", code: "L04CDCT", path: "pages/L04CDCT.html" },
+          { title: "진로진단 검사", code: "L04CRDT", path: "pages/L04CRDT.html" }
         ]
       },
       {
-        "title": "개인(팀) 프로젝트",
-        "code": "c04_m05",
-        "path": "pages/c04_jinrogaebal/c04_m05_gaein-tim-peurojegteu.html",
-        "children": [
-          {
-            "title": "공지사항",
-            "code": "c04_m05_s01",
-            "path": "pages/c04_jinrogaebal/c04_m05_s01_gongjisahang.html"
-          },
-          {
-            "title": "개인(팀) 프로젝트",
-            "code": "c04_m05_s02",
-            "path": "pages/c04_jinrogaebal/c04_m05_s02_gaein-tim-peurojegteu.html"
-          },
-          {
-            "title": "Together",
-            "code": "c04_m05_s03",
-            "path": "pages/c04_jinrogaebal/c04_m05_s03_together.html"
-          },
-          {
-            "title": "리빙랩",
-            "code": "c04_m05_s04",
-            "path": "pages/c04_jinrogaebal/c04_m05_s04_ribingraeb.html"
-          },
-          {
-            "title": "로컬벤처",
-            "code": "c04_m05_s05",
-            "path": "pages/c04_jinrogaebal/c04_m05_s05_rokeolbenceo.html"
-          },
-          {
-            "title": "오픈테이블",
-            "code": "c04_m05_s06",
-            "path": "pages/c04_jinrogaebal/c04_m05_s06_opeunteibeul.html"
-          }
+        title: "캡스톤디자인",
+        code: "L03CAPS",
+        path: "pages/L03CAPS.html",
+        children: [
+          { title: "공지사항", code: "L04CPNT", path: "pages/L04CPNT.html" },
+          { title: "캡스톤디자인 서약서 동의", code: "L04CPAG", path: "pages/L04CPAG.html" },
+          { title: "신청확인 및 관리", code: "L04CPMG", path: "pages/L04CPMG.html" },
+          { title: "카드대여", code: "L04CARD", path: "pages/L04CARD.html" }
+        ]
+      },
+      {
+        title: "개인(팀) 프로젝트",
+        code: "L03PJCT",
+        path: "pages/L03PJCT.html",
+        children: [
+          { title: "공지사항", code: "L04PJNT", path: "pages/L04PJNT.html" },
+          { title: "개인(팀) 프로젝트", code: "L04PRJT", path: "pages/L04PRJT.html" },
+          { title: "Together", code: "L04TGTH", path: "pages/L04TGTH.html" },
+          { title: "리빙랩", code: "L04LVLB", path: "pages/L04LVLB.html" },
+          { title: "로컬벤처", code: "L04LCVT", path: "pages/L04LCVT.html" },
+          { title: "오픈테이블", code: "L04OPTB", path: "pages/L04OPTB.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "취업지원",
-    "code": "c05",
-    "folder": "pages/c05_cwieobjiweon/",
-    "children": [
+    title: "취업지원",
+    code: "L02JOBS",
+    path: "pages/L02JOBS.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "창업",
-        "code": "c05_m01",
-        "path": "pages/c05_cwieobjiweon/c05_m01_cangeob.html",
-        "children": [
-          {
-            "title": "창업 공지사항",
-            "code": "c05_m01_s01",
-            "path": "pages/c05_cwieobjiweon/c05_m01_s01_cangeob-gongjisahang.html"
-          },
-          {
-            "title": "사업참여이력",
-            "code": "c05_m01_s02",
-            "path": "pages/c05_cwieobjiweon/c05_m01_s02_saeobcamyeoiryeog.html"
-          },
-          {
-            "title": "창업 장학금 신청",
-            "code": "c05_m01_s03",
-            "path": "pages/c05_cwieobjiweon/c05_m01_s03_cangeob-janghaggeum-sinceong.html"
-          }
+        title: "창업",
+        code: "L03STUP",
+        path: "pages/L03STUP.html",
+        children: [
+          { title: "창업 공지사항", code: "L04STNT", path: "pages/L04STNT.html" },
+          { title: "사업참여이력", code: "L04BIZH", path: "pages/L04BIZH.html" },
+          { title: "창업 장학금 신청", code: "L04STSC", path: "pages/L04STSC.html" }
         ]
       },
       {
-        "title": "취업정보",
-        "code": "c05_m02",
-        "path": "pages/c05_cwieobjiweon/c05_m02_cwieobjeongbo.html",
-        "children": [
-          {
-            "title": "교내 채용 정보",
-            "code": "c05_m02_s01",
-            "path": "pages/c05_cwieobjiweon/c05_m02_s01_gyonae-caeyong-jeongbo.html"
-          },
-          {
-            "title": "기업 정보",
-            "code": "c05_m02_s02",
-            "path": "pages/c05_cwieobjiweon/c05_m02_s02_gieob-jeongbo.html"
-          },
-          {
-            "title": "맞춤형 채용정보",
-            "code": "c05_m02_s03",
-            "path": "pages/c05_cwieobjiweon/c05_m02_s03_majcumhyeong-caeyongjeongbo.html"
-          },
-          {
-            "title": "기관요청 채용정보",
-            "code": "c05_m02_s04",
-            "path": "pages/c05_cwieobjiweon/c05_m02_s04_gigwanyoceong-caeyongjeongbo.html"
-          },
-          {
-            "title": "채용포털 채용정보",
-            "code": "c05_m02_s05",
-            "path": "pages/c05_cwieobjiweon/c05_m02_s05_caeyongpoteol-caeyongjeongbo.html"
-          }
+        title: "취업정보",
+        code: "L03EMPI",
+        path: "pages/L03EMPI.html",
+        children: [
+          { title: "교내 채용 정보", code: "L04INJP", path: "pages/L04INJP.html" },
+          { title: "기업 정보", code: "L04COMP", path: "pages/L04COMP.html" },
+          { title: "맞춤형 채용정보", code: "L04MTJP", path: "pages/L04MTJP.html" },
+          { title: "기관요청 채용정보", code: "L04REQJ", path: "pages/L04REQJ.html" },
+          { title: "채용포털 채용정보", code: "L04PTJP", path: "pages/L04PTJP.html" }
         ]
       },
       {
-        "title": "현장실습학기제",
-        "code": "c05_m03",
-        "path": "pages/c05_cwieobjiweon/c05_m03_hyeonjangsilseubhaggije.html",
-        "children": [
-          {
-            "title": "FAQ",
-            "code": "c05_m03_s01",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s01_faq.html"
-          },
-          {
-            "title": "공지사항",
-            "code": "c05_m03_s02",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s02_gongjisahang.html"
-          },
-          {
-            "title": "현장실습학기제 서약서 작성",
-            "code": "c05_m03_s03",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s03_hyeonjangsilseubhaggije-seoyagseo-jagseong.html"
-          },
-          {
-            "title": "현장실습학기제 개인정보 동의",
-            "code": "c05_m03_s04",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s04_hyeonjangsilseubhaggije-gaeinjeongbo-dongyi.html"
-          },
-          {
-            "title": "헌장실습학기제 참여 신청",
-            "code": "c05_m03_s05",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s05_heonjangsilseubhaggije-camyeo-sinceong.html"
-          },
-          {
-            "title": "현장실습학기제 참여 내역",
-            "code": "c05_m03_s06",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s06_hyeonjangsilseubhaggije-camyeo-naeyeog.html"
-          },
-          {
-            "title": "만족도 평가",
-            "code": "c05_m03_s07",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s07_manjogdo-pyeongga.html"
-          },
-          {
-            "title": "중도 포기 신청",
-            "code": "c05_m03_s08",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s08_jungdo-pogi-sinceong.html"
-          },
-          {
-            "title": "연수비(교통비 지급)",
-            "code": "c05_m03_s09",
-            "path": "pages/c05_cwieobjiweon/c05_m03_s09_yeonsubi-gyotongbi-jigeub.html"
-          }
+        title: "현장실습학기제",
+        code: "L03INTR",
+        path: "pages/L03INTR.html",
+        children: [
+          { title: "FAQ", code: "L04INFA", path: "pages/L04INFA.html" },
+          { title: "공지사항", code: "L04INNT", path: "pages/L04INNT.html" },
+          { title: "현장실습학기제 서약서 작성", code: "L04INPG", path: "pages/L04INPG.html" },
+          { title: "현장실습학기제 개인정보 동의", code: "L04INPR", path: "pages/L04INPR.html" },
+          { title: "헌장실습학기제 참여 신청", code: "L04INAP", path: "pages/L04INAP.html" },
+          { title: "현장실습학기제 참여 내역", code: "L04INHI", path: "pages/L04INHI.html" },
+          { title: "만족도 평가", code: "L04INSV", path: "pages/L04INSV.html" },
+          { title: "중도 포기 신청", code: "L04INDR", path: "pages/L04INDR.html" },
+          { title: "연수비(교통비 지급)", code: "L04INPF", path: "pages/L04INPF.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "SUPER STAR",
-    "code": "c06",
-    "folder": "pages/c06_super-star/",
-    "children": [
+    title: "SUPER STAR",
+    code: "L02STAR",
+    path: "pages/L02STAR.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "산학협력활동",
-        "code": "c06_m01",
-        "path": "pages/c06_super-star/c06_m01_sanhaghyeobryeoghwaldong.html",
-        "children": [
-          {
-            "title": "산학협력 연구 참여 확인서",
-            "code": "c06_m01_s01",
-            "path": "pages/c06_super-star/c06_m01_s01_sanhaghyeobryeog-yeongu-camyeo-hwaginseo.html"
-          }
+        title: "산학협력활동",
+        code: "L03INDS",
+        path: "pages/L03INDS.html",
+        children: [
+          { title: "산학협력 연구 참여 확인서", code: "L04INDC", path: "pages/L04INDC.html" }
         ]
       },
       {
-        "title": "졸업관리",
-        "code": "c06_m02",
-        "path": "pages/c06_super-star/c06_m02_joleobgwanri.html",
-        "children": [
-          {
-            "title": "졸업이수 기준 정보",
-            "code": "c06_m02_s01",
-            "path": "pages/c06_super-star/c06_m02_s01_joleobisu-gijun-jeongbo.html"
-          },
-          {
-            "title": "졸업예정자 졸업사정 확인",
-            "code": "c06_m02_s02",
-            "path": "pages/c06_super-star/c06_m02_s02_joleobyejeongja-joleobsajeong-hwagin.html"
-          },
-          {
-            "title": "조기졸업 신청",
-            "code": "c06_m02_s03",
-            "path": "pages/c06_super-star/c06_m02_s03_jogijoleob-sinceong.html"
-          },
-          {
-            "title": "학사학위 취득유예 신청",
-            "code": "c06_m02_s04",
-            "path": "pages/c06_super-star/c06_m02_s04_hagsahagwi-cwideugyuye-sinceong.html"
-          }
+        title: "졸업관리",
+        code: "L03GRDM",
+        path: "pages/L03GRDM.html",
+        children: [
+          { title: "졸업이수 기준 정보", code: "L04GRDI", path: "pages/L04GRDI.html" },
+          { title: "졸업예정자 졸업사정 확인", code: "L04GRDC", path: "pages/L04GRDC.html" },
+          { title: "조기졸업 신청", code: "L04EGRD", path: "pages/L04EGRD.html" },
+          { title: "학사학위 취득유예 신청", code: "L04DEFR", path: "pages/L04DEFR.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "정보공유",
-    "code": "c07",
-    "folder": "pages/c07_jeongbogongyu/",
-    "children": [
+    title: "정보공유",
+    code: "L02INFO",
+    path: "pages/L02INFO.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "커뮤니티",
-        "code": "c07_m01",
-        "path": "pages/c07_jeongbogongyu/c07_m01_keomyuniti.html",
-        "children": [
-          {
-            "title": "Q&A",
-            "code": "c07_m01_s01",
-            "path": "pages/c07_jeongbogongyu/c07_m01_s01_q-and-a.html"
-          },
-          {
-            "title": "공지사항",
-            "code": "c07_m01_s02",
-            "path": "pages/c07_jeongbogongyu/c07_m01_s02_gongjisahang.html"
-          },
-          {
-            "title": "설문조사",
-            "code": "c07_m01_s03",
-            "path": "pages/c07_jeongbogongyu/c07_m01_s03_seolmunjosa.html"
-          },
-          {
-            "title": "시설 관련 요청",
-            "code": "c07_m01_s04",
-            "path": "pages/c07_jeongbogongyu/c07_m01_s04_siseol-gwanryeon-yoceong.html"
-          }
+        title: "커뮤니티",
+        code: "L03CMTY",
+        path: "pages/L03CMTY.html",
+        children: [
+          { title: "Q&A", code: "L04QNAA", path: "pages/L04QNAA.html" },
+          { title: "공지사항", code: "L04IFNT", path: "pages/L04IFNT.html" },
+          { title: "설문조사", code: "L04SURV", path: "pages/L04SURV.html" },
+          { title: "시설 관련 요청", code: "L04FARE", path: "pages/L04FARE.html" }
         ]
       },
       {
-        "title": "기타",
-        "code": "c07_m02",
-        "path": "pages/c07_jeongbogongyu/c07_m02_gita.html",
-        "children": [
-          {
-            "title": "시설 관련 요청",
-            "code": "c07_m02_s01",
-            "path": "pages/c07_jeongbogongyu/c07_m02_s01_siseol-gwanryeon-yoceong.html"
-          }
+        title: "기타",
+        code: "L03ETCS",
+        path: "pages/L03ETCS.html",
+        children: [
+          { title: "시설 관련 요청", code: "L04ETFA", path: "pages/L04ETFA.html" }
         ]
       }
     ]
   },
+
   {
-    "title": "My Page",
-    "code": "c08",
-    "folder": "pages/c08_my-page/",
-    "children": [
+    title: "My Page",
+    code: "L02MYPG",
+    path: "pages/L02MYPG.html",
+    folder: "pages/",
+    children: [
       {
-        "title": "나의정보",
-        "code": "c08_m01",
-        "path": "pages/c08_my-page/c08_m01_nayijeongbo.html",
-        "children": [
-          {
-            "title": "My 정보",
-            "code": "c08_m01_s01",
-            "path": "pages/c08_my-page/c08_m01_s01_my-jeongbo.html"
-          },
-          {
-            "title": "My 역량개발",
-            "code": "c08_m01_s02",
-            "path": "pages/c08_my-page/c08_m01_s02_my-yeogryanggaebal.html"
-          },
-          {
-            "title": "My 직무역량",
-            "code": "c08_m01_s03",
-            "path": "pages/c08_my-page/c08_m01_s03_my-jigmuyeogryang.html"
-          },
-          {
-            "title": "My 대학생활 로드맵",
-            "code": "c08_m01_s04",
-            "path": "pages/c08_my-page/c08_m01_s04_my-daehagsaenghwal-rodeumaeb.html"
-          },
-          {
-            "title": "My 커리어",
-            "code": "c08_m01_s05",
-            "path": "pages/c08_my-page/c08_m01_s05_my-keorieo.html"
-          },
-          {
-            "title": "입학 전 학습경험 등록",
-            "code": "c08_m01_s06",
-            "path": "pages/c08_my-page/c08_m01_s06_ibhag-jeon-hagseubgyeongheom-deungrog.html"
-          },
-          {
-            "title": "학습경험 인증 현황",
-            "code": "c08_m01_s07",
-            "path": "pages/c08_my-page/c08_m01_s07_hagseubgyeongheom-injeung-hyeonhwang.html"
-          }
+        title: "나의정보",
+        code: "L03MYIN",
+        path: "pages/L03MYIN.html",
+        children: [
+          { title: "My 정보", code: "L04MYIF", path: "pages/L04MYIF.html" },
+          { title: "My 역량개발", code: "L04MYCP", path: "pages/L04MYCP.html" },
+          { title: "My 직무역량", code: "L04MYJB", path: "pages/L04MYJB.html" },
+          { title: "My 대학생활 로드맵", code: "L04MYLF", path: "pages/L04MYLF.html" },
+          { title: "My 커리어", code: "L04MYCR", path: "pages/L04MYCR.html" },
+          { title: "입학 전 학습경험 등록", code: "L04PREX", path: "pages/L04PREX.html" },
+          { title: "학습경험 인증 현황", code: "L04EXCH", path: "pages/L04EXCH.html" }
         ]
       }
     ]
