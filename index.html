@@ -450,11 +450,16 @@
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
     menu.forEach(cat => {
-      // 대분류를 문서 목록에 직접 포함시키지 않고 하위부터 구성 (요청에 따라)
+      // Level 2 (Category) - Also include it in docs array
+      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path });
+      
       cat.children.forEach(mid => {
+        // Level 3 (Mid)
         docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
+        
         if (mid.children) {
           mid.children.forEach(small => {
+            // Level 4 (Small)
             docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path });
           });
         }
@@ -618,8 +623,13 @@
       const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
 
       // Explore focus: active and expand current doc lineage
+      // [Exclusive Expand] Only toggle current category when in normal mode
+      if (!keyword) {
+        openCategories.clear();
+        openMids.clear();
+      }
       openCategories.add(current.category);
-      openMids.add(current.mid);
+      if (current.mid) openMids.add(current.mid);
 
       breadcrumb.innerHTML = '';
       const parts = [{ label: '홈', level: 'home', icon: 'assets/icons/home_fill.png' }];
@@ -641,21 +651,19 @@
           span.textContent = p.label;
         }
         
-        // 클릭 시 해당 카테고리의 첫 번째 문서로 이동 (비즈니스 로직 연동)
+        // 클릭 시 해당 카테고리로 이동 (브레드크럼 피드백 수정)
         span.onclick = () => {
           if (index === parts.length - 1) return; // 현재 페이지면 무시
           
           let targetIdx = -1;
           if (p.level === 'home') {
-            targetIdx = 0; // 첫 번째 문서로 이동
+            targetIdx = 0; // 메인(L01HOME)으로 이동
           } else if (p.level === 'cat') {
-            // 해당 대분류에 속한 첫 번째 문서를 찾음
-            targetIdx = docs.findIndex(d => d.category === p.label);
+            // 해당 대분류(L02) 문서를 찾음
+            targetIdx = docs.findIndex(d => d.type === 'cat' && d.category === p.label);
           } else if (p.level === 'mid') {
-            // 해당 중분류에 속한 대표(mid) 문서를 찾음
+            // 해당 중분류(L03) 문서를 찾음
             targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label && d.type === 'mid');
-            // 만약 mid 타입이 없으면(드문 경우) mid 이름이 일치하는 첫 번째 소분류라도 찾음
-            if (targetIdx === -1) targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label);
           }
           
           if (targetIdx !== -1) {
@@ -759,7 +767,7 @@
     prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
     nextBtn.onclick = () => { if (currentIndex < docs.length - 1) { currentIndex++; renderDetail(); renderNav(); } };
 
-    const startPath = 'pages/L03STMG.html';
+    const startPath = 'pages/L01HOME.html';
     const startIdx = docs.findIndex(d => d.path === startPath);
     currentIndex = startIdx !== -1 ? startIdx : 0;
     renderDetail();
