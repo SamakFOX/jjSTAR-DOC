@@ -1,8 +1,8 @@
 window.JJSTAR_MENU = [
   {
-    title: "메인페이지 (Intro)",
-    code: "L01HOME",
-    path: "pages/L01HOME.html",
+    title: "JJSTAR 이용 가이드",
+    code: "L01INIT",
+    path: "pages/L01INIT.html",
     children: []
   },
   {
