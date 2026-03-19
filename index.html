@@ -437,18 +437,25 @@
         border: 0;
         background: transparent;
         gap: 6px;
+        padding: 8px 0;
       }
 
       .breadcrumb-item {
         clip-path: none !important;
         margin-left: 0 !important;
         height: auto;
-        padding: 4px 8px !important;
+        padding: 4px 10px !important;
         border-radius: 4px;
-        font-size: 12px;
+        font-size: 11.5px;
         background: #f1f5f9;
         display: inline-flex;
         align-items: center;
+        border: 1px solid #e2e8f0;
+      }
+
+      body[data-theme='dark'] .breadcrumb-item {
+        background: #1e293b;
+        border-color: #334155;
       }
 
       .breadcrumb-item:not(.active):after {
@@ -456,11 +463,13 @@
         margin-left: 8px;
         color: #94a3b8;
         font-weight: 400;
+        display: none; /* Hide arrow in wrap mode */
       }
 
       .breadcrumb-item.active {
         background: var(--blue);
         color: #fff;
+        border-color: var(--blue);
       }
     }
 
@@ -578,15 +587,36 @@
       }
 
       .menu-toggle {
-        display: block
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        height: 34px;
+        border: 1px solid var(--sidebar-line);
+        color: var(--text);
+        background: var(--sidebar-bg);
       }
 
       .topbar {
-        padding: 0 20px
+        padding: 10px 20px;
+        height: auto;
+        flex-wrap: wrap;
+        align-items: flex-start;
       }
 
       .page {
-        padding: 32px 20px
+        padding: 24px 16px 80px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pager {
+        grid-template-columns: 1fr;
+      }
+      
+      .pager-card.next {
+        align-items: flex-start;
+        text-align: left;
       }
     }
 
@@ -599,6 +629,11 @@
       background: var(--blue-light) !important;
       border-left-color: var(--blue) !important;
       color: var(--text) !important;
+    }
+
+    /* Lighten tip-box background slightly in dark mode for better visibility on dark base */
+    body[data-theme='dark'] .viewer .tip-box {
+      background: rgba(59, 130, 246, 0.15) !important;
     }
 
     .viewer .tip-box p, .viewer .tip-box span {
@@ -631,19 +666,26 @@
       color: var(--text) !important;
     }
 
-    body[data-theme='dark'] .viewer .bg-white,
-    body[data-theme='dark'] .viewer .feature-card {
-      background-color: var(--pager-card-bg) !important;
-      border-color: var(--sidebar-line) !important;
+    /* Important specialized colors (Red highlights) */
+    body[data-theme='dark'] .viewer .text-red-600,
+    body[data-theme='dark'] .viewer .text-red-500,
+    body[data-theme='dark'] .viewer [style*="color: red"],
+    body[data-theme='dark'] .viewer [style*="color: #ef4444"] {
+      color: #fb7185 !important; /* Bright Salmon/Red for dark mode */
     }
 
-    body[data-theme='dark'] .viewer .feature-card h3,
-    body[data-theme='dark'] .viewer .feature-card p {
+    /* Badge/Circle Overrides */
+    body[data-theme='dark'] .viewer [style*="background: #004a87"] {
+      background-color: var(--blue) !important;
+    }
+
+    body[data-theme='dark'] .viewer .bg-gray-300 {
+      background-color: var(--line) !important;
       color: var(--text) !important;
     }
 
-    body[data-theme='dark'] .viewer hr {
-      border-color: var(--line) !important;
+    body[data-theme='dark'] .viewer .bg-gray-50 {
+      background-color: rgba(255, 255, 255, 0.03) !important;
     }
 
     #lightbox {
