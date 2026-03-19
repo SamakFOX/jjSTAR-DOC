@@ -12,12 +12,13 @@
       --blue: #004a87;
       --blue-light: rgba(0, 74, 135, 0.06);
       --line: #eef2f6;
-      --bg: #ffffff;
-      --sidebar-bg: #f9fafb;
+      --bg: linear-gradient(to bottom, #f9fafb, #ffffff);
+      --sidebar-bg: #ffffff;
+      --sidebar-line: #e5e7eb;
       --text: #1f2937;
       --text-muted: #6b7280;
       --radius: 8px;
-      --sidebar-width: 300px;
+      --sidebar-width: 280px;
     }
 
     * {
@@ -33,7 +34,8 @@
     }
 
     body {
-      background: var(--bg);
+      background: #f9fafb;
+      background-image: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
     }
@@ -110,7 +112,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 20px;
+      padding: 8px 16px;
       font-size: 14px;
       background: transparent;
       transition: all 0.2s;
@@ -118,10 +120,10 @@
     }
 
     .group-btn {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--text-muted);
-      padding-top: 16px;
+      padding-top: 24px;
       padding-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -131,8 +133,17 @@
       color: var(--text);
     }
 
+    .group-btn.is-active {
+      color: var(--blue);
+      background: var(--blue-light);
+      border-left: 2px solid var(--blue);
+      margin-left: -1px;
+    }
+
     .group-children {
       display: none;
+      margin-left: 20px;
+      border-left: 1px solid var(--sidebar-line);
     }
 
     .group.open .group-children {
@@ -146,12 +157,12 @@
     .mid-btn {
       font-weight: 500;
       font-size: 14px;
-      padding-left: 20px;
+      color: var(--text);
+      padding: 10px 16px;
     }
 
     .mid-btn:hover {
       background: #f3f4f6;
-      color: var(--text);
     }
 
     .mid.active>.mid-btn {
@@ -159,12 +170,13 @@
       font-weight: 600;
       background: var(--blue-light);
       border-left: 2px solid var(--blue);
-      padding-left: 18px;
+      margin-left: -1px; /* Align with border-left line */
     }
 
     .mid-children {
       display: none;
-      padding-left: 12px;
+      margin-left: 20px;
+      border-left: 1px solid var(--sidebar-line);
     }
 
     .mid.open>.mid-children {
@@ -173,10 +185,9 @@
 
     .small-btn {
       font-size: 13.5px;
-      padding-left: 32px;
-      height: 32px;
-      border-radius: 4px;
-      margin: 1px 12px 1px 0;
+      padding: 8px 16px;
+      margin: 1px 0;
+      color: #71717a;
     }
 
     .small-btn:hover {
@@ -189,7 +200,7 @@
       font-weight: 600;
       background: var(--blue-light);
       border-left: 2px solid var(--blue);
-      padding-left: 30px;
+      margin-left: -1px; /* Align with border-left line */
     }
 
     .label {
