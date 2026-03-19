@@ -598,11 +598,24 @@
     .viewer .tip-box {
       background: var(--blue-light) !important;
       border-left-color: var(--blue) !important;
-      color: var(--text);
+      color: var(--text) !important;
     }
 
-    .viewer p, .viewer span, .viewer div {
+    .viewer .tip-box p, .viewer .tip-box span {
+      color: inherit !important;
+    }
+
+    .viewer p, .viewer span, .viewer div, .viewer li {
       color: inherit;
+    }
+
+    /* Aggressive dark mode text overrides */
+    body[data-theme='dark'] .viewer,
+    body[data-theme='dark'] .viewer p,
+    body[data-theme='dark'] .viewer span,
+    body[data-theme='dark'] .viewer div,
+    body[data-theme='dark'] .viewer li {
+      color: var(--text) !important;
     }
 
     /* Hide redundant subpage nav */
@@ -613,8 +626,9 @@
     /* Map Tailwind-like classes into theme variables */
     body[data-theme='dark'] .viewer .text-gray-700,
     body[data-theme='dark'] .viewer .text-gray-600,
-    body[data-theme='dark'] .viewer .text-gray-500 {
-      color: var(--text-muted) !important;
+    body[data-theme='dark'] .viewer .text-gray-500,
+    body[data-theme='dark'] .viewer .text-gray-400 {
+      color: var(--text) !important;
     }
 
     body[data-theme='dark'] .viewer .bg-white {
