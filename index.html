@@ -240,29 +240,71 @@
     .breadcrumb {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-muted);
+      gap: 0;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      flex: 0 1 auto;
+      border: 1px solid #e2e8f0;
+      padding: 0;
+      height: 38px;
     }
 
     .breadcrumb-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 18px 0 28px;
+      height: 100%;
+      font-size: 13px;
+      color: #64748b;
+      background: #f8fafc;
       cursor: pointer;
-      transition: color 0.1s;
+      transition: all 0.2s ease;
+      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%);
+      margin-left: -10px;
+      white-space: nowrap;
+      border: none;
+      outline: none;
     }
 
-    .breadcrumb-item:hover {
-      color: var(--text);
+    .breadcrumb-item:first-child {
+      margin-left: 0;
+      padding-left: 18px;
+      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%);
+    }
+
+    .breadcrumb-item:hover:not(.active) {
+      background: #edf2f7;
+      color: var(--blue);
+      z-index: 2;
     }
 
     .breadcrumb-item.active {
-      color: var(--text);
-      font-weight: 500;
-      cursor: default;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      z-index: 3;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%);
     }
 
-    .breadcrumb-separator {
-      color: #d1d5db;
-      font-size: 12px;
+    .breadcrumb-item:first-child.active {
+      clip-path: none;
+    }
+
+    .breadcrumb-item img {
+      width: 14px;
+      height: 14px;
+      margin-right: 0;
+      filter: grayscale(1) opacity(0.6);
+    }
+
+    .breadcrumb-item.active img {
+      filter: brightness(0) invert(1);
+    }
+
+    .breadcrumb-item.home-btn {
+      padding-right: 15px;
     }
 
     .page {
@@ -647,7 +689,7 @@
       if (current.mid) openMids.add(current.mid);
 
       breadcrumb.innerHTML = '';
-      const parts = [{ label: '홈', level: 'home' }];
+      const parts = [{ label: '홈', level: 'home', icon: 'assets/icons/home_fill.png' }];
       parts.push({ label: current.category, level: 'cat' });
       if (current.mid) parts.push({ label: current.mid, level: 'mid' });
       if (current.small) parts.push({ label: current.small, level: 'small' });
@@ -655,8 +697,16 @@
       parts.forEach((p, index) => {
         const span = document.createElement('span');
         span.className = 'breadcrumb-item';
+        if (p.level === 'home') span.classList.add('home-btn');
         if (index === parts.length - 1) span.classList.add('active');
-        span.textContent = p.label;
+
+        if (p.icon) {
+          const img = document.createElement('img');
+          img.src = p.icon;
+          span.appendChild(img);
+        } else {
+          span.textContent = p.label;
+        }
 
         span.onclick = () => {
           if (index === parts.length - 1) return;
@@ -672,13 +722,6 @@
           }
         };
         breadcrumb.appendChild(span);
-
-        if (index < parts.length - 1) {
-          const sep = document.createElement('span');
-          sep.className = 'breadcrumb-separator';
-          sep.textContent = '›'; // GitBook chevron style
-          breadcrumb.appendChild(sep);
-        }
       });
 
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
