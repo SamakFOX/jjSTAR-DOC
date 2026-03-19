@@ -3,7 +3,11 @@ window.JJSTAR_MENU = [
     title: "JJSTAR 이용 가이드",
     code: "L01INIT",
     path: "pages/L01INIT.html",
-    children: []
+    children: [
+      { title: "JJSTAR 메인화면", code: "L02MAIN", path: "pages/L02MAIN.html" },
+      { title: "One-Stop 서비스란?", code: "L02OSTP", path: "pages/L02OSTP.html" },
+      { title: "LLM 기반 검색서비스", code: "L02SRCH", path: "pages/L02SRCH.html" }
+    ]
   },
   {
     title: "star 학생지원",
