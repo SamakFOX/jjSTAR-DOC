@@ -7,7 +7,7 @@ window.JJSTAR_MENU = [
       { title: "JJSTAR 메인화면", code: "L02MAIN", path: "pages/L02MAIN.html", children: [] },
       { title: "제이제이랑 JJSTAR 여행하기", code: "L02JEJE", path: "pages/L02JEJE.html", children: [] },
       { title: "One-Stop 서비스란?", code: "L02OSTP", path: "pages/L02OSTP.html", children: [] },
-      { title: "LLM 기반 검색서비스", code: "L02SRCH", path: "pages/L02SRCH.html", children: [] }
+      { title: "RAG + AI 검색서비스", code: "L02SRCH", path: "pages/L02SRCH.html", children: [] }
     ]
   },
   {
