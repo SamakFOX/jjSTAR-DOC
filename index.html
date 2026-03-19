@@ -69,11 +69,17 @@
       letter-spacing: -0.01em;
     }
 
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
     .search {
       width: 100%;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
-      padding: 10px 12px;
+      padding: 10px 32px 10px 12px;
       font-size: 14px;
       background: #fff;
       transition: border-color 0.2s;
@@ -83,6 +89,27 @@
       outline: none;
       border-color: var(--blue);
       box-shadow: 0 0 0 3px rgba(0, 74, 135, 0.1);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      background: none;
+      border: 0;
+      font-size: 18px;
+      color: #94a3b8;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .search-clear:hover {
+      color: var(--text);
     }
 
     .search-count {
@@ -222,7 +249,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: #fff;
+      background: linear-gradient(to bottom, #f3f7f9 0%, #ffffff 300px);
     }
 
     .topbar {
@@ -231,7 +258,7 @@
       align-items: center;
       gap: 12px;
       padding: 8px 32px;
-      background: #fff;
+      background: transparent;
       border-bottom: 1px solid var(--line);
       position: sticky;
       top: 0;
@@ -525,7 +552,10 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-top">
         <div class="brand">JJSTAR 이용 가이드</div>
-        <input id="searchInput" class="search" type="text" placeholder="메뉴 검색" />
+        <div class="search-box">
+          <input id="searchInput" class="search" type="text" placeholder="메뉴 검색" />
+          <button id="searchClear" class="search-clear">&times;</button>
+        </div>
         <div id="searchCount" class="search-count">전체 0건</div>
       </div>
       <nav class="nav" id="nav"></nav>
@@ -582,6 +612,7 @@
     const viewer = document.getElementById('viewer');
     const breadcrumb = document.getElementById('breadcrumb');
     const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
     const searchCountDisplay = document.getElementById('searchCount');
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.getElementById('menuToggle');
@@ -878,11 +909,13 @@
 
     let searchTimer;
     searchInput.addEventListener('input', e => {
+      keyword = e.target.value.trim().toLowerCase();
+      searchClear.style.display = keyword ? 'flex' : 'none';
+      
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
         const prevKeyword = keyword;
-        keyword = e.target.value.trim().toLowerCase();
-
+        
         if (keyword && keyword !== prevKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
           const filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
           filtered.forEach(cat => {
@@ -892,7 +925,6 @@
             });
           });
         } else if (!keyword && prevKeyword) {
-          // [Step 3] 검색어 삭제 시 초기화 (Phase 2-5)
           openCategories.clear();
           openMids.clear();
           if (docs[currentIndex]) {
@@ -900,9 +932,16 @@
             openMids.add(docs[currentIndex].mid);
           }
         }
-
         renderNav();
       }, 250);
+    });
+
+    searchClear.addEventListener('click', () => {
+      keyword = '';
+      searchInput.value = '';
+      searchClear.style.display = 'none';
+      renderNav();
+      searchInput.focus();
     });
 
     // (Old prev/next handlers removed)
