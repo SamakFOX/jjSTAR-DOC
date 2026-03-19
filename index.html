@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JJSTAR Guide Demo</title>
+  <link rel="icon" href="assets/images/favicon.ico" />
+  <title>JJSTAR 이용 가이드</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/style_l3.css">
   <style>
@@ -197,7 +198,8 @@
       font-weight: 600;
       background: var(--blue-light);
       border-left: 2px solid var(--blue);
-      margin-left: -1px; /* Align with border-left line */
+      margin-left: -1px;
+      /* Align with border-left line */
     }
 
     .mid-children {
@@ -227,7 +229,8 @@
       font-weight: 600;
       background: var(--blue-light);
       border-left: 2px solid var(--blue);
-      margin-left: -1px; /* Align with border-left line */
+      margin-left: -1px;
+      /* Align with border-left line */
     }
 
     .label {
@@ -371,6 +374,7 @@
         background: transparent;
         gap: 6px;
       }
+
       .breadcrumb-item {
         clip-path: none !important;
         margin-left: 0 !important;
@@ -382,12 +386,14 @@
         display: inline-flex;
         align-items: center;
       }
+
       .breadcrumb-item:not(.active):after {
         content: '›';
         margin-left: 8px;
         color: #94a3b8;
         font-weight: 400;
       }
+
       .breadcrumb-item.active {
         background: var(--blue);
         color: #fff;
@@ -395,7 +401,7 @@
     }
 
     .page {
-      padding: 48px 32px;
+      padding: 48px 32px 100px;
       overflow-y: auto;
       flex: 1;
       display: flex;
@@ -917,11 +923,11 @@
     searchInput.addEventListener('input', e => {
       keyword = e.target.value.trim().toLowerCase();
       searchClear.style.display = keyword ? 'flex' : 'none';
-      
+
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
         const prevKeyword = keyword;
-        
+
         if (keyword && keyword !== prevKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
           const filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
           filtered.forEach(cat => {
