@@ -590,7 +590,41 @@
       }
     }
 
-    /* Lightbox */
+    /* Subpage Content Overrides */
+    .viewer h1, .viewer h2, .viewer h3, .viewer h4 {
+      color: var(--text);
+    }
+
+    .viewer .tip-box {
+      background: var(--blue-light) !important;
+      border-left-color: var(--blue) !important;
+      color: var(--text);
+    }
+
+    .viewer p, .viewer span, .viewer div {
+      color: inherit;
+    }
+
+    /* Hide redundant subpage nav */
+    .viewer nav.flex.items-center {
+      display: none !important;
+    }
+
+    /* Map Tailwind-like classes into theme variables */
+    body[data-theme='dark'] .viewer .text-gray-700,
+    body[data-theme='dark'] .viewer .text-gray-600,
+    body[data-theme='dark'] .viewer .text-gray-500 {
+      color: var(--text-muted) !important;
+    }
+
+    body[data-theme='dark'] .viewer .bg-white {
+      background-color: transparent !important;
+    }
+
+    body[data-theme='dark'] .viewer hr {
+      border-color: var(--line) !important;
+    }
+
     #lightbox {
       display: none;
       position: fixed;
@@ -613,12 +647,17 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
     }
 
+    body[data-theme='dark'] #lightbox {
+      background: rgba(15, 23, 42, 0.98);
+    }
+
     .close-btn {
       position: absolute;
       top: 20px;
       right: 30px;
       font-size: 30px;
       cursor: pointer;
+      color: var(--text);
     }
   </style>
 </head>
