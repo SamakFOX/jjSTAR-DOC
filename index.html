@@ -282,9 +282,9 @@
       z-index: 3;
       clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%);
     }
-    
+
     .breadcrumb-item:first-child.active {
-       clip-path: none;
+      clip-path: none;
     }
 
     .breadcrumb-item img {
@@ -293,11 +293,11 @@
       margin-right: 0;
       filter: grayscale(1) opacity(0.6);
     }
-    
+
     .breadcrumb-item.active img {
       filter: brightness(0) invert(1);
     }
-    
+
     .breadcrumb-item.home-btn {
       padding-right: 15px;
     }
@@ -458,11 +458,11 @@
     menu.forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
       docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path });
-      
+
       cat.children.forEach(mid => {
         // Level 3 (Mid)
         docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
-        
+
         if (mid.children) {
           mid.children.forEach(small => {
             // Level 4 (Small)
@@ -492,7 +492,7 @@
 
     // [Phase 3-1] 중앙 관리형 링크 데이터셋
     const GUIDE_LINKS = {
-      "c01_m02_s06": "jjstar_mockup.html",
+      "L02SCHS": "jjstar_mockup.html",
       // 향후 추가될 메뉴 코드와 URL 매핑
     };
 
@@ -537,7 +537,7 @@
             if (!keyword) openCategories.clear();
             openCategories.add(cat.title);
           }
-          
+
           currentIndex = docs.findIndex(d => d.type === 'cat' && d.category === cat.title);
           renderDetail();
           renderNav();
@@ -655,7 +655,7 @@
         span.className = 'breadcrumb-item';
         if (p.level === 'home') span.classList.add('home-btn');
         if (index === parts.length - 1) span.classList.add('active');
-        
+
         if (p.icon) {
           const img = document.createElement('img');
           img.src = p.icon;
@@ -663,11 +663,11 @@
         } else {
           span.textContent = p.label;
         }
-        
+
         // 클릭 시 해당 카테고리로 이동 (브레드크럼 피드백 수정)
         span.onclick = () => {
           if (index === parts.length - 1) return; // 현재 페이지면 무시
-          
+
           let targetIdx = -1;
           if (p.level === 'home') {
             targetIdx = 0; // 메인(L01HOME)으로 이동
@@ -678,7 +678,7 @@
             // 해당 중분류(L03) 문서를 찾음
             targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label && d.type === 'mid');
           }
-          
+
           if (targetIdx !== -1) {
             currentIndex = targetIdx;
             renderDetail();
