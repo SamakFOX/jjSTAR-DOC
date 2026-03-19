@@ -9,19 +9,15 @@
   <link rel="stylesheet" href="assets/css/style_l3.css">
   <style>
     :root {
-      --blue: #005da8;
-      --blue-dark: #00427a;
-      --line: #dde5ee;
-      --bg: #f5f7fb;
-      --group-bg: #f3f4f6;
-      --mid-bg: #eef3f9;
-      --small-bg: #fafcff;
-      --active: #dceeff;
+      --blue: #004a87;
+      --blue-light: rgba(0, 74, 135, 0.06);
+      --line: #eef2f6;
+      --bg: #ffffff;
+      --sidebar-bg: #f9fafb;
       --text: #1f2937;
-      --muted: #6b7280;
-      --shadow: 0 10px 30px rgba(0, 0, 0, .08);
-      --radius: 16px;
-      --sidebar-width: 360px;
+      --text-muted: #6b7280;
+      --radius: 8px;
+      --sidebar-width: 300px;
     }
 
     * {
@@ -33,12 +29,13 @@
       margin: 0;
       height: 100%;
       overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     body {
-      font-family: Pretendard, "Noto Sans KR", Arial, sans-serif;
       background: var(--bg);
-      color: var(--text)
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
 
     .app {
@@ -48,8 +45,9 @@
       overflow: hidden;
     }
 
+    /* Sidebar */
     .sidebar {
-      background: #fff;
+      background: var(--sidebar-bg);
       border-right: 1px solid var(--line);
       height: 100vh;
       display: flex;
@@ -58,43 +56,48 @@
     }
 
     .sidebar-top {
-      background: var(--blue);
-      color: #fff;
-      padding: 18px
+      padding: 24px 20px 10px;
     }
 
     .brand {
-      font-size: 20px;
-      font-weight: 800;
-      margin: 0 0 12px
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
     }
 
     .search {
       width: 100%;
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 14px;
-      font-size: 14px
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 14px;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+
+    .search:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 74, 135, 0.1);
     }
 
     .search-count {
-      font-size: 12px;
-      color: #fff;
-      opacity: 0.82;
+      font-size: 11px;
+      color: var(--text-muted);
       margin-top: 8px;
-      text-align: right;
+      padding-left: 4px;
     }
 
     .nav {
-      padding: 10px 0 18px;
-      overflow: auto;
+      padding: 10px 0;
+      overflow-y: auto;
       flex: 1
     }
 
     .group {
-      background: var(--group-bg);
-      border-bottom: 1px solid #edf2f7;
-      margin-bottom: 4px
+      margin-bottom: 2px
     }
 
     .group-btn,
@@ -106,28 +109,30 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px
+      gap: 8px;
+      padding: 8px 20px;
+      font-size: 14px;
+      background: transparent;
+      transition: all 0.2s;
+      color: #4b5563;
     }
 
     .group-btn {
-      background: var(--group-bg);
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 800;
-      transition: all 0.2s;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding-top: 16px;
+      padding-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .group-btn.is-active {
-      background: #e2e8f0;
-      color: var(--blue);
+    .group-btn:hover {
+      color: var(--text);
     }
 
     .group-children {
       display: none;
-      background: #fff;
-      padding: 8px;
-      border-top: 1px solid #e5e7eb
     }
 
     .group.open .group-children {
@@ -135,88 +140,87 @@
     }
 
     .mid {
-      border: 1px solid #e7edf5;
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--mid-bg);
-      margin-bottom: 8px
+      position: relative;
     }
 
     .mid-btn {
-      background: var(--mid-bg);
-      padding: 12px 14px;
+      font-weight: 500;
       font-size: 14px;
-      font-weight: 700
+      padding-left: 20px;
+    }
+
+    .mid-btn:hover {
+      background: #f3f4f6;
+      color: var(--text);
+    }
+
+    .mid.active>.mid-btn {
+      color: var(--blue);
+      font-weight: 600;
+      background: var(--blue-light);
+      border-left: 2px solid var(--blue);
+      padding-left: 18px;
+    }
+
+    .mid-children {
+      display: none;
+      padding-left: 12px;
     }
 
     .mid.open>.mid-children {
       display: block
     }
 
-    .mid.active>.mid-btn {
-      background: var(--active);
-      color: var(--blue-dark)
-    }
-
-    .mid-children {
-      display: none;
-      padding: 8px;
-      border-top: 1px solid #dde7f2;
-      background: #fff
-    }
-
     .small-btn {
-      background: var(--small-bg);
-      border: 1px solid #edf2f7;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 6px;
-      font-size: 13px
+      font-size: 13.5px;
+      padding-left: 32px;
+      height: 32px;
+      border-radius: 4px;
+      margin: 1px 12px 1px 0;
+    }
+
+    .small-btn:hover {
+      background: #f3f4f6;
+      color: var(--text);
     }
 
     .small-btn.active {
-      background: var(--active);
-      color: var(--blue-dark);
-      font-weight: 700;
-      border-color: #c8ddf5
+      color: var(--blue);
+      font-weight: 600;
+      background: var(--blue-light);
+      border-left: 2px solid var(--blue);
+      padding-left: 30px;
     }
 
     .label {
       flex: 1;
-      min-width: 0;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap
     }
 
     .indicator {
-      width: 22px;
-      height: 22px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .75);
-      color: #475569;
-      font-weight: 800
+      font-size: 10px;
+      color: var(--text-muted);
+      opacity: 0.5;
     }
 
+    /* Content Area */
     .content {
       height: 100vh;
-      min-width: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      background: #fff;
     }
 
     .topbar {
-      height: 60px;
+      height: 56px;
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 0 20px;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(8px);
+      padding: 0 32px;
+      background: #fff;
       border-bottom: 1px solid var(--line);
       position: sticky;
       top: 0;
@@ -225,149 +229,126 @@
 
     .menu-toggle {
       display: none;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 10px;
-      padding: 8px 12px;
-      cursor: pointer
+      background: none;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 13px;
     }
 
     .breadcrumb {
       display: flex;
       align-items: center;
-      gap: 0;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      flex: 0 1 auto;
-      border: 1px solid #e2e8f0;
-      padding: 0;
-      height: 38px;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     .breadcrumb-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      padding: 0 18px 0 28px;
-      height: 100%;
-      font-size: 13px;
-      color: #64748b;
-      background: #f8fafc;
       cursor: pointer;
-      transition: all 0.2s ease;
-      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%);
-      margin-left: -10px;
-      white-space: nowrap;
-      border: none;
-      outline: none;
+      transition: color 0.1s;
     }
 
-    .breadcrumb-item:first-child {
-      margin-left: 0;
-      padding-left: 18px;
-      clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%);
-    }
-
-    .breadcrumb-item:hover:not(.active) {
-      background: #edf2f7;
-      color: var(--blue);
-      z-index: 2;
+    .breadcrumb-item:hover {
+      color: var(--text);
     }
 
     .breadcrumb-item.active {
-      background: var(--blue);
-      color: #fff;
-      font-weight: 700;
-      z-index: 3;
-      clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%);
+      color: var(--text);
+      font-weight: 500;
+      cursor: default;
     }
 
-    .breadcrumb-item:first-child.active {
-      clip-path: none;
-    }
-
-    .breadcrumb-item img {
-      width: 14px;
-      height: 14px;
-      margin-right: 0;
-      filter: grayscale(1) opacity(0.6);
-    }
-
-    .breadcrumb-item.active img {
-      filter: brightness(0) invert(1);
-    }
-
-    .breadcrumb-item.home-btn {
-      padding-right: 15px;
-    }
-
-    .home-link {
-      margin-left: auto;
+    .breadcrumb-separator {
+      color: #d1d5db;
+      font-size: 12px;
     }
 
     .page {
-      padding: 28px;
+      padding: 48px 32px;
       overflow-y: auto;
       flex: 1;
+      display: flex;
+      justify-content: center;
     }
 
     .card {
       background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .status {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--blue);
-      margin-bottom: 10px
+      width: 100%;
+      max-width: 800px;
+      margin: 0;
     }
 
     .viewer {
-      margin-top: 18px
+      margin-top: 0;
+    }
+
+    /* Pager (GitBook style labels) */
+    .pager {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .pager-card {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .pager-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .pager-card.prev {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .pager-card.next {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .pager-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pager-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--blue);
     }
 
     .loading,
     .empty {
-      padding: 36px;
-      border: 1px dashed #cfd8e3;
-      border-radius: 16px;
-      color: #64748b;
-      background: #fafcff
-    }
-
-    .pager {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 24px
-    }
-
-    .pager button {
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px 16px;
-      cursor: pointer;
-      min-width: 120px
-    }
-
-    .pager button:disabled {
-      opacity: .45;
-      cursor: not-allowed
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
     }
 
     .dim {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, .35);
+      background: rgba(0, 0, 0, 0.2);
       z-index: 15
     }
 
@@ -381,9 +362,9 @@
         left: 0;
         top: 0;
         bottom: 0;
-        width: min(88vw, 360px);
+        width: 280px;
         transform: translateX(-100%);
-        transition: transform .22s ease;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 20
       }
 
@@ -392,20 +373,47 @@
       }
 
       .menu-toggle {
-        display: inline-flex
-      }
-
-      .dim.show {
         display: block
       }
 
-      .page {
-        padding: 18px
+      .topbar {
+        padding: 0 20px
       }
 
-      .card {
-        padding: 22px 18px
+      .page {
+        padding: 32px 20px
       }
+    }
+
+    /* Lightbox */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    #lightbox.show {
+      display: flex;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -433,10 +441,6 @@
         <article class="card">
           <div id="viewer" class="viewer">
             <div class="loading">문서를 로드하는 중입니다.</div>
-          </div>
-          <div class="pager">
-            <button id="prevBtn">← 이전</button>
-            <button id="nextBtn">다음 →</button>
           </div>
         </article>
       </section>
@@ -475,8 +479,6 @@
     const nav = document.getElementById('nav');
     const viewer = document.getElementById('viewer');
     const breadcrumb = document.getElementById('breadcrumb');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
     const searchInput = document.getElementById('searchInput');
     const searchCountDisplay = document.getElementById('searchCount');
     const sidebar = document.getElementById('sidebar');
@@ -645,7 +647,7 @@
       if (current.mid) openMids.add(current.mid);
 
       breadcrumb.innerHTML = '';
-      const parts = [{ label: '홈', level: 'home', icon: 'assets/icons/home_fill.png' }];
+      const parts = [{ label: '홈', level: 'home' }];
       parts.push({ label: current.category, level: 'cat' });
       if (current.mid) parts.push({ label: current.mid, level: 'mid' });
       if (current.small) parts.push({ label: current.small, level: 'small' });
@@ -653,31 +655,15 @@
       parts.forEach((p, index) => {
         const span = document.createElement('span');
         span.className = 'breadcrumb-item';
-        if (p.level === 'home') span.classList.add('home-btn');
         if (index === parts.length - 1) span.classList.add('active');
+        span.textContent = p.label;
 
-        if (p.icon) {
-          const img = document.createElement('img');
-          img.src = p.icon;
-          span.appendChild(img);
-        } else {
-          span.textContent = p.label;
-        }
-
-        // 클릭 시 해당 카테고리로 이동 (브레드크럼 피드백 수정)
         span.onclick = () => {
-          if (index === parts.length - 1) return; // 현재 페이지면 무시
-
+          if (index === parts.length - 1) return;
           let targetIdx = -1;
-          if (p.level === 'home') {
-            targetIdx = 0; // 메인(L01HOME)으로 이동
-          } else if (p.level === 'cat') {
-            // 해당 대분류(L02) 문서를 찾음
-            targetIdx = docs.findIndex(d => d.type === 'cat' && d.category === p.label);
-          } else if (p.level === 'mid') {
-            // 해당 중분류(L03) 문서를 찾음
-            targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label && d.type === 'mid');
-          }
+          if (p.level === 'home') targetIdx = 0;
+          else if (p.level === 'cat') targetIdx = docs.findIndex(d => d.type === 'cat' && d.category === p.label);
+          else if (p.level === 'mid') targetIdx = docs.findIndex(d => d.category === current.category && d.mid === p.label && d.type === 'mid');
 
           if (targetIdx !== -1) {
             currentIndex = targetIdx;
@@ -686,10 +672,15 @@
           }
         };
         breadcrumb.appendChild(span);
+
+        if (index < parts.length - 1) {
+          const sep = document.createElement('span');
+          sep.className = 'breadcrumb-separator';
+          sep.textContent = '›'; // GitBook chevron style
+          breadcrumb.appendChild(sep);
+        }
       });
 
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex === docs.length - 1;
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
 
       try {
@@ -701,7 +692,41 @@
         // [Phase 3-7] 모든 로컬 src 경로(../../ 등)를 absoluteBase 기반 절대 경로로 강제 치환
         html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
 
-        viewer.innerHTML = html;
+        // 7. Pager Data
+        const prevDoc = docs[currentIndex - 1];
+        const nextDoc = docs[currentIndex + 1];
+
+        const pagerHtml = `
+          <div class="pager">
+            ${prevDoc ? `
+              <a class="pager-card prev" id="customPrev">
+                <span class="pager-label">Previous</span>
+                <span class="pager-title">${prevDoc.title}</span>
+              </a>
+            ` : '<div></div>'}
+            ${nextDoc ? `
+              <a class="pager-card next" id="customNext">
+                <span class="pager-label">Next</span>
+                <span class="pager-title">${nextDoc.title}</span>
+              </a>
+            ` : '<div></div>'}
+          </div>
+        `;
+
+        viewer.innerHTML = html + pagerHtml;
+
+        const cp = viewer.querySelector('#customPrev');
+        if (cp) cp.onclick = () => {
+          currentIndex--;
+          renderDetail();
+          renderNav();
+        };
+        const cn = viewer.querySelector('#customNext');
+        if (cn) cn.onclick = () => {
+          currentIndex++;
+          renderDetail();
+          renderNav();
+        };
         document.querySelector('.page').scrollTop = 0;
 
         const h1 = viewer.querySelector('h1');
@@ -777,8 +802,7 @@
       }, 250);
     });
 
-    prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; renderDetail(); renderNav(); } };
-    nextBtn.onclick = () => { if (currentIndex < docs.length - 1) { currentIndex++; renderDetail(); renderNav(); } };
+    // (Old prev/next handlers removed)
 
     const startPath = 'pages/L01HOME.html';
     const startIdx = docs.findIndex(d => d.path === startPath);
