@@ -4,9 +4,9 @@ window.JJSTAR_MENU = [
     code: "L01INIT",
     path: "pages/L01INIT.html",
     children: [
-      { title: "JJSTAR 메인화면", code: "L02MAIN", path: "pages/L02MAIN.html" },
-      { title: "One-Stop 서비스란?", code: "L02OSTP", path: "pages/L02OSTP.html" },
-      { title: "LLM 기반 검색서비스", code: "L02SRCH", path: "pages/L02SRCH.html" }
+      { title: "JJSTAR 메인화면", code: "L02MAIN", path: "pages/L02MAIN.html", children: [] },
+      { title: "One-Stop 서비스란?", code: "L02OSTP", path: "pages/L02OSTP.html", children: [] },
+      { title: "LLM 기반 검색서비스", code: "L02SRCH", path: "pages/L02SRCH.html", children: [] }
     ]
   },
   {
