@@ -403,7 +403,7 @@
     }
 
     .card {
-      background: #fff;
+      background: transparent;
       width: 100%;
       max-width: 800px;
       margin: 0;
@@ -421,6 +421,7 @@
       margin-top: 64px;
       padding-top: 32px;
       border-top: 1px solid var(--line);
+      margin-bottom: 80px;
     }
 
     .pager-card {
@@ -439,6 +440,10 @@
       border-color: var(--blue);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transform: translateY(-2px);
+    }
+
+    .pager-card:hover .pager-title {
+      color: var(--blue);
     }
 
     .pager-card.prev {
@@ -462,7 +467,8 @@
     .pager-title {
       font-size: 15px;
       font-weight: 600;
-      color: var(--blue);
+      color: #374151;
+      transition: color 0.2s;
     }
 
     .loading,
