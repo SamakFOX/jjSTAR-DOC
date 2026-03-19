@@ -631,8 +631,15 @@
       color: var(--text) !important;
     }
 
-    body[data-theme='dark'] .viewer .bg-white {
-      background-color: transparent !important;
+    body[data-theme='dark'] .viewer .bg-white,
+    body[data-theme='dark'] .viewer .feature-card {
+      background-color: var(--pager-card-bg) !important;
+      border-color: var(--sidebar-line) !important;
+    }
+
+    body[data-theme='dark'] .viewer .feature-card h3,
+    body[data-theme='dark'] .viewer .feature-card p {
+      color: var(--text) !important;
     }
 
     body[data-theme='dark'] .viewer hr {
