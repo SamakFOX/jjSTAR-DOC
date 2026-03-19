@@ -11,15 +11,39 @@
   <style>
     :root {
       --blue: #004a87;
+      --blue-hl: #3b82f6;
       --blue-light: rgba(0, 74, 135, 0.06);
       --line: #eef2f6;
-      --bg: linear-gradient(to bottom, #f9fafb, #ffffff);
+      --bg-grad: linear-gradient(to bottom, #f3f7f9 0%, #ffffff 300px);
       --sidebar-bg: #ffffff;
       --sidebar-line: #e5e7eb;
       --text: #1f2937;
       --text-muted: #6b7280;
+      --card-bg: transparent;
+      --search-bg: #ffffff;
       --radius: 8px;
       --sidebar-width: 280px;
+      --topbar-bg: transparent;
+      --breadcrumb-bg: #f8fafc;
+      --breadcrumb-active-bg: var(--blue);
+      --pager-card-bg: #ffffff;
+    }
+
+    body[data-theme='dark'] {
+      --blue: #3b82f6;
+      --blue-light: rgba(59, 130, 246, 0.1);
+      --line: #334155;
+      --bg-grad: linear-gradient(to bottom, #1e293b 0%, #0f172a 300px);
+      --sidebar-bg: #111827;
+      --sidebar-line: #334155;
+      --text: #f9fafb;
+      --text-muted: #94a3b8;
+      --card-bg: transparent;
+      --search-bg: #1f2937;
+      --topbar-bg: transparent;
+      --breadcrumb-bg: #1e2937;
+      --breadcrumb-active-bg: var(--blue);
+      --pager-card-bg: #1e293b;
     }
 
     * {
@@ -36,9 +60,11 @@
 
     body {
       background: #f9fafb;
-      background-image: var(--bg);
+      background-image: var(--bg-grad);
+      background-color: var(--sidebar-bg); /* Fallback */
       color: var(--text);
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
 
     .app {
@@ -78,12 +104,18 @@
 
     .search {
       width: 100%;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--sidebar-line);
       border-radius: 6px;
       padding: 10px 32px 10px 12px;
       font-size: 14px;
-      background: #fff;
-      transition: border-color 0.2s;
+      background: var(--search-bg);
+      color: var(--text);
+      transition: border-color 0.2s, background 0.3s;
+    }
+
+    .search::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
     }
 
     .search:focus {
@@ -98,7 +130,7 @@
       background: none;
       border: 0;
       font-size: 18px;
-      color: #94a3b8;
+      color: var(--text-muted);
       cursor: pointer;
       display: none;
       align-items: center;
@@ -144,7 +176,7 @@
       font-size: 14px;
       background: transparent;
       transition: all 0.2s;
-      color: #4b5563;
+      color: var(--text-muted);
     }
 
     .group-btn {
@@ -252,7 +284,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: linear-gradient(to bottom, #f3f7f9 0%, #ffffff 300px);
+      background: var(--bg-grad);
     }
 
     .topbar {
@@ -298,8 +330,8 @@
       padding: 0 18px 0 28px;
       height: 100%;
       font-size: 13px;
-      color: #64748b;
-      background: #f8fafc;
+      color: var(--text-muted);
+      background: var(--breadcrumb-bg);
       cursor: pointer;
       transition: all 0.2s ease;
       clip-path: polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%);
@@ -348,8 +380,35 @@
       padding-right: 15px;
     }
 
+    .theme-btn {
+      background: none;
+      border: 1px solid var(--sidebar-line);
+      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 0;
+      transition: all 0.2s;
+      margin-right: 8px;
+    }
+
+    .theme-btn:hover {
+      background: var(--blue-light);
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .theme-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
     .home-link {
-      margin-left: auto;
       display: flex;
       align-items: center;
       flex-shrink: 0;
@@ -360,6 +419,11 @@
       height: 22px;
       opacity: 0.5;
       transition: opacity 0.2s;
+      filter: var(--icon-filter);
+    }
+
+    body[data-theme='dark'] .home-icon {
+      filter: invert(1) brightness(2);
     }
 
     .home-link:hover .home-icon {
@@ -434,12 +498,12 @@
       display: flex;
       flex-direction: column;
       padding: 16px 20px;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--sidebar-line);
       border-radius: 8px;
       text-decoration: none;
       transition: all 0.2s;
       cursor: pointer;
-      background: #fff;
+      background: var(--pager-card-bg);
     }
 
     .pager-card:hover {
@@ -577,9 +641,15 @@
       <div class="topbar">
         <button class="menu-toggle" id="menuToggle">☰ 메뉴</button>
         <div class="breadcrumb" id="breadcrumb">JJSTAR 이용 가이드</div>
-        <a href="jjstar_home.html" target="_top" class="home-link">
-          <img src="assets/icons/home_fill.png" alt="시스템 홈" class="home-icon">
-        </a>
+        <div style="margin-left:auto; display:flex; align-items:center;">
+          <button id="themeToggle" class="theme-btn" title="테마 변경">
+            <svg id="themeIconSun" viewBox="0 0 24 24" style="display:none;"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 12a10 10 0 1120 0 10 10 0 01-20 0z" /></svg>
+            <svg id="themeIconMoon" viewBox="0 0 24 24"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+          </button>
+          <a href="jjstar_home.html" target="_top" class="home-link">
+            <img src="assets/icons/home_fill.png" alt="시스템 홈" class="home-icon">
+          </a>
+        </div>
       </div>
       <section class="page">
         <article class="card">
@@ -628,6 +698,9 @@
     const searchCountDisplay = document.getElementById('searchCount');
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.getElementById('menuToggle');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIconSun = document.getElementById('themeIconSun');
+    const themeIconMoon = document.getElementById('themeIconMoon');
     const dim = document.getElementById('dim');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -918,6 +991,32 @@
 
     menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     dim.onclick = closeSidebar;
+
+    // Theme Toggle Logic
+    const themeIconSunWrapper = document.getElementById('themeIconSun');
+    const themeIconMoonWrapper = document.getElementById('themeIconMoon');
+
+    function updateTheme(isDark) {
+      if (isDark) {
+        document.body.setAttribute('data-theme', 'dark');
+        themeIconSunWrapper.style.display = 'block';
+        themeIconMoonWrapper.style.display = 'none';
+      } else {
+        document.body.removeAttribute('data-theme');
+        themeIconSunWrapper.style.display = 'none';
+        themeIconMoonWrapper.style.display = 'block';
+      }
+      localStorage.setItem('jjstar-theme', isDark ? 'dark' : 'light');
+    }
+
+    themeToggle.onclick = () => {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      updateTheme(!isDark);
+    };
+
+    // Init Theme
+    const savedTheme = localStorage.getItem('jjstar-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    updateTheme(savedTheme === 'dark');
 
     let searchTimer;
     searchInput.addEventListener('input', e => {
