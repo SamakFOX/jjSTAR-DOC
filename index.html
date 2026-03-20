@@ -636,8 +636,23 @@
       background: rgba(59, 130, 246, 0.15) !important;
     }
 
-    .viewer .tip-box p, .viewer .tip-box span {
+    .viewer .tip-box p, .viewer .tip-box span, .viewer .tip-box li {
       color: inherit !important;
+    }
+
+    /* Specialized Red highlights priority - works in both modes */
+    .viewer .text-red-600,
+    .viewer .text-red-500,
+    .viewer [style*="color: red"],
+    .viewer [style*="color: #ef4444"] {
+      color: #ef4444 !important;
+    }
+
+    body[data-theme='dark'] .viewer .text-red-600,
+    body[data-theme='dark'] .viewer .text-red-500,
+    body[data-theme='dark'] .viewer [style*="color: red"],
+    body[data-theme='dark'] .viewer [style*="color: #ef4444"] {
+      color: #fb7185 !important;
     }
 
     .viewer p, .viewer span, .viewer div, .viewer li {
@@ -659,20 +674,17 @@
     }
 
     /* Map Tailwind-like classes into theme variables */
+    body[data-theme='dark'] .viewer .text-gray-900,
+    body[data-theme='dark'] .viewer .text-gray-800,
     body[data-theme='dark'] .viewer .text-gray-700,
     body[data-theme='dark'] .viewer .text-gray-600,
     body[data-theme='dark'] .viewer .text-gray-500,
-    body[data-theme='dark'] .viewer .text-gray-400 {
+    body[data-theme='dark'] .viewer .text-gray-400,
+    body[data-theme='dark'] .viewer strong {
       color: var(--text) !important;
     }
 
-    /* Important specialized colors (Red highlights) */
-    body[data-theme='dark'] .viewer .text-red-600,
-    body[data-theme='dark'] .viewer .text-red-500,
-    body[data-theme='dark'] .viewer [style*="color: red"],
-    body[data-theme='dark'] .viewer [style*="color: #ef4444"] {
-      color: #fb7185 !important; /* Bright Salmon/Red for dark mode */
-    }
+
 
     /* Badge/Circle Overrides */
     body[data-theme='dark'] .viewer [style*="background: #004a87"] {
@@ -684,8 +696,17 @@
       color: var(--text) !important;
     }
 
-    body[data-theme='dark'] .viewer .bg-gray-50 {
-      background-color: rgba(255, 255, 255, 0.03) !important;
+    body[data-theme='dark'] .viewer .bg-white,
+    body[data-theme='dark'] .viewer .bg-gray-50,
+    body[data-theme='dark'] .viewer .feature-card {
+      background: var(--pager-card-bg) !important;
+      border-color: var(--line) !important;
+    }
+
+    body[data-theme='dark'] .viewer .feature-card h3,
+    body[data-theme='dark'] .viewer .feature-card p,
+    body[data-theme='dark'] .viewer .feature-card span {
+      color: var(--text) !important;
     }
 
     #lightbox {
