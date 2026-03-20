@@ -1,11 +1,14 @@
 # jjSTAR 사용자 가이드 (html + PDF)  
 ### 전주대학교 학생지원 시스템 jjSTAR 사용자 가이드입니다.  
 
-HTML<br>
+---
+
+① HTML<br>
 &nbsp; - 웹페이지 기능 위치 및 상세 사용 방법 안내<br>
 &nbsp; - 메뉴 사용법 상세 설명<br>
 
-PDF<br>
+② PDF<br>
+<img src="https://github.com/SamakFOX/jjSTAR-DOC/blob/main/assets/images/jjstar_home.webp" width="50%"><br>
 &nbsp; - jjSTAR 서비스를 이용하는 최고의 방법을 안내<br>
 &nbsp; - 각 기능간 연계와 시너지 효과 위주의 설명<br>
 &nbsp; - 짧고 간결한 정보전달<br>
