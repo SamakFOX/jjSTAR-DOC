@@ -4,6 +4,7 @@
 ---
 
 ① HTML<br>
+<img src="https://github.com/SamakFOX/jjSTAR-DOC/blob/main/assets/images/img_html_sample.webp" width="50%"><br>
 &nbsp; - 웹페이지 기능 위치 및 상세 사용 방법 안내<br>
 &nbsp; - 메뉴 사용법 상세 설명<br>
 
