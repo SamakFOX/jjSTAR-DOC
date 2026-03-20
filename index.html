@@ -666,9 +666,12 @@
       color: var(--text) !important;
     }
 
-    /* Hide redundant subpage nav */
-    .viewer nav.flex.items-center {
-      display: none !important;
+    /* Subpage SVG Protection - prevent 'explosion' if CSS fails */
+    .viewer svg {
+      width: 1em;
+      height: 1em;
+      max-width: 24px;
+      max-height: 24px;
     }
 
     /* Map Tailwind-like classes into theme variables */
