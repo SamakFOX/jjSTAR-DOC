@@ -61,7 +61,8 @@
     body {
       background: #f9fafb;
       background-image: var(--bg-grad);
-      background-color: var(--sidebar-bg); /* Fallback */
+      background-color: var(--sidebar-bg);
+      /* Fallback */
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       transition: background 0.3s, color 0.3s;
@@ -463,7 +464,8 @@
         margin-left: 8px;
         color: #94a3b8;
         font-weight: 400;
-        display: none; /* Hide arrow in wrap mode */
+        display: none;
+        /* Hide arrow in wrap mode */
       }
 
       .breadcrumb-item.active {
@@ -613,7 +615,7 @@
       .pager {
         grid-template-columns: 1fr;
       }
-      
+
       .pager-card.next {
         align-items: flex-start;
         text-align: left;
@@ -621,7 +623,10 @@
     }
 
     /* Subpage Content Overrides */
-    .viewer h1, .viewer h2, .viewer h3, .viewer h4 {
+    .viewer h1,
+    .viewer h2,
+    .viewer h3,
+    .viewer h4 {
       color: var(--text);
     }
 
@@ -653,7 +658,10 @@
       color: #fb7185 !important;
     }
 
-    .viewer p, .viewer span, .viewer div, .viewer li {
+    .viewer p,
+    .viewer span,
+    .viewer div,
+    .viewer li {
       color: inherit;
     }
 
@@ -772,8 +780,13 @@
         <div class="breadcrumb" id="breadcrumb">JJSTAR 이용 가이드</div>
         <div style="margin-left:auto; display:flex; align-items:center;">
           <button id="themeToggle" class="theme-btn" title="테마 변경">
-            <svg id="themeIconSun" viewBox="0 0 24 24" style="display:none;"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 12a10 10 0 1120 0 10 10 0 01-20 0z" /></svg>
-            <svg id="themeIconMoon" viewBox="0 0 24 24"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+            <svg id="themeIconSun" viewBox="0 0 24 24" style="display:none;">
+              <path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 12a10 10 0 1120 0 10 10 0 01-20 0z" />
+            </svg>
+            <svg id="themeIconMoon" viewBox="0 0 24 24">
+              <path
+                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
           </button>
           <a href="jjstar_home.html" target="_top" class="home-link">
             <img src="assets/icons/home_fill.png" alt="시스템 홈" class="home-icon">
@@ -841,8 +854,12 @@
 
     // [Phase 3-1] 중앙 관리형 링크 데이터셋
     const GUIDE_LINKS = {
+      "L02MAIN": "jjstar_mockup.html",
+      "L02JEJE": "assets/pdf/jjstar_guide.pdf",
+      "L02OSTP": "jjstar_mockup.html",
+      "L02SRCH": "jjstar_mockup.html",
       "L04SCHS": "jjstar_mockup.html",
-      "L02JEJE": "assets/pdf/jjstar_guide.pdf"
+
     };
 
     function toggleMark(v) { return v ? '−' : '+'; }
@@ -1101,7 +1118,7 @@
           <div class="empty">
             <strong>${current.title}</strong><br><br>
             <span style="color:#ef4444;">오류 발생: ${e.message}</span><br><br>
-            <small>Live Server(http://...) 환경에서 실행 중인지 확인해주세요.</small>
+            <small>서버 주소를 확인해주세요.</small>
           </div>`;
       }
     }
