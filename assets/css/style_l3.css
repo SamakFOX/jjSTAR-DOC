@@ -180,16 +180,15 @@
     margin: 0;
 }
 
-.guide-list li {
-    border-bottom: 1px solid #e5e7eb;
-}
-
 .guide-l3-content .li-m {
     display: block;
     width: 100%;
-    padding: 12px 16px;
+    padding: 14px 18px;
     text-decoration: none;
-    color: inherit;
+    color: #1f2937;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
 }
 
 .guide-l3-content .text-gray-500 {
