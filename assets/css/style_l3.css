@@ -226,6 +226,11 @@
     border-left-width: 4px;
 }
 
+.guide-l3-content .border-dashed {
+    border-top-style: dashed;
+    border-top-width: 1px;
+}
+
 .guide-l3-content .border-gray-200 {
     border-color: #e5e7eb;
 }
