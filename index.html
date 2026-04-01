@@ -1124,9 +1124,23 @@
     }
 
     viewer.addEventListener('click', e => {
+      // 1. 이미지 라이트박스
       if (e.target.tagName === 'IMG') {
         lightboxImg.src = e.target.src;
         lightbox.classList.add('show');
+      }
+
+      // 2. 내부 링크 처리 (Fetch 구조 유지)
+      const link = e.target.closest('a.reference.internal');
+      if (link) {
+        const href = link.getAttribute('href');
+        const idx = docs.findIndex(d => d.path === href);
+        if (idx !== -1) {
+          e.preventDefault();
+          currentIndex = idx;
+          renderDetail();
+          renderNav();
+        }
       }
     });
 
