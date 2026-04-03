@@ -665,9 +665,20 @@
       color: inherit;
     }
 
-    /* Dark mode base text adaptation for viewer content if not explicitly classed */
-    body[data-theme='dark'] .viewer {
+    /* Base dark mode text adaptation for viewer content - weakened to allow specific classes to win */
+    body[data-theme='dark'] .viewer,
+    body[data-theme='dark'] .viewer p,
+    body[data-theme='dark'] .viewer span,
+    body[data-theme='dark'] .viewer div,
+    body[data-theme='dark'] .viewer li {
       color: var(--text);
+    }
+
+    /* Mute gray text ONLY inside list areas as requested */
+    body[data-theme='dark'] .viewer li .text-gray-600,
+    body[data-theme='dark'] .viewer li .text-gray-500,
+    body[data-theme='dark'] .viewer li .text-gray-400 {
+      color: var(--text-muted) !important;
     }
 
     /* Subpage SVG Protection - prevent 'explosion' if CSS fails */
@@ -694,18 +705,12 @@
       display: none !important;
     }
 
-    /* Map Tailwind-like classes into theme variables */
+    /* Map high-contrast Tailwind-like classes into theme variables */
     body[data-theme='dark'] .viewer .text-gray-900,
     body[data-theme='dark'] .viewer .text-gray-800,
     body[data-theme='dark'] .viewer .text-gray-700,
     body[data-theme='dark'] .viewer strong {
       color: var(--text) !important;
-    }
-
-    body[data-theme='dark'] .viewer .text-gray-600,
-    body[data-theme='dark'] .viewer .text-gray-500,
-    body[data-theme='dark'] .viewer .text-gray-400 {
-      color: var(--text-muted) !important;
     }
 
 
