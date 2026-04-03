@@ -180,6 +180,19 @@ a {
     cursor: pointer
 }
 
+ul,
+ol,
+dl {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-image: none
+}
+
+li {
+    list-style: none
+}
+
 /* Start custom toctree. */
 .toctree-wrapper .toctree-l1>a {
     margin-bottom: 0.15em
@@ -187,19 +200,24 @@ a {
 
 /* Indent all lines following the first. */
 .toctree-wrapper * a {
-    display: block;
-    width: 90%;
-    text-indent: -1em;
-    margin-left: 1em;
-    /*invert indent*/
-    padding-top: 0.25em;
+    display: grid;
+    grid-template-columns: minmax(180px, 320px) 1fr;
+    column-gap: 20px;
+    align-items: start;
+
+    width: 95%;
+    text-indent: 0;
+    padding-top: 0.2em;
+    padding-bottom: 0.1em;
     line-height: 1.25em;
 }
 
 /* Underline provided by nested ul (not li). */
 .toctree-wrapper * ul {
+    /* padding-left: 2em; */
     padding-left: 2em;
     border-top: solid #ececec 1px;
+    margin-left: -1em;
 }
 
 .toctree-wrapper>ul {
@@ -216,11 +234,44 @@ a {
 }
 
 .rst-content .toctree-wrapper ul li a:visited:hover {
-    color: #C961DA
+    color: #C961DA;
+}
+
+/* 메뉴 제목 */
+.menu-title {
+    font-weight: 500;
+}
+
+/* 메뉴 설명 */
+.menu-desc {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.45;
+}
+
+/* hover 시 설명도 같이 반응 */
+.rst-content .toctree-wrapper ul li a:hover .menu-desc {
+    color: #25afef;
+}
+
+.rst-content .toctree-wrapper ul li a:visited:hover .menu-desc {
+    color: #C961DA;
+}
+
+@media (max-width: 768px) {
+    .toctree-wrapper * a {
+        grid-template-columns: 1fr;
+        row-gap: 4px;
+    }
+
+    .menu-desc {
+        font-size: 0.92em;
+    }
 }
 
 .toctree-wrapper .toctree-l1>a {
-    font-size: 104%
+    font-size: 104%;
+    padding-bottom: 0.35em;
 }
 
 .toctree-wrapper .toctree-l2>a {
