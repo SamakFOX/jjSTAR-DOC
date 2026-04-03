@@ -233,7 +233,7 @@ body[data-theme='dark'] .toctree-wrapper * ul {
 }
 
 .toctree-wrapper>ul {
-    margin-left: 1em
+    margin-left: 0em
 }
 
 .rst-content .toctree-wrapper ul li ul {
