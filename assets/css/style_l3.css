@@ -195,7 +195,15 @@ li {
 
 /* Start custom toctree. */
 .toctree-wrapper .toctree-l1>a {
-    margin-bottom: 0.15em
+    margin-bottom: 0.15em;
+    color: #2980B9 !important;
+    /* Orange for L1 */
+    font-weight: 600;
+}
+
+body[data-theme='dark'] .toctree-wrapper .toctree-l1>a {
+    color: #7dd3fc !important;
+    /* Bright Orange for L1 in dark mode */
 }
 
 /* Indent all lines following the first. */
@@ -220,6 +228,10 @@ li {
     margin-left: -1em;
 }
 
+body[data-theme='dark'] .toctree-wrapper * ul {
+    border-top-color: #334155 !important;
+}
+
 .toctree-wrapper>ul {
     margin-left: 1em
 }
@@ -230,16 +242,37 @@ li {
 }
 
 .rst-content .toctree-wrapper ul li a:hover {
-    color: #25afef
+    color: #25afef !important;
+}
+
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover {
+    color: #60a5fa !important;
 }
 
 .rst-content .toctree-wrapper ul li a:visited:hover {
-    color: #C961DA;
+    color: #C961DA !important;
+}
+
+.toctree-wrapper .toctree-l1>a:hover {
+    color: #25afef !important;
+    /* Unified Hover Blue for Light Mode */
+}
+
+body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover {
+    color: #00e5ff !important;
+    /* Unified Hover Cyan for Dark Mode */
 }
 
 /* 메뉴 제목 */
 .menu-title {
     font-weight: 500;
+    color: #2980B9;
+    /* Default blue for L2 titles */
+}
+
+body[data-theme='dark'] .menu-title {
+    color: #7dd3fc !important;
+    /* Light Sky Blue instead of white to distinguish from normal text */
 }
 
 /* 메뉴 설명 */
@@ -249,13 +282,24 @@ li {
     line-height: 1.45;
 }
 
-/* hover 시 설명도 같이 반응 */
+body[data-theme='dark'] .menu-desc {
+    color: #94a3b8 !important;
+}
+
+/* hover 시 색상 반응 */
+.rst-content .toctree-wrapper ul li a:hover .menu-title,
 .rst-content .toctree-wrapper ul li a:hover .menu-desc {
-    color: #25afef;
+    color: #25afef !important;
+}
+
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-title,
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
+    color: #00e5ff !important;
+    /* Unified Vibrant Cyan */
 }
 
 .rst-content .toctree-wrapper ul li a:visited:hover .menu-desc {
-    color: #C961DA;
+    color: #C961DA !important;
 }
 
 @media (max-width: 768px) {
