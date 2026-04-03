@@ -1,6 +1,7 @@
 /* Phase 3-11: 상세 가이드 전용 공통 스타일 (Level 3) */
 
-.guide-l3-content, .guide-article {
+.guide-l3-content,
+.guide-article {
     font-family: Pretendard, sans-serif;
 }
 
@@ -12,7 +13,8 @@
     background-color: #ffffff;
 }
 
-.guide-l3-content .max-w-1200, .guide-article {
+.guide-l3-content .max-w-1200,
+.guide-article {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -117,6 +119,10 @@
 
 .mb-15 {
     margin-bottom: 3.75rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
 }
 
 .mt-2 {
