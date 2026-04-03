@@ -89,6 +89,10 @@
     font-weight: 600;
 }
 
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
 .mb-1 {
     margin-bottom: 0.25rem;
 }
@@ -570,4 +574,65 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
 .guide-article h2,
 .guide-article h3 {
     margin: 0;
+}
+
+/* Phase 3-12: Functional Section Header & Mini Buttons */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 0.75rem;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb; /* Default light border matching var(--guide-border) */
+}
+
+.section-header .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1f27;
+}
+
+/* Square Mini-Action Button (Theme Toggle style) */
+.btn-mini-square {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #64748b;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-mini-square:hover {
+    color: #2980B9;
+    border-color: #2980B9;
+    background: rgba(41, 128, 185, 0.05);
+    transform: translateY(-2px);
+}
+
+/* Dark Mode adaptation */
+body[data-theme='dark'] .section-header {
+    border-bottom-color: #334155 !important;
+}
+
+body[data-theme='dark'] .section-header .section-title {
+    color: var(--text) !important;
+}
+
+body[data-theme='dark'] .btn-mini-square {
+    background: var(--pager-card-bg);
+    border-color: var(--line);
+    color: #94a3b8;
+}
+
+body[data-theme='dark'] .btn-mini-square:hover {
+    color: #00e5ff;
+    border-color: #00e5ff;
+    background: rgba(0, 229, 255, 0.1);
 }
