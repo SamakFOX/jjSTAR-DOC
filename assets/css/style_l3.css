@@ -307,6 +307,30 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
     color: #C961DA !important;
 }
 
+/* 단순 정보/기능 안내용 메뉴 (is-info 스타일) */
+.toctree-wrapper li.is-info .menu-title,
+.toctree-wrapper li.is-info .menu-desc {
+    color: #64748b !important;
+    /* Muted gray-blue to look "less important" than guide links */
+}
+
+/* is-info 호버 시에는 공통 브라이트(Cyan) 대신 톤 다운된 색으로 반응 */
+.rst-content .toctree-wrapper ul li.is-info a:hover .menu-title,
+.rst-content .toctree-wrapper ul li.is-info a:hover .menu-desc {
+    color: #475569 !important;
+}
+
+body[data-theme='dark'] .toctree-wrapper li.is-info .menu-title,
+body[data-theme='dark'] .toctree-wrapper li.is-info .menu-desc {
+    color: #64748b !important;
+}
+
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .menu-title,
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .menu-desc {
+    color: #94a3b8 !important;
+}
+
+
 @media (max-width: 768px) {
     .toctree-wrapper * a {
         grid-template-columns: 1fr;
@@ -370,16 +394,17 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
 }
 
 .text-white {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 .text-red-600 {
-    color: #dc2626;
+    color: #dc2626 !important;
 }
 
 .text-blue-600 {
-    color: #2563eb;
+    color: #2563eb !important;
 }
+
 
 .bg-blue-600 {
     background-color: #2563eb;
