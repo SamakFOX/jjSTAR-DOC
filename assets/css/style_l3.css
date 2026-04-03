@@ -347,126 +347,127 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
 
 /* End custom toctree. */
 
-.guide-l3-content .text-gray-500 {
+.text-gray-500 {
     color: #6b7280;
 }
 
-.guide-l3-content .text-gray-600 {
+.text-gray-600 {
     color: #4b5563;
 }
 
-.guide-l3-content .text-gray-700 {
+.text-gray-700 {
     color: #374151;
 }
 
-.guide-l3-content .text-gray-900 {
+.text-gray-900 {
     color: #111827;
 }
 
-.guide-l3-content .text-white {
+.text-white {
     color: #ffffff;
 }
 
-.guide-l3-content .text-red-600 {
+.text-red-600 {
     color: #dc2626;
 }
 
-.guide-l3-content .text-blue-600 {
+.text-blue-600 {
     color: #2563eb;
 }
 
-.guide-l3-content .bg-blue-600 {
+.bg-blue-600 {
     background-color: #2563eb;
 }
 
-.guide-l3-content .bg-gray-50 {
+.bg-gray-50 {
     background-color: #f9fafb;
 }
 
-.guide-l3-content .bg-gray-300 {
+.bg-gray-300 {
     background-color: #d1d5db;
 }
 
-.guide-l3-content .bg-gray-400 {
+.bg-gray-400 {
     background-color: #9ca3af;
 }
 
-.guide-l3-content .border {
+.border {
     border-width: 1px;
 }
 
-.guide-l3-content .border-t {
+.border-t {
     border-top-width: 1px;
 }
 
-.guide-l3-content .border-t-2 {
+.border-t-2 {
     border-top-width: 2px;
 }
 
-.guide-l3-content .border-l-4 {
+.border-l-4 {
     border-left-width: 4px;
 }
 
-.guide-l3-content .border-dashed {
+.border-dashed {
     border-top-style: dashed;
     border-top-width: 1px;
 }
 
-.guide-l3-content .border-gray-200 {
+.border-gray-200 {
     border-color: #e5e7eb;
 }
 
-.guide-l3-content .border-gray-300 {
+.border-gray-300 {
     border-color: #d1d5db;
 }
 
-.guide-l3-content .border-blue-500 {
+.border-blue-500 {
     border-color: #3b82f6;
 }
 
-.guide-l3-content .rounded {
+.rounded {
     border-radius: 0.25rem;
 }
 
-.guide-l3-content .rounded-lg {
+.rounded-lg {
     border-radius: 0.5rem;
 }
 
-.guide-l3-content .rounded-full {
+.rounded-full {
     border-radius: 9999px;
 }
 
-.guide-l3-content .shadow-md {
+.shadow-md {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.guide-l3-content .w-3 {
+.w-3 {
     width: 0.75rem;
 }
 
-.guide-l3-content .h-3 {
+.h-3 {
     height: 0.75rem;
 }
 
-.guide-l3-content .w-4 {
+.w-4 {
     width: 1rem;
 }
 
-.guide-l3-content .h-4 {
+.h-4 {
     height: 1rem;
 }
 
-.guide-l3-content .w-5 {
+.w-5 {
     width: 1.25rem;
 }
 
-.guide-l3-content .h-5 {
+.h-5 {
     height: 1.25rem;
 }
 
-.guide-l3-content .w-8 {
+.w-8 {
     width: 2rem;
 }
+
 
 .h-8 {
     height: 2rem;
