@@ -1,6 +1,6 @@
 /* Phase 3-11: 상세 가이드 전용 공통 스타일 (Level 3) */
 
-.guide-l3-content {
+.guide-l3-content, .guide-article {
     font-family: Pretendard, sans-serif;
 }
 
@@ -12,7 +12,7 @@
     background-color: #ffffff;
 }
 
-.guide-l3-content .max-w-1200 {
+.guide-l3-content .max-w-1200, .guide-article {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -524,7 +524,7 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
     margin-top: 1rem;
 }
 
-.guide-l3-content .lucide {
+.lucide {
     stroke: currentColor;
     stroke-width: 2;
     stroke-linecap: round;
@@ -534,6 +534,9 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
 
 .guide-l3-content h1,
 .guide-l3-content h2,
-.guide-l3-content h3 {
+.guide-l3-content h3,
+.guide-article h1,
+.guide-article h2,
+.guide-article h3 {
     margin: 0;
 }

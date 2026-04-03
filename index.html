@@ -665,13 +665,9 @@
       color: inherit;
     }
 
-    /* Aggressive dark mode text overrides */
-    body[data-theme='dark'] .viewer,
-    body[data-theme='dark'] .viewer p,
-    body[data-theme='dark'] .viewer span,
-    body[data-theme='dark'] .viewer div,
-    body[data-theme='dark'] .viewer li {
-      color: var(--text) !important;
+    /* Dark mode base text adaptation for viewer content if not explicitly classed */
+    body[data-theme='dark'] .viewer {
+      color: var(--text);
     }
 
     /* Subpage SVG Protection - prevent 'explosion' if CSS fails */
@@ -680,6 +676,17 @@
       height: 1em;
       max-width: 24px;
       max-height: 24px;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* Lucide icon specific handling */
+    .viewer .lucide {
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
 
     /* Selective Subpage Breadcrumb Hiding */
@@ -691,11 +698,14 @@
     body[data-theme='dark'] .viewer .text-gray-900,
     body[data-theme='dark'] .viewer .text-gray-800,
     body[data-theme='dark'] .viewer .text-gray-700,
-    body[data-theme='dark'] .viewer .text-gray-600,
-    body[data-theme='dark'] .viewer .text-gray-500,
-    body[data-theme='dark'] .viewer .text-gray-400,
     body[data-theme='dark'] .viewer strong {
       color: var(--text) !important;
+    }
+
+    body[data-theme='dark'] .viewer .text-gray-600,
+    body[data-theme='dark'] .viewer .text-gray-500,
+    body[data-theme='dark'] .viewer .text-gray-400 {
+      color: var(--text-muted) !important;
     }
 
 
