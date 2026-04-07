@@ -655,15 +655,20 @@ body[data-theme='dark'] .btn-mini-square:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 6px;
+    border-radius: 8px;
     color: #64748b;
     transition: all 0.2s ease;
     text-decoration: none;
     flex-shrink: 0;
+}
+
+.btn-direct-mini svg {
+    width: 14px;
+    height: 14px;
 }
 
 .btn-direct-mini:hover {
