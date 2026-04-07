@@ -652,7 +652,7 @@ body[data-theme='dark'] .btn-mini-square:hover {
 
 /* Phase 3-13: Mini Direct Link & Tooltip (말풍선) */
 .btn-direct-mini {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 28px;
@@ -664,11 +664,13 @@ body[data-theme='dark'] .btn-mini-square:hover {
     transition: all 0.2s ease;
     text-decoration: none;
     flex-shrink: 0;
+    line-height: normal; /* Reset line-height */
 }
 
 .btn-direct-mini svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
+    display: block; /* Ensure no baseline alignment issues */
 }
 
 .btn-direct-mini:hover {
@@ -693,7 +695,7 @@ body[data-theme='dark'] .btn-direct-mini:hover {
 /* Tooltip (말풍선) Style */
 [data-tooltip] {
     position: relative;
-    display: inline-block;
+    /* Removed display: inline-block; to prevent breaking flex containers */
 }
 
 [data-tooltip]::before {
