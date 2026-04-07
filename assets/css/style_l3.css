@@ -764,3 +764,51 @@ body[data-theme='dark'] [data-tooltip]::before {
 body[data-theme='dark'] [data-tooltip]::after {
     border-color: #334155 transparent transparent transparent;
 }
+
+/* Phase 3-14: Tip Box 전역 스타일 */
+.tip-box {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: #f0f9ff;
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+}
+
+body[data-theme='dark'] .tip-box {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border-left-color: #3b82f6 !important;
+}
+
+.tip-box-label {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 1.5rem;
+    background: #004a87;
+    color: #ffffff !important;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+body[data-theme='dark'] .tip-box-label {
+    background: #3b82f6;
+}
+
+.tip-box-content {
+    flex: 1;
+    color: #374151;
+    font-size: 1rem;
+    line-height: 1.625;
+}
+
+body[data-theme='dark'] .tip-box-content {
+    color: #cbd5e1 !important;
+}
+
+.tip-box-content p {
+    margin: 0 !important;
+}
