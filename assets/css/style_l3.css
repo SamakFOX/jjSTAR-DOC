@@ -767,12 +767,14 @@ body[data-theme='dark'] [data-tooltip]::after {
 
 /* Phase 3-14: Tip Box 전역 스타일 */
 .tip-box {
+    position: relative;
     margin-top: 2rem;
     margin-bottom: 2rem;
     padding: 1.25rem;
     background: #f0f9ff;
     border-left: 4px solid var(--blue);
     border-radius: 8px;
+    overflow: hidden;
 }
 
 body[data-theme='dark'] .tip-box {
@@ -813,21 +815,29 @@ body[data-theme='dark'] .tip-box-content {
     margin: 0 !important;
 }
 
+.tip-box>* {
+    position: relative;
+    z-index: 1;
+}
+
 .tip-box--with-character {
     position: relative;
-    padding-right: 8rem;
     overflow: hidden;
 }
 
 .tip-box--with-character::after {
     content: "";
     position: absolute;
-    right: 1rem;
-    top: 50%;
+    right: -5rem;
+    top: 130%;
     transform: translateY(-50%);
-    width: 90px;
-    height: 90px;
-    background: url("assets/images/lineart-character-tipbox.svg") no-repeat center / contain;
-    opacity: 0.12;
+    width: 300px;
+    height: 300px;
+    background: url("../images/lineart-character-tipbox.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 60% 20%;
+    opacity: 0.45;
     pointer-events: none;
+    z-index: 0;
 }
