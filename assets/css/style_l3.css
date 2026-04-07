@@ -126,7 +126,7 @@
 }
 
 .mt-1 {
-    margin-top: 0.25rem;
+    margin-top: 0.25rem !important;
 }
 
 .mt-2 {
