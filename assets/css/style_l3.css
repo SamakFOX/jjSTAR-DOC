@@ -812,3 +812,22 @@ body[data-theme='dark'] .tip-box-content {
 .tip-box-content p {
     margin: 0 !important;
 }
+
+.tip-box--with-character {
+    position: relative;
+    padding-right: 8rem;
+    overflow: hidden;
+}
+
+.tip-box--with-character::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90px;
+    height: 90px;
+    background: url("assets/images/lineart-character-tipbox.svg") no-repeat center / contain;
+    opacity: 0.12;
+    pointer-events: none;
+}
