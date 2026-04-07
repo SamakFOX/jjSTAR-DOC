@@ -834,7 +834,7 @@ body[data-theme='dark'] .tip-box-content {
     width: clamp(180px, 28vw, 340px);
     height: clamp(180px, 28vw, 340px);
     background: url("../images/lineart-character-tipbox.svg") no-repeat center / contain;
-    opacity: 0.45;
+    opacity: 0.3;
     pointer-events: none;
     z-index: 0;
 }
