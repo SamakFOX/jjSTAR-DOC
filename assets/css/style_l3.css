@@ -157,6 +157,10 @@
     padding-top: 0.25rem;
 }
 
+.pt-5 {
+    padding-top: 1.25rem;
+}
+
 .pt-8 {
     padding-top: 2rem;
 }
@@ -586,7 +590,8 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
     padding-bottom: 0.75rem;
     margin-top: 4rem;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid #e5e7eb; /* Default light border matching var(--guide-border) */
+    border-bottom: 1px solid #e5e7eb;
+    /* Default light border matching var(--guide-border) */
 }
 
 .section-header .section-title {
@@ -644,7 +649,8 @@ body[data-theme='dark'] .btn-mini-square:hover {
     min-width: 70px;
     height: 28px;
     padding: 2px 12px;
-    border-radius: 99px; /* Pill shape to prevent "pointy" look */
+    border-radius: 99px;
+    /* Pill shape to prevent "pointy" look */
     font-size: 0.75rem;
     line-height: normal;
     letter-spacing: -0.02em;
@@ -664,13 +670,15 @@ body[data-theme='dark'] .btn-mini-square:hover {
     transition: all 0.2s ease;
     text-decoration: none;
     flex-shrink: 0;
-    line-height: normal; /* Reset line-height */
+    line-height: normal;
+    /* Reset line-height */
 }
 
 .btn-direct-mini svg {
     width: 12px;
     height: 12px;
-    display: block; /* Ensure no baseline alignment issues */
+    display: block;
+    /* Ensure no baseline alignment issues */
 }
 
 .btn-direct-mini:hover {
