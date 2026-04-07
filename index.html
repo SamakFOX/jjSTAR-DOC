@@ -830,16 +830,16 @@
   <script>
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
-    menu.forEach(cat => {
+    menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
       docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path });
 
-      cat.children.forEach(mid => {
+      cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
         // Level 3 (Mid)
         docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
 
         if (mid.children) {
-          mid.children.forEach(small => {
+          mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
             docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path });
           });
@@ -896,7 +896,7 @@
       const current = docs[currentIndex];
       let totalVisibleItems = 0;
 
-      filtered.forEach(cat => {
+      filtered.filter(cat => cat.enabled !== false).forEach(cat => {
         const groupOpen = openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
@@ -928,7 +928,7 @@
         const gchildren = document.createElement('div');
         gchildren.className = 'group-children';
 
-        cat.children.forEach(mid => {
+        cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
           totalVisibleItems++;
           const midOpen = openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
@@ -959,7 +959,7 @@
 
           const mchildren = document.createElement('div');
           mchildren.className = 'mid-children';
-          mid.children.forEach(small => {
+          mid.children.filter(small => small.enabled !== false).forEach(small => {
             totalVisibleItems++;
             const btn = document.createElement('button');
             btn.className = 'small-btn';
@@ -1094,6 +1094,27 @@
         `;
 
         viewer.innerHTML = html + pagerHtml;
+
+        // [Phase 3-11] 전역 비활성 메뉴 필터링: 콘텐츠 내부의 링크들도 enabled: false 상태면 숨김
+        const enabledMap = {};
+        function buildEnabledMap(nodes) {
+          nodes.forEach(n => {
+            if (n.path) enabledMap[n.path] = (n.enabled !== false);
+            if (n.children) buildEnabledMap(n.children);
+          });
+        }
+        buildEnabledMap(window.JJSTAR_MENU || []);
+
+        const internalLinks = viewer.querySelectorAll('a.reference.internal');
+        internalLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (enabledMap[href] === false) {
+            // 해당 링크가 포함된 li(메뉴 리스트)나 섹션 등을 통째로 숨김
+            const wrapper = link.closest('li.toctree-l2') || link.closest('.feature-card');
+            if (wrapper) wrapper.style.display = 'none';
+            else link.style.display = 'none'; // 래퍼가 없으면 링크 자체만 숨김
+          }
+        });
 
         const cp = viewer.querySelector('#customPrev');
         if (cp) cp.onclick = () => {
