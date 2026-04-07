@@ -649,3 +649,103 @@ body[data-theme='dark'] .btn-mini-square:hover {
     line-height: normal;
     letter-spacing: -0.02em;
 }
+
+/* Phase 3-13: Mini Direct Link & Tooltip (말풍선) */
+.btn-direct-mini {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    color: #64748b;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.btn-direct-mini:hover {
+    color: #2980B9;
+    border-color: #2980B9;
+    background: rgba(41, 128, 185, 0.05);
+    transform: translateY(-2px);
+}
+
+body[data-theme='dark'] .btn-direct-mini {
+    background: var(--pager-card-bg);
+    border-color: var(--line);
+    color: #94a3b8;
+}
+
+body[data-theme='dark'] .btn-direct-mini:hover {
+    color: #00e5ff;
+    border-color: #00e5ff;
+    background: rgba(0, 229, 255, 0.1);
+}
+
+/* Tooltip (말풍선) Style */
+[data-tooltip] {
+    position: relative;
+    display: inline-block;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -8px);
+    padding: 6px 12px;
+    background: #1e293b;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tooltip Arrow */
+[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, 2px);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1e293b transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+[data-tooltip]:hover::before {
+    transform: translate(-50%, -10px);
+}
+
+[data-tooltip]:hover::after {
+    transform: translate(-50%, 0);
+}
+
+body[data-theme='dark'] [data-tooltip]::before {
+    background: #334155;
+    color: #f9fafb;
+}
+
+body[data-theme='dark'] [data-tooltip]::after {
+    border-color: #334155 transparent transparent transparent;
+}
