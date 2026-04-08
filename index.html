@@ -832,16 +832,16 @@
     const docs = [];
     menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
-      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path, hideInNav: cat.hideInNav });
+      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path, hideInNav: cat.hideInNav, code: cat.code, catPath: cat.path });
 
       cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
         // Level 3 (Mid)
-        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path, hideInNav: mid.hideInNav });
+        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path, hideInNav: mid.hideInNav, code: mid.code, catPath: cat.path });
 
         if (mid.children) {
           mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
-            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path, hideInNav: small.hideInNav });
+            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path, hideInNav: small.hideInNav, code: small.code, catPath: cat.path });
           });
         }
       });
@@ -896,7 +896,7 @@
       const current = docs[currentIndex];
       let totalVisibleItems = 0;
 
-      filtered.filter(cat => cat.enabled !== false && cat.hideInNav !== true).forEach(cat => {
+      filtered.filter(cat => cat.enabled !== false && (keyword || cat.hideInNav !== true)).forEach(cat => {
         const groupOpen = openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
@@ -928,7 +928,7 @@
         const gchildren = document.createElement('div');
         gchildren.className = 'group-children';
 
-        cat.children.filter(mid => mid.enabled !== false && mid.hideInNav !== true).forEach(mid => {
+        cat.children.filter(mid => mid.enabled !== false && (keyword || mid.hideInNav !== true)).forEach(mid => {
           totalVisibleItems++;
           const midOpen = openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
@@ -959,7 +959,7 @@
 
           const mchildren = document.createElement('div');
           mchildren.className = 'mid-children';
-          mid.children.filter(small => small.enabled !== false && small.hideInNav !== true).forEach(small => {
+          mid.children.filter(small => small.enabled !== false && (keyword || small.hideInNav !== true)).forEach(small => {
             totalVisibleItems++;
             const btn = document.createElement('button');
             btn.className = 'small-btn';
@@ -1065,8 +1065,14 @@
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
 
       try {
+        // [Phase 3-12] hideInNav 항목인 경우 카테고리(L02) 페이지를 불러오고 해당 ID로 스크롤 유도
+        let targetPath = current.path;
+        if (current.hideInNav && current.catPath) {
+          targetPath = current.catPath;
+        }
+
         // [Phase 3-7] absoluteBase와 결합하여 어떤 환경에서도 정확한 경로로 fetch
-        const res = await fetch(absoluteBase + current.path);
+        const res = await fetch(absoluteBase + targetPath);
         if (!res.ok) throw new Error(`문서를 로드할 수 없습니다. (Status: ${res.status})`);
         let html = await res.text();
 
@@ -1129,7 +1135,23 @@
           renderDetail();
           renderNav();
         };
-        document.querySelector('.page').scrollTop = 0;
+
+        // Handle scrolling for hash (especially for hideInNav items)
+        if (current.hideInNav && current.code) {
+          const targetEl = viewer.querySelector('#' + current.code);
+          if (targetEl) {
+            setTimeout(() => {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              targetEl.style.transition = 'background-color 0.5s';
+              targetEl.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+              setTimeout(() => targetEl.style.backgroundColor = '', 2000);
+            }, 100);
+          } else {
+            document.querySelector('.page').scrollTop = 0;
+          }
+        } else {
+          document.querySelector('.page').scrollTop = 0;
+        }
 
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
