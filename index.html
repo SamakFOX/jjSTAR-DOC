@@ -832,16 +832,16 @@
     const docs = [];
     menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
-      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path });
+      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path, hideInNav: cat.hideInNav });
 
       cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
         // Level 3 (Mid)
-        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path });
+        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path, hideInNav: mid.hideInNav });
 
         if (mid.children) {
           mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
-            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path });
+            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path, hideInNav: small.hideInNav });
           });
         }
       });
@@ -896,7 +896,7 @@
       const current = docs[currentIndex];
       let totalVisibleItems = 0;
 
-      filtered.filter(cat => cat.enabled !== false).forEach(cat => {
+      filtered.filter(cat => cat.enabled !== false && cat.hideInNav !== true).forEach(cat => {
         const groupOpen = openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
@@ -928,7 +928,7 @@
         const gchildren = document.createElement('div');
         gchildren.className = 'group-children';
 
-        cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
+        cat.children.filter(mid => mid.enabled !== false && mid.hideInNav !== true).forEach(mid => {
           totalVisibleItems++;
           const midOpen = openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
@@ -959,7 +959,7 @@
 
           const mchildren = document.createElement('div');
           mchildren.className = 'mid-children';
-          mid.children.filter(small => small.enabled !== false).forEach(small => {
+          mid.children.filter(small => small.enabled !== false && small.hideInNav !== true).forEach(small => {
             totalVisibleItems++;
             const btn = document.createElement('button');
             btn.className = 'small-btn';
@@ -994,7 +994,8 @@
       });
 
       // [Phase 2-6] 검색 결과 카운트: 매칭된 총 항목 수
-      searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${docs.length}건`;
+      const navVisibleCount = docs.filter(d => !d.hideInNav).length;
+      searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${navVisibleCount}건`;
 
       if (keyword && totalVisibleItems === 0) {
         nav.innerHTML = '<div class="empty" style="margin:20px; color:#fff; text-align:center;">일치하는 검색 결과가 없습니다.</div>';
@@ -1072,9 +1073,9 @@
         // [Phase 3-7] 모든 로컬 src 경로(../../ 등)를 absoluteBase 기반 절대 경로로 강제 치환
         html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
 
-        // 7. Pager Data
-        const prevDoc = docs[currentIndex - 1];
-        const nextDoc = docs[currentIndex + 1];
+        // 7. Pager Data - Skip hidden pages
+        const prevDoc = docs.slice(0, currentIndex).reverse().find(d => !d.hideInNav);
+        const nextDoc = docs.slice(currentIndex + 1).find(d => !d.hideInNav);
 
         const pagerHtml = `
           <div class="pager">

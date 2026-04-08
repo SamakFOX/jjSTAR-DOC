@@ -38,7 +38,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03SCHL.html",
         enabled: true,
         children: [
-          { title: "장학 공지사항", code: "L04SCHN", path: "pages/L04SCHN.html", enabled: true },
+          { title: "장학 공지사항", code: "L04SCHN", path: "pages/L04SCHN.html", enabled: true, hideInNav: true },
           { title: "우리대학 장학 안내", code: "L04SCHI", path: "pages/L04SCHI.html", enabled: false },
           { title: "장학금 신청 절차", code: "L04SCHP", path: "pages/L04SCHP.html", enabled: false },
           { title: "장학금 온라인신청", code: "L04SCHO", path: "pages/L04SCHO.html", enabled: true },
@@ -80,7 +80,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03COUN.html",
         enabled: true,
         children: [
-          { title: "상담 안내", code: "L04CNGD", path: "pages/L04CNGD.html", enabled: true },
+          { title: "상담 안내", code: "L04CNGD", path: "pages/L04CNGD.html", enabled: true, hideInNav: true },
           { title: "1:1 상담", code: "L04CN11", path: "pages/L04CN11.html", enabled: true },
           { title: "멘토링", code: "L04MENT", path: "pages/L04MENT.html", enabled: true },
           { title: "온라인 상담", code: "L04ONCN", path: "pages/L04ONCN.html", enabled: true },
@@ -93,7 +93,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03BUSS.html",
         enabled: true,
         children: [
-          { title: "통학버스 안내", code: "L04BUSI", path: "pages/L04BUSI.html", enabled: true },
+          { title: "통학버스 안내", code: "L04BUSI", path: "pages/L04BUSI.html", enabled: true, hideInNav: true },
           { title: "통학버스 노선도", code: "L04BUSM", path: "pages/L04BUSM.html", enabled: true },
           { title: "통학버스 신청", code: "L04BUSA", path: "pages/L04BUSA.html", enabled: true }
         ]
@@ -104,9 +104,9 @@ window.JJSTAR_MENU = [
         path: "pages/L03DORM.html",
         enabled: true,
         children: [
-          { title: "학생생활관 공지사항", code: "L04DMNT", path: "pages/L04DMNT.html", enabled: true },
-          { title: "우리대학 학생생활관 안내", code: "L04DMGD", path: "pages/L04DMGD.html", enabled: true },
-          { title: "학생생활관 입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html", enabled: true },
+          { title: "학생생활관 공지사항", code: "L04DMNT", path: "pages/L04DMNT.html", enabled: true, hideInNav: true },
+          { title: "우리대학 학생생활관 안내", code: "L04DMGD", path: "pages/L04DMGD.html", enabled: true, hideInNav: true },
+          { title: "학생생활관 입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html", enabled: true, hideInNav: true },
           { title: "학생생활관 입사 신청", code: "L04DMAP", path: "pages/L04DMAP.html", enabled: true },
           { title: "입사서약서 작성", code: "L04DMPG", path: "pages/L04DMPG.html", enabled: true },
           { title: "관실신청", code: "L04ROOM", path: "pages/L04ROOM.html", enabled: true },
@@ -125,6 +125,7 @@ window.JJSTAR_MENU = [
         code: "L03PROM",
         path: "pages/L03PROM.html",
         enabled: true,
+        hideInNav: true,
         children: [
           { title: "학교 소개", code: "L04SCHP", path: "pages/L04SCHP.html", enabled: true },
           { title: "학과 및 전공 소개", code: "L04MAJR", path: "pages/L04MAJR.html", enabled: true },
@@ -153,6 +154,7 @@ window.JJSTAR_MENU = [
         code: "L03ADMN",
         path: "pages/L03ADMN.html",
         enabled: true,
+        hideInNav: true,
         children: [
           { title: "학사관리 공지사항", code: "L04ADNT", path: "pages/L04ADNT.html", enabled: true },
           { title: "학사관리 FAQ", code: "L04ADFA", path: "pages/L04ADFA.html", enabled: true },

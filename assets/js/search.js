@@ -55,18 +55,18 @@ function filterMenu(menuData, keyword) {
   const lowerKeyword = keyword.toLowerCase();
   const isCho = isChosung(lowerKeyword);
 
-  return menuData.filter(cat => cat.enabled !== false).map(cat => {
+  return menuData.filter(cat => cat.enabled !== false && cat.hideInNav !== true).map(cat => {
     const catTitle = cat.title.toLowerCase();
     const catCho = Hangul.getChosung(catTitle);
     const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword);
 
-    const processedMids = cat.children.filter(mid => mid.enabled !== false).map(mid => {
+    const processedMids = cat.children.filter(mid => mid.enabled !== false && mid.hideInNav !== true).map(mid => {
       const midTitle = mid.title.toLowerCase();
       const midCho = Hangul.getChosung(midTitle);
       const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
 
       // [Step 1.1] 검색어를 포함하지 않는 소분류는 무조건 숨김 (Phase 2-6)
-      const processedSmalls = mid.children.filter(small => small.enabled !== false).map(small => {
+      const processedSmalls = mid.children.filter(small => small.enabled !== false && small.hideInNav !== true).map(small => {
         const smallTitle = small.title.toLowerCase();
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
