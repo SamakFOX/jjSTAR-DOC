@@ -188,7 +188,7 @@
     padding: 2rem;
 }
 
-
+/* Toctree 관련 스타일 Start */
 a {
     color: #2980B9;
     text-decoration: none;
@@ -208,11 +208,9 @@ li {
     list-style: none
 }
 
-/* Start custom toctree. */
 .toctree-wrapper .toctree-l1>a {
     margin-bottom: 0.15em;
     color: #2980B9 !important;
-    /* Orange for L1 */
     font-weight: 600;
 }
 
@@ -220,7 +218,6 @@ body[data-theme='dark'] .toctree-wrapper .toctree-l1>a {
     color: #94a3b8 !important;
 }
 
-/* Indent all lines following the first. */
 .toctree-wrapper * a {
     display: grid;
     grid-template-columns: minmax(180px, 320px) 1fr;
@@ -234,9 +231,7 @@ body[data-theme='dark'] .toctree-wrapper .toctree-l1>a {
     line-height: 1.25em;
 }
 
-/* Underline provided by nested ul (not li). */
 .toctree-wrapper * ul {
-    /* padding-left: 2em; */
     padding-left: 2em;
     border-top: solid #ececec 1px;
     margin-left: -1em;
@@ -269,26 +264,21 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover {
 
 .toctree-wrapper .toctree-l1>a:hover {
     color: #25afef !important;
-    /* Unified Hover Blue for Light Mode */
 }
 
 body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover {
     color: #00e5ff !important;
-    /* Unified Hover Cyan for Dark Mode */
 }
 
-/* 메뉴 제목 */
 .menu-title {
-    font-weight: 500;
+    font-weight: 600;
     color: #2980B9;
-    /* Default blue for L2 titles */
 }
 
 body[data-theme='dark'] .menu-title {
     color: #94a3b8 !important;
 }
 
-/* 메뉴 설명 */
 .menu-desc {
     color: #666;
     font-size: 0.95em;
@@ -299,7 +289,6 @@ body[data-theme='dark'] .menu-desc {
     color: #94a3b8 !important;
 }
 
-/* hover 시 색상 반응 */
 .rst-content .toctree-wrapper ul li a:hover .menu-title,
 .rst-content .toctree-wrapper ul li a:hover .menu-desc {
     color: #25afef !important;
@@ -308,21 +297,17 @@ body[data-theme='dark'] .menu-desc {
 body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-title,
 body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover .menu-desc {
     color: #00e5ff !important;
-    /* Unified Vibrant Cyan */
 }
 
 .rst-content .toctree-wrapper ul li a:visited:hover .menu-desc {
     color: #C961DA !important;
 }
 
-/* 단순 정보/기능 안내용 메뉴 (is-info 스타일) */
 .toctree-wrapper li.is-info .menu-title,
 .toctree-wrapper li.is-info .menu-desc {
     color: #64748b !important;
-    /* Muted gray-blue to look "less important" than guide links */
 }
 
-/* is-info 호버 시에는 공통 브라이트(Cyan) 대신 톤 다운된 색으로 반응 */
 .rst-content .toctree-wrapper ul li.is-info a:hover .menu-title,
 .rst-content .toctree-wrapper ul li.is-info a:hover .menu-desc {
     color: #475569 !important;
@@ -337,7 +322,6 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
 body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .menu-desc {
     color: #94a3b8 !important;
 }
-
 
 @media (max-width: 768px) {
     .toctree-wrapper * a {
@@ -375,7 +359,6 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
     border-color: #ececec
 }
 
-/* Remove list styling, css rule hierarchy. */
 .rst-content .toctree-wrapper ul li,
 .rst-content .toctree-wrapper ul li li,
 .rst-content .toctree-wrapper ul li li li {
@@ -383,7 +366,7 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
     margin-left: 0px;
 }
 
-/* End custom toctree. */
+/* Toctree 관련 스타일 End */
 
 .text-gray-500 {
     color: #6b7280;
