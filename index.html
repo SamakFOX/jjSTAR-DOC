@@ -1239,6 +1239,7 @@
     const savedTheme = localStorage.getItem('jjstar-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     updateTheme(savedTheme === 'dark');
 
+    let searchTimer;
     let lastSearchKeyword = '';
     searchInput.addEventListener('input', e => {
       const newKeyword = e.target.value.trim().toLowerCase();
@@ -1273,6 +1274,17 @@
       keyword = '';
       searchInput.value = '';
       searchClear.style.display = 'none';
+      lastSearchKeyword = '';
+
+      // [Phase 3-14] 검색 종료 시 현재 활성화된 메뉴만 남기고 모두 닫기 (배타적 펼침 복원)
+      openCategories.clear();
+      openMids.clear();
+      const current = docs[currentIndex];
+      if (current) {
+        if (current.category) openCategories.add(current.category);
+        if (current.mid) openMids.add(current.mid);
+      }
+
       renderNav();
       searchInput.focus();
     });
