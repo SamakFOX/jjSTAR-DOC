@@ -897,7 +897,8 @@
       let totalVisibleItems = 0;
 
       filtered.filter(cat => cat.enabled !== false && (keyword || cat.hideInNav !== true)).forEach(cat => {
-        const groupOpen = openCategories.has(cat.title);
+        // [Phase 3-13] 검색 중일 때는 매칭된 카테고리를 강제로 펼침
+        const groupOpen = keyword ? true : openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
 
@@ -930,7 +931,8 @@
 
         cat.children.filter(mid => mid.enabled !== false && (keyword || mid.hideInNav !== true)).forEach(mid => {
           totalVisibleItems++;
-          const midOpen = openMids.has(mid.title);
+          // [Phase 3-13] 검색 중일 때는 매칭된 중분류를 강제로 펼침
+          const midOpen = keyword ? true : openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
           const midWrap = document.createElement('div');
           midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
@@ -1237,30 +1239,31 @@
     const savedTheme = localStorage.getItem('jjstar-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     updateTheme(savedTheme === 'dark');
 
-    let searchTimer;
+    let lastSearchKeyword = '';
     searchInput.addEventListener('input', e => {
-      keyword = e.target.value.trim().toLowerCase();
+      const newKeyword = e.target.value.trim().toLowerCase();
+      keyword = newKeyword;
       searchClear.style.display = keyword ? 'flex' : 'none';
 
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
-        const prevKeyword = keyword;
-
-        if (keyword && keyword !== prevKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
-          const filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
-          filtered.forEach(cat => {
-            if (cat._hasSmallMatch) openCategories.add(cat.title);
+        if (keyword && keyword !== lastSearchKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
+          const filteredResults = JJSTAR_SEARCH.filterMenu(menu, keyword);
+          filteredResults.forEach(cat => {
+            openCategories.add(cat.title);
             cat.children.forEach(mid => {
-              if (mid._hasSmallMatch) openMids.add(mid.title);
+              openMids.add(mid.title);
             });
           });
-        } else if (!keyword && prevKeyword) {
+          lastSearchKeyword = keyword;
+        } else if (!keyword && lastSearchKeyword) {
           openCategories.clear();
           openMids.clear();
           if (docs[currentIndex]) {
             openCategories.add(docs[currentIndex].category);
             openMids.add(docs[currentIndex].mid);
           }
+          lastSearchKeyword = '';
         }
         renderNav();
       }, 250);
