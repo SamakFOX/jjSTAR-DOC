@@ -27,8 +27,9 @@ window.JJSTAR_MENU = [
           { title: "사제동행교수선택(신규)", code: "L04SAJE", path: "pages/L04SAJE.html", enabled: true },
           { title: "희망학과 선택", code: "L04HMJR", path: "pages/L04HMJR.html", enabled: true },
           { title: "교원 시간표 조회", code: "L04PRTS", path: "pages/L04PRTS.html", enabled: true },
-          { title: "수강편람", code: "L04SGGD", path: "pages/L04SGGD.html", enabled: true },
-          { title: "교육과정", code: "L04EDCR", path: "pages/L04EDCR.html", enabled: true },
+          { title: "교육과정편람", code: "L04EDCRB", path: "pages/L04EDCRB.html", enabled: true, hideInNav: true },
+          { title: "교육과정", code: "L04EDCR", path: "pages/L04EDCR.html", enabled: true, hideInNav: true },
+          { title: "수강편람", code: "L04SGGD", path: "pages/L04SGGD.html", enabled: true, hideInNav: true },
           { title: "학사일정", code: "L04ACSC", path: "pages/L04ACSC.html", enabled: true }
         ]
       },
