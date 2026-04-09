@@ -1196,7 +1196,7 @@
         const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
 
         if (pageStrings) {
-          const descEl = viewer.querySelector('.page-description');
+          const descEl = viewer.querySelector('.page-description, .guide-lead');
           if (descEl && pageStrings.desc) descEl.innerHTML = pageStrings.desc;
 
           const btnEl = viewer.querySelector('#direct-link');
