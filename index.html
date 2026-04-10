@@ -1171,17 +1171,17 @@
           const contentRoot = viewer.querySelector(':first-child');
           const hasNoImageAttr = contentRoot && (contentRoot.hasAttribute('no-image') || contentRoot.classList.contains('no-image') || contentRoot.querySelector('.no-image'));
           const useImageOption = (pageStrings && pageStrings.useHeroImage !== false) && (current.useHeroImage !== false);
+          const placeholderImg = viewer.querySelector('img:not([src]), img[src=""]');
 
           if (menuCodeSuffix && !hasNoImageAttr && useImageOption) {
-            // 1. 기존에 비어있는 img 태그(플레이스홀더)가 있는지 확인
-            const placeholderImg = viewer.querySelector('img:not([src]), img[src=""]');
-            
             if (placeholderImg) {
               placeholderImg.src = absoluteBase + heroImgUrl;
               placeholderImg.alt = current.title;
-              placeholderImg.onerror = function() { this.style.display = 'none'; };
+              placeholderImg.onerror = function() { 
+                this.style.display = 'none'; 
+                // 이미지가 없을 때 생기는 여백 조절 (필요 시)
+              };
             } else if (!viewer.querySelector('.hero-image-container')) {
-              // 2. 플레이스홀더가 없으면 새로 생성하여 주입
               const heroContainer = document.createElement('div');
               heroContainer.className = 'hero-image-container';
               heroContainer.innerHTML = `<img src="${absoluteBase}${heroImgUrl}" alt="${current.title}" onerror="this.parentElement.style.display='none'">`;
@@ -1193,6 +1193,9 @@
                 contentRoot.prepend(heroContainer);
               }
             }
+          } else {
+            // 이미지를 사용하지 않거나 옵션이 꺼진 경우 플레이스홀더 숨김
+            if (placeholderImg) placeholderImg.style.display = 'none';
           }
         }
 
