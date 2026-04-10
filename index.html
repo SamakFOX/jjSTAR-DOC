@@ -1160,6 +1160,42 @@
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
 
+        // C. 대표 이미지(Representative Image) 자동 주입 (Level 4 전용)
+        if (current.type === 'small') {
+          const menuCodeSuffix = current.code ? current.code.replace(/^L\d+/, '').toLowerCase() : '';
+          const heroImgUrl = `assets/images/jjstar_dm_${menuCodeSuffix}.webp`;
+          const fileName = (current.path.split('/').pop() || '').replace('.html', '');
+          const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+
+          // no-image 옵션 체크: HTML 속성, 클래스, 또는 strings.js 데이터
+          const contentRoot = viewer.querySelector(':first-child');
+          const hasNoImageAttr = contentRoot && (contentRoot.hasAttribute('no-image') || contentRoot.classList.contains('no-image') || contentRoot.querySelector('.no-image'));
+          const useImageOption = (pageStrings && pageStrings.useHeroImage !== false) && (current.useHeroImage !== false);
+
+          if (menuCodeSuffix && !hasNoImageAttr && useImageOption) {
+            // 1. 기존에 비어있는 img 태그(플레이스홀더)가 있는지 확인
+            const placeholderImg = viewer.querySelector('img:not([src]), img[src=""]');
+            
+            if (placeholderImg) {
+              placeholderImg.src = absoluteBase + heroImgUrl;
+              placeholderImg.alt = current.title;
+              placeholderImg.onerror = function() { this.style.display = 'none'; };
+            } else if (!viewer.querySelector('.hero-image-container')) {
+              // 2. 플레이스홀더가 없으면 새로 생성하여 주입
+              const heroContainer = document.createElement('div');
+              heroContainer.className = 'hero-image-container';
+              heroContainer.innerHTML = `<img src="${absoluteBase}${heroImgUrl}" alt="${current.title}" onerror="this.parentElement.style.display='none'">`;
+              
+              const targetEl = viewer.querySelector('.page-description, .guide-lead') || h1;
+              if (targetEl) {
+                targetEl.insertAdjacentElement('afterend', heroContainer);
+              } else if (contentRoot) {
+                contentRoot.prepend(heroContainer);
+              }
+            }
+          }
+        }
+
         // A. 자동 Breadcrumb 생성
         const autoNav = viewer.querySelector('#auto-breadcrumb');
         if (autoNav) {
