@@ -267,6 +267,11 @@ body[data-theme='dark'] .step-badge {
   color: #e5e7eb;
 }
 
+/* Utility Classes */
+.w-full { width: 100%; }
+.max-w-full { max-width: 100%; }
+.h-auto { height: auto; }
+
 /* Guide Table */
 .guide-table-wrapper {
   overflow-x: auto;
