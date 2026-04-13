@@ -368,6 +368,25 @@ body[data-theme='dark'] .rst-content .toctree-wrapper ul li.is-info a:hover .men
 
 /* Toctree 관련 스타일 End */
 
+.step-link {
+    font-weight: 700;
+    color: #2980B9 !important;
+    transition: all 0.2s ease;
+}
+
+.step-link:hover {
+    color: #25afef !important;
+    text-decoration: none;
+}
+
+body[data-theme='dark'] .step-link {
+    color: #94a3b8 !important;
+}
+
+body[data-theme='dark'] .step-link:hover {
+    color: #00e5ff !important;
+}
+
 .text-gray-500 {
     color: #6b7280;
 }
