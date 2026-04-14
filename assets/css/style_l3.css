@@ -208,14 +208,32 @@ li {
     list-style: none
 }
 
+.toctree-l1>span {
+    color: #3b3b3b !important;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+body[data-theme='dark'] .toctree-l1>span {
+    color: #dbdbdb !important;
+}
+
+.toctree-wrapper .toctree-l1>a>span {
+    margin-top: 0.5em;
+    margin-bottom: 0.15em;
+    color: #2980B9 !important;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
 .toctree-wrapper .toctree-l1>a {
     margin-bottom: 0.15em;
     color: #2980B9 !important;
     font-weight: 600;
 }
 
-body[data-theme='dark'] .toctree-wrapper .toctree-l1>a {
-    color: #94a3b8 !important;
+body[data-theme='dark'] .toctree-wrapper .toctree-l1>a>span {
+    color: #64c1ff !important;
 }
 
 .toctree-wrapper * a {
@@ -248,25 +266,26 @@ body[data-theme='dark'] .toctree-wrapper * ul {
 .rst-content .toctree-wrapper ul li ul {
     margin-bottom: 0.75em;
     padding-top: 0.5em;
+    margin-top: 0.5em;
 }
 
-.rst-content .toctree-wrapper ul li a:hover {
+.rst-content .toctree-wrapper ul li a:hover span {
     color: #25afef !important;
 }
 
-body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover {
+body[data-theme='dark'] .rst-content .toctree-wrapper ul li a:hover span {
     color: #60a5fa !important;
 }
 
-.rst-content .toctree-wrapper ul li a:visited:hover {
+.rst-content .toctree-wrapper ul li a:visited:hover span {
     color: #C961DA !important;
 }
 
-.toctree-wrapper .toctree-l1>a:hover {
+.toctree-wrapper .toctree-l1>a:hover span {
     color: #25afef !important;
 }
 
-body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover {
+body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover span {
     color: #00e5ff !important;
 }
 
