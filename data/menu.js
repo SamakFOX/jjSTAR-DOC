@@ -55,10 +55,10 @@ window.JJSTAR_MENU = [
         path: "pages/L03REGI.html",
         enabled: true,
         children: [
-          { title: "등록금 고지서", code: "L04TUIB", path: "pages/L04TUIB.html", enabled: true },
+          { title: "등록금 고지서", code: "L04TUIB", path: "pages/L04TUIB.html", enabled: true, hideInNav: true },
           { title: "분할납부 신청", code: "L04INST", path: "pages/L04INST.html", enabled: true },
-          { title: "등록금 납부 내역", code: "L04TUHI", path: "pages/L04TUHI.html", enabled: true },
-          { title: "교육비 납입 증명서 출력", code: "L04PAYC", path: "pages/L04PAYC.html", enabled: true },
+          { title: "등록금 납부 내역", code: "L04TUHI", path: "pages/L04TUHI.html", enabled: true, hideInNav: true },
+          { title: "교육비 납입 증명서 출력", code: "L04PAYC", path: "pages/L04PAYC.html", enabled: true, hideInNav: true },
           { title: "등록금 환불요청", code: "L04REFD", path: "pages/L04REFD.html", enabled: true }
         ]
       },
@@ -68,7 +68,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03TEST.html",
         enabled: true,
         children: [
-          { title: "우리대학 진단 검사 안내", code: "L04TSTI", path: "pages/L04TSTI.html", enabled: true },
+          { title: "우리대학 진단 검사 안내", code: "L04TSTI", path: "pages/L04TSTI.html", enabled: true, hideInNav: true },
           { title: "성격검사 (MBTI)", code: "L04MBTI", path: "pages/L04MBTI.html", enabled: true },
           { title: "학습유형검사 (U&I)", code: "L04UITY", path: "pages/L04UITY.html", enabled: true },
           { title: "직업흥미검사 (STRONG)", code: "L04STRG", path: "pages/L04STRG.html", enabled: true },
@@ -95,7 +95,7 @@ window.JJSTAR_MENU = [
         enabled: true,
         children: [
           { title: "통학버스 안내", code: "L04BUSI", path: "pages/L04BUSI.html", enabled: true, hideInNav: true },
-          { title: "통학버스 노선도", code: "L04BUSM", path: "pages/L04BUSM.html", enabled: true },
+          { title: "통학버스 노선도", code: "L04BUSM", path: "pages/L04BUSM.html", enabled: true, hideInNav: true },
           { title: "통학버스 신청", code: "L04BUSA", path: "pages/L04BUSA.html", enabled: true }
         ]
       },
@@ -109,12 +109,12 @@ window.JJSTAR_MENU = [
           { title: "우리대학 학생생활관 안내", code: "L04DMGD", path: "pages/L04DMGD.html", enabled: true, hideInNav: true },
           { title: "학생생활관 입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html", enabled: true, hideInNav: true },
           { title: "학생생활관 입사 신청", code: "L04DMAP", path: "pages/L04DMAP.html", enabled: true },
-          { title: "입사서약서 작성", code: "L04DMPG", path: "pages/L04DMPG.html", enabled: true },
+          { title: "입사서약서 작성", code: "L04DMPG", path: "pages/L04DMPG.html", enabled: true, hideInNav: true },
           { title: "관실신청", code: "L04ROOM", path: "pages/L04ROOM.html", enabled: true },
-          { title: "학생생활관비 납입고지서", code: "L04DMBI", path: "pages/L04DMBI.html", enabled: true },
-          { title: "학생생활관비 납부확인서", code: "L04DMCF", path: "pages/L04DMCF.html", enabled: true },
-          { title: "늦은귀사신청", code: "L04LATR", path: "pages/L04LATR.html", enabled: true },
-          { title: "상벌점조회", code: "L04PNTS", path: "pages/L04PNTS.html", enabled: true },
+          { title: "학생생활관비 납입고지서", code: "L04DMBI", path: "pages/L04DMBI.html", enabled: true, hideInNav: true },
+          { title: "학생생활관비 납부확인서", code: "L04DMCF", path: "pages/L04DMCF.html", enabled: true, hideInNav: true },
+          { title: "늦은귀사신청", code: "L04LATR", path: "pages/L04LATR.html", enabled: true, hideInNav: true },
+          { title: "상벌점조회", code: "L04PNTS", path: "pages/L04PNTS.html", enabled: true, hideInNav: true },
           { title: "외박신청", code: "L04OUTS", path: "pages/L04OUTS.html", enabled: true },
           { title: "조기 취침 신청", code: "L04SLEP", path: "pages/L04SLEP.html", enabled: true },
           { title: "불편사항 신청", code: "L04INCV", path: "pages/L04INCV.html", enabled: true },
@@ -128,7 +128,7 @@ window.JJSTAR_MENU = [
         enabled: true,
         hideInNav: true,
         children: [
-          { title: "학교 소개", code: "L04SCHP", path: "pages/L04SCHP.html", enabled: true },
+          { title: "학교 소개", code: "L04SCHP", path: "pages/L04SCHP.html", enabled: true, hideInNav: true },
           { title: "학과 및 전공 소개", code: "L04MAJR", path: "pages/L04MAJR.html", enabled: true },
           { title: "SNS 정보", code: "L04SNSI", path: "pages/L04SNSI.html", enabled: true }
         ]
@@ -138,6 +138,7 @@ window.JJSTAR_MENU = [
         code: "L03JJMN",
         path: "pages/L03JJMN.html",
         enabled: true,
+        hideInNav: true,
         children: []
       }
     ]
