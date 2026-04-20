@@ -156,11 +156,14 @@ window.JJSTAR_MENU = [
         code: "L03ADMN",
         path: "pages/L03ADMN.html",
         enabled: true,
-        hideInNav: true,
         children: [
-          { title: "학사관리 공지사항", code: "L04ADNT", path: "pages/L04ADNT.html", enabled: true },
-          { title: "학사관리 FAQ", code: "L04ADFA", path: "pages/L04ADFA.html", enabled: true },
-          { title: "학칙개정사항 안내", code: "L04RULE", path: "pages/L04RULE.html", enabled: true }
+          { title: "학사관리 공지사항", code: "L04ADNT", path: "pages/L04ADNT.html", enabled: true, hideInNav: true },
+          { title: "학사관리 FAQ", code: "L04ADFA", path: "pages/L04ADFA.html", enabled: true, hideInNav: true },
+          { title: "학칙개정사항 안내", code: "L04RULE", path: "pages/L04RULE.html", enabled: true, hideInNav: true },
+          { title: "심폐소생술 교과목 신청", code: "L04CPRA", path: "pages/L04CPRA.html", enabled: true },
+          { title: "심폐소생술 교과목 신청내역 확인", code: "L04CPRH", path: "pages/L04CPRH.html", enabled: true },
+          { title: "AHA 바로가기", code: "L04AHAL", path: "pages/L04AHAL.html", enabled: true, hideInNav: true },
+          { title: "AHA 교육이수증", code: "L04AHAC", path: "pages/L04AHAC.html", enabled: true }
         ]
       },
       {
@@ -181,26 +184,15 @@ window.JJSTAR_MENU = [
         path: "pages/L03COUR.html",
         enabled: true,
         children: [
-          { title: "수강신청 내역", code: "L04ENRH", path: "pages/L04ENRH.html", enabled: true },
-          { title: "수강취소", code: "L04DROP", path: "pages/L04DROP.html", enabled: true },
-          { title: "수업계획서 조회", code: "L04PLAN", path: "pages/L04PLAN.html", enabled: true },
-          { title: "시간표 조회", code: "L04TIME", path: "pages/L04TIME.html", enabled: true },
-          { title: "출결확인", code: "L04ATTD", path: "pages/L04ATTD.html", enabled: true },
-          { title: "출석인정신청", code: "L04ATAP", path: "pages/L04ATAP.html", enabled: true }
-        ]
-      },
-      {
-        title: "수강신청",
-        code: "L03ENRL",
-        path: "pages/L03ENRL.html",
-        enabled: true,
-        children: [
-          { title: "수강바구니", code: "L04BASK", path: "pages/L04BASK.html", enabled: true },
-          { title: "수강신청", code: "L04ENRA", path: "pages/L04ENRA.html", enabled: true },
-          { title: "수강신청 내역조회", code: "L04ENRV", path: "pages/L04ENRV.html", enabled: true },
+          { title: "수강바구니", code: "L04BASK", path: "pages/L04BASK.html", enabled: true, hideInNav: true },
+          { title: "수강신청", code: "L04ENRA", path: "pages/L04ENRA.html", enabled: true, hideInNav: true },
+          { title: "수강취소", code: "L04DROP", path: "pages/L04DROP.html", enabled: true, hideInNav: true },
+          { title: "수강신청 내역조회", code: "L04ENRV", path: "pages/L04ENRV.html", enabled: true, hideInNav: true },
           { title: "교육과정조회", code: "L04CURV", path: "pages/L04CURV.html", enabled: true },
-          { title: "강좌시간표", code: "L04CLTM", path: "pages/L04CLTM.html", enabled: true },
-          { title: "졸업이수기준정보조회", code: "L04GRDV", path: "pages/L04GRDV.html", enabled: true }
+          { title: "강좌시간표/수업계획서 조회", code: "L04CLPL", path: "pages/L04CLPL.html", enabled: true },
+          { title: "졸업이수기준정보조회", code: "L04GRDV", path: "pages/L04GRDV.html", enabled: true },
+          { title: "출결확인", code: "L04ATTD", path: "pages/L04ATTD.html", enabled: true },
+          { title: "출석인정신청", code: "L04ATAP", path: "pages/L04ATAP.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -211,8 +203,7 @@ window.JJSTAR_MENU = [
         children: [
           { title: "학기별성적조회", code: "L04SEMG", path: "pages/L04SEMG.html", enabled: true },
           { title: "성적이의신청", code: "L04GREJ", path: "pages/L04GREJ.html", enabled: true },
-          { title: "전체 성적 조회", code: "L04ALLG", path: "pages/L04ALLG.html", enabled: true },
-          { title: "성적정보분석 (AMC5)", code: "L04AMC5", path: "pages/L04AMC5.html", enabled: true }
+          { title: "성적정보분석 (AMC5)", code: "L04AMC5", path: "pages/L04AMC5.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -280,6 +271,26 @@ window.JJSTAR_MENU = [
         children: [
           { title: "마이크로 전공 인증서", code: "L04MCRT", path: "pages/L04MCRT.html", enabled: true },
           { title: "성적우수상 내역", code: "L04AWRD", path: "pages/L04AWRD.html", enabled: true }
+        ]
+      },
+      {
+        title: "강의평가",
+        code: "L03LEVL",
+        path: "pages/L03LEVL.html",
+        enabled: true,
+        children: [
+          { title: "강의평가", code: "L04LEVL", path: "pages/L04LEVL.html", enabled: true },
+          { title: "중간강의평가", code: "L04MLEV", path: "pages/L04MLEV.html", enabled: true }
+        ]
+      },
+      {
+        title: "공학인증 및 인·적성",
+        code: "L03ABEK",
+        path: "pages/L03ABEK.html",
+        enabled: true,
+        children: [
+          { title: "ABEEK 설문조사", code: "L04ABEK", path: "pages/L04ABEK.html", enabled: true },
+          { title: "교직 적/인성 검사", code: "L04PERS", path: "pages/L04PERS.html", enabled: true }
         ]
       }
     ]

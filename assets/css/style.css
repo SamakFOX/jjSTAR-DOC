@@ -145,7 +145,8 @@ body {
   border-radius: 12px;
   font-weight: 600;
   font-size: 16px;
-  margin: 12px 0 32px; /* reduced from 20px 0 40px */
+  margin: 12px 0 32px;
+  /* reduced from 20px 0 40px */
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
@@ -268,9 +269,17 @@ body[data-theme='dark'] .step-badge {
 }
 
 /* Utility Classes */
-.w-full { width: 100%; }
-.max-w-full { max-width: 100%; }
-.h-auto { height: auto; }
+.w-full {
+  width: 100%;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.h-auto {
+  height: auto;
+}
 
 /* Guide Table */
 .guide-table-wrapper {
@@ -493,7 +502,7 @@ body {
 }
 
 .home-link:hover {
-  opacity: 0.7;
+  opacity: 0.5;
   /* 호버 시 살짝 투명하게 피드백 */
 }
 
@@ -502,5 +511,4 @@ body {
   height: 23px;
   display: block;
   object-fit: contain;
-  /* 이미지 비율 유지 */
 }
