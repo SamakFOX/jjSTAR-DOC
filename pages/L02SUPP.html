@@ -409,10 +409,10 @@
         <p style="color: coral;">상세메뉴 미구현 & UI개선 전으로, 구현 완료 후 이미지 및 내용 재작업 예정</p>
     </section>
 
-    <section class="mt-5 pt-5" id="section-starsupp">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">STAR 관리</div>
-            <a href="#starsupp-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="STAR관리 목록으로 돌아가기">
+            <a href="#starsupp-menu" class="btn-mini-square" data-tooltip="STAR관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -534,10 +534,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-scholarship">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">장학관리</div>
-            <a href="#scholarship-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="장학관리 목록으로 돌아가기">
+            <a href="#scholarship-menu" class="btn-mini-square" data-tooltip="장학관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -567,10 +567,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-tuition">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">등록관리</div>
-            <a href="#tuition-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="등록관리 목록으로 돌아가기">
+            <a href="#tuition-menu" class="btn-mini-square" data-tooltip="등록관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -641,10 +641,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-counseling">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">심리/학업/진로 상담</div>
-            <a href="#counseling-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="상담 목록으로 돌아가기">
+            <a href="#counseling-menu" class="btn-mini-square" data-tooltip="상담 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -666,10 +666,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-bus">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">통학버스</div>
-            <a href="#bus-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="통학버스 목록으로 돌아가기">
+            <a href="#bus-menu" class="btn-mini-square" data-tooltip="통학버스 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -725,10 +725,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-dorm">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">학생생활관</div>
-            <a href="#dorm-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="학생생활관 목록으로 돌아가기">
+            <a href="#dorm-menu" class="btn-mini-square" data-tooltip="학생생활관 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -860,10 +860,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5" id="section-promotion">
-        <div class="section-header sticky-header">
+    <section class="mt-5 pt-5">
+        <div class="section-header">
             <div class="section-title">학교홍보</div>
-            <a href="#promotion-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="학교홍보 목록으로 돌아가기">
+            <a href="#promotion-menu" class="btn-mini-square" data-tooltip="학교홍보 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -895,48 +895,3 @@
     </section>
 
 </article>
-
-<style>
-/* 
-   부모 섹션이 화면에 있는 동안만 버튼을 sticky하게 유지하는 설정 
-*/
-section[id^="section-"] {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto; /* 내용 | 버튼 */
-    align-items: start;
-}
-
-.section-header {
-    grid-column: 1 / 3; /* 헤더는 전체 너비 사용 */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.floating-scroll-btn {
-    grid-column: 2; /* 우측 컬럼에 배치 */
-    grid-row: 1 / 50; /* 섹션의 많은 줄에 걸쳐 존재하여 sticky 범위 확보 */
-    position: sticky;
-    top: 20vh; /* 화면 상단 20% 지점에 고정 */
-    margin-left: 20px;
-    z-index: 100;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background: white;
-    border-radius: var(--radius);
-    padding: 2px; /* 여백 확보 */
-    height: fit-content;
-}
-
-.floating-scroll-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 1000px) {
-    .floating-scroll-btn {
-        margin-left: 10px;
-    }
-}
-</style>
