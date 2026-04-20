@@ -245,6 +245,7 @@ window.JJSTAR_MENU = [
         code: "L03CHPL",
         path: "pages/L03CHPL.html",
         enabled: true,
+        hideInNav: true,
         children: [
           { title: "채플/기독교 공지사항", code: "L04CHNT", path: "pages/L04CHNT.html", enabled: true },
           { title: "채플/기독교 이수현황", code: "L04CHST", path: "pages/L04CHST.html", enabled: true }
@@ -256,7 +257,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03SERV.html",
         enabled: true,
         children: [
-          { title: "사회봉사 공지사항", code: "L04SVNT", path: "pages/L04SVNT.html", enabled: true },
+          { title: "사회봉사 공지사항", code: "L04SVNT", path: "pages/L04SVNT.html", enabled: true, hideInNav: true },
           { title: "사회봉사 교과목신청", code: "L04SVAP", path: "pages/L04SVAP.html", enabled: true },
           { title: "신청내역 및 인증 확인", code: "L04SVCK", path: "pages/L04SVCK.html", enabled: true },
           { title: "활동계획서 제출", code: "L04SVPL", path: "pages/L04SVPL.html", enabled: true },
