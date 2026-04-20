@@ -19,6 +19,18 @@ window.JJSTAR_STRINGS = {
     "L03SCHL": {
         "desc": "교내외 다양한 장학금 정보를 확인하고 신청부터 지급까지 관리하는 메뉴에요"
     },
+    "L03TEST": {
+        "desc": "나의 적성과 흥미를 파악하고, 이를 바탕으로 진로를 탐색할 수 있는 메뉴에요"
+    },
+    "L03COUN": {
+        "desc": "나를 조금 더 심층적으로 탐색하기 위한 상담 메뉴에요"
+    },
+    "L03BUSS": {
+        "desc": "통학버스 신청과 운행 정보를 확인하는 메뉴에요"
+    },
+    "L03DORM": {
+        "desc": "기숙사 신청과 정보를 확인하는 메뉴에요"
+    },
 
     // Level 4
     "L04SAJE": {
@@ -41,5 +53,275 @@ window.JJSTAR_STRINGS = {
         "desc": "서류 떼고 처리기관 찾아가고.. 바쁜 학교생활동안 시간을 낭비하지 않도록<br>JJSTAR에서 간편하게 온라인으로 장학금을 신청해보세요",
         "btnText": "장학금 온라인 신청 바로가기",
         "useHeroImage": false
-    }
-};
+    },
+    "L04MBTI": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04UITY": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04STRG": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04ETCT": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04CN11": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04MENT": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04ONCN": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04PSYC": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04BUSA": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMNT": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMPC": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMPST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+        "btnText": ""
+    },
+    "L04DMST": {
+        "desc": "",
+
