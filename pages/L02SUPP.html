@@ -409,10 +409,10 @@
         <p style="color: coral;">상세메뉴 미구현 & UI개선 전으로, 구현 완료 후 이미지 및 내용 재작업 예정</p>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-starsupp">
         <div class="section-header">
             <div class="section-title">STAR 관리</div>
-            <a href="#starsupp-menu" class="btn-mini-square" data-tooltip="STAR관리 목록으로 돌아가기">
+            <a href="#starsupp-menu" class="btn-mini-square floating-scroll-btn" id="starsupp-scroll-btn" data-tooltip="STAR관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -534,10 +534,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-scholarship">
         <div class="section-header">
             <div class="section-title">장학관리</div>
-            <a href="#scholarship-menu" class="btn-mini-square" data-tooltip="장학관리 목록으로 돌아가기">
+            <a href="#scholarship-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="장학관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -567,10 +567,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-tuition">
         <div class="section-header">
             <div class="section-title">등록관리</div>
-            <a href="#tuition-menu" class="btn-mini-square" data-tooltip="등록관리 목록으로 돌아가기">
+            <a href="#tuition-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="등록관리 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -641,10 +641,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-counseling">
         <div class="section-header">
             <div class="section-title">심리/학업/진로 상담</div>
-            <a href="#counseling-menu" class="btn-mini-square" data-tooltip="상담 목록으로 돌아가기">
+            <a href="#counseling-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="상담 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -666,10 +666,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-bus">
         <div class="section-header">
             <div class="section-title">통학버스</div>
-            <a href="#bus-menu" class="btn-mini-square" data-tooltip="통학버스 목록으로 돌아가기">
+            <a href="#bus-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="통학버스 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -725,10 +725,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-dorm">
         <div class="section-header">
             <div class="section-title">학생생활관</div>
-            <a href="#dorm-menu" class="btn-mini-square" data-tooltip="학생생활관 목록으로 돌아가기">
+            <a href="#dorm-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="학생생활관 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -860,10 +860,10 @@
         </div>
     </section>
 
-    <section class="mt-5 pt-5">
+    <section class="mt-5 pt-5" id="section-promotion">
         <div class="section-header">
             <div class="section-title">학교홍보</div>
-            <a href="#promotion-menu" class="btn-mini-square" data-tooltip="학교홍보 목록으로 돌아가기">
+            <a href="#promotion-menu" class="btn-mini-square floating-scroll-btn" data-tooltip="학교홍보 목록으로 돌아가기">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -895,3 +895,54 @@
     </section>
 
 </article>
+
+<style>
+/* floating-scroll-btn 스타일 */
+.floating-scroll-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+
+.floating-scroll-btn.sticky {
+    position: fixed;
+    top: 20vh;
+    left: calc(50% + 440px); /* max-width: 840px 이므로 중앙에서 약간 오른쪽 */
+    background: white;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--guide-border);
+    transform: scale(1.2);
+}
+
+/* 반응형 대응 (화면이 작아지면 위치 조정) */
+@media (max-width: 1000px) {
+    .floating-scroll-btn.sticky {
+        left: auto;
+        right: 20px;
+        transform: scale(1);
+    }
+}
+</style>
+
+<script>
+(function() {
+    const btn = document.getElementById("starsupp-scroll-btn");
+    const section = document.getElementById("section-starsupp");
+    
+    // IntersectionObserver 대신 좀 더 정밀한 스크롤 제어를 위해 scroll 이벤트 사용 (스펙 요구사항)
+    const scrollContainer = document.querySelector('.page') || window;
+    
+    scrollContainer.addEventListener("scroll", () => {
+        const rect = section.getBoundingClientRect();
+        const triggerPoint = window.innerHeight * 0.2;
+        
+        // 섹션 내부에 triggerPoint가 있을 때만 sticky 활성화
+        if (rect.top < triggerPoint && rect.bottom > triggerPoint + 100) { // +100은 버튼 크기 고려
+            btn.classList.add("sticky");
+        } else {
+            btn.classList.remove("sticky");
+        }
+    });
+
+    // 툴팁 등 기존 인스턴스 유지를 위해 main.js와 충돌하지 않게 주의
+})();
+</script>
