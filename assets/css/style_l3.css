@@ -702,6 +702,14 @@ body[data-theme='dark'] .btn-mini-square:hover {
     /* Ensure no baseline alignment issues */
 }
 
+.btn-direct-mini.btn-direct-sticky {
+    position: sticky;
+    top: 88px;
+    margin-left: auto;
+    z-index: 20;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
 .btn-direct-mini:hover {
     color: #2980B9;
     border-color: #2980B9;
@@ -719,6 +727,10 @@ body[data-theme='dark'] .btn-direct-mini:hover {
     color: #00e5ff;
     border-color: #00e5ff;
     background: rgba(0, 229, 255, 0.1);
+}
+
+body[data-theme='dark'] .btn-direct-mini.btn-direct-sticky {
+    box-shadow: 0 10px 24px rgba(2, 8, 23, 0.35);
 }
 
 /* Tooltip (말풍선) Style */

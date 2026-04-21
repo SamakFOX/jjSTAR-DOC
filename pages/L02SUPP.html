@@ -894,4 +894,22 @@
 
     </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const starMenuLink = document.querySelector('a.btn-mini-square[href="#starsupp-menu"]');
+            const starSection = starMenuLink?.closest('section');
+            const stickyReturnButton = starSection?.querySelector('.btn-direct-mini');
+
+            if (!stickyReturnButton) return;
+
+            stickyReturnButton.href = '#starsupp-menu';
+            stickyReturnButton.classList.add('btn-direct-sticky');
+            stickyReturnButton.setAttribute('data-tooltip', 'Back to STAR menu');
+            stickyReturnButton.setAttribute('aria-label', 'Back to STAR menu');
+            /*
+            stickyReturnButton.setAttribute('data-tooltip', 'STAR관리 목록으로 돌아가기');
+            stickyReturnButton.setAttribute('aria-label', 'STAR관리 목록으로 돌아가기');
+            */
+        });
+    </script>
 </article>
