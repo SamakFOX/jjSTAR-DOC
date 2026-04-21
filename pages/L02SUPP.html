@@ -412,7 +412,11 @@
     <section class="mt-5 pt-5">
         <div class="section-header">
             <div class="section-title">STAR 관리</div>
-            <a href="#starsupp-menu" class="btn-mini-square" data-tooltip="STAR관리 목록으로 돌아가기">
+        </div>
+
+        <div class="section-sticky-return">
+            <a href="#starsupp-menu" class="btn-direct-mini" data-tooltip="STAR관리 목록으로 돌아가기"
+                aria-label="Back to STAR menu">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -904,8 +908,6 @@
 
             stickyReturnButton.href = '#starsupp-menu';
             stickyReturnButton.classList.add('btn-direct-sticky');
-            stickyReturnButton.setAttribute('data-tooltip', 'Back to STAR menu');
-            stickyReturnButton.setAttribute('aria-label', 'Back to STAR menu');
             /*
             stickyReturnButton.setAttribute('data-tooltip', 'STAR관리 목록으로 돌아가기');
             stickyReturnButton.setAttribute('aria-label', 'STAR관리 목록으로 돌아가기');
