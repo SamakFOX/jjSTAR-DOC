@@ -552,7 +552,7 @@
 
         <div class="section-sticky-return">
             <a href="#scholarship-menu" class="btn-direct-mini" data-tooltip="장학관리 목록으로 돌아가기"
-                aria-label="Back to scholar menu">
+                aria-label="Back to scholarship menu">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -585,19 +585,18 @@
     <section class="mt-5 pt-5">
         <div class="section-header">
             <div class="section-title">등록관리</div>
-            <div class="section-sticky-return">
-                <a href="#tuition-menu" class="btn-direct-mini" data-tooltip="등록관리 목록으로 돌아가기"
-                    aria-label="Back to scholar menu">
-                    <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linejoin="round">
-                        <path d="m17 11-5-5-5 5" />
-                        <path d="m17 18-5-5-5 5" />
-                    </svg>
-                </a>
-            </div>
         </div>
 
-
+        <div class="section-sticky-return">
+            <a href="#tuition-menu" class="btn-direct-mini" data-tooltip="등록관리 목록으로 돌아가기"
+                aria-label="Back to tuition menu">
+                <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round">
+                    <path d="m17 11-5-5-5 5" />
+                    <path d="m17 18-5-5-5 5" />
+                </svg>
+            </a>
+        </div>
 
         <div class="flex items-center gap-2 mb-1">
             <h4 id="L04TUIB" class="mb-0">등록금고지서</h4>
@@ -673,6 +672,17 @@
             </a>
         </div>
 
+        <div class="section-sticky-return">
+            <a href="#counseling-menu" class="btn-direct-mini" data-tooltip="상담 목록으로 돌아가기"
+                aria-label="Back to counseling menu">
+                <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round">
+                    <path d="m17 11-5-5-5 5" />
+                    <path d="m17 18-5-5-5 5" />
+                </svg>
+            </a>
+        </div>
+
         <div class="flex items-center gap-2 mb-1">
             <h4 id="L04CNGD" class="mb-0">상담 안내</h4>
         </div>
@@ -690,6 +700,16 @@
         <div class="section-header">
             <div class="section-title">통학버스</div>
             <a href="#bus-menu" class="btn-mini-square" data-tooltip="통학버스 목록으로 돌아가기">
+                <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round">
+                    <path d="m17 11-5-5-5 5" />
+                    <path d="m17 18-5-5-5 5" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="section-sticky-return">
+            <a href="#bus-menu" class="btn-direct-mini" data-tooltip="통학버스 목록으로 돌아가기" aria-label="Back to bus menu">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -748,7 +768,10 @@
     <section class="mt-5 pt-5">
         <div class="section-header">
             <div class="section-title">학생생활관</div>
-            <a href="#dorm-menu" class="btn-mini-square" data-tooltip="학생생활관 목록으로 돌아가기">
+        </div>
+
+        <div class="section-sticky-return">
+            <a href="#dorm-menu" class="btn-direct-mini" data-tooltip="학생생활관 목록으로 돌아가기" aria-label="Back to dorm menu">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -883,7 +906,11 @@
     <section class="mt-5 pt-5">
         <div class="section-header">
             <div class="section-title">학교홍보</div>
-            <a href="#promotion-menu" class="btn-mini-square" data-tooltip="학교홍보 목록으로 돌아가기">
+        </div>
+
+        <div class="section-sticky-return">
+            <a href="#promotion-menu" class="btn-direct-mini" data-tooltip="학교홍보 목록으로 돌아가기"
+                aria-label="Back to promotion menu">
                 <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linejoin="round">
                     <path d="m17 11-5-5-5 5" />
@@ -924,10 +951,6 @@
 
             stickyReturnButton.href = '#starsupp-menu';
             stickyReturnButton.classList.add('btn-direct-sticky');
-            /*
-            stickyReturnButton.setAttribute('data-tooltip', 'STAR관리 목록으로 돌아가기');
-            stickyReturnButton.setAttribute('aria-label', 'STAR관리 목록으로 돌아가기');
-            */
         });
     </script>
 </article>
