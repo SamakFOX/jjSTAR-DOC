@@ -1,2 +1,5 @@
 prompts/
 log.md
+.editorconfig
+.prettierrc
+.gitignore
