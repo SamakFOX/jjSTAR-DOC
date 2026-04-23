@@ -108,8 +108,8 @@
 
     .mini-logo-placeholder img {
       display: block;
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 85%;
+      max-height: 85%;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -610,12 +610,12 @@
       z-index: 15
     }
 
-justify-content: center;
-      cursor: pointer;
-      color: var(--text-muted);
-      padding: 0;
-      transition: all 0.2s;
-      margin-right: 8px;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0;
+    transition: all 0.2s;
+    margin-right: 8px;
     }
 
     .theme-btn:hover {
@@ -801,8 +801,37 @@ justify-content: center;
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-      z-index: 15
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 15;
+    }
+
+    .dim.show {
+      display: block;
+    }
+
+    .sidebar-close {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      align-items: center;
+      justify-content: center;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--sidebar-line);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      z-index: 25;
+      transition: all 0.2s;
+    }
+
+    .sidebar-close:hover {
+      background: var(--blue-light);
+      color: var(--blue);
+      border-color: var(--blue);
     }
 
     @media (max-width:900px) {
@@ -839,7 +868,7 @@ justify-content: center;
         transform: translateX(0);
       }
 
-      .sidebar.minimized > * {
+      .sidebar.minimized>* {
         opacity: 1;
         transition: opacity 0.3s;
         pointer-events: auto;
@@ -864,12 +893,10 @@ justify-content: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: calc(var(--mini-tab-width) - 12px);
-        height: 38px;
-        margin: 0 6px 6px;
-        padding: 3px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.04);
+        width: 100%;
+        height: 42px;
+        margin-bottom: 8px;
+        background: transparent;
         overflow: hidden;
       }
 
@@ -998,6 +1025,10 @@ justify-content: center;
         background: var(--mini-current-marker);
         border-radius: 6px 0 0 6px;
         z-index: 2;
+      }
+
+      .sidebar.open .sidebar-close {
+        display: flex;
       }
 
       .sidebar.minimized .group-btn::after,
@@ -1229,6 +1260,13 @@ justify-content: center;
         <button class="mini-home-btn" id="miniHomeBtn" type="button" data-mini-indicator="HOME"></button>
       </div>
       <div class="sidebar-top">
+        <button class="sidebar-close" id="sidebarClose" title="닫기">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
         <div class="brand">JJSTAR 이용 가이드</div>
         <div class="search-box">
           <input id="searchInput" class="search" type="text" placeholder="메뉴 검색" />
@@ -1811,7 +1849,7 @@ justify-content: center;
       sidebar.classList.add('open');
       sidebar.classList.remove('minimized');
       dim.classList.add('show');
-      
+
       // [UX 개선] 열릴 때도 활성 메뉴 위치로 스크롤 보정
       setTimeout(() => {
         const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
@@ -1824,7 +1862,7 @@ justify-content: center;
       sidebar.classList.add('minimized');
       sidebar.classList.remove('open');
       dim.classList.remove('show');
-      
+
       // [UX 개선] 축소 시점에 스크롤 위치 재보정 (트랜지션 완료 후)
       setTimeout(() => {
         const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
@@ -1848,6 +1886,11 @@ justify-content: center;
 
     menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     dim.onclick = closeSidebar;
+
+    const sidebarClose = document.getElementById('sidebarClose');
+    if (sidebarClose) {
+      sidebarClose.onclick = closeSidebar;
+    }
     sidebar.onclick = (e) => {
       if (sidebar.classList.contains('minimized')) {
         openSidebar();
@@ -1881,14 +1924,17 @@ justify-content: center;
     const themeIconMoonWrapper = document.getElementById('themeIconMoon');
 
     function updateTheme(isDark) {
+      const railLogo = document.querySelector('.mini-logo-placeholder img');
       if (isDark) {
         document.body.setAttribute('data-theme', 'dark');
         themeIconSunWrapper.style.display = 'block';
         themeIconMoonWrapper.style.display = 'none';
+        if (railLogo) railLogo.src = 'assets/images/jjstar_minirail_logo-n.png';
       } else {
         document.body.removeAttribute('data-theme');
         themeIconSunWrapper.style.display = 'none';
         themeIconMoonWrapper.style.display = 'block';
+        if (railLogo) railLogo.src = 'assets/images/jjstar_minirail_logo-l.png';
       }
       localStorage.setItem('jjstar-theme', isDark ? 'dark' : 'light');
     }
