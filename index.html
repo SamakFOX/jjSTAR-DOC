@@ -1374,18 +1374,15 @@ justify-content: center;
     // [UX 개선] 사이드바 상태에 따른 클릭 동작 분기 (미니탭에서도 즉시 이동 허용)
     function handleNavClick(e, item, action) {
       e.stopPropagation();
-      // [UX 보정] 미니탭 상태에서 탭 클릭 시 바로 이동 수행
-      // 단, 사이드바 배경 클릭 시에만 펼치고 싶다면 여기서 분기 가능하지만
-      // 현재는 탭 클릭 시 즉시 이동 요청에 따라 action() 바로 실행
       action();
 
-      // 이동 후 스크롤 처리
+      // 이동 후 스크롤 처리 (미니탭 상태 포함 상시 동작)
       setTimeout(() => {
-        const activeItem = nav.querySelector('.is-active, .active');
-        if (activeItem && !sidebar.classList.contains('minimized')) {
+        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active, .active');
+        if (activeItem) {
           activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, 300);
+      }, 350); // 트랜지션 시간을 고려하여 350ms로 상향
     }
 
     function renderNav() {
@@ -1519,11 +1516,11 @@ justify-content: center;
 
       // Scroll active item into view
       setTimeout(() => {
-        const activeItem = nav.querySelector('.is-active');
+        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
         if (activeItem) {
           activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, 100);
+      }, 150);
     }
 
     async function renderDetail() {
@@ -1641,15 +1638,21 @@ justify-content: center;
 
         const cp = viewer.querySelector('#customPrev');
         if (cp) cp.onclick = () => {
-          currentIndex--;
-          renderDetail();
-          renderNav();
+          const idx = docs.slice(0, currentIndex).reverse().findIndex(d => !d.hideInNav);
+          if (idx !== -1) {
+            currentIndex = currentIndex - 1 - idx;
+            renderDetail();
+            renderNav();
+          }
         };
         const cn = viewer.querySelector('#customNext');
         if (cn) cn.onclick = () => {
-          currentIndex++;
-          renderDetail();
-          renderNav();
+          const idx = docs.slice(currentIndex + 1).findIndex(d => !d.hideInNav);
+          if (idx !== -1) {
+            currentIndex = currentIndex + 1 + idx;
+            renderDetail();
+            renderNav();
+          }
         };
 
         // Handle scrolling for hash (especially for hideInNav items)
@@ -1692,7 +1695,6 @@ justify-content: center;
               placeholderImg.alt = current.title;
               placeholderImg.onerror = function () {
                 this.style.display = 'none';
-                // 이미지가 없을 때 생기는 여백 조절 (필요 시)
               };
             } else if (!viewer.querySelector('.hero-image-container')) {
               const heroContainer = document.createElement('div');
@@ -1707,7 +1709,6 @@ justify-content: center;
               }
             }
           } else {
-            // 이미지를 사용하지 않거나 옵션이 꺼진 경우 플레이스홀더 숨김
             if (placeholderImg) placeholderImg.style.display = 'none';
           }
         }
@@ -1754,14 +1755,12 @@ justify-content: center;
           const btnEl = viewer.querySelector('#direct-link');
           if (btnEl && pageStrings.btnText) {
             btnEl.textContent = pageStrings.btnText;
-            btnEl.style.display = 'inline-flex'; // 텍스트가 있으면 강제 노출
+            btnEl.style.display = 'inline-flex';
           }
         }
 
-        // [Phase 3-1] 중앙 관리형 링크 주입
         const directLinkBtn = viewer.querySelector('#direct-link');
         if (directLinkBtn) {
-          // 파일명에서 코드 추출 (새로운 L04... 형식 대응)
           const fileName = current.path.split('/').pop();
           const match = fileName.match(/L[0-9]+[A-Z]+/);
           const menuCode = match ? match[0] : null;
@@ -1770,7 +1769,7 @@ justify-content: center;
             directLinkBtn.href = GUIDE_LINKS[menuCode];
             directLinkBtn.target = "_blank";
           } else {
-            directLinkBtn.style.display = 'none'; // 링크가 없는 경우 버튼 숨김
+            directLinkBtn.style.display = 'none';
           }
         }
 
@@ -1785,13 +1784,10 @@ justify-content: center;
     }
 
     viewer.addEventListener('click', e => {
-      // 1. 이미지 라이트박스
       if (e.target.tagName === 'IMG') {
         lightboxImg.src = e.target.src;
         lightbox.classList.add('show');
       }
-
-      // 2. 내부 링크 처리 (Fetch 구조 유지)
       const link = e.target.closest('a.reference.internal');
       if (link) {
         const href = link.getAttribute('href');
@@ -1815,11 +1811,27 @@ justify-content: center;
       sidebar.classList.add('open');
       sidebar.classList.remove('minimized');
       dim.classList.add('show');
+      
+      // [UX 개선] 열릴 때도 활성 메뉴 위치로 스크롤 보정
+      setTimeout(() => {
+        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
+        if (activeItem) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 350);
     }
     function minimizeSidebar() {
       sidebar.classList.add('minimized');
       sidebar.classList.remove('open');
       dim.classList.remove('show');
+      
+      // [UX 개선] 축소 시점에 스크롤 위치 재보정 (트랜지션 완료 후)
+      setTimeout(() => {
+        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
+        if (activeItem) {
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 350);
     }
 
     if (miniHomeBtn) {
@@ -1836,8 +1848,6 @@ justify-content: center;
 
     menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     dim.onclick = closeSidebar;
-
-    // 축소 상태의 사이드바 클릭 시 다시 열기
     sidebar.onclick = (e) => {
       if (sidebar.classList.contains('minimized')) {
         openSidebar();
