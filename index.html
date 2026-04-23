@@ -27,6 +27,16 @@
       --breadcrumb-bg: #f8fafc;
       --breadcrumb-active-bg: var(--blue);
       --pager-card-bg: #ffffff;
+      --mini-tab-width: 64px;
+      --mini-level-1-bg: #eaeaea;
+      --mini-level-1-fg: #606060;
+      --mini-level-1-active-bg: #3852b4;
+      --mini-level-2-bg: #4d85d6;
+      --mini-level-2-fg: #ffffff;
+      --mini-level-3-bg: #86afe2;
+      --mini-level-3-fg: #ffffff;
+      --mini-current-marker: #efd412;
+      --mini-rail-bg: #f1f5f9;
     }
 
     body[data-theme='dark'] {
@@ -44,6 +54,7 @@
       --breadcrumb-bg: #1e2937;
       --breadcrumb-active-bg: var(--blue);
       --pager-card-bg: #1e293b;
+      --mini-rail-bg: #111827;
     }
 
     * {
@@ -87,6 +98,21 @@
 
     .sidebar-top {
       padding: 24px 20px 10px;
+    }
+
+    .mini-rail-top,
+    .mini-logo-placeholder,
+    .mini-home-btn {
+      display: none;
+    }
+
+    .mini-logo-placeholder img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
     }
 
     .brand {
@@ -494,13 +520,215 @@
       margin-top: 0;
     }
 
-    .viewer > * {
+    .viewer>* {
       animation: fadeIn 0.5s ease-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Pager (GitBook style labels) */
+    .pager {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      margin-bottom: 80px;
+    }
+
+    .pager-card {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+      border: 1px solid var(--sidebar-line);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: var(--pager-card-bg);
+    }
+
+    .pager-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .pager-card:hover .pager-title {
+      color: var(--blue);
+    }
+
+    .pager-card.prev {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .pager-card.next {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .pager-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pager-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      transition: color 0.2s;
+    }
+
+    .loading,
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .dim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 15
+    }
+
+justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 0;
+      transition: all 0.2s;
+      margin-right: 8px;
+    }
+
+    .theme-btn:hover {
+      background: var(--blue-light);
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .theme-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .home-link {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .home-icon {
+      width: 22px;
+      height: 22px;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      filter: var(--icon-filter);
+    }
+
+    body[data-theme='dark'] .home-icon {
+      filter: invert(1) brightness(2);
+    }
+
+    .home-link:hover .home-icon {
+      opacity: 1;
+    }
+
+    @media (max-width: 900px) {
+      .breadcrumb {
+        height: auto;
+        flex-wrap: wrap;
+        border: 0;
+        background: transparent;
+        gap: 6px;
+        padding: 8px 0;
+      }
+
+      .breadcrumb-item {
+        clip-path: none !important;
+        margin-left: 0 !important;
+        height: auto;
+        padding: 4px 10px !important;
+        border-radius: 4px;
+        font-size: 11.5px;
+        background: #f1f5f9;
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #e2e8f0;
+      }
+
+      body[data-theme='dark'] .breadcrumb-item {
+        background: #1e293b;
+        border-color: #334155;
+      }
+
+      .breadcrumb-item:not(.active):after {
+        content: '›';
+        margin-left: 8px;
+        color: #94a3b8;
+        font-weight: 400;
+        display: none;
+        /* Hide arrow in wrap mode */
+      }
+
+      .breadcrumb-item.active {
+        background: var(--blue);
+        color: #fff;
+        border-color: var(--blue);
+      }
+    }
+
+    .page {
+      padding: 48px 32px 100px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      background: transparent;
+      width: 100%;
+      max-width: 800px;
+      margin: 0;
+    }
+
+    .viewer {
+      margin-top: 0;
+    }
+
+    .viewer>* {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Pager (GitBook style labels) */
@@ -599,96 +827,190 @@
       }
 
       .sidebar.minimized {
-        transform: translateX(calc(-100% + 50px)); /* Peek 50px */
+        width: var(--mini-tab-width);
+        transform: translateX(0);
         cursor: pointer;
+        background: var(--mini-rail-bg);
+        transition: background 0.3s, transform 0.3s, width 0.3s ease;
+        border-right: 0;
       }
 
       .sidebar.minimized:hover {
-        transform: translateX(calc(-100% + 55px));
+        transform: translateX(0);
       }
 
       .sidebar.minimized > * {
-        opacity: 0.2;
+        opacity: 1;
         transition: opacity 0.3s;
-        pointer-events: none;
+        pointer-events: auto;
       }
 
-      /* Minimized state item labels */
+      .sidebar.minimized .sidebar-top {
+        display: none !important;
+      }
+
+      .sidebar.minimized .mini-rail-top {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 6px 0 0;
+        background: var(--mini-rail-bg);
+        transition: background 0.3s;
+        width: 100%;
+      }
+
+      .sidebar.minimized .mini-logo-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc(var(--mini-tab-width) - 12px);
+        height: 38px;
+        margin: 0 6px 6px;
+        padding: 3px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        overflow: hidden;
+      }
+
+      .sidebar.minimized .mini-home-btn {
+        display: flex;
+      }
+
+      .sidebar.minimized .nav {
+        padding: 0 0 10px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        width: 100%;
+      }
+
+      .sidebar.minimized .nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .sidebar.minimized .sidebar::-webkit-scrollbar,
+      .sidebar.minimized::-webkit-scrollbar {
+        display: none;
+      }
+
       .sidebar.minimized .group-btn,
       .sidebar.minimized .mid-btn,
-      .sidebar.minimized .small-btn {
+      .sidebar.minimized .small-btn,
+      .sidebar.minimized .mini-home-btn {
         position: relative;
-        justify-content: flex-end;
-        padding-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important;
         opacity: 1;
         pointer-events: auto;
-        min-height: 52px; /* Increased height for touch hit area */
-        margin-bottom: 4px;
+        min-height: 56px;
+        margin: 0 0 1px 0 !important;
+        border: none !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+        color: transparent;
+        overflow: visible;
+        width: 100% !important;
+        left: 0;
       }
 
       .sidebar.minimized .label,
       .sidebar.minimized .indicator,
       .sidebar.minimized .search-box,
-      .sidebar.minimized .brand,
-      .sidebar.minimized .sidebar-top {
+      .sidebar.minimized .brand {
         display: none !important;
       }
 
-      /* Indicator Container */
+      .sidebar.minimized .group:first-child .group-btn,
+      .sidebar.minimized .mini-home-btn {
+        border-top: 0;
+      }
+
       .sidebar.minimized .group-btn::after,
       .sidebar.minimized .mid-btn::after,
-      .sidebar.minimized .small-btn::after {
+      .sidebar.minimized .small-btn::after,
+      .sidebar.minimized .mini-home-btn::after {
         content: attr(data-mini-indicator);
         position: absolute;
-        right: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 32px;
-        font-size: 11px;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        font-size: 12px;
         font-weight: 700;
-        color: #fff;
-        border-radius: 8px;
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+        text-align: center;
+        white-space: pre-line;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 1;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         overflow: hidden;
-        border: 2px solid transparent;
       }
 
-      /* Level-based colors */
-      .sidebar.minimized [data-level="1"]::after { background: #1e293b; } /* Dark Slate */
-      .sidebar.minimized [data-level="2"]::after { background: var(--blue); } /* Brand Blue */
-      .sidebar.minimized [data-level="3"]::after { background: #0891b2; } /* Cyan */
-
-      .sidebar.minimized .small-btn::after {
-        font-size: 10px;
-        letter-spacing: -0.05em;
+      .sidebar.minimized .mini-home-btn::after,
+      .sidebar.minimized [data-level="1"]::after {
+        background: var(--mini-level-1-bg);
+        color: var(--mini-level-1-fg);
+        left: 0;
+        width: 100%;
       }
 
-      .sidebar.minimized .is-active::after,
-      .sidebar.minimized .active::after {
-        border-color: #fff;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        transform: scale(1.15);
-        z-index: 5;
+      .sidebar.minimized [data-level="2"]::after {
+        background: var(--mini-level-2-bg);
+        color: var(--mini-level-2-fg);
       }
 
-      /* Active indicator highlight */
-      .sidebar.minimized .is-active::after {
-        outline: 2px solid var(--blue);
-        outline-offset: 1px;
+      .sidebar.minimized [data-level="3"]::after {
+        background: var(--mini-level-3-bg);
+        color: var(--mini-level-3-fg);
       }
 
-      .sidebar.minimized .is-active,
-      .sidebar.minimized .active {
-        z-index: 10;
+      .sidebar.minimized .group-btn.is-active::after {
+        background: var(--mini-level-1-active-bg);
+        color: #ffffff;
       }
 
-      /* Hide the vertical MENU text as we now have item labels */
-      .sidebar.minimized::after {
-        display: none;
+      .sidebar.minimized .group-btn.is-active,
+      .sidebar.minimized .mid.active>.mid-btn,
+      .sidebar.minimized .mid-btn.is-active,
+      .sidebar.minimized .small-btn.active,
+      .sidebar.minimized .small-btn.is-active {
+        margin: 0 0 1px 0;
+        border-left: 0;
+        background: transparent;
+      }
+
+      .sidebar.minimized .group-btn.is-current::before,
+      .sidebar.minimized .mid-btn.is-current::before,
+      .sidebar.minimized .small-btn.is-current::before,
+      .sidebar.minimized .mini-home-btn.is-current::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 8px;
+        height: 100%;
+        background: var(--mini-current-marker);
+        border-radius: 6px 0 0 6px;
+        z-index: 2;
+      }
+
+      .sidebar.minimized .group-btn::after,
+      .sidebar.minimized .mid-btn::after,
+      .sidebar.minimized .small-btn::after,
+      .sidebar.minimized .mini-home-btn::after {
+        z-index: 1;
+      }
+
+      .sidebar.minimized .group-children,
+      .sidebar.minimized .mid-children {
+        margin-left: 0;
+        border-left: 0;
       }
 
       .menu-toggle {
@@ -881,6 +1203,10 @@
 <body>
   <div class="app">
     <aside class="sidebar" id="sidebar">
+      <div class="mini-rail-top">
+        <div class="mini-logo-placeholder"><img src="assets/images/jjstar_minirail_logo.png" /></div>
+        <button class="mini-home-btn" id="miniHomeBtn" type="button" data-mini-indicator="HOME"></button>
+      </div>
       <div class="sidebar-top">
         <div class="brand">JJSTAR 이용 가이드</div>
         <div class="search-box">
@@ -967,6 +1293,7 @@
     const searchClear = document.getElementById('searchClear');
     const searchCountDisplay = document.getElementById('searchCount');
     const sidebar = document.getElementById('sidebar');
+    const miniHomeBtn = document.getElementById('miniHomeBtn');
     const menuToggle = document.getElementById('menuToggle');
     const themeToggle = document.getElementById('themeToggle');
     const themeIconSun = document.getElementById('themeIconSun');
@@ -1000,8 +1327,25 @@
     }
 
     // [UX 개선] 미니탭(축소 상태) 표시를 위한 헬퍼
+    function formatMiniLabel(text) {
+      const source = (text || '').trim();
+      if (!source) return '';
+
+      if (/\s/.test(source)) {
+        return source
+          .split(/\s+/)
+          .filter(Boolean)
+          .slice(0, 3)
+          .join('\n');
+      }
+
+      const compact = source.replace(/\s+/g, '');
+      return compact.match(/.{1,2}/g)?.slice(0, 3).join('\n') || '';
+    }
+
     function applyMiniStyle(el, item, level) {
-      const text = item.miniLabel || (item.title ? item.title.substring(0, 2) : '');
+      const labelSource = item.miniLabel && item.miniLabel.trim() ? item.miniLabel : item.title;
+      const text = formatMiniLabel(labelSource);
       el.setAttribute('data-mini-indicator', text);
       el.setAttribute('data-level', level);
     }
@@ -1013,12 +1357,12 @@
       // 단, 사이드바 배경 클릭 시에만 펼치고 싶다면 여기서 분기 가능하지만
       // 현재는 탭 클릭 시 즉시 이동 요청에 따라 action() 바로 실행
       action();
-      
+
       // 이동 후 스크롤 처리
       setTimeout(() => {
         const activeItem = nav.querySelector('.is-active, .active');
         if (activeItem && !sidebar.classList.contains('minimized')) {
-           activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 300);
     }
@@ -1033,6 +1377,11 @@
       const current = docs[currentIndex];
       let totalVisibleItems = 0;
 
+      if (miniHomeBtn) {
+        miniHomeBtn.setAttribute('data-mini-indicator', '\uD648');
+        miniHomeBtn.classList.toggle('is-current', current && current.path === 'pages/L01HOME.html');
+      }
+
       filtered.filter(cat => cat.enabled !== false && (keyword || cat.hideInNav !== true)).forEach(cat => {
         // [Phase 3-13] 검색 중일 때는 매칭된 카테고리를 강제로 펼침
         const groupOpen = keyword ? true : openCategories.has(cat.title);
@@ -1043,8 +1392,10 @@
         gbtn.className = 'group-btn';
         gbtn.innerHTML = `<span class="label">${highlight(cat.title)}</span><span class="indicator">${toggleMark(groupOpen)}</span>`;
 
-        const isCatActive = current && current.category === cat.title && current.type === 'cat';
-        if (isCatActive) gbtn.classList.add('is-active');
+        const isCatSelected = current && current.category === cat.title;
+        const isCatCurrent = current && current.category === cat.title && current.type === 'cat';
+        if (isCatSelected) gbtn.classList.add('is-active');
+        if (isCatCurrent) gbtn.classList.add('is-current');
 
         // [Step 1] 대분류 클릭 시 하위 메뉴 토글 및 해당 페이지 이동
         gbtn.onclick = (e) => {
@@ -1071,12 +1422,14 @@
           // [Phase 3-13] 검색 중일 때는 매칭된 중분류를 강제로 펼침
           const midOpen = keyword ? true : openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
+          const isMidCurrent = active && current.type === 'mid';
           const midWrap = document.createElement('div');
           midWrap.className = `mid ${midOpen ? 'open' : ''} ${active ? 'active' : ''}`;
 
           const mbtn = document.createElement('button');
           mbtn.className = 'mid-btn';
           if (active) mbtn.classList.add('is-active');
+          if (isMidCurrent) mbtn.classList.add('is-current');
           mbtn.innerHTML = `<span class="label">${highlight(mid.title)}</span><span class="indicator">${toggleMark(midOpen)}</span>`;
 
           mbtn.onclick = (e) => {
@@ -1108,6 +1461,7 @@
             if (idx === currentIndex) {
               btn.classList.add('active');
               btn.classList.add('is-active');
+              btn.classList.add('is-current');
             }
 
             btn.onclick = (e) => {
@@ -1432,19 +1786,31 @@
 
     lightbox.onclick = () => lightbox.classList.remove('show');
 
-    function closeSidebar() { 
-      sidebar.classList.remove('open', 'minimized'); 
-      dim.classList.remove('show'); 
+    function closeSidebar() {
+      sidebar.classList.remove('open', 'minimized');
+      dim.classList.remove('show');
     }
-    function openSidebar() { 
-      sidebar.classList.add('open'); 
-      sidebar.classList.remove('minimized'); 
-      dim.classList.add('show'); 
+    function openSidebar() {
+      sidebar.classList.add('open');
+      sidebar.classList.remove('minimized');
+      dim.classList.add('show');
     }
     function minimizeSidebar() {
       sidebar.classList.add('minimized');
       sidebar.classList.remove('open');
       dim.classList.remove('show');
+    }
+
+    if (miniHomeBtn) {
+      miniHomeBtn.onclick = (e) => {
+        handleNavClick(e, { category: 'home' }, () => {
+          const homeIndex = docs.findIndex(d => d.path === 'pages/L01HOME.html');
+          currentIndex = homeIndex !== -1 ? homeIndex : 0;
+          renderDetail();
+          renderNav();
+          if (window.innerWidth <= 900) closeSidebar();
+        });
+      };
     }
 
     menuToggle.onclick = () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
@@ -1470,7 +1836,7 @@
 
     window.addEventListener('mousedown', autoCloseOnInteraction, { capture: true, passive: true });
     window.addEventListener('touchstart', autoCloseOnInteraction, { capture: true, passive: true });
-    
+
     // 스크롤 이벤트도 상시 감시 (캡처 단계에서 모든 스크롤 이벤트 포착)
     window.addEventListener('scroll', (e) => {
       if (sidebar.classList.contains('minimized')) {
