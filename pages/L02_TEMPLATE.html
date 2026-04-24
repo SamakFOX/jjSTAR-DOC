@@ -1,11 +1,218 @@
-<div class="category-page">
-  <div class="status">Level 2 - 카테고리 안내</div>
-  <h1>JJSTAR 카테고리 상세 안내</h1>
+<article class="guide-article">
+  <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
 
-  <p>이 페이지는 대분류 항목의 전체적인 개요와 주요 기능을 설명하는 공간입니다.</p>
+  <h1></h1>
+  <img src="assets/images/jjstar_sample_main.webp" alt="L02 Main Image" style="width: 100%; height: auto;">
+  <p class="guide-lead"></p>
 
-  <div class="content-box"
-    style="margin-top: 24px; padding: 24px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #fdfdfd; min-height: 200px; display: flex; align-items: center; justify-content: center;">
-    <p style="color: #94a3b8; font-size: 15px;">이 페이지의 콘텐츠는 현재 준비 중입니다.</p>
+  <!-- Tip Box (If not used, remove this section) -->
+  <div class="tip-box tip-box--with-character">
+    <div class="flex items-start gap-3">
+      <div class="tip-box-label mt-1">Note</div>
+      <div class="tip-box-content">
+        <p>
+          아래 메뉴 클릭 시 <span class="text-red-600 font-semibold">해당 메뉴의 가이드</span>로 이동해요
+          <br>
+          가이드가 가능한 메뉴는 <span class="text-red-600 font-semibold">별(*)</span>표시가 되어있어요
+        </p>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Toctree List -->
+  <section class="rst-content">
+    <div class="toctree-wrapper">
+      <ul>
+        <li class="toctree-l1">
+          <a href="pages/L03TEMPLATE.html" class="reference internal" id="template-menu">
+            <span>Level 3 Title 1<span class="text-red-600 font-semibold"> *</span></span>
+          </a>
+          <ul>
+            <!-- html available link -->
+            <li class="toctree-l2">
+              <a href="pages/L04TEMPLATE.html" class="reference internal">
+                <span class="menu-title">Level 4 Title
+                  <span class="text-red-600 font-semibold">*</span></span>
+                <span class="menu-desc">Level 4 Description</span>
+              </a>
+            </li>
+            <!-- html disabled link -->
+            <li class="toctree-l2 is-info">
+              <a href="#L04CODE" class="reference internal">
+                <span class="menu-title">Level 4 Title</span>
+                <span class="menu-desc">Level 4 Description</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="toctree-l1">
+          <a href="pages/L03OOOO.html" class="reference internal" id="sample-menu">
+            <span>Level 3 Title 2<span class="text-red-600 font-semibold"> *</span></span>
+          </a>
+          <ul>
+            <li class="toctree-l2 is-info">
+              <a href="#L04OOOA" class="reference internal">
+                <span class="menu-title">Level 4 Title</span>
+                <span class="menu-desc">Level 4 Description</span>
+              </a>
+            </li>
+            <li class="toctree-l2">
+              <a href="pages/L04OOOB.html" class="reference internal">
+                <span class="menu-title">Level 4 Title
+                  <span class="text-red-600 font-semibold"> *</span>
+                </span>
+                <span class="menu-desc">Level 4 Description</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Work Status Notice (If not used, remove this section) -->
+  <section class="mt-5 pt-5">
+    <p style="color: coral;">상세메뉴 미구현 & UI개선 전으로, 구현 완료 후 이미지 및 내용 재작업 예정</p>
+  </section>
+
+  <!-- html disabled link Destination -->
+  <section class="mt-5 pt-5">
+    <div class="section-header">
+      <div class="section-title">Level 3 Title</div>
+    </div>
+
+    <div class="section-sticky-return">
+      <a href="#template-menu" class="btn-direct-mini" data-tooltip="Level 3 Title 1 목록으로 돌아가기"
+        aria-label="Back to {Level 3 Title} menu">
+        <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linejoin="round">
+          <path d="m17 11-5-5-5 5" />
+          <path d="m17 18-5-5-5 5" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- # link will be replaced with the actual server link at a later time  -->
+    <div class="flex items-center gap-2 mb-1">
+      <h4 id="L04CODE">Title</h4>
+      <a href="#" class="btn-direct-mini" data-tooltip="{Title} 메뉴로 이동하기">
+        <svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+      </a>
+    </div>
+    <p class="text-gray-700 leading-relaxed mt-1">
+      Description
+    </p>
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 badge-step bg-blue-600 text-white flex items-center justify-center font-bold">
+          STEP 1
+        </div>
+        <div>
+          <strong class="text-gray-900">Step 1 Title</strong>
+          <span class="text-gray-600"> : Step 1 Description</span>
+        </div>
+      </div>
+      <div class="mb-8">
+        <img src="assets/images/jjstar_{code}-01.webp" alt="Step 1 image description"
+          class="w-full rounded-lg shadow-md border border-gray-200" />
+        <p class="text-center text-sm text-gray-500 mt-3">&#60; Step 1 image description &#62;</p>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 badge-step bg-blue-600 text-white flex items-center justify-center font-bold">
+          STEP 2
+        </div>
+        <div>
+          <strong class="text-gray-900">Step 2 Title</strong>
+          <span class="text-gray-600"> : Step 2 Description</span>
+        </div>
+      </div>
+      <div class="mb-8">
+        <img src="assets/images/jjstar_{code}-02.webp" alt="Step 2 image description"
+          class="w-full rounded-lg shadow-md border border-gray-200" />
+        <p class="text-center text-sm text-gray-500 mt-3">&#60; Step 2 image description &#62;</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-5 pt-5">
+    <div class="section-header">
+      <div class="section-title">Level 3 Title</div>
+    </div>
+
+    <div class="section-sticky-return">
+      <a href="#sample-menu" class="btn-direct-mini" data-tooltip="Level 3 Title 2 목록으로 돌아가기"
+        aria-label="Back to {Level 3 Title} menu">
+        <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linejoin="round">
+          <path d="m17 11-5-5-5 5" />
+          <path d="m17 18-5-5-5 5" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2 mb-1">
+      <h4 id="L04OOOA">Title</h4>
+      <a href="#" class="btn-direct-mini" data-tooltip="{Title} 메뉴로 이동하기">
+        <svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
+        </svg>
+      </a>
+    </div>
+    <p class="text-gray-700 leading-relaxed mt-1">
+      Description
+    </p>
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 badge-step bg-blue-600 text-white flex items-center justify-center font-bold">
+          STEP 1
+        </div>
+        <div>
+          <strong class="text-gray-900">Step 1 Title</strong>
+          <span class="text-gray-600"> : Step 1 Description</span>
+        </div>
+      </div>
+      <div class="mb-8">
+        <img src="assets/images/jjstar_{code}-01.webp" alt="Step 1 image description"
+          class="w-full rounded-lg shadow-md border border-gray-200" />
+        <p class="text-center text-sm text-gray-500 mt-3">&#60; Step 1 image description &#62;</p>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 badge-step bg-blue-600 text-white flex items-center justify-center font-bold">
+          STEP 2
+        </div>
+        <div>
+          <strong class="text-gray-900">Step 2 Title</strong>
+          <span class="text-gray-600"> : Step 2 Description</span>
+        </div>
+      </div>
+      <div class="mb-8">
+        <img src="assets/images/jjstar_{code}-02.webp" alt="Step 2 image description"
+          class="w-full rounded-lg shadow-md border border-gray-200" />
+        <p class="text-center text-sm text-gray-500 mt-3">&#60; Step 2 image description &#62;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- sticky return button script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const starMenuLink = document.querySelector('a.btn-mini-square[href="#starsupp-menu"]');
+      const starSection = starMenuLink?.closest('section');
+      const stickyReturnButton = starSection?.querySelector('.btn-direct-mini');
+
+      if (!stickyReturnButton) return;
+
+      stickyReturnButton.href = '#starsupp-menu';
+      stickyReturnButton.classList.add('btn-direct-sticky');
+    });
+  </script>
+
+</article>

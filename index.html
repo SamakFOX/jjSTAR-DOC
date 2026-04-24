@@ -101,12 +101,12 @@
     }
 
     .mini-rail-top,
-    .mini-logo-placeholder,
+    .minirail-logo,
     .mini-home-btn {
       display: none;
     }
 
-    .mini-logo-placeholder img {
+    .minirail-logo img {
       display: block;
       max-width: 85%;
       max-height: 85%;
@@ -695,7 +695,7 @@
         width: 100%;
       }
 
-      .sidebar.minimized .mini-logo-placeholder {
+      .sidebar.minimized .minirail-logo {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1062,7 +1062,7 @@
   <div class="app">
     <aside class="sidebar" id="sidebar">
       <div class="mini-rail-top">
-        <div class="mini-logo-placeholder"><img src="assets/images/jjstar_minirail_logo.png" /></div>
+        <div class="minirail-logo"><img src="assets/icons/jjstar_minirail_logo.png" /></div>
         <button class="mini-home-btn" id="miniHomeBtn" type="button" data-mini-indicator="HOME"></button>
       </div>
       <div class="sidebar-top">
@@ -1730,17 +1730,17 @@
     const themeIconMoonWrapper = document.getElementById('themeIconMoon');
 
     function updateTheme(isDark) {
-      const railLogo = document.querySelector('.mini-logo-placeholder img');
+      const railLogo = document.querySelector('.minirail-logo img');
       if (isDark) {
         document.body.setAttribute('data-theme', 'dark');
         themeIconSunWrapper.style.display = 'block';
         themeIconMoonWrapper.style.display = 'none';
-        if (railLogo) railLogo.src = 'assets/images/jjstar_minirail_logo-n.png';
+        if (railLogo) railLogo.src = 'assets/icons/jjstar_minirail_logo-n.png';
       } else {
         document.body.removeAttribute('data-theme');
         themeIconSunWrapper.style.display = 'none';
         themeIconMoonWrapper.style.display = 'block';
-        if (railLogo) railLogo.src = 'assets/images/jjstar_minirail_logo-l.png';
+        if (railLogo) railLogo.src = 'assets/icons/jjstar_minirail_logo-l.png';
       }
       localStorage.setItem('jjstar-theme', isDark ? 'dark' : 'light');
     }
