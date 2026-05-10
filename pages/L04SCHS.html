@@ -12,7 +12,10 @@
 
     <hr class="border-t-2 border-gray-200 mb-12" />
 
-    <h2 class="text-2xl mb-12 font-bold">장학금 현황 UI 한눈에 보기</h2>
+    <div class="flex items-center gap-2 mb-1 mt-5">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 24px; height: 24px;">
+      <h2 style="margin: 0;">장학금 현황 UI 한눈에 보기</h2>
+    </div>
 
     <p class="mb-8 text-gray-700 flex items-center gap-2">
       <svg class="lucide w-5 h-5 text-blue-600" viewBox="0 0 24 24">
@@ -23,45 +26,45 @@
       장학금 조회 화면은 크게 세 영역으로 나뉘어요.
     </p>
 
-    <!-- Screenshot -->
     <div class="mb-8">
-      <img src="assets/images/janghak-reward-01.png" alt="장학금 수혜 현황 페이지 전체 UI 구성"
+      <img src="assets/images/jjstar_d_schs-main.webp" alt="장학금 수혜 현황 페이지 전체 UI 구성"
         class="w-full rounded-lg shadow-md border border-gray-200" />
       <p class="text-center text-sm text-gray-500 mt-3">&#60; 장학금 수혜 현황 페이지 전체 UI 구성 &#62;</p>
     </div>
 
-    <!-- Three Areas Description -->
     <div class="space-y-4 mb-8">
       <div class="flex gap-4 items-start">
         <div
-          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          1
         </div>
         <div>
-          <strong class="text-gray-900">조건 설정</strong>
-          <span class="text-gray-600"> : 조회할 연도와 학기를 선택할 수 있어요.</span>
+          <strong class="text-gray-900">조회 조건 선택</strong><br>
+          <span class="text-gray-600">조회할 연도와 학기를 선택할 수 있어요</span>
         </div>
       </div>
       <div class="flex gap-4 items-start">
         <div
-          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          2
         </div>
         <div>
-          <strong class="text-gray-900">결과 목록</strong>
-          <span class="text-gray-600"> : 받은 장학금 내역이 나와요.</span>
+          <strong class="text-gray-900">장학금 리스트</strong><br>
+          <span class="text-gray-600">해당 학년도에 받은 장학금 내역이 표시돼요</span>
         </div>
       </div>
       <div class="flex gap-4 items-start">
         <div
-          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          3
         </div>
         <div>
-          <strong class="text-gray-900">결과 금액</strong>
-          <span class="text-gray-600"> : 전체 장학금 합계금액이 나와요.</span>
+          <strong class="text-gray-900">총 장학금액</strong><br>
+          <span class="text-gray-600">해당 학년도에 받은 장학금 총액이 표시돼요</span>
         </div>
       </div>
     </div>
 
-    <!-- Note Box -->
     <div class="tip-box tip-box--with-character">
       <div class="flex items-start gap-3">
         <div class="tip-box-content">
@@ -72,38 +75,29 @@
       </div>
     </div>
 
-    <!-- Example Section -->
-    <div class="bg-gray-50 p-8 rounded-lg mb-8">
-      <h3 class="text-xl mb-6 font-bold">예시&#41; 2020년도의 장학금 내역을 확인하고 싶을 때!</h3>
+    <div class="bg-gray-50 p-8 rounded-lg">
+      <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이가 과거(2020학년도)에 받은 장학금을 확인하려고 해요</h3>
 
-      <div class="space-y-4 mb-6">
+      <div class="space-y-4 mb-3">
         <div class="flex gap-4 items-start">
-          <div
-            class="flex-shrink-0 w-8 h-8 bg-gray-300 text-gray-700 rounded-full flex items-center justify-center font-bold">
-            1</div>
+          <div class="step-badge">STEP 1</div>
           <div class="text-gray-700 pt-1 flex-1">
-            <strong>연도를 2020으로 설정</strong>하고 [ 조회 ] 클릭
-            <div class="flex flex-wrap gap-4 items-start mt-2 mb-6">
-              <img src="assets/images/janghak-reward-02.png" alt="학년도 및 학기 선택"
-                class="w-auto max-w-none h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
-              <img src="assets/images/janghak-reward-03.png" alt="조회 버튼 클릭"
-                class="w-auto max-w-none h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-6" />
-            </div>
+            <strong>연도를 2020으로 설정</strong>하고 [ 조회 ] 클릭<br>
+            <img src="assets/images/jjstar_d_schs-ex-01.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
           </div>
         </div>
         <div class="flex gap-4 items-start">
-          <div
-            class="flex-shrink-0 w-8 h-8 bg-gray-300 text-gray-700 rounded-full flex items-center justify-center font-bold">
-            2</div>
+          <div class="step-badge">STEP 2</div>
           <div class="text-gray-700 pt-1 flex-1">
-            <strong>각 장학금 명칭과 금액을 검토</strong>하고, 총액이 맞는지 확인!
-            <img src="assets/images/janghak-reward-04.png" alt="상세 수혜 내역 리스트"
-              class="w-auto max-w-none h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
-            <img src="assets/images/janghak-reward-05.png" alt="수혜금액 합계 확인"
-              class="w-auto max-w-none h-auto rounded-lg shadow-md border border-gray-200 mt-2" />
+            <strong>각 장학금 명칭과 금액을 검토</strong>하고, 총액이 맞는지 확인!<br>
+            <img src="assets/images/jjstar_d_schs-ex-02.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
           </div>
         </div>
+
       </div>
     </div>
+
   </div>
 </div>
