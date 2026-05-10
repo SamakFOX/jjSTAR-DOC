@@ -105,6 +105,14 @@
     margin-bottom: 0.75rem;
 }
 
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-5 {
+    margin-bottom: 1.25rem;
+}
+
 .mb-6 {
     margin-bottom: 1.5rem !important;
 }
@@ -905,4 +913,11 @@ body[data-theme='dark'] .tip-box-content {
     opacity: 0.3;
     pointer-events: none;
     z-index: 0;
+}
+
+/* Custom Spacing/Gap */
+.guide-spacer-v {
+    height: 70px;
+    display: block;
+    width: 100%;
 }
