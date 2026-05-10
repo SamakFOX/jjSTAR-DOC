@@ -11,27 +11,94 @@
     <hr class="border-t-1 border-gray-200 mb-12" />
 
     <h2>주요 서비스 안내</h2>
-    <div class="feature-grid"
-      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px;">
-      <div class="feature-card"
-        style="padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff;">
-        <h3 style="color: var(--blue); border-bottom: 2px solid var(--blue); padding-bottom: 8px;">학생지원</h3>
-        <p style="font-size: 14px; color: #64748b;">장학, 등록, 상담, 기숙사 등 생활 전반에 걸친 서비스</p>
+    <style>
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 40px;
+      }
+
+      .feature-card {
+        padding: 32px 28px;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card:hover {
+        border-color: #3d76f2;
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px -10px rgba(61, 118, 242, 0.15);
+      }
+
+      .feature-card .card-content {
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .feature-card:hover .card-content {
+        transform: scale(1.03);
+      }
+
+      .feature-card h3 {
+        margin: 0 0 10px 0;
+        color: var(--blue);
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 10px;
+        transition: all 0.3s ease;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
+      .feature-card:hover h3 {
+        color: #3d76f2;
+        border-bottom-color: #3d76f2;
+      }
+
+      .feature-card p {
+        margin: 0;
+        font-size: 15px;
+        color: #64748b;
+        line-height: 1.7;
+        word-break: keep-all;
+        transition: color 0.3s ease;
+      }
+
+      .feature-card:hover p {
+        color: #334155;
+      }
+    </style>
+
+    <div class="feature-grid">
+      <div class="feature-card" onclick="location.hash='#L03STMG'">
+        <div class="card-content">
+          <h3>학생지원</h3>
+          <p>장학, 등록, 상담, 기숙사 등 생활 전반에 걸친 서비스</p>
+        </div>
       </div>
-      <div class="feature-card"
-        style="padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff;">
-        <h3 style="color: var(--blue); border-bottom: 2px solid var(--blue); padding-bottom: 8px;">학사정보</h3>
-        <p style="font-size: 14px; color: #64748b;">수강신청, 성적관리, 학적 변동 등 중요 정보를 한눈에</p>
+      <div class="feature-card" onclick="location.hash='#L03ACAD'">
+        <div class="card-content">
+          <h3>학사정보</h3>
+          <p>수강신청, 성적관리, 학적 변동 등 중요 정보를 한눈에</p>
+        </div>
       </div>
-      <div class="feature-card"
-        style="padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff;">
-        <h3 style="color: var(--blue); border-bottom: 2px solid var(--blue); padding-bottom: 8px;">대학생활</h3>
-        <p style="font-size: 14px; color: #64748b;">비교과, 공동체활동, SUPER 핵심역량, 해외 경험, 봉사 등 더 풍요로워지는 대학 생활</p>
+      <div class="feature-card" onclick="location.hash='#L03LIFE'">
+        <div class="card-content">
+          <h3>대학생활</h3>
+          <p>비교과, 공동체활동, SUPER 핵심역량, 해외 경험, 봉사 등 더 풍요로워지는 대학 생활</p>
+        </div>
       </div>
-      <div class="feature-card"
-        style="padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff;">
-        <h3 style="color: var(--blue); border-bottom: 2px solid var(--blue); padding-bottom: 8px;">진로취업</h3>
-        <p style="font-size: 14px; color: #64748b;">진로 검사와 내 역량에 기반한 직무 매칭으로 한발 더 나아가는 내가 될 수 있도록</p>
+      <div class="feature-card" onclick="location.hash='#L03CARE'">
+        <div class="card-content">
+          <h3>진로취업</h3>
+          <p>진로 검사와 내 역량에 기반한 직무 매칭으로 한발 더 나아가는 내가 될 수 있도록</p>
+        </div>
       </div>
     </div>
 
