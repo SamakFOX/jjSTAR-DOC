@@ -1,7 +1,7 @@
 window.JJSTAR_STRINGS = {
     // Level 1
     "L01INIT": {
-        "desc": "전주대학교의 핵심 학생지원 플랫폼인 <b>JJSTAR</b>에 오신 것을 환영합니다"
+        "desc": "전주대학교의 핵심 학생지원 플랫폼인 <b>jjSTAR</b>에 오신 것을 환영합니다"
     },
 
     // Level 2
