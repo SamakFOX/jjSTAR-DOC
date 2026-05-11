@@ -2,16 +2,36 @@
   <div class="max-w-1200">
     <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
 
-    <h1></h1>
 
-    <p class="page-description"></p>
-
-    <img src="assets/images/jjstar_home.webp" alt="JJSTAR 메인페이지" style="width: 100%; height: auto;">
+    <div class="text-center my-16 init-header-area">
+      <h1 class="text-gray-900"></h1>
+      <p class="page-description"></p>
+      <img src="assets/images/jjstar_home.webp" alt="JJSTAR 메인페이지" style="width: 100%; height: auto;">
+    </div>
 
     <hr class="border-t-1 border-gray-200 mb-12" />
 
-    <h2>주요 서비스 안내</h2>
+    <div class="flex items-center gap-2 mb-1 mt-5">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 24px; height: 24px;">
+      <h2 style="margin: 0;">주요 서비스</h2>
+    </div>
+
     <style>
+      .init-header-area h1 {
+        font-size: 3.0rem !important;
+        color: #06183A;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.5rem;
+      }
+
+      .init-header-area .page-description {
+        font-size: 1.2rem !important;
+        color: #475569;
+        max-width: 800px;
+        margin: 0 auto 2rem auto;
+        line-height: 1.6;
+      }
+
       .feature-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -78,32 +98,37 @@
     <div class="feature-grid">
       <div class="feature-card" onclick="location.hash='#L03STMG'">
         <div class="card-content">
-          <h3>학생지원</h3>
-          <p>장학, 등록, 상담, 기숙사 등 생활 전반에 걸친 서비스</p>
+          <h3>진로·취업</h3>
+          <p>진로 검사부터 내 역량에 기반한 직무 매칭으로 한걸음 더 성장하는 내가 될 수 있도록</p>
         </div>
       </div>
       <div class="feature-card" onclick="location.hash='#L03ACAD'">
         <div class="card-content">
-          <h3>학사정보</h3>
-          <p>수강신청, 성적관리, 학적 변동 등 중요 정보를 한눈에</p>
+          <h3>장학제도</h3>
+          <p>교내외 장학금부터 활동기반 실무 경험 시스템까지 커리어 UP을 위한 모든 것</p>
         </div>
       </div>
       <div class="feature-card" onclick="location.hash='#L03LIFE'">
         <div class="card-content">
           <h3>대학생활</h3>
-          <p>비교과, 공동체활동, SUPER 핵심역량, 해외 경험, 봉사 등 더 풍요로워지는 대학 생활</p>
+          <p>비교과, 공동체활동, 해외 경험, 봉사 등 대학 서비스 58000% 활용법</p>
         </div>
       </div>
       <div class="feature-card" onclick="location.hash='#L03CARE'">
         <div class="card-content">
-          <h3>진로취업</h3>
-          <p>진로 검사와 내 역량에 기반한 직무 매칭으로 한발 더 나아가는 내가 될 수 있도록</p>
+          <h3>학사제도</h3>
+          <p>필수 교육과 학점 관리부터 취업 대비 로드맵까지 학사의 모든 것</p>
         </div>
       </div>
     </div>
 
+
+
     <div class="tip-box tip-box--with-character">
-      <h4 style="margin-top: 0; color: #0369a1;">💡 검색 및 내비게이션 팁</h4>
+      <div class="flex items-center gap-1 mb-2">
+        <img src="assets/images/jjstar-head-title-star.svg" style="width: 22px; height: 22px;">
+        <h3 style="margin: 0; color: #0369a1;">검색 및 내비게이션 팁</h3>
+      </div>
       <ul style="font-size: 14px; line-height: 1.6; color: #334155;">
         <li>좌측 상단 <strong>메뉴 검색</strong>을 통해 원하는 기능을 빠르게 찾을 수 있습니다.</li>
         <li>좌측 <strong>사이드바</strong>에서 원하는 가이드로 직접 이동이 가능합니다.</li>
