@@ -615,6 +615,86 @@
       display: block;
     }
 
+    /* Content Popup */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-overlay.show {
+      display: block;
+    }
+
+    .popup-container {
+      position: absolute;
+      inset: 10% 5%;
+      background: var(--sidebar-bg);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: popupSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popupSlide {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .popup-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--sidebar-bg);
+    }
+
+    .popup-title {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .popup-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .popup-close:hover {
+      color: var(--text);
+    }
+
+    .popup-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+      background: var(--bg-grad);
+    }
+
+    .popup-body .card {
+      max-width: 100%;
+    }
+
 
     .sidebar-close {
       display: none;
@@ -1128,6 +1208,19 @@
     <img src="" id="lightbox-img">
   </div>
 
+  <!-- Content Popup -->
+  <div id="popup-overlay" class="popup-overlay">
+    <div class="popup-container">
+      <div class="popup-header">
+        <div class="popup-title" id="popupTitle">상세 안내</div>
+        <button class="popup-close" id="popupClose">&times;</button>
+      </div>
+      <div class="popup-body" id="popupBody">
+        <div class="loading">문서를 로드하는 중입니다.</div>
+      </div>
+    </div>
+  </div>
+
   <script src="data/menu.js"></script>
   <script src="data/strings.js"></script>
   <script src="assets/js/search.js"></script>
@@ -1166,6 +1259,10 @@
     const dim = document.getElementById('dim');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const popupBody = document.getElementById('popupBody');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupClose = document.getElementById('popupClose');
 
     let currentIndex = 0;
     let keyword = '';
@@ -1638,12 +1735,83 @@
         const idx = docs.findIndex(d => d.path === href);
         if (idx !== -1) {
           e.preventDefault();
-          currentIndex = idx;
-          renderDetail();
-          renderNav();
+
+          if (link.classList.contains('popup-link')) {
+            openPopup(idx);
+          } else {
+            currentIndex = idx;
+            renderDetail();
+            renderNav();
+          }
         }
       }
     });
+
+    async function openPopup(idx) {
+      const targetDoc = docs[idx];
+      if (!targetDoc) return;
+
+      popupTitle.textContent = targetDoc.title;
+      popupBody.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
+      popupOverlay.classList.add('show');
+
+      try {
+        const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+        const res = await fetch(absoluteBase + targetDoc.path);
+        if (!res.ok) throw new Error(`문서를 로드할 수 없습니다.`);
+        let html = await res.text();
+
+        // [Phase 3-7] Path fix
+        html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
+
+        popupBody.innerHTML = `<div class="card">${html}</div>`;
+
+        // Automated Content Injection (similar to renderDetail)
+        const h1 = popupBody.querySelector('h1');
+        if (h1) h1.textContent = targetDoc.small || targetDoc.mid || targetDoc.title;
+
+        // Breadcrumb
+        const autoNav = popupBody.querySelector('#auto-breadcrumb');
+        if (autoNav) {
+          const bPath = [{ label: '홈', icon: 'home' }];
+          if (targetDoc.category) bPath.push({ label: targetDoc.category });
+          if (targetDoc.mid && targetDoc.mid !== targetDoc.category) bPath.push({ label: targetDoc.mid });
+          if (targetDoc.small) bPath.push({ label: targetDoc.small });
+
+          let navHtml = '';
+          bPath.forEach((p, i) => {
+            if (i > 0) navHtml += '<svg class="lucide w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" /></svg>';
+            if (p.icon === 'home') navHtml += '<svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>';
+            else navHtml += `<span>${p.label}</span>`;
+          });
+          autoNav.innerHTML = navHtml;
+        }
+
+        // Descriptions
+        const fileName = (targetDoc.path.split('/').pop() || '').replace('.html', '');
+        const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+        if (pageStrings) {
+          const descEl = popupBody.querySelector('.page-description, .guide-lead');
+          if (descEl && pageStrings.desc) descEl.innerHTML = pageStrings.desc;
+        }
+
+        // Hide direct link in popup to avoid confusion
+        const directLink = popupBody.querySelector('#direct-link');
+        if (directLink) directLink.style.display = 'none';
+
+      } catch (e) {
+        popupBody.innerHTML = `<div class="empty">오류 발생: ${e.message}</div>`;
+      }
+    }
+
+    function closePopup() {
+      popupOverlay.classList.remove('show');
+    }
+
+    popupClose.onclick = closePopup;
+    popupOverlay.onclick = (e) => {
+      if (e.target === popupOverlay) closePopup();
+    };
 
     lightbox.onclick = () => lightbox.classList.remove('show');
 
