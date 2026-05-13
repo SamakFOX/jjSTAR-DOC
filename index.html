@@ -1618,8 +1618,8 @@
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.small || current.mid || current.title;
 
-        // C. 대표 이미지(Representative Image) 자동 주입 (Level 4 전용)
-        if (current.type === 'small') {
+        // C. 대표 이미지(Representative Image) 자동 주입 (Level 3, 4 전용)
+        if (current.type === 'small' || current.type === 'mid') {
           const menuCodeSuffix = current.code ? current.code.replace(/^L\d+/, '').toLowerCase() : '';
           const heroImgUrl = `assets/images/jjstar_dm_${menuCodeSuffix}.webp`;
           const fileName = (current.path.split('/').pop() || '').replace('.html', '');
