@@ -97,8 +97,8 @@ window.JJSTAR_MENU = [
         enabled: true,
         children: [
           { title: "학생생활관 공지사항", miniLabel: "기숙사 공지", code: "L04DMNT", path: "pages/L04DMNT.html", enabled: true, hideInNav: true },
-          { title: "우리대학 학생생활관 안내", miniLabel: "기숙사 안내", code: "L04DMGD", path: "pages/L04DMGD.html", enabled: true, hideInNav: true },
-          { title: "학생생활관 입사 절차", miniLabel: "입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html", enabled: true, hideInNav: true },
+          { title: "우리대학 학생생활관 안내", miniLabel: "기숙사 안내", code: "L04DMGD", path: "pages/L04DMGD.html", enabled: false },
+          { title: "학생생활관 입사 절차", miniLabel: "입사 절차", code: "L04DMPC", path: "pages/L04DMPC.html", enabled: false },
           { title: "학생생활관 입사 신청", miniLabel: "입사", code: "L04DMAP", path: "pages/L04DMAP.html", enabled: true },
           { title: "입사서약서 작성", miniLabel: "서약서 작성", code: "L04DMPG", path: "pages/L04DMPG.html", enabled: true, hideInNav: true },
           { title: "관실신청", miniLabel: "관실 신청", code: "L04ROOM", path: "pages/L04ROOM.html", enabled: true },
@@ -187,7 +187,7 @@ window.JJSTAR_MENU = [
         children: [
           { title: "학기별성적조회", miniLabel: "학기별 성적", code: "L04SEMG", path: "pages/L04SEMG.html", enabled: true },
           { title: "성적이의신청", miniLabel: "성적 이의", code: "L04GREJ", path: "pages/L04GREJ.html", enabled: true },
-          { title: "성적정보분석 (AMC5)", miniLabel: "성적 분석", code: "L04AMC5", path: "pages/L04AMC5.html", enabled: true, hideInNav: true }
+          { title: "성적정보분석 (AMC5)", miniLabel: "성적 분석", code: "L04AMC5", path: "pages/L04AMC5.html", enabled: true }
         ]
       },
       {
@@ -195,7 +195,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03RECD.html",
         enabled: true,
         children: [
-          { title: "학적 기초", miniLabel: "학적 기초", code: "L04BASC", path: "pages/L04BASC.html", enabled: true },
+          { title: "학적 기초", miniLabel: "학적 기초", code: "L04BASC", path: "pages/L04BASC.html", enabled: true, hideInNav: true },
           { title: "복수/부 전공 신청", miniLabel: "복수/부 전공", code: "L04DBMJ", path: "pages/L04DBMJ.html", enabled: true },
           { title: "복학 신청 및 확인", miniLabel: "복학", code: "L04RETN", path: "pages/L04RETN.html", enabled: true },
           { title: "전과전공 선택 신청 및 확인", miniLabel: "전공 선택", code: "L04CHMJ", path: "pages/L04CHMJ.html", enabled: true },
@@ -203,8 +203,8 @@ window.JJSTAR_MENU = [
           { title: "휴학신청", miniLabel: "휴학", code: "L04LEAV", path: "pages/L04LEAV.html", enabled: true },
           { title: "자퇴신청", miniLabel: "자퇴", code: "L04WITH", path: "pages/L04WITH.html", enabled: true },
           { title: "재입학 신청", miniLabel: "재입학 신청", code: "L04READ", path: "pages/L04READ.html", enabled: true },
-          { title: "학적 변동 정보 조회", miniLabel: "학적변동", code: "L04RCIV", path: "pages/L04RCIV.html", enabled: true },
-          { title: "학부모 학사정보조회 승인", miniLabel: "학부모 조회승인", code: "L04PAPR", path: "pages/L04PAPR.html", enabled: true }
+          { title: "학적 변동 정보 조회", miniLabel: "학적변동", code: "L04RCIV", path: "pages/L04RCIV.html", enabled: true, hideInNav: true },
+          { title: "학부모 학사정보조회 승인", miniLabel: "학부모 조회승인", code: "L04PAPR", path: "pages/L04PAPR.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -239,7 +239,7 @@ window.JJSTAR_MENU = [
         children: [
           { title: "사회봉사 공지사항", miniLabel: "사봉 공지", code: "L04SVNT", path: "pages/L04SVNT.html", enabled: true, hideInNav: true },
           { title: "사회봉사 교과목신청", miniLabel: "사봉 교과목", code: "L04SVAP", path: "pages/L04SVAP.html", enabled: true },
-          { title: "신청내역 및 인증 확인", miniLabel: "사봉 내역", code: "L04SVCK", path: "pages/L04SVCK.html", enabled: true },
+          { title: "신청내역 및 인증 확인", miniLabel: "사봉 내역", code: "L04SVCK", path: "pages/L04SVCK.html", enabled: true, hideInNav: true },
           { title: "활동계획서 제출", miniLabel: "활동 계획서", code: "L04SVPL", path: "pages/L04SVPL.html", enabled: true },
           { title: "결과보고서 제출", miniLabel: "결과 보고서", code: "L04SVRP", path: "pages/L04SVRP.html", enabled: true }
         ]
@@ -248,6 +248,7 @@ window.JJSTAR_MENU = [
         title: "인증관리", miniLabel: "인증 관리", code: "L03CERT",
         path: "pages/L03CERT.html",
         enabled: true,
+        hideInNav: true,
         children: [
           { title: "마이크로 전공 인증서", miniLabel: "micro전공 인증서", code: "L04MCRT", path: "pages/L04MCRT.html", enabled: true },
           { title: "성적우수상 내역", miniLabel: "성적 우수상", code: "L04AWRD", path: "pages/L04AWRD.html", enabled: true }
@@ -257,6 +258,7 @@ window.JJSTAR_MENU = [
         title: "강의평가", miniLabel: "강의 평가", code: "L03LEVL",
         path: "pages/L03LEVL.html",
         enabled: true,
+        hideInNav: true,
         children: [
           { title: "강의평가", miniLabel: "최종 강의평가", code: "L04LEVL", path: "pages/L04LEVL.html", enabled: true },
           { title: "중간강의평가", miniLabel: "중간 강의평가", code: "L04MLEV", path: "pages/L04MLEV.html", enabled: true }
@@ -267,7 +269,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03ABEK.html",
         enabled: true,
         children: [
-          { title: "ABEEK 설문조사", miniLabel: "ABEEK 설문", code: "L04ABEK", path: "pages/L04ABEK.html", enabled: true },
+          { title: "ABEEK 설문조사", miniLabel: "ABEEK 설문", code: "L04ABEK", path: "pages/L04ABEK.html", enabled: true, hideInNav: true },
           { title: "교직 적/인성 검사", miniLabel: "교직 적/인성", code: "L04PERS", path: "pages/L04PERS.html", enabled: true }
         ]
       }
