@@ -1,40 +1,95 @@
 <div class="guide-l3-content min-h-screen bg-white">
-    <div class="max-w-1200">
-        <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
+  <div class="max-w-1200">
+    <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
 
-        <h1 class="text-4xl mb-6 font-bold"></h1>
+    <h1 class="text-4xl mb-6 font-bold"></h1>
 
-        <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
+    <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
 
-        <img style="width: 100%; height: auto;" />
+    <img style="width: 100%; height: auto;" />
 
-        <a href="#" id="direct-link" class="btn-direct"></a>
+    <a href="#" id="direct-link" class="btn-direct"></a>
 
-        <hr class="border-t-2 border-gray-200 mb-6" />
+    <hr class="border-t-2 border-gray-200 mb-6" />
 
-        <section>
-            <p style="color: coral;">상세 가이드 준비 중입니다. 구현 완료 후 업데이트 예정입니다.</p>
-        </section>
-
-        <h2 class="text-2xl mb-6 font-bold">불편사항 신청 UI 한눈에보기</h2>
-
-        <div class="mb-8">
-            <img src="assets/images/jjstar_d_incv-main.webp"
-                class="w-full rounded-lg shadow-md border border-gray-200" />
-            <p class="text-center text-sm text-gray-500 mt-3">&#60; 불편사항 신청 UI &#62;</p>
-        </div>
-
-        <div class="space-y-4 mb-8">
-            <div class="flex gap-4 items-start">
-                <div
-                    class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                    1
-                </div>
-                <div>
-                    <strong class="text-gray-900">민원 접수</strong><br>
-                    <span class="text-gray-600">생활관 내 시설 고장이나 거주 중 불편한 사항을 접수하고 답변을 확인합니다.</span>
-                </div>
-            </div>
-        </div>
+    <div class="flex items-center gap-2 mb-1 mt-5">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 24px; height: 24px;">
+      <h2 style="margin: 0;">불편사항신청 UI 한눈에보기</h2>
     </div>
+
+    <div class="mb-8">
+      <img src="assets/images/jjstar_d_incv-main.webp" alt="불편사항신청 UI"
+        class="w-full rounded-lg shadow-md border border-gray-200" />
+    </div>
+
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          1
+        </div>
+        <div>
+          <strong class="text-gray-900">생활불편사항 접수내역</strong><br>
+          <span class="text-gray-600">이전에 신청한 불편사항 목록을 확인하고 관리하는 영역이에요</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          2
+        </div>
+        <div>
+          <strong class="text-gray-900">불편사항 접수</strong><br>
+          <span class="text-gray-600">불편사항을 등록하기 위해 정보를 입력하는 영역이에요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-spacer-v"></div>
+
+    <div class="bg-gray-50 p-8 rounded-lg">
+      <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이가 스타타워 이용 중 현관문 고장으로 불편사항을 접수하려고 해요</h3>
+
+      <div class="space-y-4 mb-3">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 1</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            메인화면에서 <b>불편사항접수</b>를 선택해요<br>
+            <img src="assets/images/jjstar_d_incv-ex-01.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 2</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            <b>불편사항 구분과 제목, 내용</b>을 작성해요<br>
+            제이제이는 아래와 같이 작성했어요<br>
+            <div class="tip-box tip-box--gray">
+              <div class="flex items-start gap-3">
+                <div class="tip-box-content">
+                  <p class="memo-lines">
+                    <span>구분: 시설고장</span>
+                    <span>제목: 현관문 고장</span>
+                    <span>내용: 스타타워 2인실 10층 현관문이 잘 잠기지 않고 문이 덜 닫혀요</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <img src="assets/images/jjstar_d_incv-ex-02.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 3</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            불편사항 신청 목록에서 나의 <b>신청 내역</b>과 접수상태, 처리여부를 확인해요<br>
+            <img src="assets/images/jjstar_d_incv-ex-03.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>
