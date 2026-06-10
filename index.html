@@ -994,14 +994,14 @@
       color: var(--text);
     }
 
-    .viewer .tip-box {
+    .viewer .tip-box:not(.tip-box--gray) {
       background: var(--blue-light) !important;
       border-left-color: var(--blue) !important;
       color: var(--text) !important;
     }
 
     /* Lighten tip-box background slightly in dark mode for better visibility on dark base */
-    body[data-theme='dark'] .viewer .tip-box {
+    body[data-theme='dark'] .viewer .tip-box:not(.tip-box--gray) {
       background: rgba(59, 130, 246, 0.15) !important;
     }
 

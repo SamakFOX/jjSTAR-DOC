@@ -1,40 +1,89 @@
 <div class="guide-l3-content min-h-screen bg-white">
-    <div class="max-w-1200">
-        <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
+  <div class="max-w-1200">
+    <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
 
-        <h1 class="text-4xl mb-6 font-bold"></h1>
+    <h1 class="text-4xl mb-6 font-bold"></h1>
 
-        <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
+    <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
 
-        <img style="width: 100%; height: auto;" />
+    <img style="width: 100%; height: auto;" />
 
-        <a href="#" id="direct-link" class="btn-direct"></a>
+    <a href="#" id="direct-link" class="btn-direct"></a>
 
-        <hr class="border-t-2 border-gray-200 mb-6" />
+    <hr class="border-t-2 border-gray-200 mb-6" />
 
-        <section>
-            <p style="color: coral;">상세 가이드 준비 중입니다. 구현 완료 후 업데이트 예정입니다.</p>
-        </section>
-
-        <h2 class="text-2xl mb-6 font-bold">외박신청 UI 한눈에보기</h2>
-
-        <div class="mb-8">
-            <img src="assets/images/jjstar_d_outs-main.webp"
-                class="w-full rounded-lg shadow-md border border-gray-200" />
-            <p class="text-center text-sm text-gray-500 mt-3">&#60; 외박신청 UI &#62;</p>
-        </div>
-
-        <div class="space-y-4 mb-8">
-            <div class="flex gap-4 items-start">
-                <div
-                    class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                    1
-                </div>
-                <div>
-                    <strong class="text-gray-900">외박 정보 입력</strong><br>
-                    <span class="text-gray-600">외박 기간과 사유를 입력하여 생활관 외박을 신청합니다.</span>
-                </div>
-            </div>
-        </div>
+    <div class="flex items-center gap-2 mb-1 mt-5">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 24px; height: 24px;">
+      <h2 style="margin: 0;">외박신청 UI 한눈에보기</h2>
     </div>
+
+    <div class="mb-8">
+      <img src="assets/images/jjstar_d_outs-main.webp" alt="외박신청 UI"
+        class="w-full rounded-lg shadow-md border border-gray-200" />
+    </div>
+
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          1
+        </div>
+        <div>
+          <strong class="text-gray-900">외박신청 정보</strong><br>
+          <span class="text-gray-600">개인 기숙사 정보가 자동으로 입력되고, 외박일과 사유를 직접 선택하는 영역이에요</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          2
+        </div>
+        <div>
+          <strong class="text-gray-900">외박신청 내역</strong><br>
+          <span class="text-gray-600">나의 외박 신청 내역을 확인하고 승인 절차와 여부를 확인하는 영역이에요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-spacer-v"></div>
+
+    <div class="bg-gray-50 p-8 rounded-lg">
+      <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이가 직무 캠프에 참여해서 이틀간 외박이 필요해요</h3>
+
+      <div class="space-y-4 mb-3">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 1</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            외박신청 영역에서 <b>외박 시작일, 귀가일, 사유, 세부내용</b>을 작성해요<br>
+            제이제이는 <b>사유:학교행사 / 사유내용:직무캠프 참여</b>로 작성했어요<br>
+            <img src="assets/images/jjstar_d_outs-ex-01.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 2</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            신청서를 저장하면 외박신청 내역에 추가돼요<br>
+            처리가 완료되면 승인여부 항목이 승인으로 바뀌어요<br>
+            <img src="assets/images/jjstar_d_outs-ex-02.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+
+        <div class="tip-box tip-box--with-character">
+          <div class="flex items-start gap-3">
+            <div class="tip-box-label mt-1">Note</div>
+            <div class="tip-box-content">
+              <p>
+                ※ 장기외박시 설정된 부모님 연락처로 내용이 전달됩니다<br>
+                <span class="text-red-600 font-semibold">반드시 필요한 경우에만</span> 사용하세요
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>

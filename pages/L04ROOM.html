@@ -1,40 +1,119 @@
 <div class="guide-l3-content min-h-screen bg-white">
-    <div class="max-w-1200">
-        <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
+  <div class="max-w-1200">
+    <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
 
-        <h1 class="text-4xl mb-6 font-bold"></h1>
+    <h1 class="text-4xl mb-6 font-bold"></h1>
 
-        <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
+    <div class="mb-6 text-gray-700 leading-relaxed page-description"></div>
 
-        <img style="width: 100%; height: auto;" />
+    <img style="width: 100%; height: auto;" />
 
-        <a href="#" id="direct-link" class="btn-direct"></a>
+    <a href="#" id="direct-link" class="btn-direct"></a>
 
-        <hr class="border-t-2 border-gray-200 mb-6" />
+    <hr class="border-t-2 border-gray-200 mb-6" />
 
-        <section>
-            <p style="color: coral;">상세 가이드 준비 중입니다. 구현 완료 후 업데이트 예정입니다.</p>
-        </section>
-
-        <h2 class="text-2xl mb-6 font-bold">관실신청 UI 한눈에보기</h2>
-
-        <div class="mb-8">
-            <img src="assets/images/jjstar_d_room-main.webp"
-                class="w-full rounded-lg shadow-md border border-gray-200" />
-            <p class="text-center text-sm text-gray-500 mt-3">&#60; 관실신청 UI &#62;</p>
-        </div>
-
-        <div class="space-y-4 mb-8">
-            <div class="flex gap-4 items-start">
-                <div
-                    class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                    1
-                </div>
-                <div>
-                    <strong class="text-gray-900">방 선택</strong><br>
-                    <span class="text-gray-600">배정된 생활관 내에서 거주하고자 하는 방(관실)을 선택하여 신청합니다.</span>
-                </div>
-            </div>
-        </div>
+    <div class="flex items-center gap-2 mb-1 mt-5">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 24px; height: 24px;">
+      <h2 style="margin: 0;">관실신청 UI 한눈에보기</h2>
     </div>
+
+    <div class="mb-8">
+      <img src="assets/images/jjstar_d_room-main.webp" alt="관실 신청 UI"
+        class="w-full rounded-lg shadow-md border border-gray-200" />
+    </div>
+
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          1
+        </div>
+        <div>
+          <strong class="text-gray-900">입사신청 정보</strong><br>
+          <span class="text-gray-600">신청한 입사 정보가 자동으로 입력돼요</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          2
+        </div>
+        <div>
+          <strong class="text-gray-900">관실 선택</strong><br>
+          <span class="text-gray-600">원하는 생활관 / 인실 / 기간 / 층수에 맞는 관실을 선택하는 영역이에요</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+          3
+        </div>
+        <div>
+          <strong class="text-gray-900">배정된 관실</strong><br>
+          <span class="text-gray-600">배정 완료된 관실 목록을 확인하는 영역이에요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box tip-box--with-character">
+      <div class="flex items-start gap-3">
+        <div class="tip-box-content">
+          <p>
+            생활관/인실/기간 등 기본정보는 입사 신청 시 선택한 <span class="text-blue-700 font-semibold">정보가 자동으로 입력</span>돼요
+            <br>
+            개인별로 원하는 <span class="text-blue-700 font-semibold">층수와 호실</span>은 직접 선택 가능하지만, 관실 내 자리는 입사일
+            <span class="text-blue-700 font-semibold">룸메이트와 상의</span>하여 결정해야 해요
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-spacer-v"></div>
+
+    <div class="bg-gray-50 p-8 rounded-lg">
+      <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이의 스타타워 입사신청이 승인되어 들어갈 관실을 신청하려고 해요</h3>
+
+      <div class="space-y-4 mb-3">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 1</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            입사신청정보에서 <b>층 구분</b>(Floor)을 선택해요<br>
+            제이제이는 <b>10층을 희망</b>하므로 <b>10층을 선택</b>했어요<br>
+            <img src="assets/images/jjstar_d_room-ex-01.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 2</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            관실선택 영역에서 해당 층의 <b>잔여 관실 중 원하는 관실</b>을 선택해요<br>
+            제이제이는 <b>스타타워 2인실 10층</b>을 선택했어요<br>
+            <img src="assets/images/jjstar_d_room-ex-02.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 3</div>
+          <div class="text-gray-700 pt-1 flex-1">
+            배정 관실 목록에서 나의 신청 내역을 확인하고 배정이 완료되었는지 꼼꼼히 체크하면 끝!<br>
+            <img src="assets/images/jjstar_d_room-ex-03.webp"
+              class="max-w-full h-auto rounded-lg shadow-md border border-gray-200 mt-2 mb-2" />
+          </div>
+        </div>
+
+        <div class="tip-box tip-box--with-character">
+          <div class="flex items-start gap-3">
+            <div class="tip-box-label mt-1">Note</div>
+            <div class="tip-box-content">
+              <p>
+                ※ 관실은 [선택가능], [본인선택] 등으로 되어있을 경우 신청이 완료되지 않은 상태에요! 반드시 [배정완료]로 바뀐 후 페이지를 이동해주세요<br>
+                페이지 중간의 관실신청 취소 버튼을 누를 시 관실이 취소되고 취소 시 다시 배정받아야 해요
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>

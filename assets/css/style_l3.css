@@ -924,6 +924,39 @@ body[data-theme='dark'] .tip-box-content {
     z-index: 0;
 }
 
+/* Phase 3-14+: Tip Box Gray — 콘텐츠 너비에 맞는 회색 변형 */
+.tip-box--gray {
+    display: block;
+    width: fit-content;
+    background: #eeeff0fb !important;
+    border-left: 2px solid #bfc0c4 !important;
+    border-right: 2px solid #bfc0c4 !important;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+}
+
+body[data-theme='dark'] .tip-box--gray {
+    background: rgba(107, 114, 128, 0.15) !important;
+    border-left: 4px solid #9ca3af !important;
+}
+
+/* memo-lines: br 대신 span으로 구분, 항목 사이 흰색 구분선 */
+.tip-box--gray .memo-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tip-box--gray .memo-lines span {
+    display: block;
+    padding: 0.05rem 0;
+}
+
+.tip-box--gray .memo-lines span+span {
+    border-top: 1px solid rgba(214, 214, 214, 0.8);
+}
+
 /* Custom Spacing/Gap */
 .guide-spacer-v {
     height: 70px;
