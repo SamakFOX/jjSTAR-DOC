@@ -1,4 +1,14 @@
 # jjSTAR 사용자 가이드 (Html+PDF / DemoWEB)  
+
+## 메뉴 개편 기준 (2026-10-15)
+
+- 서비스 메뉴는 2026-10-15 확인한 JJSTAR 메뉴 엑셀의 ‘메뉴 목록’ 시트 기준으로 대분류 7개, 중분류 42개, 하위 메뉴 165개입니다. 가이드 전용 시작 메뉴는 별도로 유지합니다.
+- 실행용 메뉴는 `data/menu.js`에서 관리합니다. 기존 `title`, `miniLabel`, `code`, `path`, `enabled`, `hideInNav`, `children` 형식을 유지하며, 원본 DOM ID는 `sourceDomId`에 별도로 보관합니다.
+- 대분류·중분류 본문 목록은 같은 메뉴 데이터에서 생성합니다. `enabled`와 `hideInNav`는 가이드의 노출 설정이며 실제 서비스 권한을 뜻하지 않습니다.
+- 기존 상세 문서는 재사용하고, 문서가 없는 메뉴는 ‘안내 준비 중’으로 표시합니다. 메뉴 이동이 개별 기능의 동일성이나 동작 검증을 의미하지는 않습니다. 원본 메뉴 경로와 DOM 식별자는 각 항목의 `sourceMenuPath`, `sourceDomId`에 보관합니다. 원본 엑셀과 비교·변환 자료는 로컬에서 별도로 보관하며 Git에는 포함하지 않습니다.
+- 개편 전 상태는 원격 브랜치와 태그 `backup/before-menu-20261015`로 보존합니다. 기존 안내 파일은 삭제하지 않습니다.
+- VS Code 터미널(PowerShell)에서 `node scripts/test-menu.mjs`로 메뉴 검사를 실행합니다. `python -m http.server 8765 --bind 127.0.0.1` 실행 후 `http://127.0.0.1:8765/index.html`에서 확인할 수 있습니다.
+
 ### 전주대학교 학생지원 시스템 jjSTAR 사용자 가이드입니다.  
 
 JJSTAR란?<br>

@@ -1225,21 +1225,22 @@
   <script src="data/menu.js"></script>
   <script src="data/strings.js"></script>
   <script src="assets/js/search.js"></script>
+  <script src="assets/js/menu-content.js"></script>
   <script>
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
     menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
-      docs.push({ type: 'cat', category: cat.title, title: cat.title, mid: '', small: '', path: cat.path, hideInNav: cat.hideInNav, code: cat.code, catPath: cat.path });
+      docs.push({ ...cat, type: 'cat', category: cat.title, mid: '', small: '', catPath: cat.path });
 
       cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
         // Level 3 (Mid)
-        docs.push({ type: 'mid', category: cat.title, title: mid.title, mid: mid.title, small: '', path: mid.path, hideInNav: mid.hideInNav, code: mid.code, catPath: cat.path });
+        docs.push({ ...mid, type: 'mid', category: cat.title, mid: mid.title, small: '', catPath: cat.path });
 
         if (mid.children) {
           mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
-            docs.push({ type: 'small', category: cat.title, title: small.title, mid: mid.title, small: small.title, path: small.path, hideInNav: small.hideInNav, code: small.code, catPath: cat.path });
+            docs.push({ ...small, type: 'small', category: cat.title, mid: mid.title, small: small.title, catPath: cat.path });
           });
         }
       });
@@ -1329,6 +1330,23 @@
       });
 
       container.replaceChildren(template.content);
+    }
+
+    function syncInternalLinks(container) {
+      container.querySelectorAll('a.reference.internal').forEach(link => {
+        const href = link.getAttribute('href') || '';
+        const anchorCode = href.includes('#') ? href.split('#')[1] : null;
+        const target = docs.find(doc => doc.path === href || (anchorCode && doc.code === anchorCode));
+        if (target) {
+          link.setAttribute('href', target.path);
+        } else if (href.startsWith('#') && anchorCode && container.querySelector('#' + CSS.escape(anchorCode))) {
+          return;
+        } else {
+          const wrapper = link.closest('li.toctree-l2, .feature-card');
+          if (wrapper) wrapper.style.display = 'none';
+          else link.replaceWith(...link.childNodes);
+        }
+      });
     }
 
     // [UX 개선] 사이드바 상태에 따른 클릭 동작 분기 (미니탭에서도 즉시 이동 허용)
@@ -1546,20 +1564,9 @@
       viewer.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
 
       try {
-        // [Phase 3-12] hideInNav 항목인 경우 카테고리(L02) 페이지를 불러오고 해당 ID로 스크롤 유도
-        let targetPath = current.path;
-        if (current.hideInNav && current.catPath) {
-          targetPath = current.catPath;
-        }
-
-        // [Phase 3-7] absoluteBase와 결합하여 어떤 환경에서도 정확한 경로로 fetch
-        const res = await fetch(absoluteBase + targetPath, { signal: requestController.signal });
-        if (!res.ok) throw new Error(`문서를 로드할 수 없습니다. (Status: ${res.status})`);
-        let html = await res.text();
+        // Overview links and unavailable guides are rendered from the menu data.
+        const html = await JJSTAR_CONTENT.load(current, absoluteBase, requestController.signal);
         if (requestId !== detailRequestId) return;
-
-        // [Phase 3-7] 모든 로컬 src 경로(../../ 등)를 absoluteBase 기반 절대 경로로 강제 치환
-        html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
 
         // 7. Pager Data - Skip hidden pages
         const prevDoc = docs.slice(0, currentIndex).reverse().find(d => !d.hideInNav);
@@ -1584,26 +1591,21 @@
 
         mountContent(viewer, html + pagerHtml);
 
-        // [Phase 3-11] 전역 비활성 메뉴 필터링: 콘텐츠 내부의 링크들도 enabled: false 상태면 숨김
-        const enabledMap = {};
-        function buildEnabledMap(nodes) {
-          nodes.forEach(n => {
-            if (n.path) enabledMap[n.path] = (n.enabled !== false);
-            if (n.children) buildEnabledMap(n.children);
-          });
+        const homeCards = current.code === 'L01INIT' && viewer.querySelector('.feature-grid');
+        if (homeCards) {
+          homeCards.replaceChildren(...menu.filter(cat => cat.enabled !== false && cat.generatedOverview).map(cat => {
+            const link = document.createElement('a');
+            link.className = 'reference internal feature-card';
+            link.href = cat.path;
+            const title = document.createElement('h3');
+            title.textContent = cat.title;
+            link.appendChild(title);
+            return link;
+          }));
         }
-        buildEnabledMap(window.JJSTAR_MENU || []);
 
-        const internalLinks = viewer.querySelectorAll('a.reference.internal');
-        internalLinks.forEach(link => {
-          const href = link.getAttribute('href');
-          if (enabledMap[href] === false) {
-            // 해당 링크가 포함된 li(메뉴 리스트)나 섹션 등을 통째로 숨김
-            const wrapper = link.closest('li.toctree-l2') || link.closest('.feature-card');
-            if (wrapper) wrapper.style.display = 'none';
-            else link.style.display = 'none'; // 래퍼가 없으면 링크 자체만 숨김
-          }
-        });
+        // Resolve legacy section links against the current menu without losing inline text.
+        syncInternalLinks(viewer);
 
         const cp = viewer.querySelector('#customPrev');
         if (cp) cp.onclick = () => {
@@ -1625,8 +1627,8 @@
         };
 
         // Handle scrolling for hash (especially for hideInNav items)
-        if (current.hideInNav && current.code) {
-          const targetEl = viewer.querySelector('#' + current.code);
+        if (current.contentAnchor) {
+          const targetEl = viewer.querySelector('#' + current.contentAnchor);
           if (targetEl) {
             setTimeout(() => {
               targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1648,7 +1650,8 @@
         // C. 대표 이미지(Representative Image) 자동 주입 (Level 3, 4 전용)
         if (current.type === 'small' || current.type === 'mid') {
           const fileName = (current.path.split('/').pop() || '').replace('.html', '');
-          const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+          const pageStrings = !current.generatedOverview && current.guideStatus !== 'pending' && !current.contentAnchor && window.JJSTAR_STRINGS
+            ? window.JJSTAR_STRINGS[fileName] : null;
           const heroImgUrl = current.heroImage || (pageStrings && pageStrings.heroImage);
 
           // no-image 옵션 체크: HTML 속성, 클래스, 또는 strings.js 데이터
@@ -1717,7 +1720,8 @@
 
         // B. 설명문 및 버튼 텍스트 중앙 주입
         const fileName = (current.path.split('/').pop() || '').replace('.html', '');
-        const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+        const pageStrings = !current.generatedOverview && current.guideStatus !== 'pending' && !current.contentAnchor && window.JJSTAR_STRINGS
+          ? window.JJSTAR_STRINGS[fileName] : null;
 
         if (pageStrings) {
           const descEl = viewer.querySelector('.page-description, .guide-lead');
@@ -1780,6 +1784,18 @@
       }
     });
 
+    popupBody.addEventListener('click', e => {
+      const link = e.target.closest('a.reference.internal');
+      if (!link) return;
+      const idx = docs.findIndex(d => d.path === link.getAttribute('href'));
+      if (idx === -1) return;
+      e.preventDefault();
+      closePopup();
+      currentIndex = idx;
+      renderDetail();
+      renderNav();
+    });
+
     async function openPopup(idx) {
       const targetDoc = docs[idx];
       if (!targetDoc) return;
@@ -1795,15 +1811,11 @@
 
       try {
         const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
-        const res = await fetch(absoluteBase + targetDoc.path, { signal: requestController.signal });
-        if (!res.ok) throw new Error(`문서를 로드할 수 없습니다.`);
-        let html = await res.text();
+        const html = await JJSTAR_CONTENT.load(targetDoc, absoluteBase, requestController.signal);
         if (requestId !== popupRequestId) return;
 
-        // [Phase 3-7] Path fix
-        html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
-
         mountContent(popupBody, `<div class="card">${html}</div>`);
+        syncInternalLinks(popupBody);
 
         // Automated Content Injection (similar to renderDetail)
         const h1 = popupBody.querySelector('h1');
@@ -1828,7 +1840,8 @@
 
         // Descriptions
         const fileName = (targetDoc.path.split('/').pop() || '').replace('.html', '');
-        const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+        const pageStrings = !targetDoc.generatedOverview && targetDoc.guideStatus !== 'pending' && !targetDoc.contentAnchor && window.JJSTAR_STRINGS
+          ? window.JJSTAR_STRINGS[fileName] : null;
         if (pageStrings) {
           const descEl = popupBody.querySelector('.page-description, .guide-lead');
           if (descEl && pageStrings.desc) descEl.innerHTML = pageStrings.desc;

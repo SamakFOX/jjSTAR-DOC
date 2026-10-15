@@ -59,20 +59,21 @@ function filterMenu(menuData, keyword) {
   return menuData.filter(cat => cat.enabled !== false).map(cat => {
     const catTitle = cat.title.toLowerCase();
     const catCho = Hangul.getChosung(catTitle);
-    const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword);
+    const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword)
+      || (cat.sourceAliases || []).some(alias => alias.toLowerCase().includes(lowerKeyword));
 
     const processedMids = cat.children.filter(mid => mid.enabled !== false).map(mid => {
       const midTitle = mid.title.toLowerCase();
       const midCho = Hangul.getChosung(midTitle);
       const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
 
-      // [Step 1.1] 검색어를 포함하지 않는 소분류는 무조건 숨김 (Phase 2-6)
+      // 상위 메뉴가 매칭되면 하위 메뉴를 함께 보여주고, 그 외에는 직접 매칭만 표시합니다.
       const processedSmalls = mid.children.filter(small => small.enabled !== false).map(small => {
         const smallTitle = small.title.toLowerCase();
         const smallCho = Hangul.getChosung(smallTitle);
         const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
         return { ...small, _directMatch: smallMatch };
-      }).filter(s => s._directMatch);
+      }).filter(s => s._directMatch || catMatch || midMatch);
 
       const hasSmallDirectMatch = processedSmalls.length > 0;
 
