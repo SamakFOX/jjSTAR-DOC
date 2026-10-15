@@ -1222,10 +1222,10 @@
     </div>
   </div>
 
-  <script src="data/menu.js"></script>
-  <script src="data/strings.js"></script>
-  <script src="assets/js/search.js"></script>
-  <script src="assets/js/menu-content.js"></script>
+  <script src="data/menu.js?v=20261015-content2"></script>
+  <script src="data/strings.js?v=20261015-content2"></script>
+  <script src="assets/js/search.js?v=20261015-content2"></script>
+  <script src="assets/js/menu-content.js?v=20261015-content2"></script>
   <script>
     const menu = window.JJSTAR_MENU || [];
     const docs = [];
@@ -1240,7 +1240,7 @@
         if (mid.children) {
           mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
-            docs.push({ ...small, type: 'small', category: cat.title, mid: mid.title, small: small.title, catPath: cat.path });
+            docs.push({ ...small, type: 'small', category: cat.title, mid: mid.title, small: small.title, catPath: cat.path, parentOverview: mid });
           });
         }
       });
@@ -1336,12 +1336,12 @@
       container.querySelectorAll('a.reference.internal').forEach(link => {
         const href = link.getAttribute('href') || '';
         const anchorCode = href.includes('#') ? href.split('#')[1] : null;
-        const target = docs.find(doc => doc.path === href || (anchorCode && doc.code === anchorCode));
-        if (target) {
-          link.setAttribute('href', target.path);
-        } else if (href.startsWith('#') && anchorCode && container.querySelector('#' + CSS.escape(anchorCode))) {
+        if (href.startsWith('#') && anchorCode && container.querySelector('#' + CSS.escape(anchorCode))) {
           return;
-        } else {
+        }
+        const target = docs.find(doc => doc.path === href || (anchorCode && doc.code === anchorCode));
+        if (target) link.setAttribute('href', target.path);
+        else {
           const wrapper = link.closest('li.toctree-l2, .feature-card');
           if (wrapper) wrapper.style.display = 'none';
           else link.replaceWith(...link.childNodes);
@@ -1627,8 +1627,8 @@
         };
 
         // Handle scrolling for hash (especially for hideInNav items)
-        if (current.contentAnchor) {
-          const targetEl = viewer.querySelector('#' + current.contentAnchor);
+        if (current.contentAnchor || (current.hideInNav && current.parentOverview)) {
+          const targetEl = viewer.querySelector('#' + (current.hideInNav ? current.code : current.contentAnchor));
           if (targetEl) {
             setTimeout(() => {
               targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1645,10 +1645,11 @@
 
         // [Automated Content Injection]
         const h1 = viewer.querySelector('h1');
-        if (h1) h1.textContent = current.small || current.mid || current.title;
+        if (h1) h1.textContent = current.hideInNav && current.parentOverview
+          ? current.parentOverview.title : current.small || current.mid || current.title;
 
         // C. 대표 이미지(Representative Image) 자동 주입 (Level 3, 4 전용)
-        if (current.type === 'small' || current.type === 'mid') {
+        if (!current.generatedOverview && !(current.hideInNav && current.parentOverview) && (current.type === 'small' || current.type === 'mid')) {
           const fileName = (current.path.split('/').pop() || '').replace('.html', '');
           const pageStrings = !current.generatedOverview && current.guideStatus !== 'pending' && !current.contentAnchor && window.JJSTAR_STRINGS
             ? window.JJSTAR_STRINGS[fileName] : null;
@@ -1720,7 +1721,7 @@
 
         // B. 설명문 및 버튼 텍스트 중앙 주입
         const fileName = (current.path.split('/').pop() || '').replace('.html', '');
-        const pageStrings = !current.generatedOverview && current.guideStatus !== 'pending' && !current.contentAnchor && window.JJSTAR_STRINGS
+        const pageStrings = !current.generatedOverview && !(current.hideInNav && current.parentOverview) && current.guideStatus !== 'pending' && !current.contentAnchor && window.JJSTAR_STRINGS
           ? window.JJSTAR_STRINGS[fileName] : null;
 
         if (pageStrings) {
@@ -1769,6 +1770,14 @@
       const link = e.target.closest('a.reference.internal');
       if (link) {
         const href = link.getAttribute('href');
+        if (href?.startsWith('#')) {
+          const target = viewer.querySelector('#' + CSS.escape(href.slice(1)));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+          }
+        }
         const idx = docs.findIndex(d => d.path === href);
         if (idx !== -1) {
           e.preventDefault();
@@ -1787,6 +1796,15 @@
     popupBody.addEventListener('click', e => {
       const link = e.target.closest('a.reference.internal');
       if (!link) return;
+      const href = link.getAttribute('href');
+      if (href?.startsWith('#')) {
+        const target = popupBody.querySelector('#' + CSS.escape(href.slice(1)));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+      }
       const idx = docs.findIndex(d => d.path === link.getAttribute('href'));
       if (idx === -1) return;
       e.preventDefault();
@@ -1819,7 +1837,8 @@
 
         // Automated Content Injection (similar to renderDetail)
         const h1 = popupBody.querySelector('h1');
-        if (h1) h1.textContent = targetDoc.small || targetDoc.mid || targetDoc.title;
+        if (h1) h1.textContent = targetDoc.hideInNav && targetDoc.parentOverview
+          ? targetDoc.parentOverview.title : targetDoc.small || targetDoc.mid || targetDoc.title;
 
         // Breadcrumb
         const autoNav = popupBody.querySelector('#auto-breadcrumb');
@@ -1840,7 +1859,7 @@
 
         // Descriptions
         const fileName = (targetDoc.path.split('/').pop() || '').replace('.html', '');
-        const pageStrings = !targetDoc.generatedOverview && targetDoc.guideStatus !== 'pending' && !targetDoc.contentAnchor && window.JJSTAR_STRINGS
+        const pageStrings = !targetDoc.generatedOverview && !(targetDoc.hideInNav && targetDoc.parentOverview) && targetDoc.guideStatus !== 'pending' && !targetDoc.contentAnchor && window.JJSTAR_STRINGS
           ? window.JJSTAR_STRINGS[fileName] : null;
         if (pageStrings) {
           const descEl = popupBody.querySelector('.page-description, .guide-lead');

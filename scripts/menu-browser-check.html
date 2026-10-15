@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>JJSTAR 메뉴 본문 연결 검사</title>
+<h1>JJSTAR 메뉴 본문 연결 검사</h1>
+<p id="status">검사 중</p>
+<pre id="result"></pre>
+<script src="../data/menu.js?v=20261015-content2"></script>
+<script src="../data/strings.js?v=20261015-content2"></script>
+<script src="../assets/js/menu-content.js?v=20261015-content2"></script>
+<script type="module">
+  const status = document.getElementById('status');
+  const output = document.getElementById('result');
+  const check = (condition, message) => { if (!condition) throw new Error(message); };
+  const parse = html => { const template = document.createElement('template'); template.innerHTML = html; return template.content; };
+  const base = new URL('../', location.href).href;
+  const categories = JJSTAR_MENU.slice(1);
+  const groups = categories.flatMap(node => node.children);
+  let overviews = 0, hiddenSections = 0, leafRoutes = 0;
+  let inspectedHtml = '';
+  try {
+    for (const overview of [...categories, ...groups]) {
+      inspectedHtml = await JJSTAR_CONTENT.load(overview, base);
+      const body = parse(inspectedHtml);
+      check(body.querySelector('h1')?.textContent === overview.title, `상위 제목: ${overview.code}`);
+      const ids = [...body.querySelectorAll('[id]')].map(el => el.id);
+      check(new Set(ids).size === ids.length, `중복 앵커: ${overview.code}`);
+      for (const leaf of JJSTAR_CONTENT.hiddenChildren(overview)) {
+        const section = body.querySelector('#' + CSS.escape(leaf.code));
+        check(section && section.textContent.trim().length > leaf.title.length, `숨김 메뉴 본문 누락: ${overview.code}/${leaf.code}`);
+        check(body.querySelector(`a[href="#${leaf.code}"]`), `숨김 메뉴 링크 누락: ${overview.code}/${leaf.code}`);
+        hiddenSections++;
+      }
+      for (const link of body.querySelectorAll('.toctree-wrapper a[href^="#"]')) {
+        check(body.querySelector('#' + CSS.escape(link.getAttribute('href').slice(1))), `끊긴 본문 앵커: ${overview.code}`);
+      }
+      if (overview.code === 'L03INFO') {
+        check(body.textContent.includes('조회 조건 설정'), '교육과정편람의 기존 단계 설명 누락');
+        check(body.querySelector('#L04EDCRB img[src]'), '교육과정편람 이미지 경로 누락');
+        check(!body.textContent.includes('사제동행교수선택'), '이동한 메뉴가 정보조회에 남아 있음');
+      }
+      if (overview.code === 'L03SCHL') {
+        check(body.textContent.includes('장학금과 관련된 공지사항을 받아볼 수 있어요'), '장학 공지사항 본문 누락');
+        check(!body.textContent.includes('장학금 환수'), '최신 목록에서 빠진 메뉴 노출');
+      }
+      check(body.querySelector('.guide-lead, .page-description')?.textContent.trim(), `상위 설명 누락: ${overview.code}`);
+      overviews++;
+    }
+    for (const mid of groups) {
+      for (const leaf of mid.children) {
+        const body = parse(await JJSTAR_CONTENT.load({ ...leaf, parentOverview: mid }, base));
+        check(body.querySelector('h1')?.textContent === (leaf.hideInNav ? mid.title : leaf.title)
+          || leaf.guideStatus === 'existing', `하위 메뉴 본문 연결: ${leaf.code}`);
+        if (leaf.hideInNav) check(body.querySelector('#' + CSS.escape(leaf.code)), `숨김 메뉴 검색 경로 누락: ${leaf.code}`);
+        if (leaf.guideStatus === 'pending') check(body.textContent.includes('상세 이용 안내는 준비 중'), `미작성 상태 누락: ${leaf.code}`);
+        leafRoutes++;
+      }
+    }
+    status.textContent = '검사 통과';
+    output.textContent = JSON.stringify({ overviews, hiddenSections, leafRoutes }, null, 2);
+  } catch (error) {
+    status.textContent = '검사 실패';
+    output.textContent = error.stack + '\n\n' + inspectedHtml.slice(0, 3500);
+  }
+</script>
+</html>

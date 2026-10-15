@@ -55,11 +55,15 @@ for (const [i, leaf] of leaves.entries()) {
 const content = context.window.JJSTAR_CONTENT;
 const paths = new Set(all.map(n => n.path));
 for (const overview of [...service, ...groups]) {
-  const before = requests;
-  const html = await content.load(overview, 'https://example.test/guide/');
-  assert.equal(requests, before, 'Generated overview should not fetch legacy hub HTML');
-  for (const match of html.matchAll(/href="([^"]+)"/g)) assert.ok(paths.has(match[1]));
-  for (const child of overview.children) assert.ok(html.includes(child.path), `Missing child: ${child.code}`);
+  const html = content.overview(overview);
+  const inline = new Set(content.hiddenChildren(overview).map(node => node.code));
+  if (overview.overviewPath) assert.ok(fs.existsSync(overview.overviewPath));
+  for (const match of html.matchAll(/href="([^"]+)"/g)) {
+    assert.ok(paths.has(match[1]) || (match[1].startsWith('#') && inline.has(match[1].slice(1))));
+  }
+  for (const child of overview.children) {
+    assert.ok(html.includes(inline.has(child.code) ? '#' + child.code : child.path), `Missing child: ${child.code}`);
+  }
 }
 for (const leaf of leaves.filter(n => n.guideStatus !== 'embedded')) {
   const before = requests;
@@ -67,7 +71,7 @@ for (const leaf of leaves.filter(n => n.guideStatus !== 'embedded')) {
   if (leaf.guideStatus === 'pending') {
     assert.equal(requests, before, 'Pending guide must not request a nonexistent file');
     assert.ok(html.includes('상세 이용 안내는 준비 중'));
-  } else assert.equal(requests, before + 1);
+  } else assert.ok(requests === before || requests === before + 1);
 }
 const search = context.window.JJSTAR_SEARCH;
 const aliasResult = search.filterMenu(menu, 'SUPER STAR');
@@ -86,4 +90,6 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
 }
 assert.ok(!html.includes('pages/L01HOME.html'));
 assert.ok(!content.pending({ title: '<script>', sourceMenuPath: ['<img>'] }).includes('<script>'));
-console.log(`PASS: 7/42/165 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, 49 generated overviews, ${requests} existing guide loads, pending routes, embedded anchors, alias/Korean/special-character search, syntax`);
+assert.equal(groups.find(node => node.code === 'L03INFO').overviewPath, 'pages/L03STMG.html');
+assert.ok(groups.find(node => node.code === 'L03SCHL').children.find(node => node.code === 'L04SCHN').hideInNav);
+console.log(`PASS: 7/42/165 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, 49 overview link specifications, ${requests} existing guide loads, pending routes, source anchors, alias/Korean/special-character search, syntax. Use scripts/menu-browser-check.html to verify rendered embeds.`);
