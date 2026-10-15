@@ -5,9 +5,9 @@
 <h1>JJSTAR 메뉴 본문 연결 검사</h1>
 <p id="status">검사 중</p>
 <pre id="result"></pre>
-<script src="../data/menu.js?v=20261015-content2"></script>
-<script src="../data/strings.js?v=20261015-content2"></script>
-<script src="../assets/js/menu-content.js?v=20261015-content2"></script>
+<script src="../data/menu.js?v=20261015-content3"></script>
+<script src="../data/strings.js?v=20261015-content3"></script>
+<script src="../assets/js/menu-content.js?v=20261015-content3"></script>
 <script type="module">
   const status = document.getElementById('status');
   const output = document.getElementById('result');
@@ -34,9 +34,10 @@
       for (const link of body.querySelectorAll('.toctree-wrapper a[href^="#"]')) {
         check(body.querySelector('#' + CSS.escape(link.getAttribute('href').slice(1))), `끊긴 본문 앵커: ${overview.code}`);
       }
-      if (overview.code === 'L03INFO') {
+      if (overview.code === 'L03STMG') {
         check(body.textContent.includes('조회 조건 설정'), '교육과정편람의 기존 단계 설명 누락');
         check(body.querySelector('#L04EDCRB img[src]'), '교육과정편람 이미지 경로 누락');
+        check(body.querySelector('#L04EDCR')?.textContent.includes('JJCS 역량별 권장 과목'), 'STAR 관리 교육과정 설명 대신 다른 문서가 연결됨');
         check(!body.textContent.includes('사제동행교수선택'), '이동한 메뉴가 정보조회에 남아 있음');
       }
       if (overview.code === 'L03SCHL') {
@@ -53,6 +54,13 @@
           || leaf.guideStatus === 'existing', `하위 메뉴 본문 연결: ${leaf.code}`);
         if (leaf.hideInNav) check(body.querySelector('#' + CSS.escape(leaf.code)), `숨김 메뉴 검색 경로 누락: ${leaf.code}`);
         if (leaf.guideStatus === 'pending') check(body.textContent.includes('상세 이용 안내는 준비 중'), `미작성 상태 누락: ${leaf.code}`);
+        if (leaf.code === 'L04STGD') {
+          for (const title of ['3C활동 안내', 'starT 트랙제도', 'starT 프로그램 소개', 'starT 주요혜택']) {
+            check([...body.querySelectorAll('h3')].some(el => el.textContent === title), `starT 통합 설명 누락: ${title}`);
+          }
+          const ids = [...body.querySelectorAll('[id]')].map(el => el.id);
+          check(new Set(ids).size === ids.length, 'starT 통합 설명 중복 앵커');
+        }
         leafRoutes++;
       }
     }

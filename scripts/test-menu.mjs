@@ -49,7 +49,9 @@ for (const [i, leaf] of leaves.entries()) {
   assert.ok(Object.hasOwn(leaf, 'hideInNav'));
   if (leaf.guideStatus === 'existing') assert.ok(fs.existsSync(leaf.path));
   if (leaf.guideStatus === 'embedded') {
-    assert.ok(fs.readFileSync(leaf.contentPath, 'utf8').includes(`id="${leaf.contentAnchor}"`));
+    for (const anchor of leaf.contentAnchors || [leaf.contentAnchor]) {
+      assert.ok(fs.readFileSync(leaf.contentPath, 'utf8').includes(`id="${anchor}"`));
+    }
   }
 }
 const content = context.window.JJSTAR_CONTENT;
@@ -90,6 +92,42 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
 }
 assert.ok(!html.includes('pages/L01HOME.html'));
 assert.ok(!content.pending({ title: '<script>', sourceMenuPath: ['<img>'] }).includes('<script>'));
-assert.equal(groups.find(node => node.code === 'L03INFO').overviewPath, 'pages/L03STMG.html');
+assert.equal(groups.find(node => node.code === 'L03STMG').title, '정보조회');
+assert.equal(groups.find(node => node.code === 'L03STMG').overviewPath, 'pages/L03STMG.html');
 assert.ok(groups.find(node => node.code === 'L03SCHL').children.find(node => node.code === 'L04SCHN').hideInNav);
+// Independent placement expectations from the September change history and October final list.
+const placements = [
+  ['M000020405', 'L04EDCR', 'STAR 지원', '정보조회'],
+  ['M000020509', 'L04NCSJ', '진로개발 및 상담', '직무탐색'],
+  ['M000021786', 'L04CPRA', '학사정보', '사회봉사'],
+  ['M000021787', 'L04CPRH', '학사정보', '사회봉사'],
+  ['M000021784', 'L04AHAL', '학사정보', '수강관리'],
+  ['M000020073', 'L04OVAP', '학사정보', '해외봉사'],
+  ['M000020074', 'L04OVCK', '학사정보', '해외봉사'],
+  ['M000020075', 'L04OVRP', '학사정보', '해외봉사'],
+  ['M000020461', 'L04MJDG', '역량강화', '전공역량'],
+  ['M000020477', 'L04SUPE', '역량강화', 'SUPER 핵심역량'],
+  ['M000019985', 'L04BUSA', '대학생활', '통학버스'],
+  ['M000020002', 'L04DMAP', '대학생활', '학생생활관'],
+  ['M000020164', 'L04INDC', '대학생활', '산학협력활동'],
+  ['M000020126', 'L04CPAG', '대학생활', '캡스톤디자인'],
+  ['M000020404', 'L04HMJR', 'My Page', '나의정보'],
+  ['M000020439', 'L04DEPT', 'My Page', '나의정보'],
+  ['M000020444', 'L04PAPR', 'My Page', '나의정보'],
+  ['M000020468', 'L04AWIN', 'My Page', '수상·인증 내역']
+];
+for (const [domId, code, category, group] of placements) {
+  const leaf = leaves.find(node => node.sourceDomId === domId);
+  assert.equal(leaf?.code, code, `Historical code mapping: ${domId}`);
+  assert.equal(leaf.sourceMenuPath[0], category);
+  assert.equal(leaf.sourceMenuPath[1], group);
+}
+const course = leaves.find(node => node.code === 'L04EDCR');
+assert.ok(course.hideInNav && course.guideStatus === 'embedded');
+assert.equal(course.contentAnchor, 'L04EDCR');
+assert.ok(!leaves.some(node => node.code === 'L04CURV'));
+const starT = leaves.find(node => node.code === 'L04STGD');
+assert.equal(JSON.stringify(starT.contentAnchors), JSON.stringify(['L043CAT', 'L04TRCK', 'L04STPG', 'L04STBF']));
+assert.ok(search.filterMenu(menu, 'NCS').flatMap(cat => cat.children.flatMap(mid => mid.children)).some(node => node.code === 'L04NCSJ'));
+assert.ok(search.filterMenu(menu, 'star관리').some(cat => cat.children.some(mid => mid.code === 'L03STMG')));
 console.log(`PASS: 7/42/165 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, 49 overview link specifications, ${requests} existing guide loads, pending routes, source anchors, alias/Korean/special-character search, syntax. Use scripts/menu-browser-check.html to verify rendered embeds.`);

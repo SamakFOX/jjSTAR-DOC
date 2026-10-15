@@ -55,23 +55,20 @@ function filterMenu(menuData, keyword) {
   
   const lowerKeyword = keyword.toLowerCase();
   const isCho = isChosung(lowerKeyword);
+  const matches = node => [node.title, ...(node.sourceAliases || [])].some(value => {
+    const title = value.toLowerCase();
+    return (isCho ? Hangul.getChosung(title) : title).includes(lowerKeyword);
+  });
 
   return menuData.filter(cat => cat.enabled !== false).map(cat => {
-    const catTitle = cat.title.toLowerCase();
-    const catCho = Hangul.getChosung(catTitle);
-    const catMatch = isCho ? catCho.includes(lowerKeyword) : catTitle.includes(lowerKeyword)
-      || (cat.sourceAliases || []).some(alias => alias.toLowerCase().includes(lowerKeyword));
+    const catMatch = matches(cat);
 
     const processedMids = cat.children.filter(mid => mid.enabled !== false).map(mid => {
-      const midTitle = mid.title.toLowerCase();
-      const midCho = Hangul.getChosung(midTitle);
-      const midMatch = isCho ? midCho.includes(lowerKeyword) : midTitle.includes(lowerKeyword);
+      const midMatch = matches(mid);
 
       // 상위 메뉴가 매칭되면 하위 메뉴를 함께 보여주고, 그 외에는 직접 매칭만 표시합니다.
       const processedSmalls = mid.children.filter(small => small.enabled !== false).map(small => {
-        const smallTitle = small.title.toLowerCase();
-        const smallCho = Hangul.getChosung(smallTitle);
-        const smallMatch = isCho ? smallCho.includes(lowerKeyword) : smallTitle.includes(lowerKeyword);
+        const smallMatch = matches(small);
         return { ...small, _directMatch: smallMatch };
       }).filter(s => s._directMatch || catMatch || midMatch);
 

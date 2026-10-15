@@ -62,6 +62,11 @@ window.JJSTAR_CONTENT = (() => {
     return section.innerHTML;
   }
 
+  function embeddedSections(html, current) {
+    return (current.contentAnchors || [current.contentAnchor])
+      .map(contentAnchor => embeddedSection(html, { ...current, contentAnchor })).join('\n');
+  }
+
   async function fetchText(path, absoluteBase, signal) {
     const url = new URL(path, absoluteBase).href;
     if (signal?.aborted) throw new DOMException('Request aborted', 'AbortError');
@@ -124,7 +129,7 @@ window.JJSTAR_CONTENT = (() => {
       if (node.guideStatus === 'pending') body = fragment(pending(node));
       else {
         const raw = await read(node.contentPath || node.path);
-        body = fragment(node.contentAnchor ? embeddedSection(raw, node) : raw);
+        body = fragment(node.contentAnchor ? embeddedSections(raw, node) : raw);
       }
       const block = document.createElement('section');
       block.className = 'mt-5 pt-5';
@@ -164,7 +169,7 @@ window.JJSTAR_CONTENT = (() => {
       html = await fetchText(current.contentPath || current.path, absoluteBase, signal);
       if (current.contentAnchor) html = `<article class="guide-article" no-image>
         <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
-        <h1>${escape(current.title)}</h1>${embeddedSection(html, current)}</article>`;
+        <h1>${escape(current.title)}</h1>${embeddedSections(html, current)}</article>`;
     }
     return html.replace(/src="(?!https?:|data:|\/\/)([^"]*)"/g, (_, path) =>
       `src="${new URL(path.replace(/^(\.\.\/)+/, ''), absoluteBase).href}"`);

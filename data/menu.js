@@ -52,19 +52,20 @@ window.JJSTAR_MENU = [
     "children": [
       {
         "title": "정보조회",
-        "miniLabel": "정보조회",
-        "code": "L03INFO",
-        "path": "pages/L03INFO.html",
+        "miniLabel": "정보 조회",
+        "code": "L03STMG",
+        "path": "pages/L03STMG.html",
         "enabled": true,
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
           {"title":"학사일정","miniLabel":"학사 일정","code":"L04ACSC","path":"pages/L04ACSC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020406","sourceMenuPath":["STAR 지원","정보조회","학사일정"],"sourceRow":11,"description":"전주대 스케줄","guideStatus":"existing"},
           {"title":"교원 시간표 조회","miniLabel":"교원 시간표","code":"L04PRTS","path":"pages/L04PRTS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019963","sourceMenuPath":["STAR 지원","정보조회","교원 시간표 조회"],"sourceRow":12,"description":"교수님 시간표 확인","guideStatus":"existing"},
-          {"title":"교육과정조회","miniLabel":"교육 과정","code":"L04CURV","path":"pages/L04CURV.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020405","sourceMenuPath":["STAR 지원","정보조회","교육과정조회"],"sourceRow":13,"description":"교육 과정 관련 도움말","guideStatus":"existing"},
+          {"title":"교육과정조회","miniLabel":"교육 과정","code":"L04EDCR","path":"pages/L04EDCR.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020405","sourceMenuPath":["STAR 지원","정보조회","교육과정조회"],"sourceRow":13,"sourceAliases":["교육과정"],"description":"단과대학/학과가 제시하는 교육과정","contentPath":"pages/L03STMG.html","contentAnchor":"L04EDCR","guideStatus":"embedded"},
           {"title":"교육과정편람","miniLabel":"교과 편람","code":"L04EDCRB","path":"pages/L04EDCRB.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019965","sourceMenuPath":["STAR 지원","정보조회","교육과정편람"],"sourceRow":14,"description":"입학년도별 졸업까지의 전체 교육일정","contentPath":"pages/L03STMG.html","contentAnchor":"L04EDCRB","guideStatus":"embedded"},
           {"title":"수강편람","miniLabel":"수강 편람","code":"L04SGGD","path":"pages/L04SGGD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021007","sourceMenuPath":["STAR 지원","정보조회","수강편람"],"sourceRow":15,"description":"이번 학기 개설과목 리스트","contentPath":"pages/L03STMG.html","contentAnchor":"L04SGGD","guideStatus":"embedded"}
         ],
+        "sourceAliases": ["star 관리","star관리"],
         "overviewPath": "pages/L03STMG.html"
       },
       {
@@ -109,7 +110,7 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"사제동행교수선택","miniLabel":"사제 동행","code":"L04SAJE","path":"pages/L04SAJE.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019964","sourceMenuPath":["STAR 지원","공동체","사제동행교수선택"],"sourceRow":25,"description":"지도교수 선택 및 선정내역","guideStatus":"existing"},
+          {"title":"사제동행교수선택","miniLabel":"사제 동행","code":"L04SAJE","path":"pages/L04SAJE.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019964","sourceMenuPath":["STAR 지원","공동체","사제동행교수선택"],"sourceRow":25,"sourceAliases":["사제동행교수선택(신규)"],"description":"지도교수 선택 및 선정내역","guideStatus":"existing"},
           {"title":"My MAP","miniLabel":"MY MAP","code":"L04MYMP","path":"pages/L04MYMP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020822","sourceMenuPath":["STAR 지원","공동체","My MAP"],"sourceRow":26,"description":"나의 대학생활 성과를 담은 포트폴리오 맵 조회","guideStatus":"existing"},
           {"title":"공동체구성 및 활동내역","miniLabel":"공동체 구성&활동","code":"L04CMAC","path":"pages/L04CMAC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020862","sourceMenuPath":["STAR 지원","공동체","공동체구성 및 활동내역"],"sourceRow":27,"description":"소속 공동체 팀원 정보 및 활동 현황 확인","guideStatus":"existing"},
           {"title":"공동체 활동 결과보고","miniLabel":"활동 결과보고","code":"L04CMRP","path":"pages/L04CMRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020863","sourceMenuPath":["STAR 지원","공동체","공동체 활동 결과보고"],"sourceRow":28,"description":"활동 종료 후 결과보고서 온라인 작성 및 제출","guideStatus":"existing"},
@@ -155,7 +156,7 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"인터넷 증명발급 안내","miniLabel":"인터넷 발급","code":"L04CEGD","path":"pages/L04CEGD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020474","sourceMenuPath":["STAR 지원","증명발급","인터넷 증명발급 안내"],"sourceRow":37,"description":"인터넷 증명발급 서비스 이용 방법과 수수료 안내","contentPath":"pages/L03CERTI.html","contentAnchor":"L04CEGD","guideStatus":"embedded"},
+          {"title":"인터넷 증명발급 안내","miniLabel":"인터넷 발급","code":"L04CEGD","path":"pages/L04CEGD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020474","sourceMenuPath":["STAR 지원","증명발급","인터넷 증명발급 안내"],"sourceRow":37,"sourceAliases":["인터넷 증명발금 안내"],"description":"인터넷 증명발급 서비스 이용 방법과 수수료 안내","contentPath":"pages/L03CERTI.html","contentAnchor":"L04CEGD","guideStatus":"embedded"},
           {"title":"제증명 발급","miniLabel":"제증명 발급","code":"L04CEIS","path":"pages/L04CEIS.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020475","sourceMenuPath":["STAR 지원","증명발급","제증명 발급"],"sourceRow":38,"description":"재학·성적·졸업 등 필요한 증명서 온라인 신청","contentPath":"pages/L03CERTI.html","contentAnchor":"L04CEIS","guideStatus":"embedded"},
           {"title":"제증명 발급내역","miniLabel":"발급 내역","code":"L04CEHI","path":"pages/L04CEHI.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020476","sourceMenuPath":["STAR 지원","증명발급","제증명 발급내역"],"sourceRow":39,"description":"이전에 발급한 보관 증명서 및 영수증 조회","contentPath":"pages/L03CERTI.html","contentAnchor":"L04CEHI","guideStatus":"embedded"}
         ],
@@ -227,7 +228,7 @@ window.JJSTAR_MENU = [
         "children": [
           {"title":"수강바구니","miniLabel":"수강 바구니","code":"L04BASK","path":"pages/L04BASK.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021002","sourceMenuPath":["학사정보","수강관리","수강바구니"],"sourceRow":48,"description":"수강 바구니 관련 도움말","contentPath":"pages/L03COUR.html","contentAnchor":"L04BASK","guideStatus":"embedded"},
           {"title":"수강신청","miniLabel":"수강 신청","code":"L04ENRA","path":"pages/L04ENRA.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021003","sourceMenuPath":["학사정보","수강관리","수강신청"],"sourceRow":49,"description":"수강 신청 관련 도움말","contentPath":"pages/L03COUR.html","contentAnchor":"L04ENRA","guideStatus":"embedded"},
-          {"title":"수강신청 내역","miniLabel":"수강 내역","code":"L04ENRV","path":"pages/L04ENRV.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021004","sourceMenuPath":["학사정보","수강관리","수강신청 내역"],"sourceRow":50,"description":"수강 내역 관련 도움말","contentPath":"pages/L03COUR.html","contentAnchor":"L04ENRV","guideStatus":"embedded"},
+          {"title":"수강신청 내역","miniLabel":"수강 내역","code":"L04ENRV","path":"pages/L04ENRV.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021004","sourceMenuPath":["학사정보","수강관리","수강신청 내역"],"sourceRow":50,"sourceAliases":["수강신청 내역조회"],"description":"수강 내역 관련 도움말","contentPath":"pages/L03COUR.html","contentAnchor":"L04ENRV","guideStatus":"embedded"},
           {"title":"강좌시간표/수업계획서 조회","miniLabel":"시간표 & 계획서","code":"L04CLPL","path":"pages/L04CLPL.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020011","sourceMenuPath":["학사정보","수강관리","강좌시간표/수업계획서 조회"],"sourceRow":51,"description":"시간표 & 계획서 관련 도움말","guideStatus":"existing"},
           {"title":"AHA 바로가기","miniLabel":"AHA 링크","code":"L04AHAL","path":"pages/L04AHAL.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021784","sourceMenuPath":["학사정보","수강관리","AHA 바로가기"],"sourceRow":52,"description":"AHA 링크 관련 도움말","contentPath":"pages/L03ADMN.html","contentAnchor":"L04AHAL","guideStatus":"embedded"},
           {"title":"AHA 교육이수증","miniLabel":"AHA 이수증","code":"L04AHAC","path":"pages/L04AHAC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021785","sourceMenuPath":["학사정보","수강관리","AHA 교육이수증"],"sourceRow":53,"description":"AHA 이수증 관련 도움말","guideStatus":"existing"}
@@ -249,7 +250,8 @@ window.JJSTAR_MENU = [
           {"title":"졸업예정자 졸업사정 확인","miniLabel":"졸업사정 확인","code":"L04GRDC","path":"pages/L04GRDC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020550","sourceMenuPath":["학사정보","출결·졸업관리","졸업예정자 졸업사정 확인"],"sourceRow":57,"guideStatus":"pending"},
           {"title":"조기졸업 신청","miniLabel":"조기졸업 신청","code":"L04EGRD","path":"pages/L04EGRD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020551","sourceMenuPath":["학사정보","출결·졸업관리","조기졸업 신청"],"sourceRow":58,"guideStatus":"pending"},
           {"title":"학사학위 취득유예 신청","miniLabel":"학사학위 취득유예","code":"L04DEFR","path":"pages/L04DEFR.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020552","sourceMenuPath":["학사정보","출결·졸업관리","학사학위 취득유예 신청"],"sourceRow":59,"guideStatus":"pending"}
-        ]
+        ],
+        "sourceAliases": ["졸업관리"]
       },
       {
         "title": "성적관리·강의평가",
@@ -264,8 +266,9 @@ window.JJSTAR_MENU = [
           {"title":"강의평가","miniLabel":"최종 강의평가","code":"L04LEVL","path":"pages/L04LEVL.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020028","sourceMenuPath":["학사정보","성적관리·강의평가","강의평가"],"sourceRow":61,"description":"최종 강의평가","guideStatus":"existing"},
           {"title":"중간강의평가","miniLabel":"중간 강의평가","code":"L04MLEV","path":"pages/L04MLEV.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020029","sourceMenuPath":["학사정보","성적관리·강의평가","중간강의평가"],"sourceRow":62,"description":"중간 강의평가","guideStatus":"existing"},
           {"title":"성적이의신청","miniLabel":"성적 이의","code":"L04GREJ","path":"pages/L04GREJ.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020025","sourceMenuPath":["학사정보","성적관리·강의평가","성적이의신청"],"sourceRow":63,"description":"성적 이의 관련 도움말","guideStatus":"existing"},
-          {"title":"성적정보분석(AMC5)","miniLabel":"성적 분석","code":"L04AMC5","path":"pages/L04AMC5.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020024","sourceMenuPath":["학사정보","성적관리·강의평가","성적정보분석(AMC5)"],"sourceRow":64,"description":"성적 분석 관련 도움말","guideStatus":"existing"}
+          {"title":"성적정보분석(AMC5)","miniLabel":"성적 분석","code":"L04AMC5","path":"pages/L04AMC5.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020024","sourceMenuPath":["학사정보","성적관리·강의평가","성적정보분석(AMC5)"],"sourceRow":64,"sourceAliases":["성적정보분석 (AMC5)"],"description":"성적 분석 관련 도움말","guideStatus":"existing"}
         ],
+        "sourceAliases": ["성적관리"],
         "overviewPath": "pages/L03GRAD.html"
       },
       {
@@ -300,6 +303,7 @@ window.JJSTAR_MENU = [
           {"title":"특별학점","miniLabel":"특별 학점","code":"L04SPCR","path":"pages/L04SPCR.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020046","sourceMenuPath":["학사정보","학점인정신청","특별학점"],"sourceRow":73,"description":"특별 학점 관련 도움말","guideStatus":"existing"},
           {"title":"K-MOOC인정신청","miniLabel":"K-MOOC 인정","code":"L04KMOC","path":"pages/L04KMOC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020047","sourceMenuPath":["학사정보","학점인정신청","K-MOOC인정신청"],"sourceRow":74,"description":"K-MOOC 인정 관련 도움말","guideStatus":"existing"}
         ],
+        "sourceAliases": ["학점신청"],
         "overviewPath": "pages/L03CRED.html"
       },
       {
@@ -311,7 +315,7 @@ window.JJSTAR_MENU = [
         "hideInNav": true,
         "generatedOverview": true,
         "children": [
-          {"title":"채플/기독교이수현황","miniLabel":"채플 이수현황","code":"L04CHST","path":"pages/L04CHST.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020043","sourceMenuPath":["학사정보","채플관리","채플/기독교이수현황"],"sourceRow":75,"description":"채플 이수현황","guideStatus":"existing"}
+          {"title":"채플/기독교이수현황","miniLabel":"채플 이수현황","code":"L04CHST","path":"pages/L04CHST.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020043","sourceMenuPath":["학사정보","채플관리","채플/기독교이수현황"],"sourceRow":75,"sourceAliases":["채플/기독교 이수현황"],"description":"채플 이수현황","guideStatus":"existing"}
         ],
         "overviewPath": "pages/L03CHPL.html"
       },
@@ -325,10 +329,10 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "children": [
           {"title":"사회봉사 교과목신청","miniLabel":"사봉 교과목","code":"L04SVAP","path":"pages/L04SVAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020032","sourceMenuPath":["학사정보","사회봉사","사회봉사 교과목신청"],"sourceRow":76,"description":"사봉 교과목 관련 도움말","guideStatus":"existing"},
-          {"title":"사회봉사 신청내역 및 인증 확인","miniLabel":"사봉 내역","code":"L04SVCK","path":"pages/L04SVCK.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020033","sourceMenuPath":["학사정보","사회봉사","사회봉사 신청내역 및 인증 확인"],"sourceRow":77,"description":"사봉 내역 관련 도움말","guideStatus":"existing"},
+          {"title":"사회봉사 신청내역 및 인증 확인","miniLabel":"사봉 내역","code":"L04SVCK","path":"pages/L04SVCK.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020033","sourceMenuPath":["학사정보","사회봉사","사회봉사 신청내역 및 인증 확인"],"sourceRow":77,"sourceAliases":["신청내역 및 인증 확인"],"description":"사봉 내역 관련 도움말","guideStatus":"existing"},
           {"title":"사회봉사 현황","miniLabel":"사회봉사 현황","code":"L04SVST","path":"pages/L04SVST.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021864","sourceMenuPath":["학사정보","사회봉사","사회봉사 현황"],"sourceRow":78,"guideStatus":"pending"},
-          {"title":"사회봉사 활동계획서 제출","miniLabel":"활동 계획서","code":"L04SVPL","path":"pages/L04SVPL.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020034","sourceMenuPath":["학사정보","사회봉사","사회봉사 활동계획서 제출"],"sourceRow":79,"description":"활동 계획서 관련 도움말","guideStatus":"existing"},
-          {"title":"사회봉사 결과보고서 제출","miniLabel":"결과 보고서","code":"L04SVRP","path":"pages/L04SVRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020035","sourceMenuPath":["학사정보","사회봉사","사회봉사 결과보고서 제출"],"sourceRow":80,"description":"결과 보고서 관련 도움말","guideStatus":"existing"},
+          {"title":"사회봉사 활동계획서 제출","miniLabel":"활동 계획서","code":"L04SVPL","path":"pages/L04SVPL.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020034","sourceMenuPath":["학사정보","사회봉사","사회봉사 활동계획서 제출"],"sourceRow":79,"sourceAliases":["활동계획서 제출"],"description":"활동 계획서 관련 도움말","guideStatus":"existing"},
+          {"title":"사회봉사 결과보고서 제출","miniLabel":"결과 보고서","code":"L04SVRP","path":"pages/L04SVRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020035","sourceMenuPath":["학사정보","사회봉사","사회봉사 결과보고서 제출"],"sourceRow":80,"sourceAliases":["결과보고서 제출"],"description":"결과 보고서 관련 도움말","guideStatus":"existing"},
           {"title":"심폐소생술 교과목 신청","miniLabel":"심폐교과 신청","code":"L04CPRA","path":"pages/L04CPRA.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021786","sourceMenuPath":["학사정보","사회봉사","심폐소생술 교과목 신청"],"sourceRow":81,"description":"심폐교과 신청 관련 도움말","guideStatus":"existing"},
           {"title":"심폐소생술 교과목 신청내역 확인","miniLabel":"심폐교과 신청확인","code":"L04CPRH","path":"pages/L04CPRH.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021787","sourceMenuPath":["학사정보","사회봉사","심폐소생술 교과목 신청내역 확인"],"sourceRow":82,"description":"심폐교과 신청확인 관련 도움말","guideStatus":"existing"}
         ],
@@ -345,7 +349,7 @@ window.JJSTAR_MENU = [
         "children": [
           {"title":"해외봉사 신청","miniLabel":"해봉 신청","code":"L04OVAP","path":"pages/L04OVAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020073","sourceMenuPath":["학사정보","해외봉사","해외봉사 신청"],"sourceRow":83,"description":"봉사단 파견 참가 온라인 신청","guideStatus":"existing"},
           {"title":"해외봉사 신청 내역 확인","miniLabel":"신청 내역","code":"L04OVCK","path":"pages/L04OVCK.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020074","sourceMenuPath":["학사정보","해외봉사","해외봉사 신청 내역 확인"],"sourceRow":84,"description":"신청서 심사 진행 및 최종 선발 결과 조회","guideStatus":"existing"},
-          {"title":"해외봉사 결과보고서 작성","miniLabel":"결과 보고서","code":"L04OVRP","path":"pages/L04OVRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020075","sourceMenuPath":["학사정보","해외봉사","해외봉사 결과보고서 작성"],"sourceRow":85,"description":"파견 종료 후 활동 결과서 및 소감문 제출","guideStatus":"existing"}
+          {"title":"해외봉사 결과보고서 작성","miniLabel":"결과 보고서","code":"L04OVRP","path":"pages/L04OVRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020075","sourceMenuPath":["학사정보","해외봉사","해외봉사 결과보고서 작성"],"sourceRow":85,"sourceAliases":["해외봉사 결과보고서 제출"],"description":"파견 종료 후 활동 결과서 및 소감문 제출","guideStatus":"existing"}
         ],
         "overviewPath": "pages/L03OVSV.html"
       }
@@ -386,11 +390,12 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"starT 안내 및 혜택","miniLabel":"starT 안내 및 혜택","code":"L04STGD","path":"pages/L04STGD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020483","sourceMenuPath":["역량강화","starT 프로그램","starT 안내 및 혜택"],"sourceRow":90,"guideStatus":"embedded","contentPath":"pages/L03STRT.html","contentAnchor":"L04STBF","description":"starT 프로그램의 주요 혜택 안내"},
+          {"title":"starT 안내 및 혜택","miniLabel":"starT 안내 및 혜택","code":"L04STGD","path":"pages/L04STGD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020483","sourceMenuPath":["역량강화","starT 프로그램","starT 안내 및 혜택"],"sourceRow":90,"guideStatus":"embedded","contentPath":"pages/L03STRT.html","contentAnchor":"L043CAT","contentAnchors":["L043CAT","L04TRCK","L04STPG","L04STBF"],"sourceAliases":["3C활동 안내","starT 트랙제도","starT 프로그램 소개","starT 주요혜택"],"description":"3C 활동·트랙·프로그램 소개와 주요 혜택 안내"},
           {"title":"starT 신청 현황","miniLabel":"신청 현황","code":"L04STHS","path":"pages/L04STHS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020486","sourceMenuPath":["역량강화","starT 프로그램","starT 신청 현황"],"sourceRow":91,"description":"전체적인 스타T 프로그램 참여 현황 조회","guideStatus":"existing"},
           {"title":"starT 온라인 신청내역","miniLabel":"온라인 신청내역","code":"L04STOH","path":"pages/L04STOH.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020485","sourceMenuPath":["역량강화","starT 프로그램","starT 온라인 신청내역"],"sourceRow":92,"description":"온라인을 통해 접수한 프로그램 신청 상태 조회","guideStatus":"existing"},
           {"title":"starT 활동 인증","miniLabel":"활동 인증","code":"L04STCF","path":"pages/L04STCF.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020487","sourceMenuPath":["역량강화","starT 프로그램","starT 활동 인증"],"sourceRow":93,"description":"프로그램 수료에 따른 스타T 활동 인증 및 증명서 발급","guideStatus":"existing"}
         ],
+        "sourceAliases": ["starT"],
         "overviewPath": "pages/L03STRT.html"
       },
       {
@@ -473,7 +478,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "children": [
           {"title":"직무역량 소개","miniLabel":"직무역량 소개","code":"L04JBCP","path":"pages/L04JBCP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020508","sourceMenuPath":["진로개발 및 상담","직무탐색","직무역량 소개"],"sourceRow":108,"guideStatus":"pending"},
-          {"title":"JJCS 직무탐색","miniLabel":"JJCS 직무탐색","code":"L04JJCS","path":"pages/L04JJCS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020509","sourceMenuPath":["진로개발 및 상담","직무탐색","JJCS 직무탐색"],"sourceRow":109,"guideStatus":"pending"},
+          {"title":"JJCS 직무탐색","miniLabel":"JJCS 직무","code":"L04NCSJ","path":"pages/L04NCSJ.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020509","sourceMenuPath":["진로개발 및 상담","직무탐색","JJCS 직무탐색"],"sourceRow":109,"sourceAliases":["NCS 직무탐색"],"guideStatus":"pending"},
           {"title":"JJKECO 직무탐색","miniLabel":"JJKECO 직무탐색","code":"L04JJKE","path":"pages/L04JJKE.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020510","sourceMenuPath":["진로개발 및 상담","직무탐색","JJKECO 직무탐색"],"sourceRow":110,"guideStatus":"pending"},
           {"title":"직무역량 탐색","miniLabel":"직무역량 탐색","code":"L04JBEF","path":"pages/L04JBEF.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020511","sourceMenuPath":["진로개발 및 상담","직무탐색","직무역량 탐색"],"sourceRow":111,"guideStatus":"pending"}
         ]
@@ -487,12 +492,13 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"직업흥미검사(STRONG)","miniLabel":"직업흥미 STRONG","code":"L04STRG","path":"pages/L04STRG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020520","sourceMenuPath":["진로개발 및 상담","진로·진단검사","직업흥미검사(STRONG)"],"sourceRow":112,"description":"직무&현장 흥미도 기반 진로 추천","guideStatus":"existing"},
-          {"title":"성격검사(MBTI)","miniLabel":"성격 MBTI","code":"L04MBTI","path":"pages/L04MBTI.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020518","sourceMenuPath":["진로개발 및 상담","진로·진단검사","성격검사(MBTI)"],"sourceRow":113,"description":"나의 성격 유형에 따른 공부법 제시","guideStatus":"existing"},
-          {"title":"학습유형검사(U&I)","miniLabel":"학습유형 U&I","code":"L04UITY","path":"pages/L04UITY.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020519","sourceMenuPath":["진로개발 및 상담","진로·진단검사","학습유형검사(U&I)"],"sourceRow":114,"description":"개인 학습스타일에 맞는 효율적인 학습법 제시","guideStatus":"existing"},
-          {"title":"카운슬링센터 심리검사","miniLabel":"카운슬링 진단","code":"L04PSYC","path":"pages/L04PSYC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020521","sourceMenuPath":["진로개발 및 상담","진로·진단검사","카운슬링센터 심리검사"],"sourceRow":115,"description":"전주대가 제공하는 정밀 심리 검사","guideStatus":"existing"},
-          {"title":"우리대학 기타 진단검사","miniLabel":"기타 검사","code":"L04ETCT","path":"pages/L04ETCT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020517","sourceMenuPath":["진로개발 및 상담","진로·진단검사","우리대학 기타 진단검사"],"sourceRow":116,"description":"맞춤서비스를 위한 각종 검사","guideStatus":"existing"}
+          {"title":"직업흥미검사(STRONG)","miniLabel":"직업흥미 STRONG","code":"L04STRG","path":"pages/L04STRG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020520","sourceMenuPath":["진로개발 및 상담","진로·진단검사","직업흥미검사(STRONG)"],"sourceRow":112,"sourceAliases":["직업흥미검사 (STRONG)"],"description":"직무&현장 흥미도 기반 진로 추천","guideStatus":"existing"},
+          {"title":"성격검사(MBTI)","miniLabel":"성격 MBTI","code":"L04MBTI","path":"pages/L04MBTI.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020518","sourceMenuPath":["진로개발 및 상담","진로·진단검사","성격검사(MBTI)"],"sourceRow":113,"sourceAliases":["성격검사 (MBTI)"],"description":"나의 성격 유형에 따른 공부법 제시","guideStatus":"existing"},
+          {"title":"학습유형검사(U&I)","miniLabel":"학습유형 U&I","code":"L04UITY","path":"pages/L04UITY.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020519","sourceMenuPath":["진로개발 및 상담","진로·진단검사","학습유형검사(U&I)"],"sourceRow":114,"sourceAliases":["학습유형검사 (U&I)"],"description":"개인 학습스타일에 맞는 효율적인 학습법 제시","guideStatus":"existing"},
+          {"title":"카운슬링센터 심리검사","miniLabel":"카운슬링 진단","code":"L04PSYC","path":"pages/L04PSYC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020521","sourceMenuPath":["진로개발 및 상담","진로·진단검사","카운슬링센터 심리검사"],"sourceRow":115,"sourceAliases":["카운슬링센터 심리 검사"],"description":"전주대가 제공하는 정밀 심리 검사","guideStatus":"existing"},
+          {"title":"우리대학 기타 진단검사","miniLabel":"기타 검사","code":"L04ETCT","path":"pages/L04ETCT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020517","sourceMenuPath":["진로개발 및 상담","진로·진단검사","우리대학 기타 진단검사"],"sourceRow":116,"sourceAliases":["기타 진단검사"],"description":"맞춤서비스를 위한 각종 검사","guideStatus":"existing"}
         ],
+        "sourceAliases": ["진단검사"],
         "overviewPath": "pages/L03TEST.html"
       },
       {
@@ -504,12 +510,13 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"상담안내","miniLabel":"상담 안내","code":"L04CNGD","path":"pages/L04CNGD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020512","sourceMenuPath":["진로개발 및 상담","상담","상담안내"],"sourceRow":117,"description":"상담 신청 및 진행 안내","contentPath":"pages/L03COUN.html","contentAnchor":"L04CNGD","guideStatus":"embedded"},
+          {"title":"상담안내","miniLabel":"상담 안내","code":"L04CNGD","path":"pages/L04CNGD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020512","sourceMenuPath":["진로개발 및 상담","상담","상담안내"],"sourceRow":117,"sourceAliases":["상담 안내"],"description":"상담 신청 및 진행 안내","contentPath":"pages/L03COUN.html","contentAnchor":"L04CNGD","guideStatus":"embedded"},
           {"title":"1:1 상담","miniLabel":"1:1 상담","code":"L04CN11","path":"pages/L04CN11.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020513","sourceMenuPath":["진로개발 및 상담","상담","1:1 상담"],"sourceRow":118,"description":"전문 상담사의 1대1 코칭","guideStatus":"existing"},
           {"title":"멘토링","miniLabel":"선후배 멘토링","code":"L04MENT","path":"pages/L04MENT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020514","sourceMenuPath":["진로개발 및 상담","상담","멘토링"],"sourceRow":119,"description":"선배 멘토에게 얻어가는 꿀팁","guideStatus":"existing"},
-          {"title":"온라인 상담 신청","miniLabel":"온라인 상담","code":"L04ONCN","path":"pages/L04ONCN.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020515","sourceMenuPath":["진로개발 및 상담","상담","온라인 상담 신청"],"sourceRow":120,"description":"방문 없이 온라인으로 간편 상담","guideStatus":"existing"},
+          {"title":"온라인 상담 신청","miniLabel":"온라인 상담","code":"L04ONCN","path":"pages/L04ONCN.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020515","sourceMenuPath":["진로개발 및 상담","상담","온라인 상담 신청"],"sourceRow":120,"sourceAliases":["온라인 상담"],"description":"방문 없이 온라인으로 간편 상담","guideStatus":"existing"},
           {"title":"카운슬링센터 심리 상담","miniLabel":"카운슬링센터 심리 상담","code":"L04PSCN","path":"pages/L04PSCN.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020516","sourceMenuPath":["진로개발 및 상담","상담","카운슬링센터 심리 상담"],"sourceRow":121,"guideStatus":"pending"}
         ],
+        "sourceAliases": ["심리/학업/진로 상담"],
         "overviewPath": "pages/L03COUN.html"
       }
     ]
@@ -565,7 +572,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "children": [
           {"title":"서약서 작성/개인정보 동의","miniLabel":"서약서 작성/개인정보 동의","code":"L04INAG","path":"pages/L04INAG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020541","sourceMenuPath":["취·창업지원","현장실습학기제","서약서 작성/개인정보 동의"],"sourceRow":132,"guideStatus":"pending"},
-          {"title":"현장실습학기제 참여 신청","miniLabel":"참여 신청","code":"L04INAP","path":"pages/L04INAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020543","sourceMenuPath":["취·창업지원","현장실습학기제","현장실습학기제 참여 신청"],"sourceRow":133,"guideStatus":"pending"},
+          {"title":"현장실습학기제 참여 신청","miniLabel":"참여 신청","code":"L04INAP","path":"pages/L04INAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020543","sourceMenuPath":["취·창업지원","현장실습학기제","현장실습학기제 참여 신청"],"sourceRow":133,"sourceAliases":["헌장실습학기제 참여 신청"],"guideStatus":"pending"},
           {"title":"현장실습학기제 참여 내역","miniLabel":"참여 내역","code":"L04INHI","path":"pages/L04INHI.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020544","sourceMenuPath":["취·창업지원","현장실습학기제","현장실습학기제 참여 내역"],"sourceRow":134,"guideStatus":"pending"},
           {"title":"만족도 평가","miniLabel":"만족도 평가","code":"L04INSV","path":"pages/L04INSV.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020545","sourceMenuPath":["취·창업지원","현장실습학기제","만족도 평가"],"sourceRow":135,"guideStatus":"pending"},
           {"title":"중도 포기 신청","miniLabel":"중도 포기","code":"L04INDR","path":"pages/L04INDR.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020546","sourceMenuPath":["취·창업지원","현장실습학기제","중도 포기 신청"],"sourceRow":136,"guideStatus":"pending"},
@@ -647,6 +654,7 @@ window.JJSTAR_MENU = [
           {"title":"강의실 잔류 신청","miniLabel":"잔류 신청","code":"L04ROOMS","path":"pages/L04ROOMS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020466","sourceMenuPath":["대학생활","시설 예약/신고","강의실 잔류 신청"],"sourceRow":143,"description":"야간이나 방과 후 기자재 사용 등을 위한 강의실 잔류 허가 신청","guideStatus":"existing"},
           {"title":"시설 관련 요청","miniLabel":"시설 관련 요청","code":"L04FREQ","path":"pages/L04FREQ.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020554","sourceMenuPath":["대학생활","시설 예약/신고","시설 관련 요청"],"sourceRow":144,"guideStatus":"pending"}
         ],
+        "sourceAliases": ["기타 학사 관리"],
         "overviewPath": "pages/L03ETAC.html"
       },
       {
@@ -695,7 +703,7 @@ window.JJSTAR_MENU = [
         "hideInNav": false,
         "generatedOverview": true,
         "children": [
-          {"title":"캡스톤디자인 서약서동의","miniLabel":"서약서 동의","code":"L04CPAG","path":"pages/L04CPAG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020126","sourceMenuPath":["대학생활","캡스톤디자인","캡스톤디자인 서약서동의"],"sourceRow":158,"guideStatus":"pending"},
+          {"title":"캡스톤디자인 서약서동의","miniLabel":"서약서 동의","code":"L04CPAG","path":"pages/L04CPAG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020126","sourceMenuPath":["대학생활","캡스톤디자인","캡스톤디자인 서약서동의"],"sourceRow":158,"sourceAliases":["캡스톤디자인 서약서 동의"],"guideStatus":"pending"},
           {"title":"신청확인 및 관리","miniLabel":"신청 확인","code":"L04CPMG","path":"pages/L04CPMG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020127","sourceMenuPath":["대학생활","캡스톤디자인","신청확인 및 관리"],"sourceRow":159,"guideStatus":"pending"},
           {"title":"카드대여","miniLabel":"카드 대여","code":"L04CARD","path":"pages/L04CARD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020128","sourceMenuPath":["대학생활","캡스톤디자인","카드대여"],"sourceRow":160,"guideStatus":"pending"}
         ]
@@ -766,7 +774,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "children": [
           {"title":"교내 수상내역","miniLabel":"교내 수상","code":"L04AWIN","path":"pages/L04AWIN.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020468","sourceMenuPath":["My Page","수상·인증 내역","교내 수상내역"],"sourceRow":172,"description":"재학 중 교내 대회 및 공모전 등의 수상 내역 조회","contentPath":"pages/L03AWAR.html","contentAnchor":"L04AWIN","guideStatus":"embedded"},
-          {"title":"성적우수상내역","miniLabel":"성적 우수상","code":"L04AWRD","path":"pages/L04AWRD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020449","sourceMenuPath":["My Page","수상·인증 내역","성적우수상내역"],"sourceRow":173,"description":"성적 우수상","guideStatus":"existing"},
+          {"title":"성적우수상내역","miniLabel":"성적 우수상","code":"L04AWRD","path":"pages/L04AWRD.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020449","sourceMenuPath":["My Page","수상·인증 내역","성적우수상내역"],"sourceRow":173,"sourceAliases":["성적우수상 내역"],"description":"성적 우수상","guideStatus":"existing"},
           {"title":"학습경험 인증 현황","miniLabel":"학습경험 인증현황","code":"L04EXCH","path":"pages/L04EXCH.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020561","sourceMenuPath":["My Page","수상·인증 내역","학습경험 인증 현황"],"sourceRow":174,"guideStatus":"pending"},
           {"title":"마이크로 전공 인증서","miniLabel":"micro전공 인증서","code":"L04MCRT","path":"pages/L04MCRT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020037","sourceMenuPath":["My Page","수상·인증 내역","마이크로 전공 인증서"],"sourceRow":175,"description":"micro전공 인증서","guideStatus":"existing"}
         ]
