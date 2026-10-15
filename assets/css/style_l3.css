@@ -963,3 +963,41 @@ body[data-theme='dark'] .tip-box--gray {
     display: block;
     width: 100%;
 }
+
+/* Inline Tab Badge Style */
+.inline-tab-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    margin: 0 1px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #6e96d6;
+    background-color: #ecf1ff;
+    border: 1px solid #7b9ed6;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    vertical-align: middle;
+}
+
+.inline-tab-badge:hover {
+    color: #003b99;
+    background-color: #e2eaff;
+    border-color: #83b2ff;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme='dark'] .inline-tab-badge {
+    color: #38bdf8;
+    background-color: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+body[data-theme='dark'] .inline-tab-badge:hover {
+    color: #7dd3fc;
+    background-color: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}

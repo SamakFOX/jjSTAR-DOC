@@ -307,7 +307,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03OVSV.html",
         enabled: true,
         children: [
-          { title: "해외봉사 공지사항", miniLabel: "해봉 공지", code: "L04OVNT", path: "pages/L04OVNT.html", enabled: true },
+          { title: "해외봉사 공지사항", miniLabel: "해봉 공지", code: "L04OVNT", path: "pages/L04OVNT.html", enabled: true, hideInNav: true },
           { title: "해외봉사 신청", miniLabel: "해봉 신청", code: "L04OVAP", path: "pages/L04OVAP.html", enabled: true },
           { title: "해외봉사 신청 내역 확인", miniLabel: "신청 내역", code: "L04OVCK", path: "pages/L04OVCK.html", enabled: true },
           { title: "해외봉사 결과보고서 제출", miniLabel: "결과 보고서", code: "L04OVRP", path: "pages/L04OVRP.html", enabled: true }
@@ -337,7 +337,7 @@ window.JJSTAR_MENU = [
         path: "pages/L03AWAR.html",
         enabled: true,
         children: [
-          { title: "교내 수상내역", miniLabel: "교내 수상", code: "L04AWIN", path: "pages/L04AWIN.html", enabled: true }
+          { title: "교내 수상내역", miniLabel: "교내 수상", code: "L04AWIN", path: "pages/L04AWIN.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -345,10 +345,10 @@ window.JJSTAR_MENU = [
         path: "pages/L03STID.html",
         enabled: true,
         children: [
-          { title: "학생증 안내", miniLabel: "발급 안내", code: "L04IDGD", path: "pages/L04IDGD.html", enabled: true },
-          { title: "발급절차", miniLabel: "발급 절차", code: "L04IDPR", path: "pages/L04IDPR.html", enabled: true },
-          { title: "분실신고", miniLabel: "분실 신고", code: "L04IDLS", path: "pages/L04IDLS.html", enabled: true },
-          { title: "재발급 절차", miniLabel: "재발급 절차", code: "L04IDRE", path: "pages/L04IDRE.html", enabled: true }
+          { title: "학생증 안내", miniLabel: "발급 안내", code: "L04IDGD", path: "pages/L04IDGD.html", enabled: true, hideInNav: true },
+          { title: "발급절차", miniLabel: "발급 절차", code: "L04IDPR", path: "pages/L04IDPR.html", enabled: true, hideInNav: true },
+          { title: "분실신고", miniLabel: "분실 신고", code: "L04IDLS", path: "pages/L04IDLS.html", enabled: true, hideInNav: true },
+          { title: "재발급 절차", miniLabel: "재발급 절차", code: "L04IDRE", path: "pages/L04IDRE.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -356,9 +356,9 @@ window.JJSTAR_MENU = [
         path: "pages/L03CERTI.html",
         enabled: true,
         children: [
-          { title: "인터넷 증명발금 안내", miniLabel: "인터넷 발급", code: "L04CEGD", path: "pages/L04CEGD.html", enabled: true },
-          { title: "제증명 발급", miniLabel: "제증명 발급", code: "L04CEIS", path: "pages/L04CEIS.html", enabled: true },
-          { title: "제증명 발급내역", miniLabel: "발급 내역", code: "L04CEHI", path: "pages/L04CEHI.html", enabled: true }
+          { title: "인터넷 증명발금 안내", miniLabel: "인터넷 발급", code: "L04CEGD", path: "pages/L04CEGD.html", enabled: true, hideInNav: true },
+          { title: "제증명 발급", miniLabel: "제증명 발급", code: "L04CEIS", path: "pages/L04CEIS.html", enabled: true, hideInNav: true },
+          { title: "제증명 발급내역", miniLabel: "발급 내역", code: "L04CEHI", path: "pages/L04CEHI.html", enabled: true, hideInNav: true }
         ]
       },
       {
@@ -366,8 +366,8 @@ window.JJSTAR_MENU = [
         path: "pages/L03SUCP.html",
         enabled: true,
         children: [
-          { title: "SUPER 핵심역량", miniLabel: "역량 안내", code: "L04SUPE", path: "pages/L04SUPE.html", enabled: true },
-          { title: "SUPER 핵심역량 인증 정보", miniLabel: "인증 정보", code: "L04SUCI", path: "pages/L04SUCI.html", enabled: true },
+          { title: "SUPER 핵심역량", miniLabel: "역량 안내", code: "L04SUPE", path: "pages/L04SUPE.html", enabled: true, hideInNav: true },
+          { title: "SUPER 핵심역량 인증 정보", miniLabel: "인증 정보", code: "L04SUCI", path: "pages/L04SUCI.html", enabled: true, hideInNav: true },
           { title: "SUPER 핵심역량 진단검사", miniLabel: "진단 검사", code: "L04SUDG", path: "pages/L04SUDG.html", enabled: true },
           { title: "SUPER 핵심역량 진단평가 결과 분석", miniLabel: "결과 분석", code: "L04SURS", path: "pages/L04SURS.html", enabled: true }
         ]
@@ -377,10 +377,10 @@ window.JJSTAR_MENU = [
         path: "pages/L03STRT.html",
         enabled: true,
         children: [
-          { title: "3C활동 안내", miniLabel: "3C 활동안내", code: "L043CAT", path: "pages/L043CAT.html", enabled: true },
-          { title: "starT 트랙제도", miniLabel: "제도 안내", code: "L04TRCK", path: "pages/L04TRCK.html", enabled: true },
-          { title: "starT 프로그램 소개", miniLabel: "소개", code: "L04STPG", path: "pages/L04STPG.html", enabled: true },
-          { title: "starT 주요혜택", miniLabel: "주요 혜택", code: "L04STBF", path: "pages/L04STBF.html", enabled: true },
+          { title: "3C활동 안내", miniLabel: "3C 활동안내", code: "L043CAT", path: "pages/L043CAT.html", enabled: true, hideInNav: true },
+          { title: "starT 트랙제도", miniLabel: "제도 안내", code: "L04TRCK", path: "pages/L04TRCK.html", enabled: true, hideInNav: true },
+          { title: "starT 프로그램 소개", miniLabel: "소개", code: "L04STPG", path: "pages/L04STPG.html", enabled: true, hideInNav: true },
+          { title: "starT 주요혜택", miniLabel: "주요 혜택", code: "L04STBF", path: "pages/L04STBF.html", enabled: true, hideInNav: true },
           { title: "starT 온라인 신청내역", miniLabel: "온라인 신청내역", code: "L04STOH", path: "pages/L04STOH.html", enabled: true },
           { title: "starT 신청 현황", miniLabel: "신청 현황", code: "L04STHS", path: "pages/L04STHS.html", enabled: true },
           { title: "starT 활동 인증", miniLabel: "활동 인증", code: "L04STCF", path: "pages/L04STCF.html", enabled: true }
@@ -402,18 +402,6 @@ window.JJSTAR_MENU = [
         children: [
           { title: "총학생회 선거", miniLabel: "선거", code: "L04ELCT", path: "pages/L04ELCT.html", enabled: true },
           { title: "학생회 활동 내역", miniLabel: "활동 내역", code: "L04STCH", path: "pages/L04STCH.html", enabled: true }
-        ]
-      },
-      {
-        title: "대학생활 상담", miniLabel: "상담", code: "L03LFCN",
-        path: "pages/L03LFCN.html",
-        enabled: true,
-        children: [
-          { title: "상담 안내", miniLabel: "상담 안내", code: "L04LFGD", path: "pages/L04LFGD.html", enabled: true },
-          { title: "1:1 상담", miniLabel: "1:1 상담", code: "L04LF11", path: "pages/L04LF11.html", enabled: true },
-          { title: "멘토링", miniLabel: "선후배 멘토링", code: "L04LFMT", path: "pages/L04LFMT.html", enabled: true },
-          { title: "온라인 상담 신청", miniLabel: "온라인 상담 신청", code: "L04LFON", path: "pages/L04LFON.html", enabled: true },
-          { title: "카운슬링센터 심리 검사", miniLabel: "카운슬링 진단", code: "L04LFPS", path: "pages/L04LFPS.html", enabled: true }
         ]
       }
     ]

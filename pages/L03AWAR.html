@@ -1,0 +1,81 @@
+<article class="guide-article">
+  <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
+
+  <h1></h1>
+  <img src="assets/images/jjstar_dm_awar.webp" alt="수상내역 안내" style="width: 100%; height: auto;" onerror="this.style.display='none';">
+  <p class="guide-lead"></p>
+
+  <div class="tip-box tip-box--with-character">
+    <div class="flex items-start gap-3">
+      <div class="tip-box-label mt-1">Note</div>
+      <div class="tip-box-content">
+        <p>
+          아래 메뉴 클릭 시 <span class="text-red-600 font-semibold">해당 메뉴의 가이드</span>로 이동해요
+          <br>
+          가이드가 가능한 메뉴는 <span class="text-red-600 font-semibold">별(*)</span>표시가 되어있어요
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="rst-content">
+    <div class="toctree-wrapper">
+      <ul>
+        <li class="toctree-l1">
+          <span id="awar-menu">수상내역</span>
+          <ul>
+            <li class="toctree-l2 is-info">
+              <a href="#L04AWIN" class="reference internal">
+                <span class="menu-title">교내 수상내역</span>
+                <span class="menu-desc">재학 중 교내 대회 및 공모전 등의 수상 내역 조회</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 상세안내 섹션 (hideInNav 대상) -->
+  <section class="mt-5 pt-5">
+    <div class="section-header">
+      <div class="section-title">수상내역 상세안내</div>
+    </div>
+
+    <!-- L04AWIN 교내 수상내역 -->
+    <div class="section-sticky-return">
+      <a href="#awar-menu" class="btn-direct-mini" data-tooltip="수상내역 목록으로 돌아가기" aria-label="Back to awards menu">
+        <svg class="lucide w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+          <path d="m17 11-5-5-5 5" />
+          <path d="m17 18-5-5-5 5" />
+        </svg>
+      </a>
+    </div>
+    <div class="flex items-center gap-2 mb-1">
+      <img src="assets/images/jjstar-head-title.svg" style="width: 20px; height: 20px;">
+      <h3 id="L04AWIN" style="margin: 0;">교내 수상내역</h3>
+    </div>
+    <p class="text-gray-700 leading-relaxed mt-1">
+      재학 중 참여한 교내 대회, 공모전 등에서 수상한 이력과 상장 수여 내역을 통합 조회할 수 있어요.
+    </p>
+    <div class="mb-4">
+      <img src="assets/images/jjstar_dm_awin.webp" alt="교내 수상내역 UI" class="w-full rounded-lg shadow-md border border-gray-200" onerror="this.style.display='none';" />
+    </div>
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+        <div>
+          <strong class="text-gray-900">수상 연도 및 학기 선택</strong><br>
+          <span class="text-gray-600">조회하고자 하는 연도와 학기를 필터링하여 검색해요.</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+        <div>
+          <strong class="text-gray-900">상세 내역 확인</strong><br>
+          <span class="text-gray-600">대회명, 수상 훈격(대상, 금상 등), 부상 여부 및 지급 상태를 상세히 볼 수 있어요.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

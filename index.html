@@ -1269,6 +1269,10 @@
     let keyword = '';
     let openCategories = new Set([menu[0]?.title]);
     let openMids = new Set([menu[0]?.children[0]?.title]);
+    let detailRequestController = null;
+    let detailRequestId = 0;
+    let popupRequestController = null;
+    let popupRequestId = 0;
 
     // [Phase 3-1] 중앙 관리형 링크 데이터셋
     const GUIDE_LINKS = {
@@ -1277,6 +1281,7 @@
       "L02OSTP": "jjstar_mockup.html",
       "L02SRCH": "jjstar_mockup.html",
       "L04SCHS": "jjstar_mockup.html",
+      "L04MYMP": "jjstar_mockup.html",
 
     };
 
@@ -1313,6 +1318,19 @@
       el.setAttribute('data-level', level);
     }
 
+    function mountContent(container, html) {
+      const template = document.createElement('template');
+      template.innerHTML = html;
+
+      template.content.querySelectorAll('img').forEach((img, index) => {
+        if (!img.hasAttribute('decoding')) img.decoding = 'async';
+        if (!img.hasAttribute('loading')) img.loading = index === 0 ? 'eager' : 'lazy';
+        if (index === 0 && !img.hasAttribute('fetchpriority')) img.fetchPriority = 'high';
+      });
+
+      container.replaceChildren(template.content);
+    }
+
     // [UX 개선] 사이드바 상태에 따른 클릭 동작 분기 (미니탭에서도 즉시 이동 허용)
     function handleNavClick(e, item, action) {
       e.stopPropagation();
@@ -1339,7 +1357,7 @@
 
       if (miniHomeBtn) {
         miniHomeBtn.setAttribute('data-mini-indicator', '\uD648');
-        miniHomeBtn.classList.toggle('is-current', current && current.path === 'pages/L01HOME.html');
+        miniHomeBtn.classList.toggle('is-current', current && current.path === 'pages/L01INIT.html');
       }
 
       filtered.filter(cat => cat.enabled !== false && (keyword || cat.hideInNav !== true)).forEach(cat => {
@@ -1466,8 +1484,16 @@
     }
 
     async function renderDetail() {
+      const requestId = ++detailRequestId;
+      if (detailRequestController) detailRequestController.abort();
+      const requestController = new AbortController();
+      detailRequestController = requestController;
+
       const current = docs[currentIndex];
-      if (!current) return;
+      if (!current) {
+        detailRequestController = null;
+        return;
+      }
 
       // [Phase 3-7] 정밀한 Base URL 추출: index.html이 위치한 절대 폴더 경로 확보
       const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
@@ -1527,9 +1553,10 @@
         }
 
         // [Phase 3-7] absoluteBase와 결합하여 어떤 환경에서도 정확한 경로로 fetch
-        const res = await fetch(absoluteBase + targetPath);
+        const res = await fetch(absoluteBase + targetPath, { signal: requestController.signal });
         if (!res.ok) throw new Error(`문서를 로드할 수 없습니다. (Status: ${res.status})`);
         let html = await res.text();
+        if (requestId !== detailRequestId) return;
 
         // [Phase 3-7] 모든 로컬 src 경로(../../ 등)를 absoluteBase 기반 절대 경로로 강제 치환
         html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
@@ -1555,7 +1582,7 @@
           </div>
         `;
 
-        viewer.innerHTML = html + pagerHtml;
+        mountContent(viewer, html + pagerHtml);
 
         // [Phase 3-11] 전역 비활성 메뉴 필터링: 콘텐츠 내부의 링크들도 enabled: false 상태면 숨김
         const enabledMap = {};
@@ -1620,10 +1647,9 @@
 
         // C. 대표 이미지(Representative Image) 자동 주입 (Level 3, 4 전용)
         if (current.type === 'small' || current.type === 'mid') {
-          const menuCodeSuffix = current.code ? current.code.replace(/^L\d+/, '').toLowerCase() : '';
-          const heroImgUrl = `assets/images/jjstar_dm_${menuCodeSuffix}.webp`;
           const fileName = (current.path.split('/').pop() || '').replace('.html', '');
           const pageStrings = window.JJSTAR_STRINGS ? window.JJSTAR_STRINGS[fileName] : null;
+          const heroImgUrl = current.heroImage || (pageStrings && pageStrings.heroImage);
 
           // no-image 옵션 체크: HTML 속성, 클래스, 또는 strings.js 데이터
           const contentRoot = viewer.querySelector(':first-child');
@@ -1631,17 +1657,20 @@
           const useImageOption = (!pageStrings || pageStrings.useHeroImage !== false) && (current.useHeroImage !== false);
           const placeholderImg = viewer.querySelector('img:not([src]), img[src=""]');
 
-          if (menuCodeSuffix && !hasNoImageAttr && useImageOption) {
+          if (heroImgUrl && !hasNoImageAttr && useImageOption) {
             if (placeholderImg) {
               placeholderImg.src = absoluteBase + heroImgUrl;
               placeholderImg.alt = current.title;
+              placeholderImg.loading = 'eager';
+              placeholderImg.decoding = 'async';
+              placeholderImg.fetchPriority = 'high';
               placeholderImg.onerror = function () {
                 this.style.display = 'none';
               };
             } else if (!viewer.querySelector('.hero-image-container')) {
               const heroContainer = document.createElement('div');
               heroContainer.className = 'hero-image-container';
-              heroContainer.innerHTML = `<img src="${absoluteBase}${heroImgUrl}" alt="${current.title}" onerror="this.parentElement.style.display='none'">`;
+              heroContainer.innerHTML = `<img src="${absoluteBase}${heroImgUrl}" alt="${current.title}" loading="eager" decoding="async" fetchpriority="high" onerror="this.parentElement.style.display='none'">`;
 
               const targetEl = viewer.querySelector('.page-description, .guide-lead') || h1;
               if (targetEl) {
@@ -1716,12 +1745,15 @@
         }
 
       } catch (e) {
+        if (e.name === 'AbortError' || requestId !== detailRequestId) return;
         viewer.innerHTML = `
           <div class="empty">
             <strong>${current.title}</strong><br><br>
             <span style="color:#ef4444;">오류 발생: ${e.message}</span><br><br>
             <small>서버 주소를 확인해주세요.</small>
           </div>`;
+      } finally {
+        if (requestId === detailRequestId) detailRequestController = null;
       }
     }
 
@@ -1752,20 +1784,26 @@
       const targetDoc = docs[idx];
       if (!targetDoc) return;
 
+      const requestId = ++popupRequestId;
+      if (popupRequestController) popupRequestController.abort();
+      const requestController = new AbortController();
+      popupRequestController = requestController;
+
       popupTitle.textContent = targetDoc.title;
       popupBody.innerHTML = '<div class="loading">문서를 로드하는 중입니다.</div>';
       popupOverlay.classList.add('show');
 
       try {
         const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
-        const res = await fetch(absoluteBase + targetDoc.path);
+        const res = await fetch(absoluteBase + targetDoc.path, { signal: requestController.signal });
         if (!res.ok) throw new Error(`문서를 로드할 수 없습니다.`);
         let html = await res.text();
+        if (requestId !== popupRequestId) return;
 
         // [Phase 3-7] Path fix
         html = html.replace(/src="(?!http|https|data:)/g, 'src="' + absoluteBase);
 
-        popupBody.innerHTML = `<div class="card">${html}</div>`;
+        mountContent(popupBody, `<div class="card">${html}</div>`);
 
         // Automated Content Injection (similar to renderDetail)
         const h1 = popupBody.querySelector('h1');
@@ -1801,11 +1839,19 @@
         if (directLink) directLink.style.display = 'none';
 
       } catch (e) {
+        if (e.name === 'AbortError' || requestId !== popupRequestId) return;
         popupBody.innerHTML = `<div class="empty">오류 발생: ${e.message}</div>`;
+      } finally {
+        if (requestId === popupRequestId) popupRequestController = null;
       }
     }
 
     function closePopup() {
+      popupRequestId++;
+      if (popupRequestController) {
+        popupRequestController.abort();
+        popupRequestController = null;
+      }
       popupOverlay.classList.remove('show');
     }
 
@@ -1850,7 +1896,7 @@
     if (miniHomeBtn) {
       miniHomeBtn.onclick = (e) => {
         handleNavClick(e, { category: 'home' }, () => {
-          const homeIndex = docs.findIndex(d => d.path === 'pages/L01HOME.html');
+          const homeIndex = docs.findIndex(d => d.path === 'pages/L01INIT.html');
           currentIndex = homeIndex !== -1 ? homeIndex : 0;
           renderDetail();
           renderNav();
@@ -1975,7 +2021,7 @@
 
     // (Old prev/next handlers removed)
 
-    const startPath = 'pages/L01HOME.html';
+    const startPath = 'pages/L01INIT.html';
     const startIdx = docs.findIndex(d => d.path === startPath);
     currentIndex = startIdx !== -1 ? startIdx : 0;
     renderDetail();

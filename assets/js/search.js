@@ -37,7 +37,8 @@ function highlightText(text, keyword) {
   // 초성 검색인 경우 하이라이팅 생략 (텍스트 매칭이 어려움)
   if (isChosung(keyword)) return text;
 
-  const regex = new RegExp(`(${keyword})`, 'gi');
+  const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escapedKeyword})`, 'gi');
   return text.replace(regex, '<mark class="search-highlight">$1</mark>');
 }
 
