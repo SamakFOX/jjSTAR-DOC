@@ -7,7 +7,7 @@
   <link rel="icon" href="assets/images/favicon.ico" />
   <title>JJSTAR 이용 가이드</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/style_l3.css">
+  <link rel="stylesheet" href="assets/css/style_l3.css?v=20261019-complete1">
   <style>
     :root {
       --blue: #004a87;
@@ -1222,25 +1222,26 @@
     </div>
   </div>
 
-  <script src="data/menu.js?v=20261015-content3"></script>
-  <script src="data/strings.js?v=20261015-content3"></script>
+  <script src="data/menu.js?v=20261019-direct1"></script>
+  <script src="data/strings.js?v=20261019-buttons2"></script>
   <script src="assets/js/search.js?v=20261015-content3"></script>
-  <script src="assets/js/menu-content.js?v=20261015-content3"></script>
+  <script src="assets/js/menu-content.js?v=20261019-buttons2"></script>
   <script>
     const menu = window.JJSTAR_MENU || [];
+    const navigationMenu = menu.filter(cat => cat.code !== 'L01INIT');
     const docs = [];
     menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
-      docs.push({ ...cat, type: 'cat', category: cat.title, mid: '', small: '', catPath: cat.path });
+      docs.push({ ...cat, type: 'cat', category: cat.title, mid: '', small: '', catPath: cat.path, guideOnly: cat.code === 'L01INIT' });
 
       cat.children.filter(mid => mid.enabled !== false).forEach(mid => {
         // Level 3 (Mid)
-        docs.push({ ...mid, type: 'mid', category: cat.title, mid: mid.title, small: '', catPath: cat.path });
+        docs.push({ ...mid, type: 'mid', category: cat.title, mid: mid.title, small: '', catPath: cat.path, guideOnly: cat.code === 'L01INIT' });
 
         if (mid.children) {
           mid.children.filter(small => small.enabled !== false).forEach(small => {
             // Level 4 (Small)
-            docs.push({ ...small, type: 'small', category: cat.title, mid: mid.title, small: small.title, catPath: cat.path, parentOverview: mid });
+            docs.push({ ...small, type: 'small', category: cat.title, mid: mid.title, small: small.title, catPath: cat.path, parentOverview: mid, guideOnly: cat.code === 'L01INIT' });
           });
         }
       });
@@ -1281,8 +1282,6 @@
       "L02JEJE": "assets/pdf/jjstar_guide.pdf",
       "L02OSTP": "jjstar_mockup.html",
       "L02SRCH": "jjstar_mockup.html",
-      "L04SCHS": "jjstar_mockup.html",
-      "L04MYMP": "jjstar_mockup.html",
 
     };
 
@@ -1364,9 +1363,9 @@
     }
 
     function renderNav() {
-      let filtered = menu;
+      let filtered = navigationMenu;
       if (keyword && typeof JJSTAR_SEARCH !== 'undefined') {
-        filtered = JJSTAR_SEARCH.filterMenu(menu, keyword);
+        filtered = JJSTAR_SEARCH.filterMenu(navigationMenu, keyword);
       }
 
       nav.innerHTML = '';
@@ -1485,7 +1484,7 @@
       });
 
       // [Phase 2-6] 검색 결과 카운트: 매칭된 총 항목 수
-      const navVisibleCount = docs.filter(d => !d.hideInNav).length;
+      const navVisibleCount = docs.filter(d => !d.guideOnly && !d.hideInNav).length;
       searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${navVisibleCount}건`;
 
       if (keyword && totalVisibleItems === 0) {
@@ -1569,8 +1568,8 @@
         if (requestId !== detailRequestId) return;
 
         // 7. Pager Data - Skip hidden pages
-        const prevDoc = docs.slice(0, currentIndex).reverse().find(d => !d.hideInNav);
-        const nextDoc = docs.slice(currentIndex + 1).find(d => !d.hideInNav);
+        const prevDoc = docs.slice(0, currentIndex).reverse().find(d => !d.guideOnly && !d.hideInNav);
+        const nextDoc = docs.slice(currentIndex + 1).find(d => !d.guideOnly && !d.hideInNav);
 
         const pagerHtml = `
           <div class="pager">
@@ -1600,6 +1599,12 @@
             const title = document.createElement('h3');
             title.textContent = cat.title;
             link.appendChild(title);
+            const description = window.JJSTAR_STRINGS?.[cat.code]?.homeDesc;
+            if (description) {
+              const paragraph = document.createElement('p');
+              paragraph.textContent = description;
+              link.appendChild(paragraph);
+            }
             return link;
           }));
         }
@@ -1609,7 +1614,7 @@
 
         const cp = viewer.querySelector('#customPrev');
         if (cp) cp.onclick = () => {
-          const idx = docs.slice(0, currentIndex).reverse().findIndex(d => !d.hideInNav);
+          const idx = docs.slice(0, currentIndex).reverse().findIndex(d => !d.guideOnly && !d.hideInNav);
           if (idx !== -1) {
             currentIndex = currentIndex - 1 - idx;
             renderDetail();
@@ -1618,7 +1623,7 @@
         };
         const cn = viewer.querySelector('#customNext');
         if (cn) cn.onclick = () => {
-          const idx = docs.slice(currentIndex + 1).findIndex(d => !d.hideInNav);
+          const idx = docs.slice(currentIndex + 1).findIndex(d => !d.guideOnly && !d.hideInNav);
           if (idx !== -1) {
             currentIndex = currentIndex + 1 + idx;
             renderDetail();
@@ -1725,18 +1730,18 @@
           ? window.JJSTAR_STRINGS[fileName] : null;
 
         if (pageStrings) {
-          const descEl = viewer.querySelector('.page-description, .guide-lead');
+          const descEl = viewer.querySelector(window.JJSTAR_CONTENT.descriptionSelector);
           if (descEl && pageStrings.desc) descEl.innerHTML = pageStrings.desc;
 
           const btnEl = viewer.querySelector('#direct-link');
-          if (btnEl && pageStrings.btnText) {
+          if (btnEl && pageStrings.btnText && !btnEl.hasAttribute('data-guide-menu') && !btnEl.closest('.guide-detail')) {
             btnEl.textContent = pageStrings.btnText;
             btnEl.style.display = 'inline-flex';
           }
         }
 
         const directLinkBtn = viewer.querySelector('#direct-link');
-        if (directLinkBtn) {
+        if (directLinkBtn && !directLinkBtn.hasAttribute('data-guide-menu')) {
           const fileName = current.path.split('/').pop();
           const match = fileName.match(/L[0-9]+[A-Z]+/);
           const menuCode = match ? match[0] : null;
@@ -1862,13 +1867,13 @@
         const pageStrings = !targetDoc.generatedOverview && !(targetDoc.hideInNav && targetDoc.parentOverview) && targetDoc.guideStatus !== 'pending' && !targetDoc.contentAnchor && window.JJSTAR_STRINGS
           ? window.JJSTAR_STRINGS[fileName] : null;
         if (pageStrings) {
-          const descEl = popupBody.querySelector('.page-description, .guide-lead');
+          const descEl = popupBody.querySelector(window.JJSTAR_CONTENT.descriptionSelector);
           if (descEl && pageStrings.desc) descEl.innerHTML = pageStrings.desc;
         }
 
-        // Hide direct link in popup to avoid confusion
+        // Authored detail guides keep the same site link in both views.
         const directLink = popupBody.querySelector('#direct-link');
-        if (directLink) directLink.style.display = 'none';
+        if (directLink && !directLink.hasAttribute('data-guide-menu') && !directLink.closest('.guide-detail')) directLink.style.display = 'none';
 
       } catch (e) {
         if (e.name === 'AbortError' || requestId !== popupRequestId) return;
@@ -2011,7 +2016,7 @@
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
         if (keyword && keyword !== lastSearchKeyword && typeof JJSTAR_SEARCH !== 'undefined') {
-          const filteredResults = JJSTAR_SEARCH.filterMenu(menu, keyword);
+          const filteredResults = JJSTAR_SEARCH.filterMenu(navigationMenu, keyword);
           filteredResults.forEach(cat => {
             openCategories.add(cat.title);
             cat.children.forEach(mid => {

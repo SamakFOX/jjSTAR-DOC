@@ -5,9 +5,9 @@
 <h1>JJSTAR 메뉴 본문 연결 검사</h1>
 <p id="status">검사 중</p>
 <pre id="result"></pre>
-<script src="../data/menu.js?v=20261015-content3"></script>
-<script src="../data/strings.js?v=20261015-content3"></script>
-<script src="../assets/js/menu-content.js?v=20261015-content3"></script>
+<script src="../data/menu.js?v=20261019-direct1"></script>
+<script src="../data/strings.js?v=20261019-buttons2"></script>
+<script src="../assets/js/menu-content.js?v=20261019-buttons2"></script>
 <script type="module">
   const status = document.getElementById('status');
   const output = document.getElementById('result');
@@ -18,10 +18,64 @@
   const groups = categories.flatMap(node => node.children);
   let overviews = 0, hiddenSections = 0, leafRoutes = 0;
   let inspectedHtml = '';
+  const designAudit = [];
+  const inspectDesign = (node, body) => {
+    const details = [...body.querySelectorAll('.guide-detail, .guide-embedded-detail')];
+    for (const detail of details) {
+      if (detail.matches('.guide-detail')) check(detail.querySelector('h1.text-4xl.mb-6'), `제목 디자인 누락: ${node.code}`);
+      check(detail.querySelector('.guide-section-heading img[src$="jjstar-head-title.svg"]'), `캐릭터 소제목 누락: ${node.code}`);
+      check(detail.querySelector('.guide-steps.bg-gray-50.p-8.rounded-lg h3'), `STEP 카드 누락: ${node.code}`);
+      check([...detail.querySelectorAll('.step-badge')].every(step => step.closest('.guide-steps')), `카드 밖 STEP: ${node.code}`);
+      const main = detail.querySelector('.guide-image-slot');
+      check(main && !main.closest('.guide-steps'), `전체 화면/단계 이미지 분리 누락: ${node.code}`);
+      const explanation = detail.querySelector('.guide-page-description');
+      const tip = detail.querySelector('.guide-extra-tip');
+      const example = detail.querySelector('.guide-steps');
+      check(explanation && tip && example, `페이지 설명/추가 팁/예시 누락: ${node.code}`);
+      check(explanation.compareDocumentPosition(tip) & Node.DOCUMENT_POSITION_FOLLOWING,
+        `설명/팁 순서: ${node.code}`);
+      check(tip.compareDocumentPosition(example) & Node.DOCUMENT_POSITION_FOLLOWING,
+        `팁/예시 순서: ${node.code}`);
+      check(example.querySelector('h3').textContent.startsWith('예시) 제이제이가'), `예시 상황 누락: ${node.code}`);
+      if (detail.matches('.guide-detail')) {
+        const direct = detail.querySelector('a.btn-direct');
+        check(direct?.getAttribute('href') === 'https://jjstar.jj.ac.kr/', `사이트 바로가기 누락: ${node.code}`);
+        check(direct.compareDocumentPosition(explanation) & Node.DOCUMENT_POSITION_FOLLOWING,
+          `상단 바로가기 순서: ${node.code}`);
+      }
+    }
+    designAudit.push({ code: node.code, title: node.title,
+      type: node.generatedOverview ? 'overview' : node.contentAnchor ? 'embedded' : 'detail',
+      alignedDetails: details.length,
+      images: body.querySelectorAll('img[src]').length,
+      steps: body.querySelectorAll('.step-badge').length,
+      notes: body.querySelectorAll('.tip-box').length });
+  };
   try {
+    const imageManifest = await (await fetch(new URL('data/guide-images.json', base))).json();
+    const imageNumbers = new Set(imageManifest.entries.map(image => image['번호']));
+    const renderedImages = new Set();
+    const collectImages = body => {
+      for (const slot of body.querySelectorAll('[data-guide-image]')) {
+        const number = slot.getAttribute('data-guide-image');
+        check(imageNumbers.has(number), `이미지 작업표에 없는 번호: ${number}`);
+        renderedImages.add(number);
+      }
+    };
+    const inspectLink = (body, leaf) => {
+      const buttons = body.querySelectorAll(`a[data-guide-menu="${leaf.code}"]`);
+      check(buttons.length === 1, `바로가기 버튼 개수: ${leaf.code}/${buttons.length}`);
+      const button = buttons[0];
+      check(button.textContent === `${leaf.title} 바로가기`, `바로가기 문구: ${leaf.code}`);
+      check(button.getAttribute('href') === leaf.directUrl, `메뉴별 주소 미반영: ${leaf.code}`);
+      check(button.getAttribute('target') === '_blank', `새 탭 누락: ${leaf.code}`);
+      check(button.getAttribute('rel') === 'noopener', `새 탭 rel 누락: ${leaf.code}`);
+    };
     for (const overview of [...categories, ...groups]) {
       inspectedHtml = await JJSTAR_CONTENT.load(overview, base);
       const body = parse(inspectedHtml);
+      collectImages(body);
+      inspectDesign(overview, body);
       check(body.querySelector('h1')?.textContent === overview.title, `상위 제목: ${overview.code}`);
       const ids = [...body.querySelectorAll('[id]')].map(el => el.id);
       check(new Set(ids).size === ids.length, `중복 앵커: ${overview.code}`);
@@ -29,15 +83,16 @@
         const section = body.querySelector('#' + CSS.escape(leaf.code));
         check(section && section.textContent.trim().length > leaf.title.length, `숨김 메뉴 본문 누락: ${overview.code}/${leaf.code}`);
         check(body.querySelector(`a[href="#${leaf.code}"]`), `숨김 메뉴 링크 누락: ${overview.code}/${leaf.code}`);
+        inspectLink(section, leaf);
         hiddenSections++;
       }
       for (const link of body.querySelectorAll('.toctree-wrapper a[href^="#"]')) {
         check(body.querySelector('#' + CSS.escape(link.getAttribute('href').slice(1))), `끊긴 본문 앵커: ${overview.code}`);
       }
       if (overview.code === 'L03STMG') {
-        check(body.textContent.includes('조회 조건 설정'), '교육과정편람의 기존 단계 설명 누락');
-        check(body.querySelector('#L04EDCRB img[src]'), '교육과정편람 이미지 경로 누락');
-        check(body.querySelector('#L04EDCR')?.textContent.includes('JJCS 역량별 권장 과목'), 'STAR 관리 교육과정 설명 대신 다른 문서가 연결됨');
+        check(!body.querySelector('#L04EDCRB'), '독립한 교육과정편람이 상위 본문에 임베드됨');
+        check(body.querySelector('a[href="pages/L04EDCRB.html"]'), '교육과정편람 독립 페이지 링크 누락');
+        check(body.querySelector('#L04EDCR')?.textContent.includes('교과목·이수체계도'), '교육과정조회 본문 대신 다른 문서가 연결됨');
         check(!body.textContent.includes('사제동행교수선택'), '이동한 메뉴가 정보조회에 남아 있음');
       }
       if (overview.code === 'L03SCHL') {
@@ -50,6 +105,10 @@
     for (const mid of groups) {
       for (const leaf of mid.children) {
         const body = parse(await JJSTAR_CONTENT.load({ ...leaf, parentOverview: mid }, base));
+        inspectLink(body, leaf);
+        collectImages(body);
+        inspectDesign(leaf, body);
+        check(!body.querySelector('.usage-draft, [data-usage-menu]'), `점검 힌트가 남아 있음: ${leaf.code}`);
         check(body.querySelector('h1')?.textContent === (leaf.hideInNav ? mid.title : leaf.title)
           || leaf.guideStatus === 'existing', `하위 메뉴 본문 연결: ${leaf.code}`);
         if (leaf.hideInNav) check(body.querySelector('#' + CSS.escape(leaf.code)), `숨김 메뉴 검색 경로 누락: ${leaf.code}`);
@@ -64,8 +123,19 @@
         leafRoutes++;
       }
     }
+    const sample = groups[0].children[0];
+    const customUrl = 'https://example.test/menu-specific';
+    const customBody = parse(await JJSTAR_CONTENT.load({ ...sample, directUrl: customUrl }, base));
+    inspectLink(customBody, { ...sample, directUrl: customUrl });
+    for (const intro of [JJSTAR_MENU[0], ...JJSTAR_MENU[0].children]) {
+      const body = parse(await JJSTAR_CONTENT.load(intro, base));
+      collectImages(body);
+      inspectDesign(intro, body);
+    }
+    check(renderedImages.size === imageNumbers.size, `본문에서 찾지 못한 이미지 번호: ${[...imageNumbers].filter(id => !renderedImages.has(id)).join(', ')}`);
     status.textContent = '검사 통과';
-    output.textContent = JSON.stringify({ overviews, hiddenSections, leafRoutes }, null, 2);
+    output.textContent = JSON.stringify({ overviews, hiddenSections, leafRoutes, imageSlots: renderedImages.size,
+      designRoutes: designAudit.length, designAudit }, null, 2);
   } catch (error) {
     status.textContent = '검사 실패';
     output.textContent = error.stack + '\n\n' + inspectedHtml.slice(0, 3500);

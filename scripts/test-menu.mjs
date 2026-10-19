@@ -47,6 +47,7 @@ for (const [i, leaf] of leaves.entries()) {
   assert.match(leaf.sourceDomId, /^M\d+$/);
   assert.notEqual(leaf.code, leaf.sourceDomId);
   assert.ok(Object.hasOwn(leaf, 'hideInNav'));
+  assert.equal(leaf.directUrl, 'https://jjstar.jj.ac.kr/');
   if (leaf.guideStatus === 'existing') assert.ok(fs.existsSync(leaf.path));
   if (leaf.guideStatus === 'embedded') {
     for (const anchor of leaf.contentAnchors || [leaf.contentAnchor]) {
@@ -70,6 +71,7 @@ for (const overview of [...service, ...groups]) {
 for (const leaf of leaves.filter(n => n.guideStatus !== 'embedded')) {
   const before = requests;
   const html = await content.load(leaf, 'https://example.test/guide/');
+  assert.ok(!html.includes('usage-draft') && !html.includes('data-usage-menu'), `Inspection hint remains: ${leaf.code}`);
   if (leaf.guideStatus === 'pending') {
     assert.equal(requests, before, 'Pending guide must not request a nonexistent file');
     assert.ok(html.includes('상세 이용 안내는 준비 중'));
@@ -92,6 +94,8 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
 }
 assert.ok(!html.includes('pages/L01HOME.html'));
 assert.ok(!content.pending({ title: '<script>', sourceMenuPath: ['<img>'] }).includes('<script>'));
+const markerHtml = content.overview({ title: 'Test', children: [{ title: '긴 메뉴 제목', path: 'pages/example.html', guideStatus: 'existing' }] });
+assert.match(markerHtml, /class="menu-title">긴 메뉴 <span class="menu-title-end">제목<sup class="guide-required-marker"/);
 assert.equal(groups.find(node => node.code === 'L03STMG').title, '정보조회');
 assert.equal(groups.find(node => node.code === 'L03STMG').overviewPath, 'pages/L03STMG.html');
 assert.ok(groups.find(node => node.code === 'L03SCHL').children.find(node => node.code === 'L04SCHN').hideInNav);
@@ -123,6 +127,12 @@ for (const [domId, code, category, group] of placements) {
   assert.equal(leaf.sourceMenuPath[1], group);
 }
 const course = leaves.find(node => node.code === 'L04EDCR');
+const catalog = leaves.find(node => node.code === 'L04EDCRB');
+assert.equal(catalog.hideInNav, false);
+assert.equal(catalog.guideStatus, 'existing');
+assert.ok(!catalog.contentAnchor && !catalog.contentPath);
+assert.ok(!content.hiddenChildren(groups.find(node => node.code === 'L03STMG')).some(node => node.code === catalog.code));
+assert.ok(fs.readFileSync(catalog.path, 'utf8').includes('년도 선택'));
 assert.ok(course.hideInNav && course.guideStatus === 'embedded');
 assert.equal(course.contentAnchor, 'L04EDCR');
 assert.ok(!leaves.some(node => node.code === 'L04CURV'));

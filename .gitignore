@@ -1,4 +1,7 @@
 prompts/
+scripts/
+outputs/
+data/guide-images.json
 log.md
 .editorconfig
 .prettierrc

@@ -1,8 +1,28 @@
 // Content shared by the main viewer and popup. The menu tree owns overview links.
 window.JJSTAR_CONTENT = (() => {
   const textCache = new Map();
+  const descriptionSelector = '.page-description, .guide-lead, .guide-detail > p:first-of-type, .guide-embedded-detail > p:first-of-type';
   const escape = value => String(value).replace(/[&<>"']/g, char =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+
+  function menuTitle(node) {
+    if (node.children || node.guideStatus === 'pending') return escape(node.title);
+    const split = node.title.lastIndexOf(' ');
+    const prefix = split < 0 ? '' : escape(node.title.slice(0, split + 1));
+    const ending = escape(node.title.slice(split + 1));
+    return `${prefix}<span class="menu-title-end">${ending}<sup class="guide-required-marker" aria-label="가이드 확인 필요">*</sup></span>`;
+  }
+
+  // Each service menu owns its destination; the same button is used in every view.
+  function withDirectLink(html, current) {
+    if (!current.directUrl) return html;
+    const button = `<a href="${escape(current.directUrl)}" id="direct-link" class="btn-direct" data-guide-menu="${escape(current.code)}" target="_blank" rel="noopener">${escape(current.title)} 바로가기</a>`;
+    const existing = /<a\b(?=[^>]*(?:class=["'][^"']*\bbtn-direct\b(?!-)|id=["']direct-link["']))[^>]*>[\s\S]*?<\/a>/i;
+    if (existing.test(html)) return html.replace(existing, () => button);
+    const explanation = /<section\b[^>]*class=["'][^"']*\bguide-page-description\b[^"']*["'][^>]*>/i;
+    if (explanation.test(html)) return html.replace(explanation, match => `${button}\n${match}`);
+    return html.replace(/<\/h[13]>/i, match => `${match}\n${button}`);
+  }
 
   function hiddenChildren(current) {
     return (current.children || []).flatMap(node => node.children
@@ -15,8 +35,7 @@ window.JJSTAR_CONTENT = (() => {
     const list = nodes => `<ul>${nodes.filter(node => node.enabled !== false).map(node => `
       <li class="${node.children ? 'toctree-l1' : 'toctree-l2'}${inlineCodes.has(node.code) ? ' is-info' : ''}">
         <a href="${inlineCodes.has(node.code) ? '#' + escape(node.code) : escape(node.path)}" class="reference internal">
-          <span class="menu-title">${escape(node.title)}</span>
-          ${!node.children && node.guideStatus !== 'pending' ? '<span class="text-red-600 font-semibold"> *</span>' : ''}
+          <span class="menu-title">${menuTitle(node)}</span>
           ${node.description ? `<span class="menu-desc">${escape(node.description)}</span>` : ''}
           ${node.guideStatus === 'pending' ? '<span class="menu-desc">상세 안내 준비 중</span>' : ''}
         </a>
@@ -25,7 +44,7 @@ window.JJSTAR_CONTENT = (() => {
     return `<article class="guide-article" no-image>
       <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
       <h1>${escape(current.title)}</h1>
-      <p class="guide-lead">하위 메뉴를 선택하면 이용 안내를 확인할 수 있어요.</p>
+      <p class="guide-lead">하위 메뉴를 선택하면 이용 안내를 확인할 수 있어요</p>
       <section class="rst-content"><div class="toctree-wrapper">${list(current.children || [])}</div></section>
     </article>`;
   }
@@ -35,7 +54,7 @@ window.JJSTAR_CONTENT = (() => {
       <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
       <h1>${escape(current.title)}</h1>
       <p>${(current.sourceMenuPath || []).map(escape).join(' &gt; ')}</p>
-      <div class="tip-box"><p>이 메뉴의 상세 이용 안내는 준비 중이에요.</p></div>
+      <div class="tip-box"><p>이 메뉴의 상세 이용 안내는 준비 중이에요</p></div>
     </article>`;
   }
 
@@ -55,6 +74,11 @@ window.JJSTAR_CONTENT = (() => {
       if (start.tagName === 'SECTION') break;
       node = node.nextElementSibling;
     }
+    if (!current.contentAnchors || current.contentAnchor === current.contentAnchors[0]) {
+      const description = section.querySelector(descriptionSelector) || section.querySelector('p');
+      const text = window.JJSTAR_STRINGS?.[current.code]?.desc;
+      if (description && text) description.innerHTML = text;
+    }
     section.querySelectorAll('a[href="#"]').forEach(link => {
       if (link.classList.contains('btn-direct-mini')) link.remove();
       else link.replaceWith(...link.childNodes);
@@ -71,7 +95,7 @@ window.JJSTAR_CONTENT = (() => {
     const url = new URL(path, absoluteBase).href;
     if (signal?.aborted) throw new DOMException('Request aborted', 'AbortError');
     if (textCache.has(url)) return textCache.get(url);
-    const response = await fetch(url, { signal });
+    const response = await fetch(url, { signal, cache: 'no-cache' });
     if (!response.ok) throw new Error(`문서를 로드할 수 없습니다. (Status: ${response.status})`);
     const html = await response.text();
     textCache.set(url, html);
@@ -137,7 +161,10 @@ window.JJSTAR_CONTENT = (() => {
       // Section IDs live on their outer block; duplicated headings/IDs would break scrolling.
       body.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
       body.querySelectorAll('nav, script, style, #direct-link').forEach(el => el.remove());
-      body.querySelectorAll('.btn-direct').forEach(el => el.remove());
+      // New guides retain their explicit site link when displayed inside a group.
+      body.querySelectorAll('.btn-direct').forEach(el => {
+        if (!el.closest('.guide-detail')) el.remove();
+      });
       const sourceHeading = body.querySelector('h1, h3');
       if (sourceHeading) sourceHeading.textContent = node.title;
       else {
@@ -146,10 +173,14 @@ window.JJSTAR_CONTENT = (() => {
         block.appendChild(heading);
       }
       if (!node.contentAnchor) {
-        const desc = body.querySelector('.guide-lead, .page-description');
+        const desc = body.querySelector(descriptionSelector);
         const pageStrings = window.JJSTAR_STRINGS?.[node.code];
         if (desc && pageStrings?.desc) desc.innerHTML = pageStrings.desc;
       }
+      const wrapper = document.createElement('div');
+      wrapper.appendChild(body);
+      body = fragment(withDirectLink(wrapper.innerHTML, node));
+      body.querySelectorAll('#direct-link').forEach(el => el.removeAttribute('id'));
       body.querySelectorAll('img:not([src]), img[src=""]').forEach(img => img.remove());
       block.appendChild(body);
       return block;
@@ -171,9 +202,12 @@ window.JJSTAR_CONTENT = (() => {
         <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
         <h1>${escape(current.title)}</h1>${embeddedSections(html, current)}</article>`;
     }
+    if (!current.generatedOverview && !(current.hideInNav && current.parentOverview)) {
+      html = withDirectLink(html, current);
+    }
     return html.replace(/src="(?!https?:|data:|\/\/)([^"]*)"/g, (_, path) =>
       `src="${new URL(path.replace(/^(\.\.\/)+/, ''), absoluteBase).href}"`);
   }
 
-  return { load, overview, pending, hiddenChildren };
+  return { load, overview, pending, hiddenChildren, descriptionSelector };
 })();

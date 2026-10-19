@@ -319,6 +319,102 @@ body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover span {
     color: #2980B9;
 }
 
+.menu-title-end {
+    white-space: nowrap;
+    color: inherit !important;
+}
+
+.guide-image-slot {
+    margin: 1.5rem 0;
+}
+
+.guide-image-slot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line, #cbd5e1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Scholarship guide: character heading, full-width capture and inset STEP card. */
+.guide-detail .guide-section-heading h2,
+.guide-embedded-detail .guide-section-heading h3 {
+    padding: 0;
+    border: 0;
+    line-height: 1.3;
+}
+
+.guide-detail .guide-section-intro,
+.guide-embedded-detail .guide-section-intro {
+    margin-top: 0.5rem;
+}
+
+.guide-section-heading > img {
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.guide-l3-content .flex-1,
+.guide-article .flex-1 {
+    min-width: 0;
+}
+
+.guide-l3-content .flex-wrap,
+.guide-article .flex-wrap {
+    flex-wrap: wrap;
+}
+
+.guide-detail .guide-steps p,
+.guide-embedded-detail .guide-steps p {
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    line-height: 1.625;
+}
+
+.guide-detail .guide-steps .guide-image-slot,
+.guide-embedded-detail .guide-steps .guide-image-slot {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .guide-detail .guide-steps,
+    .guide-embedded-detail .guide-steps {
+        padding: 1.25rem;
+    }
+
+    .guide-detail .guide-steps .flex.gap-4,
+    .guide-embedded-detail .guide-steps .flex.gap-4 {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.guide-image-slot figcaption {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-muted, #64748b);
+}
+
+.guide-required-marker {
+    display: inline;
+    position: relative;
+    top: -0.35em;
+    margin-left: 0.2em;
+    font-size: 0.75em;
+    line-height: 0;
+    vertical-align: baseline;
+    font-weight: 600;
+    color: #dc2626 !important;
+}
+
+body[data-theme='dark'] .guide-required-marker {
+    color: #fb7185 !important;
+}
+
 body[data-theme='dark'] .menu-title {
     color: #94a3b8 !important;
 }
