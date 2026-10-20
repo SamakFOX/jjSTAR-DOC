@@ -1,6 +1,6 @@
 /**
  * JJSTAR Guide - Search Engine
- * Phase 2: 지능형 검색 및 내비게이션 고도화
+ * 초성 검색과 메뉴 필터링
  */
 
 const Hangul = {
@@ -74,7 +74,7 @@ function filterMenu(menuData, keyword) {
 
       const hasSmallDirectMatch = processedSmalls.length > 0;
 
-      // [Step 1.2/1.3] 중분류 노출 조건: 대분류 매칭 OR 중분류 매칭 OR 하위 매칭 존재
+      // 중분류 노출 조건: 대분류 매칭 OR 중분류 매칭 OR 하위 매칭 존재
       if (catMatch || midMatch || hasSmallDirectMatch) {
         return { 
           ...mid, 
@@ -86,7 +86,7 @@ function filterMenu(menuData, keyword) {
       return null;
     }).filter(Boolean);
 
-    // [Step 1.2/1.3] 대분류 노출 조건: 대분류 매칭 OR 하위 매칭 존재
+    // 대분류 노출 조건: 대분류 매칭 OR 하위 매칭 존재
     if (catMatch || processedMids.length > 0) {
       const hasSmallMatchInCat = processedMids.some(m => m._hasSmallMatch);
       return { 

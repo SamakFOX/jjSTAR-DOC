@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="assets/images/favicon.ico" />
   <title>JJSTAR 이용 가이드</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261020-icons1">
   <link rel="stylesheet" href="assets/css/style_l3.css?v=20261019-complete1">
   <style>
     :root {
@@ -1276,7 +1276,7 @@
     let popupRequestController = null;
     let popupRequestId = 0;
 
-    // [Phase 3-1] 중앙 관리형 링크 데이터셋
+    // 중앙 관리형 링크 데이터셋
     const GUIDE_LINKS = {
       "L02MAIN": "jjstar_mockup.html",
       "L02JEJE": "assets/pdf/jjstar_guide.pdf",
@@ -1378,7 +1378,7 @@
       }
 
       filtered.filter(cat => cat.enabled !== false && (keyword || cat.hideInNav !== true)).forEach(cat => {
-        // [Phase 3-13] 검색 중일 때는 매칭된 카테고리를 강제로 펼침
+        // 검색 중일 때는 매칭된 카테고리를 강제로 펼침
         const groupOpen = keyword ? true : openCategories.has(cat.title);
         const group = document.createElement('section');
         group.className = `group ${groupOpen ? 'open' : ''}`;
@@ -1392,7 +1392,7 @@
         if (isCatSelected) gbtn.classList.add('is-active');
         if (isCatCurrent) gbtn.classList.add('is-current');
 
-        // [Step 1] 대분류 클릭 시 하위 메뉴 토글 및 해당 페이지 이동
+        // 대분류 클릭 시 하위 메뉴 토글 및 해당 페이지 이동
         gbtn.onclick = (e) => {
           handleNavClick(e, { category: cat.title }, () => {
             if (openCategories.has(cat.title)) {
@@ -1414,7 +1414,7 @@
 
         cat.children.filter(mid => mid.enabled !== false && (keyword || mid.hideInNav !== true)).forEach(mid => {
           totalVisibleItems++;
-          // [Phase 3-13] 검색 중일 때는 매칭된 중분류를 강제로 펼침
+          // 검색 중일 때는 매칭된 중분류를 강제로 펼침
           const midOpen = keyword ? true : openMids.has(mid.title);
           const active = current && current.category === cat.title && current.mid === mid.title;
           const isMidCurrent = active && current.type === 'mid';
@@ -1483,7 +1483,7 @@
         nav.appendChild(group);
       });
 
-      // [Phase 2-6] 검색 결과 카운트: 매칭된 총 항목 수
+      // 검색 결과 카운트: 매칭된 총 항목 수
       const navVisibleCount = docs.filter(d => !d.guideOnly && !d.hideInNav).length;
       searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${navVisibleCount}건`;
 
@@ -1512,7 +1512,7 @@
         return;
       }
 
-      // [Phase 3-7] 정밀한 Base URL 추출: index.html이 위치한 절대 폴더 경로 확보
+      // Base URL: index.html이 위치한 절대 폴더 경로
       const absoluteBase = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
 
       // Explore focus: active and expand current doc lineage
@@ -2043,7 +2043,7 @@
       searchClear.style.display = 'none';
       lastSearchKeyword = '';
 
-      // [Phase 3-14] 검색 종료 시 현재 활성화된 메뉴만 남기고 모두 닫기 (배타적 펼침 복원)
+      // 검색 종료 시 현재 활성화된 메뉴만 남기고 모두 닫기 (배타적 펼침 복원)
       openCategories.clear();
       openMids.clear();
       const current = docs[currentIndex];
@@ -2064,7 +2064,7 @@
     renderDetail();
     renderNav();
 
-    // [Phase 3-10] iframe 내 로드 시 스크롤 정책 강제 활성화
+    // iframe 내 로드 시 스크롤 정책 강제 활성화
     window.addEventListener('load', () => {
       if (window.self !== window.top) {
         document.documentElement.style.overflow = 'auto';

@@ -54,12 +54,12 @@
   try {
     const imageManifest = await (await fetch(new URL('data/guide-images.json', base))).json();
     const imageNumbers = new Set(imageManifest.entries.map(image => image['번호']));
+    const imageNumberByPath = new Map(imageManifest.entries.map(image => [image['저장경로'], image['번호']]));
     const renderedImages = new Set();
     const collectImages = body => {
-      for (const slot of body.querySelectorAll('[data-guide-image]')) {
-        const number = slot.getAttribute('data-guide-image');
-        check(imageNumbers.has(number), `이미지 작업표에 없는 번호: ${number}`);
-        renderedImages.add(number);
+      for (const image of body.querySelectorAll('img[src]')) {
+        const number = imageNumberByPath.get(image.getAttribute('src'));
+        if (number) renderedImages.add(number);
       }
     };
     const inspectLink = (body, leaf) => {

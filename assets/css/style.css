@@ -156,7 +156,7 @@ body {
 }
 
 .btn-direct::after {
-  content: '↗';
+  content: '\2197';
   font-size: 18px;
 }
 
@@ -182,7 +182,7 @@ body {
 }
 
 .guide-callout.info::before {
-  content: "ℹ️";
+  content: "\2139\FE0F";
 }
 
 .guide-callout.warning {
@@ -192,7 +192,7 @@ body {
 }
 
 .guide-callout.warning::before {
-  content: "⚠️";
+  content: "\26A0\FE0F";
 }
 
 .guide-callout.tip {
@@ -202,7 +202,7 @@ body {
 }
 
 .guide-callout.tip::before {
-  content: "💡";
+  content: "\1F4A1";
 }
 
 /* Step Card (절차 안내) */
@@ -445,7 +445,7 @@ body[data-theme='dark'] .step-badge {
   }
 }
 
-/* Phase 3-6: iframe 임베드 최적화 전용 스타일 */
+/* iframe 임베드 전용 스타일 */
 .app {
   height: 100%;
   display: grid;
@@ -490,7 +490,7 @@ body {
   background-color: transparent !important;
 }
 
-/* Phase 3-8: 시연용 홈 버튼 스타일 */
+/* 시연용 홈 버튼 스타일 */
 .home-link {
   display: inline-flex;
   align-items: center;

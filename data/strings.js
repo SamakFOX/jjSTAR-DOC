@@ -168,13 +168,13 @@ window.JJSTAR_STRINGS = {
         "btnText": "학생생활관 공지사항 바로가기"
     },
 
-    // Level 2 — 대학생활
+    // Level 2-대학생활
     "L02LIFE": {
         "homeDesc": "교내 활동·시설·생활 등 대학생활에 필요한 서비스를 직접 찾아 이용할 수 있어요",
         "desc": "통학버스, 학생생활관, 시설 이용과 해외연수 등 대학생활 서비스를 이용하는 메뉴예요"
     },
 
-    // Level 3 — 대학생활 하위
+    // Level 3-대학생활 하위
     "L03MAJC": {
         "desc": "전공역량 자기평가 진단과 결과 분석을 통해 나의 전공 역량 수준을 파악하는 메뉴에요"
     },
@@ -223,7 +223,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "전공역량 자기평가 결과 분석 바로가기"
     },
 
-    // Level 4 — 공동체
+    // Level 4-공동체
     "L04MYMP": {
         "desc": "RC 공동체 참여 학생을 위한 Major&Academic Path 제반활동 전반에 대한 확인 및 관리를 진행하는 메뉴들로 구성되어 있어요. 현재 MAP 기반 프로그램참여율과 자기 이해에 기반한 전공 선택 도움, 대학생활 적응도 및 관련 프로그램, RC 공동체 프로그램과 그룹 활동 내역 등을 확인할 수 있어요",
         "btnText": "My MAP 바로가기"
@@ -241,7 +241,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "공동체 멘토상담 입력 바로가기"
     },
 
-    // Level 4 — 해외봉사
+    // Level 4-해외봉사
     "L04OVNT": {
         "desc": "해외봉사와 관련된 공지사항을 확인하는 메뉴에요",
         "btnText": "해외봉사 공지사항 바로가기"
@@ -259,7 +259,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "해외봉사 결과보고서 작성 바로가기"
     },
 
-    // Level 4 — 해외연수
+    // Level 4-해외연수
     "L04TRAP": {
         "desc": "해외 연수 프로그램에 참여 신청하는 메뉴에요",
         "btnText": "해외 연수 신청 바로가기"
@@ -273,7 +273,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "해외 연수 내역 바로가기"
     },
 
-    // Level 4 — 기타 학사 관리
+    // Level 4-기타 학사 관리
     "L04ROOMS": {
         "desc": "강의 종료 후 강의실 잔류가 필요한 경우 신청하는 메뉴에요",
         "btnText": "강의실 잔류 신청 바로가기"
@@ -283,13 +283,13 @@ window.JJSTAR_STRINGS = {
         "btnText": "강의실 잔류 신청 내역 바로가기"
     },
 
-    // Level 4 — 수상내역
+    // Level 4-수상내역
     "L04AWIN": {
         "desc": "재학 중 교내에서 수상한 내역을 조회하는 메뉴에요",
         "btnText": "교내 수상내역 바로가기"
     },
 
-    // Level 4 — 학생증
+    // Level 4-학생증
     "L04IDGD": {
         "desc": "학생증 발급 방법, 이용 안내 등 학생증과 관련된 전반적인 안내를 확인하는 메뉴에요",
         "btnText": "학생증 안내 바로가기"
@@ -307,7 +307,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "재발급 절차 바로가기"
     },
 
-    // Level 4 — 증명발급
+    // Level 4-증명발급
     "L04CEGD": {
         "desc": "인터넷으로 각종 증명서를 발급받는 방법을 안내하는 메뉴에요",
         "btnText": "인터넷 증명발급 안내 바로가기"
@@ -321,7 +321,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "제증명 발급내역 바로가기"
     },
 
-    // Level 4 — SUPER 핵심역량
+    // Level 4-SUPER 핵심역량
     "L04SUPE": {
         "desc": "전주대학교 SUPER 핵심역량의 구성과 의미를 안내하는 메뉴에요",
         "btnText": "SUPER 핵심역량 바로가기"
@@ -339,7 +339,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "SUPER 핵심역량 진단평가 결과 분석 바로가기"
     },
 
-    // Level 4 — starT
+    // Level 4-starT
     "L043CAT": {
         "desc": "starT의 3C(Community·Creativity·Career) 활동에 대한 전반적인 안내를 확인하는 메뉴에요",
         "btnText": "3C활동 안내 바로가기"
@@ -369,7 +369,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "starT 활동 인증 바로가기"
     },
 
-    // Level 4 — 원격교육 TA 운영
+    // Level 4-원격교육 TA 운영
     "L04TALG": {
         "desc": "원격교육 TA로서 근무한 일지를 입력하는 메뉴에요",
         "btnText": "TA 근무일지 입력 바로가기"
@@ -379,7 +379,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "TA 근무일지 내역 바로가기"
     },
 
-    // Level 4 — 학생회 활동
+    // Level 4-학생회 활동
     "L04ELCT": {
         "desc": "총학생회 선거에 참여하는 메뉴에요",
         "btnText": "총학생회 선거 바로가기"
@@ -389,7 +389,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "학생회 활동 내역 바로가기"
     },
 
-    // Level 4 — 대학생활 상담
+    // Level 4-대학생활 상담
     "L04LFGD": {
         "desc": "대학생활 상담의 종류와 신청 방법을 안내하는 메뉴에요",
         "btnText": "대학생활 상담안내 바로가기"
@@ -411,7 +411,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "카운슬링센터 심리 검사 바로가기"
     },
 
-    // 누락 페이지 보완 — JJSTAR 이용 가이드
+    // JJSTAR 이용 가이드
     "L02MAIN": {
         "desc": "JJSTAR 메인화면의 메뉴와 주요 기능을 한눈에 살펴볼 수 있어요"
     },
@@ -425,7 +425,7 @@ window.JJSTAR_STRINGS = {
         "desc": "전주대가 제공하는 모든 서비스 내에서 자료에 기반해 결과를 검색하고 추론하여 답변해주는 서비스에요<br>생성형AI와 다르게 실제 서비스되는 내용에서만 검색하고 답변하기 때문에 믿고 이용할 수 있어요"
     },
 
-    // 누락 페이지 보완 — STAR 지원
+    // STAR 지원
     "L04PRTS": {
         "desc": "교수님의 강의시간표를 조회하고 수업 시간과 강의실을 확인할 수 있어요",
         "btnText": "교원 시간표 조회 바로가기"
@@ -517,7 +517,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "대학생활 가이드 (PDF) 바로가기"
     },
 
-    // 누락 페이지 보완 — 학사정보
+    // 학사정보
     "L04RULE": {
         "desc": "학칙과 학사제도의 변경 내용을 게시판에서 찾아볼 수 있어요",
         "btnText": "학칙개정사항 안내 바로가기"
@@ -683,7 +683,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "심폐소생술 교과목 신청내역 확인 바로가기"
     },
 
-    // 누락 페이지 보완 — 역량강화
+    // 역량강화
     "L04STGD": {
         "desc": "starT 활동과 포인트 제도의 기본 안내를 확인할 수 있어요",
         "btnText": "starT 안내 및 혜택 바로가기"
@@ -716,7 +716,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "진로 해시태그(#) 바로가기"
     },
 
-    // 누락 페이지 보완 — 진로개발 및 상담
+    // 진로개발 및 상담
     "L03CRMP": {
         "desc": "관심 있는 직무를 탐색하고 나에게 맞는 커리어로드맵을 준비할 수 있어요"
     },
@@ -772,7 +772,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "카운슬링센터 심리 상담 바로가기"
     },
 
-    // 누락 페이지 보완 — 취·창업지원
+    // 취·창업지원
     "L03STUP": {
         "desc": "창업 관련 사업참여이력과 창업 장학금 신청 정보를 확인할 수 있어요"
     },
@@ -847,7 +847,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "FAQ 바로가기"
     },
 
-    // 누락 페이지 보완 — 대학생활
+    // 대학생활
     "L03INDS": {
         "desc": "산학협력 연구 참여 내역과 참여 확인서 발급 안내를 확인할 수 있어요"
     },
@@ -930,7 +930,7 @@ window.JJSTAR_STRINGS = {
         "btnText": "개인(팀) 프로젝트 바로가기"
     },
 
-    // 누락 페이지 보완 — My Page
+    // My Page
     "L03MYIN": {
         "desc": "나의 기본정보와 학과 선택, 보호자 정보조회 승인 및 학생예비군 신청을 확인할 수 있어요"
     },
