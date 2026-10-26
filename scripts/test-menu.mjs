@@ -132,7 +132,7 @@ assert.equal(catalog.hideInNav, false);
 assert.equal(catalog.guideStatus, 'existing');
 assert.ok(!catalog.contentAnchor && !catalog.contentPath);
 assert.ok(!content.hiddenChildren(groups.find(node => node.code === 'L03STMG')).some(node => node.code === catalog.code));
-assert.ok(fs.readFileSync(catalog.path, 'utf8').includes('년도 선택'));
+assert.ok(/(?:연도|년도)[\s\S]*?선택/.test(fs.readFileSync(catalog.path, 'utf8')));
 assert.ok(course.hideInNav && course.guideStatus === 'embedded');
 assert.equal(course.contentAnchor, 'L04EDCR');
 assert.ok(!leaves.some(node => node.code === 'L04CURV'));

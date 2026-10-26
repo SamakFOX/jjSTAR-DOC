@@ -2,99 +2,190 @@
   <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
   <h1 class="text-4xl mb-6 font-bold">교육과정편람</h1>
   <p class="mb-6 text-gray-700 leading-relaxed">학과와 전공별 교육과정편람을 찾아볼 수 있어요</p>
-  <a href="https://jjstar1.jj.ac.kr/" id="direct-link" class="btn-direct" target="_blank" rel="noopener">JJSTAR 바로가기</a>
+  <a href="https://jjstar.jj.ac.kr/" id="direct-link" class="btn-direct" target="_blank" rel="noopener">교육과정편람 바로가기</a>
   <hr class="border-t-2 border-gray-200 mb-12" />
   <section class="guide-page-description">
-    <div class="flex items-center gap-2 mb-1 mt-5 guide-section-heading">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
       <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
       <h2 style="margin: 0;">교육과정편람 UI 한눈에 보기</h2>
     </div>
     <p class="mb-6 text-gray-700 flex items-center gap-2 guide-section-intro">
-      <svg class="lucide w-5 h-5 text-blue-600" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 16v-4" />
-        <path d="M12 8h.01" />
-      </svg>
-      편람 조회 조건 · 편람 결과 안내를 확인해봐요
+      <svg class="lucide w-5 h-5 text-blue-600" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+      조회 조건을 선택하면 학과 소개부터 교과목 해설까지 교육과정의 세부 내용을 살펴볼 수 있어요
     </p>
     <figure class="guide-image-slot">
-      <img src="assets/images/jjstar_d_edcrb-main.webp" alt="교육과정편람 화면" loading="lazy" />
+      <img src="assets/images/jjstar_d_edcrb-main.webp" alt="1 연도·대학·학과·전공 조회 조건과 2 조회된 학과의 교육과정편람 본문" loading="lazy" />
       <figcaption>&lt; 교육과정편람 화면 &gt;</figcaption>
     </figure>
     <div class="space-y-4 mb-8">
       <div class="flex gap-4 items-start">
-        <div
-          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1
-        </div>
-        <div><strong class="text-gray-900">교육과정편람 조회 조건</strong><br>
-          <span class="text-gray-600">년도·대학·학과·전공을 선택해 원하는 교육과정을 열람할 수 있어요</span>
-        </div>
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+        <div><strong class="text-gray-900">조회 조건</strong><br><span class="text-gray-600">연도·대학·학과를 선택하고 [조회]를 눌러요. 전공 선택 항목이 활성화되면 함께 확인해요.</span></div>
       </div>
       <div class="flex gap-4 items-start">
-        <div
-          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2
-        </div>
-        <div><strong class="text-gray-900">편람 결과</strong><br>
-          <span class="text-gray-600">내가 선택한 편람의 상세 항목들을 확인하는 영역이에요</span>
-        </div>
+        <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+        <div><strong class="text-gray-900">교육과정편람 본문</strong><br><span class="text-gray-600">대학·학과 소개, 진로분야와 자격증, 전공능력, 교육과정 구성과 이수기준, 교과목 정보 등을 화면 순서대로 확인할 수 있어요</span></div>
       </div>
     </div>
   </section>
-  <div class="tip-box tip-box--with-character guide-extra-tip">
-    <div class="flex items-start gap-3">
-      <div class="tip-box-content">
-        <p>* 편람이 확정되지 않았다는 안내가 나오면 선택한 년도와 학과의 편람 제공 여부를 확인해주세요</p>
-      </div>
-    </div>
-  </div>
-  <div class="text-center my-16 mt-15">
-    <h2 class="text-4xl font-bold mt-15 mb-4 text-gray-900">교육과정편람 세부 구성</h2>
-    <p class="text-gray-600">
-      편람 세부 내용으로는 12가지가 있어요
-    </p>
-    <img src="assets/images/jjstar_d_edcrb-items.webp" class="w-full rounded-lg shadow-md border border-gray-200" />
-    <div class="text-gray-600" style="display: inline-grid; row-gap: 6px; text-align: left;">
-      <div><a href="#T1" class="inline-tab-badge">대학소개</a><span> : 해당 학과가 소속된 단과대학의 소개페이지에요</span></div>
-      <div><a href="#T2" class="inline-tab-badge">전공능력 정의</a><span> : 전공능력의 정의와 학습 성과 준거에 대한 안내에요</span></div>
-      <hr style="width: 100%; border: 0; border-top: 1px solid #e5e7eb; margin: 6px 0;">
-      <div><a href="#T3" class="inline-tab-badge">전공능력</a><span> : STAR모델에 따른 전공능력 상세 표에요</span></div>
-      <div><a href="#T4" class="inline-tab-badge">진로분야 연계</a><span> : 전공능력에 따른 진로 분야 상세 표에요</span></div>
-      <div><a href="#T5" class="inline-tab-badge">교육과정 구성요소</a><span> : 직무 수준에 따른 KSA 구성 요소 표에요</span></div>
-      <hr style="width: 100%; border: 0; border-top: 1px solid #e5e7eb; margin: 6px 0;">
-      <div><a href="#T6" class="inline-tab-badge">직무수준별 교육과정</a><span> : 교육과정(과목)별로 직무 수준과 KSA 구성 상태를 알려주는 표에요</span></div>
-      <div><a href="#T7" class="inline-tab-badge">진로분야 교과목</a><span> : 진로 분야와 직무 수준에 따라 교과목을 구분해 알려주는 표에요</span></div>
-      <hr style="width: 100%; border: 0; border-top: 1px solid #e5e7eb; margin: 6px 0;">
-      <div><a href="#T8" class="inline-tab-badge">교육과정 이수체계</a><span> : 학년별로 어떤 교과목을 이수해야 하는지 알려주는 표에요</span></div>
-      <div><a href="#T9" class="inline-tab-badge">교육과정 이수기준</a><span> : 학년별 이수 기준과이수 학점 그리고 인정 기준에 대해 알려주는 표에요</span></div>
-      <div><a href="#T10" class="inline-tab-badge">교육과정 편성표</a><span> : 전체 교육과정의 과목명, 전공능력, KSA, 적정 학기 등을 종합해둔 표에요</span></div>
-      <div><a href="#T11" class="inline-tab-badge">교과목 해설</a><span> : 교과목별로 어떤 내용을 진행하고 어떤 결과(역량 향상)이 있을 지 예측한 표에요</span></div>
-    </div>
-    
-  </div>
+  <div class="tip-box tip-box--with-character guide-extra-tip"><div class="flex items-start gap-3"><div class="tip-box-content">
+    <p>* 학과와 연도에 따라 편람의 내용이 달라질 수 있어요. 편람이 확정되지 않았다는 안내가 나오면 선택한 연도와 학과의 편람 제공 여부를 확인해봐요.</p>
+  </div></div></div>
 
   <section class="guide-steps bg-gray-50 p-8 rounded-lg">
-    <h3 class="text-xl mb-6 font-bold">예시&#41; 신입생인 제이제이가 나의 학과 교육과정편람을 찾아보려고 해요</h3>
+    <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이가 나의 학과 교육과정편람을 살펴보려고 해요</h3>
     <div class="space-y-4 mb-8">
-      <div class="flex gap-4 items-start">
-        <div class="step-badge">STEP 1</div>
-        <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">조회 조건 설정</strong>
-          <p>확인하려는 교육과정의 년도, 대학, 학과를 선택하고 조회 클릭!</p>
-          <figure class="guide-image-slot">
-            <img src="assets/images/jjstar_d_edcrb-ex-01.webp" alt="교육과정편람-년도 선택" loading="lazy" />
-            <figcaption>&lt; 교육과정편람 - 학과 선택 &gt;</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="flex gap-4 items-start">
-        <div class="step-badge">STEP 2</div>
-        <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">편람 확인</strong>
-          <p>조회된 편람의 세부 항목들을 꼼꼼히 확인해요</p>
-          <figure class="guide-image-slot">
-            <img src="assets/images/jjstar_d_edcrb-ex-02.webp" alt="교육과정편람-편람확인" loading="lazy" />
-            <figcaption>&lt; 교육과정편람 - 학과 선택 &gt;</figcaption>
-          </figure>
-        </div>
-      </div>
+      <div class="flex gap-4 items-start"><div class="step-badge">STEP 1</div><div class="text-gray-700 pt-1 flex-1">
+        <strong class="text-gray-900">조회 조건 선택</strong>
+        <p>확인할 연도와 대학, 학과를 선택한 뒤 [조회]를 눌러요. 예시 화면에서는 2026년·인문콘텐츠대학·역사콘텐츠학과를 선택했어요.</p>
+      </div></div>
+      <div class="flex gap-4 items-start"><div class="step-badge">STEP 2</div><div class="text-gray-700 pt-1 flex-1">
+        <strong class="text-gray-900">편람 내용 확인</strong>
+        <p>학과 소개와 진로분야부터 읽고, 아래로 내려 전공능력과 교과목 구성을 살펴봐요. 필요한 항목은 아래의 바로 보기를 이용해 찾아볼 수 있어요.</p>
+      </div></div>
     </div>
+  </section>
+
+  <div class="text-center my-16 mt-15">
+    <h2 class="text-4xl font-bold mt-15 mb-4 text-gray-900">교육과정편람 세부 구성</h2>
+    <p class="text-gray-600 mb-6">항목을 선택하면 아래의 해당 설명으로 이동해요</p>
+    <div class="text-gray-600" style="display: inline-grid; row-gap: 6px; text-align: left;">
+      <div><a href="#T1" class="inline-tab-badge">대학·학과 소개와 진로분야</a></div>
+      <div><a href="#T2" class="inline-tab-badge">전공능력 정의</a></div>
+      <div><a href="#T3" class="inline-tab-badge">STAR 모델과 진로분야 연계</a></div>
+      <div><a href="#T5" class="inline-tab-badge">교육과정 구성요소</a></div>
+      <div><a href="#T6" class="inline-tab-badge">직무수준별 교육과정</a></div>
+      <div><a href="#T7" class="inline-tab-badge">진로분야 교과목</a></div>
+      <div><a href="#T8" class="inline-tab-badge">교육과정 이수체계</a></div>
+      <div><a href="#T9" class="inline-tab-badge">교육과정 이수기준</a></div>
+      <div><a href="#T10" class="inline-tab-badge">교육과정 편성표</a></div>
+      <div><a href="#T11" class="inline-tab-badge">교과목 해설</a></div>
+    </div>
+  </div>
+  <div class="guide-spacer-v"></div>
+  <section id="T1">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">대학·학과 소개와 진로분야</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">대학과 학과가 어떤 인재를 기르고 어떤 내용을 배우는지 먼저 살펴봐요. 인재상·교육목표·교육과정의 특성과 수여학위를 확인할 수 있어요.</p>
+    <p class="text-gray-700 leading-relaxed">아래의 [진로분야 및 자격증]에서는 전공과 연결되는 진출 분야와 관련 자격증을 함께 확인해요. 관심 있는 진로가 있다면 뒤에 나오는 진로분야 연계와 교과목도 이어서 살펴봐요.</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-01.webp" alt="대학·학과의 인재상과 교육목표, 학과소개 및 수여학위, 진로분야와 관련 자격증을 보여주는 화면" loading="lazy" />
+      <figcaption>&lt; 대학·학과 소개와 진로분야 &gt;</figcaption>
+    </figure>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T2">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">전공능력 정의</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">전공능력별 정의와 학습 성과 준거를 읽어봐요. 학과에서 기르는 능력이 무엇인지, 학습을 통해 어떤 성과를 달성해야 하는지 확인할 수 있어요.</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-02.webp" alt="학과의 전공능력별 정의와 학습 성과 준거를 정리한 표" loading="lazy" />
+      <figcaption>&lt; 전공능력 정의 &gt;</figcaption>
+    </figure>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T3">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">STAR 모델과 진로분야 연계</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-03.webp" alt="STAR 전공능력 범주모델과 학과 전공능력의 연계표, 진로분야별 전공능력 연계표" loading="lazy" />
+      <figcaption>&lt; STAR 모델과 진로분야 연계 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">왼쪽 [전공능력] 표에서는 학과의 전공능력이 STAR 전공능력 범주모델과 어떻게 연결되는지 확인해요. 행과 열을 함께 보면서 각 능력의 연계 관계를 살펴봐요.</p>
+    <p id="T4" class="text-gray-700 leading-relaxed">오른쪽 [진로분야 연계] 표에서는 각 진로분야와 전공능력의 관계를 확인해요. 내가 관심 있는 진로분야에서 어떤 능력이 연결되는지 찾아봐요.</p>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T5">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">교육과정 구성요소</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-04.webp" alt="기초·심화·실무·전문 직무수준별 지식 K, 기술 S, 태도 A를 정리한 교육과정 구성요소 표" loading="lazy" />
+      <figcaption>&lt; 교육과정 구성요소 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">기초·심화·실무·전문 수준별로 필요한 지식(Knowledge), 기술(Skill), 태도(Attitude)를 확인하는 표에요. 표의 K·S·A는 각각 지식·기술·태도를 뜻해요.</p>
+    <p class="text-gray-700 leading-relaxed">내가 배우려는 수준의 행을 따라 읽으면서 어떤 지식을 익히고, 어떤 기술과 태도를 갖춰야 하는지 살펴봐요.</p>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T6">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">직무수준별 교육과정</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-05.webp" alt="직무수준별 교과목과 전공능력 연계, 지식 K·기술 S·태도 A 구성 값을 정리한 표" loading="lazy" />
+      <figcaption>&lt; 직무수준별 교육과정 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">직무수준별로 어떤 교과목이 배치되어 있는지 확인해요. 관심 과목의 행을 따라 전공능력 연계 표시와 K·S·A 구성 값을 함께 살펴볼 수 있어요.</p>
+    <p class="text-gray-700 leading-relaxed">앞에서 확인한 교육과정 구성요소와 연결해 읽으면 해당 과목이 어떤 능력과 학습 요소를 다루는지 파악하는 데 도움이 돼요.</p>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T7">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">진로분야 교과목</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">위쪽 선택 목록에서 확인할 진로분야를 선택해요. 해당 진로와 관련된 교과목을 직무수준별로 살펴보면서 앞으로 수강할 과목을 찾아봐요.</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-06.webp" alt="진로분야 선택 목록과 해당 진로의 직무수준별 연계 교과목 표" loading="lazy" />
+      <figcaption>&lt; 진로분야 교과목 &gt;</figcaption>
+    </figure>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T8">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">교육과정 이수체계</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-07.webp" alt="교육과정 선택 목록과 학년별 교과목 배치, 단계별 학습 흐름 및 연계 비교과를 보여주는 이수체계 표" loading="lazy" />
+      <figcaption>&lt; 교육과정 이수체계 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">교육과정을 선택하고 학년별로 어떤 과목이 배치되어 있는지 살펴봐요. 기초부터 심화·실무·전문 단계로 이어지는 학습 흐름을 확인할 수 있어요.</p>
+    <p class="text-gray-700 leading-relaxed">아래의 비교과 항목도 함께 읽어보면서 교과 학습과 연결해 참여할 수 있는 프로그램을 찾아봐요.</p>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T9">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">교육과정 이수기준</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">전공 이수에 필요한 학점과 기본·심화과정의 기준, 졸업요건을 확인해요. 표에 표시된 이수기준과 인정기준을 함께 읽고 나의 이수계획을 점검해봐요.</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-08.webp" alt="전공 이수에 필요한 학점과 기본·심화과정 및 졸업요건을 보여주는 교육과정 이수기준 표" loading="lazy" />
+      <figcaption>&lt; 교육과정 이수기준 &gt;</figcaption>
+    </figure>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T10">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">교육과정 편성표</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-09.webp" alt="학년·학기·이수구분·학수번호·국문 및 영문 교과목명·학점·수업시간·직무수준을 정리한 교육과정 편성표" loading="lazy" />
+      <figcaption>&lt; 교육과정 편성표 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">확인할 학년을 선택하고 교과목별 학기·이수구분·학수번호·국문 및 영문 교과목명·학점·수업시간·직무수준을 살펴봐요.</p>
+    <p class="text-gray-700 leading-relaxed">수강할 과목을 정할 때 필요한 기본 정보를 한 행씩 확인할 수 있어요. 과목의 내용이 궁금하다면 아래의 교과목 해설도 함께 읽어봐요.</p>
+  </section>
+  <div class="guide-spacer-v"></div>
+  <section id="T11">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">교과목 해설</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">확인할 교과목을 선택하고 국문·영문 해설을 읽어봐요. 과목에서 다루는 주요 학습 내용을 살펴보면서 나의 관심분야와 학습계획에 맞는지 확인해요.</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_edcrb-10.webp" alt="교과목 선택 목록과 교과목별 주요 학습 내용의 국문·영문 해설" loading="lazy" />
+      <figcaption>&lt; 교과목 해설 &gt;</figcaption>
+    </figure>
   </section>
 </article>

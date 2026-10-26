@@ -1228,7 +1228,7 @@
   <script src="assets/js/menu-content.js?v=20261019-buttons2"></script>
   <script>
     const menu = window.JJSTAR_MENU || [];
-    const navigationMenu = menu.filter(cat => cat.code !== 'L01INIT');
+    const navigationMenu = menu;
     const docs = [];
     menu.filter(cat => cat.enabled !== false).forEach(cat => {
       // Level 2 (Category) - Also include it in docs array
@@ -1484,7 +1484,7 @@
       });
 
       // 검색 결과 카운트: 매칭된 총 항목 수
-      const navVisibleCount = docs.filter(d => !d.guideOnly && !d.hideInNav).length;
+      const navVisibleCount = docs.filter(d => !d.hideInNav).length;
       searchCountDisplay.textContent = keyword ? `검색 결과: ${totalVisibleItems}건` : `전체 메뉴: ${navVisibleCount}건`;
 
       if (keyword && totalVisibleItems === 0) {
