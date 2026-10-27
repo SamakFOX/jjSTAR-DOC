@@ -70,6 +70,13 @@ This project is not affiliated with Jeonju University.<br>
 All trademarks referenced herein are the properties of their respective owners.<br>
 © 2024 JEONJU UNIVERSITY. ALL RIGHTS RESERVED.<br>  
 
+## 진로·취업 부서 검토용 화면
+
+- `index.html?view=career`로 접속하면 진로개발 및 상담 19개, 취·창업지원 16개, My Page 취업역량 5개만 표시합니다. 상담안내는 검토 대상에서 제외합니다.
+- 검토 대상과 순서는 `assets/js/menu-views.js`의 `careerCodes`에서 관리합니다. 상위 목차·검색·이전/다음 이동도 같은 범위를 사용합니다.
+- 본문과 이미지는 전체 가이드와 같은 파일을 사용하므로 기존 페이지를 수정하면 양쪽에 반영됩니다. `index.html`은 기존 전체 메뉴를 그대로 표시합니다.
+- 이 주소는 메뉴 표시를 구분하는 용도이며 접근 권한을 제한하지 않습니다.
+
 ## 세부메뉴 바로가기 설정
 
 - 서비스 세부메뉴 165개의 바로가기 버튼은 `메뉴명 바로가기` 형식으로 표시합니다
