@@ -39,6 +39,11 @@ window.JJSTAR_MENU_VIEWS = (() => {
     'L04INDC',
   ]);
 
+  const homeHiddenCodes = new Set([
+    'L02JEJE',
+    'L02SRCH',
+  ]);
+
   const careerCodes = [
     'L04TGJB', 'L04INJB', 'L04MJDV', 'L04DCRM', 'L04MCRM', 'L04LEAD',
     'L04JBCP', 'L04NCSJ', 'L04JJKE', 'L04JBEF',
@@ -52,7 +57,7 @@ window.JJSTAR_MENU_VIEWS = (() => {
 
   function select(menu, name) {
     function excludeHidden(nodes) {
-      return nodes.filter(node => !hiddenCodes.has(node.code)).flatMap(node => {
+      return nodes.filter(node => !hiddenCodes.has(node.code) && !homeHiddenCodes.has(node.code)).flatMap(node => {
         if (!node.children?.length) return [node];
         const children = excludeHidden(node.children);
         return children.length ? [{ ...node, children }] : [];
