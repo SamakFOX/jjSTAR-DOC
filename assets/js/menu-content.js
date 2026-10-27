@@ -160,27 +160,30 @@ window.JJSTAR_CONTENT = (() => {
       block.id = node.code;
       // Section IDs live on their outer block; duplicated headings/IDs would break scrolling.
       body.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-      body.querySelectorAll('nav, script, style, #direct-link').forEach(el => el.remove());
-      // New guides retain their explicit site link when displayed inside a group.
-      body.querySelectorAll('.btn-direct').forEach(el => {
-        if (!el.closest('.guide-detail')) el.remove();
-      });
-      const sourceHeading = body.querySelector('h1, h3');
-      if (sourceHeading) sourceHeading.textContent = node.title;
-      else {
-        const heading = document.createElement('h3');
-        heading.textContent = node.title;
-        block.appendChild(heading);
+      body.querySelectorAll('nav, script, style, #direct-link, .btn-direct-mini').forEach(el => el.remove());
+      body.querySelectorAll('.btn-direct').forEach(el => el.remove());
+      const detail = body.querySelector('.guide-detail, .guide-embedded-detail');
+      const content = detail || body;
+      const sourceHeading = content.querySelector('h1, h3');
+      if (sourceHeading && !sourceHeading.closest('.guide-page-description, .guide-steps')) {
+        const titleRow = sourceHeading.parentElement;
+        sourceHeading.remove();
+        if (titleRow && titleRow.matches('.flex.items-center') && !titleRow.textContent.trim()) titleRow.remove();
       }
-      if (!node.contentAnchor) {
-        const desc = body.querySelector(descriptionSelector);
-        const pageStrings = window.JJSTAR_STRINGS?.[node.code];
-        if (desc && pageStrings?.desc) desc.innerHTML = pageStrings.desc;
+      const heading = document.createElement('h2');
+      heading.className = 'guide-embedded-title';
+      heading.textContent = node.title;
+      content.prepend(heading);
+      const desc = content.querySelector(descriptionSelector) || content.querySelector('p');
+      const pageStrings = window.JJSTAR_STRINGS?.[node.code];
+      if (desc && pageStrings?.desc) desc.innerHTML = pageStrings.desc;
+      if (desc && !desc.closest('.guide-page-description, .guide-steps, .tip-box')) heading.after(desc);
+      if (node.directUrl) {
+        const link = fragment(withDirectLink('<h1></h1>', node)).querySelector('.btn-direct');
+        link.removeAttribute('id');
+        const anchor = desc && desc.parentNode === heading.parentNode ? desc : heading;
+        anchor.after(link);
       }
-      const wrapper = document.createElement('div');
-      wrapper.appendChild(body);
-      body = fragment(withDirectLink(wrapper.innerHTML, node));
-      body.querySelectorAll('#direct-link').forEach(el => el.removeAttribute('id'));
       body.querySelectorAll('img:not([src]), img[src=""]').forEach(img => img.remove());
       block.appendChild(body);
       return block;
