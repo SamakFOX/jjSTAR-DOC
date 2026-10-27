@@ -1,4 +1,7 @@
 window.JJSTAR_MENU_VIEWS = (() => {
+  const hiddenCodes = new Set([
+  ]);
+
   const careerCodes = [
     'L04TGJB', 'L04INJB', 'L04MJDV', 'L04DCRM', 'L04MCRM', 'L04LEAD',
     'L04JBCP', 'L04NCSJ', 'L04JJKE', 'L04JBEF',
@@ -11,6 +14,14 @@ window.JJSTAR_MENU_VIEWS = (() => {
   ];
 
   function select(menu, name) {
+    function excludeHidden(nodes) {
+      return nodes.filter(node => !hiddenCodes.has(node.code)).flatMap(node => {
+        if (!node.children?.length) return [node];
+        const children = excludeHidden(node.children);
+        return children.length ? [{ ...node, children }] : [];
+      });
+    }
+    menu = excludeHidden(menu);
     if (name !== 'career') return { menu, title: '', count: null };
     const order = new Map(careerCodes.map((code, index) => [code, index]));
     function prune(nodes) {

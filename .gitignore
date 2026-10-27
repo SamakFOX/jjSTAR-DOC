@@ -2,6 +2,7 @@ prompts/
 imports/
 scripts/
 outputs/
+/assets/images/guide/
 data/guide-images.json
 log.md
 .editorconfig

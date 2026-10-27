@@ -1,11 +1,11 @@
 <article class="guide-article guide-detail" no-image>
   <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
   <h1 class="text-4xl mb-6 font-bold">My 직무개발현황</h1>
-  <p class="mb-6 text-gray-700 leading-relaxed">나의 직무개발 현황을 모아서 확인하는 메뉴에요</p>
-
-  <a href="https://jjstar1.jj.ac.kr/" id="direct-link" class="btn-direct" target="_blank" rel="noopener">JJSTAR 바로가기</a>
-
+  <p class="mb-6 text-gray-700 leading-relaxed">내가 수강한 교과목과 연결되는 직무를 살펴보고, 직무별로 어떤 과목을 이수했는지 확인할 수 있어요</p>
+  <a href="https://jjstar.jj.ac.kr/" id="direct-link" class="btn-direct" target="_blank" rel="noopener">My 직무개발현황
+    바로가기</a>
   <hr class="border-t-2 border-gray-200 mb-12" />
+
   <section class="guide-page-description">
     <div class="flex items-center gap-2 mb-1 mt-5 guide-section-heading">
       <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
@@ -17,41 +17,85 @@
         <path d="M12 16v-4" />
         <path d="M12 8h.01" />
       </svg>
-      제공 상태 안내를 확인해봐요
+      수강 과목을 바탕으로 한 직무 카드와 직무에 연결되는 교과목 목록으로 구성되어 있어요
     </p>
-  <figure class="guide-image-slot">
-    <img src="assets/images/jjstar_d_mjdv-main.webp" alt="My 직무개발현황 화면" loading="lazy" />
-    <figcaption>&lt; My 직무개발현황 화면 &gt;</figcaption>
-  </figure>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_mjdv-main.webp?v=01eec74db7" alt="위쪽의 나의 직업/직무 개발 현황과 아래쪽의 이수 교과목별 연관 직업/직무 목록"
+        loading="lazy" />
+      <figcaption>&lt; My 직무개발현황 화면 &gt;</figcaption>
+    </figure>
     <div class="space-y-4 mb-8">
-    <div class="flex gap-4 items-start">
-      <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
-      <div>
-        <strong class="text-gray-900">제공 상태</strong><br>
-        <span class="text-gray-600">화면 틀은 표시되지만 상세 내용은 확인할 수 없는 상태에요</span>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1
+        </div>
+        <div><strong class="text-gray-900">나의 직업/직무 개발 현황</strong><br><span class="text-gray-600">내가 수강한 과목을 기반으로 나에게
+            적합한 직무들이 카드로 표시돼요</span></div>
       </div>
-    </div>
+      <div class="flex gap-4 items-start">
+        <div
+          class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2
+        </div>
+        <div><strong class="text-gray-900">이수 교과목별 연관 직업/직무</strong><br><span class="text-gray-600">내가 들었던 전체 교과목 중 위쪽
+            직무들과 관련 있는 과목을 모두 확인할 수 있어요</span></div>
+      </div>
     </div>
   </section>
 
   <div class="tip-box tip-box--with-character guide-extra-tip">
     <div class="flex items-start gap-3">
       <div class="tip-box-content">
-        <p>* 상세 내용이 계속 표시되지 않으면 담당부서에 이용 가능 여부를 문의해주세요</p>
+        <p>* 직무 카드를 선택하면 <span class="text-red-600 font-semibold">해당 직무와 연결되는 수강 과목</span>을 모아서 볼 수 있어요. 전체 직무에 연결되는 과목을 다시 살펴보려면 <span class="text-blue-600 font-semibold">[전체보기]</span>를 눌러요.</p>
       </div>
     </div>
   </div>
 
+  <div class="guide-spacer-v"></div>
+  <section>
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">수강 과목으로 연결되는 직무 살펴보기</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed">내가 들은 교과목 중 3개 이상이 매칭되는 직무가 매칭 과목 수가 많은 순서대로 최대 8개까지 표시돼요</p>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_mjdv-01.webp" alt="응용 소프트웨어 개발자 등 수강 과목과 연결되는 직무 카드와 직무별 매칭 과목 수"
+        loading="lazy" />
+      <figcaption>&lt; 나의 직업/직무 개발 현황 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-600">카드의 직무명 옆 괄호 안 숫자는 <span class="text-blue-600 font-semibold">해당 직무와 연결되는 나의 수강 과목 수</span>예요</p>
+  </section>
+  <section>
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">직무와 연결되는 수강 과목 확인하기</h2>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_mjdv-02.webp" alt="직무와 관련 있는 수강 과목의 이수구분, 연도와 학기, 과목명, 연관 직업이름 목록"
+        loading="lazy" />
+      <figcaption>&lt; 이수 교과목별 연관 직업/직무 &gt;</figcaption>
+    </figure>
+    <p class="text-gray-700 leading-relaxed">위쪽에 표시된 모든 직무에 해당하는 나의 수강 과목을 한곳에서 볼 수 있어요. 과목별 이수구분과 연도·학기, 과목명, 연관 직업이름을
+      함께 살펴봐요.</p>
+    <p class="text-gray-600">특정 직무 카드를 선택하면 그 직무와 관련된 과목만 표시되고, [전체보기]를 누르면 전체 직무에 연결되는 과목 목록으로 돌아가요</p>
+  </section>
+
+  <div class="guide-spacer-v"></div>
   <section class="guide-steps bg-gray-50 p-8 rounded-lg">
-  <h3 class="text-xl mb-6 font-bold">예시&#41; 제이제이가 나의 직무개발 현황을 조회하려고 해요</h3>
-  <div class="space-y-4 mb-8">
-    <div class="flex gap-4 items-start">
-      <div class="step-badge">STEP 1</div>
-      <div class="text-gray-700 pt-1 flex-1">
-        <strong class="text-gray-900">안내 확인</strong>
-        <p>현재는 화면 틀만 표시되고 상세 현황은 확인할 수 없어요</p>
+    <h3 class="text-xl mb-6 font-bold">예시&#41; 웹 개발자와 연결되는 나의 수강 과목을 조회하려고 해요</h3>
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start">
+        <div class="step-badge">STEP 1</div>
+        <div class="text-gray-700 pt-1 flex-1">
+          <strong class="text-gray-900">직무 카드를 선택하고 관련 과목 확인</strong>
+          <figure class="guide-image-slot">
+            <img src="assets/images/jjstar_d_mjdv-03.webp" alt="웹 개발자 카드 선택 후 파이썬기초및실습, 강화학습, 자연어처리 등 관련 수강 과목이 표시된 예시"
+              loading="lazy" />
+            <figcaption>&lt; 웹 개발자와 연결되는 수강 과목 &gt;</figcaption>
+          </figure>
+          <p>위쪽에서 [웹 개발자(6)] 카드를 눌러요. 아래 목록에 웹 개발자와 연결되는 나의 수강 과목 6개가 표시돼요.</p>
+          <p>예시 화면에서는 파이썬기초및실습, 강화학습, 자연어처리, 파이썬웹프로그래밍, 프로그래밍기초와실습, 리눅스운영체제를 확인할 수 있어요</p>
+        </div>
       </div>
     </div>
-  </div>
   </section>
 </article>
