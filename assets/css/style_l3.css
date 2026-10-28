@@ -1235,3 +1235,117 @@ body[data-theme='dark'] .inline-tab-badge:hover {
     padding: 0;
     border: 0;
 }
+
+.guide-tab-nav {
+    container-type: inline-size;
+}
+
+.guide-tab-map {
+    position: relative;
+    margin-top: 2rem;
+}
+
+.guide-tab-map-image {
+    display: block;
+    height: auto;
+}
+
+.guide-tab-sticker { display: none; }
+
+.guide-tab-hit {
+    position: absolute;
+    left: var(--tab-left);
+    top: var(--tab-top);
+    width: var(--tab-width);
+    height: var(--tab-height);
+    border-radius: var(--tab-radius, 999px);
+    background: transparent;
+    transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+
+.guide-tab-hit > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.guide-tab-hit:hover,
+.guide-tab-hit:focus-visible {
+    background-color: rgba(59, 130, 246, 0.08);
+    box-shadow: inset 0 0 0 1px #7fa4eb;
+    outline: none;
+}
+
+@container (max-width: 600px) {
+    .guide-tab-map {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .guide-tab-map-image { display: none; }
+
+    .guide-tab-hit {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: auto;
+        height: auto;
+        min-height: 48px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #9cb8f3;
+        border-radius: 999px;
+        background-color: #edf2ff;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
+        color: #6489ce;
+        font-weight: 600;
+        line-height: 1.5;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .guide-tab-hit > span {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip-path: none;
+        white-space: normal;
+    }
+
+    .guide-tab-hit:hover,
+    .guide-tab-hit:focus-visible {
+        background-color: #e2eaff;
+        box-shadow: inset 0 0 0 1px #7fa4eb, 0 2px 3px rgba(0, 0, 0, 0.16);
+    }
+
+    .guide-tab-map { margin-bottom: 4rem; }
+
+    .guide-tab-hit:last-child .guide-tab-sticker {
+        display: block;
+        position: absolute;
+        right: -12px;
+        bottom: -28px;
+        width: clamp(108px, 32cqw, 124px);
+        max-width: none;
+        height: auto;
+        border-radius: 0;
+        box-shadow: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    body[data-theme='dark'] .guide-tab-hit {
+        background-color: #1e293b;
+        border-color: #5676ab;
+        color: #c4d8ff;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .guide-tab-hit { transition: none; }
+}

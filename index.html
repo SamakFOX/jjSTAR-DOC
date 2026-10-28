@@ -7,7 +7,7 @@
   <link rel="icon" href="assets/images/favicon.ico" />
   <title>JJSTAR 이용 가이드</title>
   <link rel="stylesheet" href="assets/css/style.css?v=20261027-font1">
-  <link rel="stylesheet" href="assets/css/style_l3.css?v=20261027-embed1">
+  <link rel="stylesheet" href="assets/css/style_l3.css?v=20261028-tabs-all1">
   <style>
     :root {
       --blue: #004a87;
@@ -207,7 +207,7 @@
     }
 
     .group-btn {
-      font-size: 11px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-muted);
       padding-top: 24px;
@@ -713,6 +713,12 @@
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s ease;
         z-index: 20;
         cursor: default;
+        visibility: hidden;
+      }
+
+      .sidebar.open,
+      .sidebar.minimized {
+        visibility: visible;
       }
 
       .sidebar.open {
@@ -730,6 +736,12 @@
 
       .sidebar.minimized:hover {
         transform: translateX(0);
+      }
+
+      .sidebar.minimized.is-closing,
+      .sidebar.minimized.is-closing:hover {
+        transform: translateX(-100%);
+        pointer-events: none;
       }
 
       .sidebar.minimized>* {
@@ -1228,6 +1240,8 @@
     const sidebar = document.getElementById('sidebar');
     const miniHomeBtn = document.getElementById('miniHomeBtn');
     const menuToggle = document.getElementById('menuToggle');
+    let sidebarScrollTimer;
+    let sidebarCloseTimer;
     const themeToggle = document.getElementById('themeToggle');
     const themeIconSun = document.getElementById('themeIconSun');
     const themeIconMoon = document.getElementById('themeIconMoon');
@@ -1321,17 +1335,26 @@
     }
 
     // [UX 개선] 사이드바 상태에 따른 클릭 동작 분기 (미니탭에서도 즉시 이동 허용)
+    function scheduleSidebarScroll() {
+      clearTimeout(sidebarScrollTimer);
+      sidebarScrollTimer = setTimeout(() => {
+        if (sidebar.classList.contains('is-closing')) return;
+        if (window.innerWidth <= 900 && !sidebar.classList.contains('open') && !sidebar.classList.contains('minimized')) return;
+        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active, .active');
+        if (!activeItem) return;
+        const itemBounds = activeItem.getBoundingClientRect();
+        const navBounds = nav.getBoundingClientRect();
+        nav.scrollTo({
+          top: Math.max(0, nav.scrollTop + itemBounds.top - navBounds.top - (nav.clientHeight - itemBounds.height) / 2),
+          behavior: 'instant'
+        });
+      }, 320);
+    }
+
     function handleNavClick(e, item, action) {
       e.stopPropagation();
       action();
-
-      // 이동 후 스크롤 처리 (미니탭 상태 포함 상시 동작)
-      setTimeout(() => {
-        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active, .active');
-        if (activeItem) {
-          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 350); // 트랜지션 시간을 고려하여 350ms로 상향
+      scheduleSidebarScroll();
     }
 
     function renderNav() {
@@ -1872,34 +1895,33 @@
     lightbox.onclick = () => lightbox.classList.remove('show');
 
     function closeSidebar() {
-      sidebar.classList.remove('open', 'minimized');
+      clearTimeout(sidebarScrollTimer);
       dim.classList.remove('show');
+      if (sidebar.classList.contains('is-closing')) return;
+      if (window.innerWidth <= 900 && sidebar.classList.contains('minimized')) {
+        sidebar.classList.add('is-closing');
+        sidebarCloseTimer = setTimeout(() => {
+          sidebar.classList.remove('open', 'minimized', 'is-closing');
+        }, 320);
+      } else {
+        sidebar.classList.remove('open', 'minimized', 'is-closing');
+      }
     }
+
     function openSidebar() {
+      clearTimeout(sidebarCloseTimer);
+      sidebar.classList.remove('minimized', 'is-closing');
       sidebar.classList.add('open');
-      sidebar.classList.remove('minimized');
       dim.classList.add('show');
-
-      // [UX 개선] 열릴 때도 활성 메뉴 위치로 스크롤 보정
-      setTimeout(() => {
-        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
-        if (activeItem) {
-          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 350);
+      scheduleSidebarScroll();
     }
-    function minimizeSidebar() {
-      sidebar.classList.add('minimized');
-      sidebar.classList.remove('open');
-      dim.classList.remove('show');
 
-      // [UX 개선] 축소 시점에 스크롤 위치 재보정 (트랜지션 완료 후)
-      setTimeout(() => {
-        const activeItem = nav.querySelector('.is-current') || nav.querySelector('.is-active');
-        if (activeItem) {
-          activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 350);
+    function minimizeSidebar() {
+      clearTimeout(sidebarCloseTimer);
+      sidebar.classList.remove('open', 'is-closing');
+      sidebar.classList.add('minimized');
+      dim.classList.remove('show');
+      scheduleSidebarScroll();
     }
 
     if (miniHomeBtn) {
