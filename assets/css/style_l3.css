@@ -490,6 +490,79 @@ body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover span {
     flex-wrap: wrap;
 }
 
+.guide-button-label {
+    display: inline-block;
+    max-width: 100%;
+    padding: 0.0625em 0.5em;
+    border: 1px solid #cbd5e1;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    background-color: #f1f5f9;
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.5;
+    vertical-align: baseline;
+}
+
+.viewer .guide-button-label {
+    color: #334155;
+}
+
+body[data-theme='dark'] .viewer .guide-button-label {
+    border-color: #64748b;
+    background-color: #334155;
+    color: #f1f5f9;
+}
+
+.viewer .guide-button-label--jjstar,
+body[data-theme='dark'] .viewer .guide-button-label--jjstar {
+    border: 1px solid #0083c3;
+    background-color: #0083c3;
+    color: #c8cbd0;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.viewer .guide-button-label--jjstar:hover,
+body[data-theme='dark'] .viewer .guide-button-label--jjstar:hover {
+    border-color: #f3d02a;
+    background-color: #f3d02a;
+    color: #1d1d1d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .guide-button-label--jjstar {
+        transition: none;
+    }
+}
+
+.guide-example-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+}
+
+.guide-example-badge {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.125rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--guide-primary, #005da8);
+    border-radius: 3px;
+    background-color: var(--guide-primary, #005da8);
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.viewer .guide-example-badge,
+body[data-theme='dark'] .viewer .guide-example-badge {
+    color: #ffffff;
+}
+
 .guide-detail .guide-steps p,
 .guide-embedded-detail .guide-steps p {
     margin-top: 0.25rem;

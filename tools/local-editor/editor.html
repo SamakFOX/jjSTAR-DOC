@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko" translate="no" class="notranslate">
+<head>
+  <meta charset="utf-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>가이드 문구 편집</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/__editor/editor.css">
+</head>
+<body>
+  <header>
+    <strong>가이드 문구 편집</strong>
+    <input id="search" type="search" placeholder="메뉴명 또는 코드 검색" aria-label="메뉴 검색">
+    <select id="pages" aria-label="편집할 문서"></select>
+    <button id="reload">다시 불러오기</button>
+    <button id="review" class="primary" disabled>변경 확인·저장</button>
+  </header>
+  <div class="toolbar" aria-label="선택한 문구 서식">
+    <button data-format="plain">일반 텍스트</button>
+    <button data-format="button">일반 버튼</button>
+    <button data-format="jjstar">JJSTAR 버튼</button>
+    <button data-format="title">★ 영역 제목</button>
+    <button data-format="bold"><b>굵게</b></button>
+    <button data-format="blue">파랑 강조</button>
+    <button data-format="red">빨강 강조</button>
+    <button data-format="yellow">노랑 강조</button>
+    <button id="undo" disabled>되돌리기</button>
+    <button id="redo" disabled>다시 실행</button>
+    <label><input type="checkbox" id="dark"> 다크 화면</label>
+  </div>
+  <p class="help">문구를 클릭해서 수정하세요 · 드래그한 문구에 서식을 적용할 수 있어요 · Enter는 줄바꿈 · Ctrl+S는 저장 전 확인 · 메뉴명·자동 메뉴 목록·이미지는 원래 설정에서 관리해요</p>
+  <div id="status" role="status">편집기를 준비하고 있어요</div>
+  <iframe id="preview" title="가이드 편집 프리뷰" sandbox="allow-same-origin"></iframe>
+  <dialog id="reviewDialog">
+    <h2>변경 내용 확인</h2>
+    <p>수정한 문구만 원본에 저장하며, 저장 전 파일은 자동으로 백업해요</p>
+    <div id="changes"></div>
+    <div class="actions"><button id="cancelSave">계속 편집</button><button id="save" class="primary">원본 파일에 저장</button></div>
+  </dialog>
+  <script src="/__editor/editor.js"></script>
+</body>
+</html>

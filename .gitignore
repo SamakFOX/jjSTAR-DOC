@@ -8,3 +8,5 @@ log.md
 .editorconfig
 .prettierrc
 .gitignore
+__pycache__/
+*.py[cod]
