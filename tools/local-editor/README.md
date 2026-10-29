@@ -34,12 +34,24 @@ python tools/local-editor/server.py --port 8765
 |---|---|
 | 일반 텍스트 | 선택한 문구의 버튼·색상·굵기 등 서식을 제거 |
 | 일반 버튼 | 회색 버튼 모양 |
-| JJSTAR 버튼 | 파랑 `#0083c3`·회색 `#c8cbd0`, hover 시 노랑 `#f3d02a`·검정 `#1d1d1d` |
+| JJSTAR 버튼 | 파랑 `#0083c3`·흰색 `#ffffff`, hover 시 노랑 `#f3d02a`·검정 `#1d1d1d` |
 | ★ 영역 제목 | `assets/icons/icon-star-01.webp`와 굵은 글씨 |
+| 시그니처 제목 | `assets/images/jjstar-head-title.svg` 아이콘과 큰 제목 글씨 |
 | 굵게 | 굵은 글씨 |
 | 파랑·빨강·노랑 강조 | 해당 색상의 굵은 글씨 |
 
 서식은 선택한 문구에 교체 적용돼요. 링크 문구에 버튼·일반 텍스트 서식을 적용하면 선택한 부분의 링크도 제거되므로, 기존 링크를 유지하려면 해당 부분을 선택에서 제외해 주세요
+
+### 내용 사이에 GAP 넣기
+
+1. 간격을 띄울 기준 문단이나 소제목을 클릭해요
+2. **GAP 앞** 또는 **GAP 뒤**를 누르면 해당 문단 바깥에 여백이 생겨요
+3. 편집 화면에서 추가 GAP은 노란 점선으로 표시돼요. 저장한 가이드에서는 빈 여백으로 표시돼요
+4. **추가 GAP 취소**는 선택한 문단에 이번 편집에서 추가한 GAP을 제거해요. 되돌리기도 사용할 수 있어요
+
+여백은 기존 `guide-spacer-v` 스타일을 사용해요(현재 70px). 앞뒤 각각 3개까지 추가할 수 있고, 공통 스타일을 바꾸면 여백 크기도 함께 바뀌어요. 이미 저장되어 있던 GAP은 이 버튼으로 제거하지 않아요
+
+시그니처 제목은 제목으로 쓸 문구를 드래그하고 적용해요. 기존 아이콘 제목 행에서는 아이콘을 중복으로 넣지 않아요
 
 - `Enter`: 같은 문단 안에서 줄바꿈
 - `Ctrl+Z` / `Ctrl+Y`: 편집기 내 되돌리기 / 다시 실행
@@ -71,5 +83,6 @@ VS Code 터미널(PowerShell):
 ```powershell
 python tools/local-editor/test_server.py
 node --check tools/local-editor/editor.js
+node tools/local-editor/test-formatting.mjs
 node scripts/test-menu.mjs
 ```

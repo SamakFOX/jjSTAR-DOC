@@ -480,6 +480,27 @@ body[data-theme='dark'] .toctree-wrapper .toctree-l1>a:hover span {
     height: 24px;
 }
 
+.guide-inline-section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    vertical-align: middle;
+}
+
+.guide-inline-section-title > img {
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.guide-inline-section-title > span {
+    min-width: 0;
+}
+
 .guide-l3-content .flex-1,
 .guide-article .flex-1 {
     min-width: 0;
@@ -518,7 +539,7 @@ body[data-theme='dark'] .viewer .guide-button-label {
 body[data-theme='dark'] .viewer .guide-button-label--jjstar {
     border: 1px solid #0083c3;
     background-color: #0083c3;
-    color: #c8cbd0;
+    color: #ffffff;
     transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
@@ -1421,4 +1442,16 @@ body[data-theme='dark'] .inline-tab-badge:hover {
 
 @media (prefers-reduced-motion: reduce) {
     .guide-tab-hit { transition: none; }
+}
+
+.guide-article .guide-scale-heading {
+    margin-bottom: 1.25rem;
+}
+
+.guide-scale-list > div > h4 {
+    margin: 0;
+}
+
+.guide-scale-list > div > p {
+    margin: 0.25rem 0 0;
 }

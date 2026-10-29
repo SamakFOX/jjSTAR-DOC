@@ -71,6 +71,55 @@ class EditorTests(unittest.TestCase):
         self.assertIsNone(result['backup'])
         self.assertFalse((editor.ROOT / 'outputs').exists())
 
+    def test_gap_only_keeps_text_source(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        block = state['blocks'][-1]
+        payload = self.payload(state, block, block['html'])
+        payload['changes'][0]['gapAfter'] = 1
+        editor.save(payload)
+        pos = block['gap']['end']
+        expected = self.source[:pos] + '\r\n<div class="guide-spacer-v"></div>' + self.source[pos:]
+        self.assertEqual(editor.read(self.page), expected)
+
+    def test_gap_for_central_description_edits_html_only(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        block = next(b for b in state['blocks'] if b['target'] == 'data/strings.js')
+        payload = self.payload(state, block, block['html'])
+        payload['changes'][0]['gapBefore'] = 1
+        editor.save(payload)
+        self.assertEqual(editor.read(editor.ROOT / 'data/strings.js'), self.strings)
+        self.assertIn('<div class="guide-spacer-v"></div>\r\n<p>소개</p>', editor.read(self.page))
+
+    def test_heading_gap_is_outside_icon_row(self):
+        self.page.write_text('<article><div class="flex guide-section-heading"><img src="assets/images/jjstar-head-title.svg"><h2>소제목</h2></div></article>', encoding='utf-8')
+        state = editor.prepare('pages/L04CHECK.html')
+        block = next(b for b in state['blocks'] if b['tag'] == 'h2')
+        payload = self.payload(state, block, block['html'])
+        payload['changes'][0]['gapAfter'] = 1
+        editor.save(payload)
+        text = editor.read(self.page)
+        self.assertIn('</h2></div>\n<div class="guide-spacer-v"></div></article>', text)
+        self.assertNotIn('data-local-', text)
+
+    def test_gap_and_text_can_save_together(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        block = state['blocks'][-1]
+        payload = self.payload(state, block, '<strong class="guide-inline-section-title"><img src="assets/images/jjstar-head-title.svg" alt=""><span>새 제목</span></strong>')
+        payload['changes'][0].update(gapBefore=1, gapAfter=1)
+        editor.save(payload)
+        text = editor.read(self.page)
+        self.assertEqual(text.count('guide-spacer-v'), 2)
+        self.assertIn('guide-inline-section-title', text)
+
+    def test_reject_invalid_gap_counts(self):
+        for count in [-1, 4, '1', True]:
+            state = editor.prepare('pages/L04CHECK.html')
+            block = state['blocks'][-1]
+            payload = self.payload(state, block, block['html'])
+            payload['changes'][0]['gapAfter'] = count
+            with self.assertRaises(ValueError): editor.save(payload)
+            self.assertEqual(editor.read(self.page), self.source)
+
 
 if __name__ == '__main__':
     unittest.main()

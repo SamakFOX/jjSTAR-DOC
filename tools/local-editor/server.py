@@ -60,6 +60,7 @@ class SourceParser(HTMLParser):
         for i in range(len(self.stack) - 1, -1, -1):
             if self.stack[i]['tag'] == tag:
                 self.stack[i]['end'] = self.position()
+                self.stack[i]['outerEnd'] = self.source.index('>', self.position()) + 1
                 del self.stack[i:]
                 break
 
@@ -155,8 +156,18 @@ def prepare(value):
             SafeMarkup().feed(content)
         except ValueError:
             continue
+        gap_node = n
+        if n['parent'] and 'guide-section-heading' in n['parent']['attrs'].get('class', '').split():
+            gap_node = n['parent']
+        gap_allowed = n['tag'] in {'p', 'h2', 'h3', 'h4', 'h5', 'h6'} and 'outerEnd' in gap_node
+        parent = gap_node['parent']
+        if parent and (parent['tag'] in {'li', 'ul', 'ol', 'dl', 'table', 'tr', 'thead', 'tbody'}
+                       or set(parent['attrs'].get('class', '').split()) & {'flex', 'grid'}
+                       or re.search(r'display\s*:\s*(?:inline-)?(?:flex|grid)', parent['attrs'].get('style', ''), re.I)):
+            gap_allowed = False
         blocks.append(dict(id=str(i), start=start, end=end, html=content, target=target,
-                           tag=n['tag'], node=n))
+                           tag=n['tag'], node=n, gap=dict(allowed=gap_allowed,
+                           start=gap_node['start'], end=gap_node.get('outerEnd', 0)), gap_node=gap_node))
     rendered = source
     edits = []
     if menu:
@@ -166,6 +177,9 @@ def prepare(value):
     for b in blocks:
         n = b['node']
         edits.append((n['inner'] - 1, n['inner'] - 1, f' data-local-block="{b["id"]}"'))
+        if b['gap']['allowed'] and b['gap_node'] is not n:
+            anchor = b['gap_node']['inner'] - 1
+            edits.append((anchor, anchor, f' data-local-gap-anchor="{b["id"]}"'))
         if b['target'] == 'data/strings.js':
             edits.append((n['inner'], n['end'], b['html']))
     for a, z, replacement in sorted(edits, reverse=True):
@@ -218,10 +232,23 @@ def save(payload):
             seen.add(key)
             SafeMarkup().feed(markup)
             b = blocks[key]
-            if markup == b['html']:
-                continue
-            content = json.dumps(markup, ensure_ascii=False) if b['target'] == 'data/strings.js' else markup
-            replacements.setdefault(b['target'], []).append((b['start'], b['end'], content))
+            before, after = edit.get('gapBefore', 0), edit.get('gapAfter', 0)
+            if any(type(v) is not int or not 0 <= v <= 3 for v in (before, after)):
+                raise ValueError('추가 GAP은 앞뒤 각각 3개까지 넣을 수 있어요')
+            if before or after:
+                if not b['gap']['allowed']:
+                    raise ValueError('GAP을 넣을 문단이나 제목을 선택해 주세요')
+                newline = '\r\n' if '\r\n' in state['source'] else '\n'
+                gap = '<div class="guide-spacer-v"></div>'
+                if before:
+                    pos = b['gap']['start']
+                    replacements.setdefault(state['path'], []).append((pos, pos, (gap + newline) * before))
+                if after:
+                    pos = b['gap']['end']
+                    replacements.setdefault(state['path'], []).append((pos, pos, (newline + gap) * after))
+            if markup != b['html']:
+                content = json.dumps(markup, ensure_ascii=False) if b['target'] == 'data/strings.js' else markup
+                replacements.setdefault(b['target'], []).append((b['start'], b['end'], content))
         if not replacements:
             return dict(saved=0, backup=None)
         originals = {state['path']: state['source'], 'data/strings.js': state['strings']}
@@ -294,7 +321,7 @@ class Handler(SimpleHTTPRequestHandler):
             try:
                 state = prepare(parse_qs(url.query).get('path', [''])[0])
                 self.send({k: v for k, v in state.items() if k not in {'source', 'strings', 'blocks'}} |
-                          {'blocks': [{k: v for k, v in b.items() if k != 'node'} for b in state['blocks']]})
+                          {'blocks': [{k: v for k, v in b.items() if k not in {'node', 'gap_node'}} for b in state['blocks']]})
             except (ValueError, OSError) as error:
                 self.send(dict(error=str(error)), status=400)
         else:

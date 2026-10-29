@@ -7,7 +7,7 @@
   <link rel="icon" href="assets/images/favicon.ico" />
   <title>JJSTAR 이용 가이드</title>
   <link rel="stylesheet" href="assets/css/style.css?v=20261027-font1">
-  <link rel="stylesheet" href="assets/css/style_l3.css?v=20261028-button-label3">
+  <link rel="stylesheet" href="assets/css/style_l3.css?v=20261029-scale-spacing1">
   <style>
     :root {
       --blue: #004a87;
@@ -1643,7 +1643,7 @@
           document.querySelector('.page').scrollTop = 0;
         }
 
-        // [Automated Content Injection]
+        // 문서 제목과 공통 표시 적용
         const h1 = viewer.querySelector('h1');
         if (h1) h1.textContent = current.hideInNav && current.parentOverview
           ? current.parentOverview.title : current.small || current.mid || current.title;
@@ -1835,7 +1835,7 @@
         mountContent(popupBody, `<div class="card">${html}</div>`);
         syncInternalLinks(popupBody);
 
-        // Automated Content Injection (similar to renderDetail)
+        // 팝업 문서 제목과 공통 표시 적용
         const h1 = popupBody.querySelector('h1');
         if (h1) h1.textContent = targetDoc.hideInNav && targetDoc.parentOverview
           ? targetDoc.parentOverview.title : targetDoc.small || targetDoc.mid || targetDoc.title;
