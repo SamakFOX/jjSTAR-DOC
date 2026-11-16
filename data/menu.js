@@ -32,6 +32,16 @@ window.JJSTAR_MENU = [
         "children": []
       },
       {
+        "title": "로그인 및 OTP 인증",
+        "miniLabel": "로그인·OTP",
+        "code": "L02LOGN",
+        "path": "pages/L02LOGN.html",
+        "directUrl": "https://jjstar.jj.ac.kr/",
+        "showDirectLink": false,
+        "enabled": true,
+        "children": []
+      },
+      {
         "title": "RAG + AI 검색서비스",
         "miniLabel": "JJ GPT",
         "code": "L02SRCH",

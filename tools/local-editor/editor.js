@@ -16,11 +16,11 @@
   }
   function blocks() { return [...(doc?.querySelectorAll('[data-local-block]') || [])]; }
   function snapshot() {
-    return blocks().map(e => [e.dataset.localBlock, e.innerHTML, Number(e.dataset.localGapBefore || 0), Number(e.dataset.localGapAfter || 0)]);
+    return blocks().map(e => [e.dataset.localBlock, e.innerHTML, Number(e.dataset.localGapBefore || 0), Number(e.dataset.localGapAfter || 0), e.dataset.localTipBox === 'true']);
   }
   function changes() {
-    return snapshot().filter(([id, html, before, after]) => originals.get(id) !== html || before || after)
-      .map(([id, html, gapBefore, gapAfter]) => ({id, html, gapBefore, gapAfter}));
+    return snapshot().filter(([id, html, before, after, tipBox]) => originals.get(id) !== html || before || after || tipBox)
+      .map(([id, html, gapBefore, gapAfter, tipBox]) => ({id, html, gapBefore, gapAfter, tipBox}));
   }
   function update() {
     const edits = changes();
@@ -28,7 +28,7 @@
     $('undo').disabled = !past.length;
     $('redo').disabled = !future.length;
     blocks().forEach(e => e.classList.toggle('local-changed', e.innerHTML !== originals.get(e.dataset.localBlock)
-      || Number(e.dataset.localGapBefore || 0) > 0 || Number(e.dataset.localGapAfter || 0) > 0));
+      || Number(e.dataset.localGapBefore || 0) > 0 || Number(e.dataset.localGapAfter || 0) > 0 || e.dataset.localTipBox === 'true'));
     if (!busy) status(edits.length ? `${edits.length}개 항목 변경 · 아직 저장하지 않았어요` : `${state?.path || ''} · 저장된 상태`);
   }
   function record() {
@@ -38,13 +38,15 @@
     future = [];
   }
   function restore(values) {
-    const map = new Map(values.map(([id, html, before, after]) => [id, {html, before, after}]));
+    const map = new Map(values.map(([id, html, before, after, tipBox]) => [id, {html, before, after, tipBox}]));
     blocks().forEach(e => {
       const saved = map.get(e.dataset.localBlock);
       if (!saved) return;
       e.innerHTML = saved.html;
       e.dataset.localGapBefore = saved.before || 0;
       e.dataset.localGapAfter = saved.after || 0;
+      e.dataset.localTipBox = String(!!saved.tipBox);
+      renderTipBox(e);
       renderGaps(e);
     });
     selectionRange = null;
@@ -61,7 +63,7 @@
   function renderGaps(block) {
     const id = block.dataset.localBlock;
     doc.querySelectorAll(`[data-local-gap-owner="${id}"]`).forEach(e => e.remove());
-    const anchor = doc.querySelector(`[data-local-gap-anchor="${id}"]`) || block;
+    const anchor = doc.querySelector(`[data-local-tip-owner="${id}"]`) || doc.querySelector(`[data-local-gap-anchor="${id}"]`) || block;
     for (const side of ['Before', 'After']) {
       const fragment = doc.createDocumentFragment();
       for (let i = 0; i < Number(block.dataset['localGap' + side] || 0); i++) {
@@ -74,6 +76,30 @@
       if (side === 'Before') anchor.before(fragment);
       else anchor.after(fragment);
     }
+  }
+  function renderTipBox(block) {
+    const existing = block.closest('[data-local-tip-owner]');
+    if (block.dataset.localTipBox !== 'true') {
+      if (existing) existing.replaceWith(block);
+      return;
+    }
+    if (existing) return;
+    const wrapper = doc.createElement('div');
+    wrapper.className = 'tip-box tip-box--with-character guide-extra-tip';
+    wrapper.dataset.localTipOwner = block.dataset.localBlock;
+    const row = doc.createElement('div'); row.className = 'flex items-start gap-3';
+    const content = doc.createElement('div'); content.className = 'tip-box-content';
+    block.before(wrapper); wrapper.append(row); row.append(content); content.append(block);
+  }
+  function toggleTipBox() {
+    const block = activeBlock;
+    const spec = state?.blocks.find(b => b.id === block?.dataset.localBlock);
+    if (!block?.isConnected || !spec?.tip?.allowed) {
+      status('팁박스로 바꿀 본문 문단을 클릭해 주세요. 기존 팁박스·제목·상단 소개는 전환하지 않아요', true); return;
+    }
+    record();
+    block.dataset.localTipBox = String(block.dataset.localTipBox !== 'true');
+    renderTipBox(block); renderGaps(block); update();
   }
   function addGap(side) {
     const block = activeBlock;
@@ -234,6 +260,7 @@
       blocks().forEach(e => {
         e.contentEditable = 'true'; e.spellcheck = false;
         originals.set(e.dataset.localBlock, e.innerHTML);
+        e.addEventListener('focus', () => { activeBlock = e; });
         e.addEventListener('beforeinput', event => {
           if (['insertParagraph', 'insertLineBreak'].includes(event.inputType)) {
             event.preventDefault(); insertText('\n');
@@ -282,6 +309,9 @@
         note.textContent = `GAP 추가: 앞 ${edit.gapBefore}개 · 뒤 ${edit.gapAfter}개 (${state.path})`;
         row.append(note);
       }
+      if (edit.tipBox) {
+        const note = document.createElement('p'); note.textContent = '이 문단을 팁박스로 전환해요'; row.append(note);
+      }
       if (originals.get(edit.id) !== edit.html && readable(originals.get(edit.id)) === readable(edit.html)) {
         const note = document.createElement('p'); note.textContent = '문구는 같고 서식이 변경됐어요. 프리뷰에서 적용 모양을 확인해 주세요'; row.append(note);
       }
@@ -305,6 +335,8 @@
     button.addEventListener('click', () => addGap(button.dataset.gap));
   });
   $('undo').onclick = undo; $('redo').onclick = redo;
+  $('tipBox').addEventListener('mousedown', event => event.preventDefault());
+  $('tipBox').onclick = toggleTipBox;
   $('review').onclick = review; $('cancelSave').onclick = () => $('reviewDialog').close();
   $('reload').onclick = () => load($('pages').value);
   $('pages').onchange = () => load($('pages').value);

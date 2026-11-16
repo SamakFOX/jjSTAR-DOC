@@ -165,7 +165,14 @@ def prepare(value):
                        or set(parent['attrs'].get('class', '').split()) & {'flex', 'grid'}
                        or re.search(r'display\s*:\s*(?:inline-)?(?:flex|grid)', parent['attrs'].get('style', ''), re.I)):
             gap_allowed = False
+        tip_allowed = target == value and n['tag'] == 'p' and gap_allowed
+        ancestor = n['parent']
+        while ancestor:
+            if 'tip-box' in ancestor['attrs'].get('class', '').split() or ancestor['tag'] in {'figure', 'a'}:
+                tip_allowed = False
+            ancestor = ancestor['parent']
         blocks.append(dict(id=str(i), start=start, end=end, html=content, target=target,
+                           tip=dict(allowed=tip_allowed),
                            tag=n['tag'], node=n, gap=dict(allowed=gap_allowed,
                            start=gap_node['start'], end=gap_node.get('outerEnd', 0)), gap_node=gap_node))
     rendered = source
@@ -232,20 +239,28 @@ def save(payload):
             seen.add(key)
             SafeMarkup().feed(markup)
             b = blocks[key]
+            tip = edit.get('tipBox', False)
+            if type(tip) is not bool or (tip and not b['tip']['allowed']):
+                raise ValueError('팁박스로 전환할 본문 문단을 선택해 주세요')
             before, after = edit.get('gapBefore', 0), edit.get('gapAfter', 0)
             if any(type(v) is not int or not 0 <= v <= 3 for v in (before, after)):
                 raise ValueError('추가 GAP은 앞뒤 각각 3개까지 넣을 수 있어요')
-            if before or after:
+            if before or after or tip:
                 if not b['gap']['allowed']:
                     raise ValueError('GAP을 넣을 문단이나 제목을 선택해 주세요')
                 newline = '\r\n' if '\r\n' in state['source'] else '\n'
                 gap = '<div class="guide-spacer-v"></div>'
-                if before:
+                prefix = (gap + newline) * before
+                suffix = (newline + gap) * after
+                if tip:
+                    prefix += '<div class="tip-box tip-box--with-character guide-extra-tip"><div class="flex items-start gap-3"><div class="tip-box-content">'
+                    suffix = '</div></div></div>' + suffix
+                if prefix:
                     pos = b['gap']['start']
-                    replacements.setdefault(state['path'], []).append((pos, pos, (gap + newline) * before))
-                if after:
+                    replacements.setdefault(state['path'], []).append((pos, pos, prefix))
+                if suffix:
                     pos = b['gap']['end']
-                    replacements.setdefault(state['path'], []).append((pos, pos, (newline + gap) * after))
+                    replacements.setdefault(state['path'], []).append((pos, pos, suffix))
             if markup != b['html']:
                 content = json.dumps(markup, ensure_ascii=False) if b['target'] == 'data/strings.js' else markup
                 replacements.setdefault(b['target'], []).append((b['start'], b['end'], content))

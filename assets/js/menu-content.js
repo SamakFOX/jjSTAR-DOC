@@ -15,9 +15,10 @@ window.JJSTAR_CONTENT = (() => {
 
   // Each service menu owns its destination; the same button is used in every view.
   function withDirectLink(html, current) {
+    const existing = /<a\b(?=[^>]*(?:class=["'][^"']*\bbtn-direct\b(?!-)|id=["']direct-link["']))[^>]*>[\s\S]*?<\/a>/i;
+    if (current.showDirectLink === false) return html.replace(new RegExp(existing.source, 'gi'), '');
     if (!current.directUrl) return html;
     const button = `<a href="${escape(current.directUrl)}" id="direct-link" class="btn-direct" data-guide-menu="${escape(current.code)}" target="_blank" rel="noopener">${escape(current.title)} 바로가기</a>`;
-    const existing = /<a\b(?=[^>]*(?:class=["'][^"']*\bbtn-direct\b(?!-)|id=["']direct-link["']))[^>]*>[\s\S]*?<\/a>/i;
     if (existing.test(html)) return html.replace(existing, () => button);
     const explanation = /<section\b[^>]*class=["'][^"']*\bguide-page-description\b[^"']*["'][^>]*>/i;
     if (explanation.test(html)) return html.replace(explanation, match => `${button}\n${match}`);

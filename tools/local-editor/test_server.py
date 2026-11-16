@@ -71,6 +71,46 @@ class EditorTests(unittest.TestCase):
         self.assertIsNone(result['backup'])
         self.assertFalse((editor.ROOT / 'outputs').exists())
 
+    def test_tip_box_with_text_edit_and_gaps(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        block = state['blocks'][-1]
+        self.assertTrue(block['tip']['allowed'])
+        payload = self.payload(state, block, '선택한 <strong>직무</strong>의 과목을 확인해요')
+        payload['changes'][0].update(tipBox=True, gapBefore=1, gapAfter=1)
+        result = editor.save(payload)
+        saved = editor.read(self.page)
+        expected = self.source[:block['node']['start']] + '<div class="guide-spacer-v"></div>\r\n'
+        expected += '<div class="tip-box tip-box--with-character guide-extra-tip"><div class="flex items-start gap-3"><div class="tip-box-content"><p>'
+        expected += payload['changes'][0]['html'] + '</p></div></div></div>\r\n<div class="guide-spacer-v"></div>'
+        expected += self.source[block['node']['outerEnd']:]
+        self.assertEqual(saved, expected)
+        self.assertNotIn('data-local-', saved)
+        self.assertEqual((editor.ROOT / result['backup'] / 'pages/L04CHECK.html').read_bytes(), self.source.encode())
+        reopened = editor.prepare('pages/L04CHECK.html')
+        tip = reopened['blocks'][-1]
+        self.assertFalse(tip['tip']['allowed'])
+        editor.save(self.payload(reopened, tip, '팁 문구 재편집'))
+        self.assertEqual(editor.read(self.page).count('tip-box tip-box--with-character'), 1)
+
+    def test_reject_tip_box_for_description_heading_and_existing_tip(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        for block in state['blocks'][:2]:
+            payload = self.payload(state, block, block['html'])
+            payload['changes'][0]['tipBox'] = True
+            with self.assertRaises(ValueError): editor.save(payload)
+        self.page.write_text('<article><div class="tip-box"><p>기존 팁</p></div><div class="flex"><p>열 안 문구</p></div></article>', encoding='utf-8')
+        state = editor.prepare('pages/L04CHECK.html')
+        self.assertTrue(all(not b['tip']['allowed'] for b in state['blocks']))
+
+    def test_tip_box_preserves_paragraph_attributes(self):
+        self.page.write_text('<article><h1>제목</h1><p>소개</p><p id="hint" class="text-gray-600">설명</p></article>', encoding='utf-8')
+        state = editor.prepare('pages/L04CHECK.html')
+        block = state['blocks'][-1]
+        payload = self.payload(state, block, block['html'])
+        payload['changes'][0]['tipBox'] = True
+        editor.save(payload)
+        self.assertIn('<p id="hint" class="text-gray-600">설명</p></div></div></div>', editor.read(self.page))
+
     def test_gap_only_keeps_text_source(self):
         state = editor.prepare('pages/L04CHECK.html')
         block = state['blocks'][-1]

@@ -1455,3 +1455,87 @@ body[data-theme='dark'] .inline-tab-badge:hover {
 .guide-scale-list > div > p {
     margin: 0.25rem 0 0;
 }
+
+.guide-detail .guide-steps .guide-otp-screen {
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.guide-section-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.guide-section-links--four {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.guide-section-links--four > div {
+    flex: 0 1 calc((100% - 1.5rem) / 4);
+    min-width: min(100%, 220px);
+}
+
+.guide-section-links--four .inline-tab-badge {
+    max-width: 100%;
+    white-space: normal;
+}
+
+.guide-flow-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.5rem;
+}
+
+.guide-flow-row--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.guide-flow-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    min-width: 0;
+}
+
+.guide-flow-card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.guide-flow-card > p {
+    margin: 0;
+}
+
+.guide-detail .guide-flow-card > .guide-image-slot {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.guide-flow-card > .guide-image-slot > img {
+    align-self: start;
+}
+
+@media (max-width: 760px) {
+    .guide-flow-row {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 2rem;
+    }
+
+    .guide-flow-card,
+    .guide-detail .guide-flow-card > .guide-image-slot {
+        grid-template-rows: auto;
+        grid-row: auto;
+    }
+}
