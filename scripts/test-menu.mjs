@@ -146,7 +146,12 @@ const visible = context.window.JJSTAR_MENU_VIEWS.select(menu, '').menu;
 const shownCodes = new Set(visible.flatMap(cat => cat.children.flatMap(group => group.children || [group])).map(n => n.code));
 for (const code of ['L04BEST', 'L04MYCP', 'L04STID', 'L04DBMJ', 'L04READ', 'L04SDMJ', 'L04PLEX', 'L04LVLB', 'L04LCVT', 'L04OPTB']) {
   assert.ok(leaves.some(n => n.code === code), `Retained menu missing: ${code}`);
+}
+for (const code of ['L04BEST', 'L04STID', 'L04DBMJ', 'L04READ', 'L04PLEX', 'L04LVLB', 'L04LCVT', 'L04OPTB']) {
   assert.ok(!shownCodes.has(code), `Retained menu shown: ${code}`);
+}
+for (const code of ['L04MYCP', 'L04SDMJ']) {
+  assert.ok(shownCodes.has(code), `Completed retained guide hidden: ${code}`);
 }
 assert.ok(leaves.some(n => n.code === 'L04NCRD'));
 assert.ok(leaves.some(n => n.code === 'L04NVCR'));
