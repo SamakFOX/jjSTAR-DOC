@@ -22,14 +22,15 @@ const all = menu.flatMap(cat => [cat, ...cat.children.flatMap(mid => [mid, ...(m
 // The normal check must work in a fresh clone without local analysis outputs.
 const source = process.argv[2] ? JSON.parse(fs.readFileSync(process.argv[2], 'utf8')) : null;
 assert.equal(service.length, 7);
-assert.equal(groups.length, 42);
-assert.equal(leaves.length, 165);
+assert.equal(groups.length, 41);
+assert.equal(leaves.length, 178);
 assert.equal(new Set(all.map(n => n.code)).size, all.length);
 assert.equal(new Set(all.map(n => n.path)).size, all.length);
 for (const field of ['title', 'miniLabel', 'code', 'path', 'enabled']) {
   assert.ok(all.every(n => Object.hasOwn(n, field)), `Missing legacy field: ${field}`);
 }
-assert.equal(new Set(leaves.map(leaf => leaf.sourceDomId)).size, leaves.length);
+const identified = leaves.filter(leaf => leaf.sourceDomId);
+assert.equal(new Set(identified.map(leaf => leaf.sourceDomId)).size, identified.length);
 for (const cat of service) {
   for (const mid of cat.children) {
     for (const leaf of mid.children) {
@@ -44,7 +45,7 @@ for (const [i, leaf] of leaves.entries()) {
     assert.equal(JSON.stringify(leaf.sourceMenuPath), JSON.stringify(source.menus[i].menuPath));
     assert.equal(leaf.title, source.menus[i].title);
   }
-  assert.match(leaf.sourceDomId, /^M\d+$/);
+  if (leaf.sourceDomId) assert.match(leaf.sourceDomId, /^M\d+$/);
   assert.notEqual(leaf.code, leaf.sourceDomId);
   assert.ok(Object.hasOwn(leaf, 'hideInNav'));
   assert.equal(leaf.directUrl, 'https://jjstar.jj.ac.kr/');
@@ -81,7 +82,7 @@ const search = context.window.JJSTAR_SEARCH;
 const aliasResult = search.filterMenu(menu, 'SUPER STAR');
 assert.equal(aliasResult.length, 1);
 assert.equal(aliasResult[0].title, 'My Page');
-assert.equal(aliasResult[0].children.flatMap(n => n.children).length, 14);
+assert.equal(aliasResult[0].children.flatMap(n => n.children).length, 16);
 for (const query of ['ㅈㅎ', '장학', 'RC설문', '전과전공 시뮬레이션', 'JJKECO']) {
   assert.ok(search.filterMenu(menu, query).length, `Missing search result: ${query}`);
 }
@@ -140,4 +141,15 @@ const starT = leaves.find(node => node.code === 'L04STGD');
 assert.equal(JSON.stringify(starT.contentAnchors), JSON.stringify(['L043CAT', 'L04TRCK', 'L04STPG', 'L04STBF']));
 assert.ok(search.filterMenu(menu, 'NCS').flatMap(cat => cat.children.flatMap(mid => mid.children)).some(node => node.code === 'L04NCSJ'));
 assert.ok(search.filterMenu(menu, 'star관리').some(cat => cat.children.some(mid => mid.code === 'L03STMG')));
-console.log(`PASS: 7/42/165 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, 49 overview link specifications, ${requests} existing guide loads, pending routes, source anchors, alias/Korean/special-character search, syntax. Use scripts/menu-browser-check.html to verify rendered embeds.`);
+vm.runInContext(fs.readFileSync('assets/js/menu-views.js', 'utf8'), context);
+const visible = context.window.JJSTAR_MENU_VIEWS.select(menu, '').menu;
+const shownCodes = new Set(visible.flatMap(cat => cat.children.flatMap(group => group.children || [group])).map(n => n.code));
+for (const code of ['L04BEST', 'L04MYCP', 'L04STID', 'L04DBMJ', 'L04READ', 'L04SDMJ', 'L04PLEX', 'L04LVLB', 'L04LCVT', 'L04OPTB']) {
+  assert.ok(leaves.some(n => n.code === code), `Retained menu missing: ${code}`);
+  assert.ok(!shownCodes.has(code), `Retained menu shown: ${code}`);
+}
+assert.ok(leaves.some(n => n.code === 'L04NCRD'));
+assert.ok(leaves.some(n => n.code === 'L04NVCR'));
+assert.notEqual(leaves.find(n => n.code === 'L04BEST').path, leaves.find(n => n.code === 'L04CRAP').path);
+assert.ok(!leaves.some(n => /서베이|Survey|Micro/.test(n.title)));
+console.log(`PASS: 7/41/178 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, overview links, ${requests} existing guide loads, retained menu visibility, distinct recommendation routes, source anchors, search, syntax.`);
