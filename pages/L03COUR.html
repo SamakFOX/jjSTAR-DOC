@@ -209,12 +209,12 @@
     </div>
     <p class="mb-6 text-gray-700 flex items-center gap-2 guide-section-intro">
       <svg class="lucide w-5 h-5 text-blue-600" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
-      학기별 신청 과목과 시간표, 수업계획서·출결 안내를 살펴봐요
+      학기별 신청 과목과 수업계획서·출결, 시간표와 확인서를 살펴봐요
     </p>
-  <figure class="guide-image-slot">
-    <img src="assets/images/jjstar_d_enrv-main.webp" alt="수강신청 내역 화면" loading="lazy" />
-    <figcaption>&lt; 수강신청 내역 화면 &gt;</figcaption>
-  </figure>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_enrv-main.webp" alt="수강신청 내역-학기별 교과목과 수업 정보" loading="lazy" />
+      <figcaption>&lt; 수강신청 내역-학기별 교과목과 수업 정보 &gt;</figcaption>
+    </figure>
     <div class="space-y-4 mb-8">
       <div class="flex gap-4 items-start">
         <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
@@ -223,13 +223,14 @@
       </div>
       <div class="flex gap-4 items-start">
         <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
-        <div><strong class="text-gray-900">수강신청 내역</strong><br>
-          <span class="text-gray-600">교과목명과 학수번호, 학점, 교수, 수업시간 및 강의실을 확인하는 영역이에요</span></div>
+        <div><strong class="text-gray-900">수강신청 내역과 수업 정보</strong><br>
+          <span class="text-gray-600">교과목명과 학수번호, 학점, 교수, 수업시간 및 강의실을 살펴봐요</span><br>
+          <span class="text-gray-600">교과목명은 수업계획서, 각 행의 [출결]은 해당 과목의 출석부를 여는 링크예요</span></div>
       </div>
       <div class="flex gap-4 items-start">
         <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
         <div><strong class="text-gray-900">시간표와 확인서</strong><br>
-          <span class="text-gray-600">[시간표 조회]와 [수강신청확인서] 버튼을 이용할 수 있어요</span></div>
+          <span class="text-gray-600">[시간표 조회]로 정규·원격교과의 수업 배치를 살펴보고 [수강신청확인서]로 신청 과목과 학점을 문서로 확인해요</span></div>
       </div>
     </div>
   </section>
@@ -245,29 +246,81 @@
     <h3 style="margin: 0;">수강신청 내역과 수업 정보 살펴보기</h3>
   </div>
   <section class="guide-steps bg-gray-50 p-8 rounded-lg">
-    <div class="space-y-4 mb-8">
+    <div class="space-y-8 mb-8">
       <div class="flex gap-4 items-start">
         <div class="step-badge">STEP 1</div>
         <div class="text-gray-700 pt-1 flex-1">
-          <strong class="text-gray-900">학년도와 학기 선택하기</strong>
-          <p>확인할 학년도와 학기를 선택하고 [조회]를 눌러요</p>
-          <p>시간표와 확인서가 필요하면 각각의 버튼을 이용해요</p>
-  <figure class="guide-image-slot">
-    <img src="assets/images/jjstar_d_enrv-ex-01.webp" alt="학년도와 학기 선택하기" loading="lazy" />
-    <figcaption>&lt; 학년도와 학기 선택하기 &gt;</figcaption>
-  </figure>
+          <strong class="text-gray-900">학년도와 학기 선택 후 조회</strong>
+          <p>확인할 학년도를 정하고 학기 목록에서 원하는 학기를 선택해요</p>
+          <p>[조회]를 눌러 선택한 학기의 수강과목과 목록 아래의 총 신청학점을 확인해요</p>
+          <figure class="guide-image-slot" style="width: max-content; max-width: 200px; margin-left: auto; margin-right: auto;">
+            <img src="assets/images/jjstar_d_enrv-ex-01.webp" alt="수강신청 내역-학기 선택 목록" loading="lazy" style="width: auto; max-width: 200px; height: auto;" />
+            <figcaption>&lt; 학기 선택 목록 &gt;</figcaption>
+          </figure>
         </div>
       </div>
-      <div class="flex gap-4 items-start">
-        <div class="step-badge">STEP 2</div>
-        <div class="text-gray-700 pt-1 flex-1">
-          <strong class="text-gray-900">수업계획서와 출결이력 열기</strong>
-  <figure class="guide-image-slot">
-    <img src="assets/images/jjstar_d_enrv-ex-02.webp" alt="수업계획서와 출결이력 열기" loading="lazy" />
-    <figcaption>&lt; 수업계획서와 출결이력 열기 &gt;</figcaption>
-  </figure>
-          <p>교과목명을 누르면 해당 과목의 수업계획서를 조회할 수 있어요</p>
-          <p>출결 부분을 누르면 출결관리의 출결이력으로 이동해요</p>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 2</div>
+          <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">교과목명으로 수업계획서 열기</strong></div>
+        </div>
+        <figure class="guide-image-slot">
+          <img src="assets/images/jjstar_d_enrv-ex-02.webp" alt="데이터분석기초 수업계획서-교과목 정보와 주별 수업내용" loading="lazy" />
+          <figcaption>&lt; 데이터분석기초 수업계획서 &gt;</figcaption>
+        </figure>
+        <div class="text-gray-700">
+          <p>목록에서 데이터분석기초처럼 확인할 교과목명을 눌러 수업계획서를 열어요</p>
+          <p>교과목 정보와 수업개요·목표, 성적평가방법, 주별 수업내용을 살펴봐요</p>
+          <p>필요하면 보고서의 [인쇄]를 이용해 출력할 수 있어요</p>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 3</div>
+          <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">과목별 출결 확인</strong></div>
+        </div>
+        <figure class="guide-image-slot">
+          <img src="assets/images/jjstar_d_enrv-ex-03.webp" alt="데이터분석기초 학기 출석부-주차별 출결결과" loading="lazy" />
+          <figcaption>&lt; 과목별 학기 출석부 &gt;</figcaption>
+        </figure>
+        <div class="text-gray-700">
+          <p>수강신청 목록에서 확인할 과목의 [출결]을 눌러요</p>
+          <p>출석부의 학번·성명을 살펴본 뒤 주차별 수업일과 요일, 수업시간, 출결결과를 확인해요</p>
+          <p>필요한 출석부는 [인쇄]를 이용해 출력할 수 있어요</p>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 4</div>
+          <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">정규·원격교과 시간표 확인</strong></div>
+        </div>
+        <figure class="guide-image-slot">
+          <img src="assets/images/jjstar_d_enrv-ex-04.webp" alt="정규교과 시간표-요일과 시간별 수업 배치" loading="lazy" />
+          <figcaption>&lt; 정규교과 시간표 &gt;</figcaption>
+        </figure>
+        <p class="text-gray-700">[시간표 조회]를 눌러 [정규교과] 탭에서 요일과 시간별 수업 배치를 살펴봐요</p>
+        <figure class="guide-image-slot">
+          <img src="assets/images/jjstar_d_enrv-ex-05.webp" alt="원격교과 시간표-온라인 과목과 인터넷 수강과목 안내" loading="lazy" />
+          <figcaption>&lt; 원격교과 시간표와 인터넷 수강과목 안내 &gt;</figcaption>
+        </figure>
+        <div class="text-gray-700">
+          <p>[원격교과] 탭을 선택해 온라인 과목을 따로 확인해요</p>
+          <p>화면 아래의 인터넷 수강과목 안내도 함께 살펴봐요</p>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start">
+          <div class="step-badge">STEP 5</div>
+          <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">수강신청확인서 확인과 인쇄</strong></div>
+        </div>
+        <figure class="guide-image-slot">
+          <img src="assets/images/jjstar_d_enrv-ex-06.webp" alt="수강신청확인서-신청 과목과 총 학점" loading="lazy" />
+          <figcaption>&lt; 수강신청확인서 &gt;</figcaption>
+        </figure>
+        <div class="text-gray-700">
+          <p>[수강신청확인서]를 눌러 선택한 학기의 확인서를 열어요</p>
+          <p>학번·성명과 학년도·학기, 신청 과목·담당교수·학점을 함께 살펴봐요</p>
+          <p>아래의 신청학점계로 총 신청학점을 확인하고 필요하면 [인쇄]를 이용해요</p>
         </div>
       </div>
     </div>
@@ -275,27 +328,84 @@
 </section>
 
     <section id="L04ATAP" class="guide-embedded-detail">
-<p class="mb-6 text-gray-700 leading-relaxed">출석인정 사유와 결석일시를 입력하고 신청내역을 확인할 수 있어요</p>
-<a href="https://jjstar.jj.ac.kr/" class="btn-direct" target="_blank" rel="noopener">출석인정신청(공결) 바로가기</a>
-<hr class="border-t-2 border-gray-200 mb-12" />
-<section class="guide-page-description">
-<div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading"><img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" /><h3 style="margin: 0;">출석인정신청(공결) UI 한눈에 보기</h3></div>
-<figure class="guide-image-slot"><img src="assets/images/jjstar_d_atap-main.webp" alt="출석인정신청(공결)-일반·취업사유 탭과 신청내역" loading="lazy" /><figcaption>&lt; 출석인정신청(공결)-일반·취업사유 탭과 신청내역 &gt;</figcaption></figure>
-<div class="space-y-4 mb-8">
-<div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div><div><strong class="text-gray-900">신청 구분 탭</strong><br><span class="text-gray-600">출석인정(일반)과 출석인정(취업사유) 중 해당하는 탭을 선택해요</span></div></div>
-<div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div><div><strong class="text-gray-900">출석인정신청(공결)내역</strong><br><span class="text-gray-600">신청한 내역과 접수·승인 상태를 확인하고 [신규]로 입력을 시작할 수 있어요</span></div></div>
-<div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div><div><strong class="text-gray-900">신청정보</strong><br><span class="text-gray-600">출석인정 사유와 결석 시작·종료일시, 상세사유를 입력하는 영역이에요</span></div></div>
-</div></section>
-<div class="tip-box tip-box--with-character guide-extra-tip"><div class="flex items-start gap-3"><div class="tip-box-content"><p>* 화면 안내에 따라 저장 후 2주 이내에 출석인정요청서를 출력하고 본인 서명과 증빙서류를 준비해 학과사무실에 제출해요. 원격강좌는 출석인정 대상에 해당하지 않아요.</p></div></div></div>
-<section class="guide-steps bg-gray-50 p-8 rounded-lg"><h3 class="text-xl mb-6 font-bold">예시&#41; 일반 사유의 출석인정 신청정보를 입력하려고 해요</h3><div class="space-y-4 mb-8">
-<div class="flex gap-4 items-start"><div class="step-badge">STEP 1</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">일반 탭에서 신규 입력</strong>
-<p>[출석인정(일반)] 탭을 선택하고 신청내역 오른쪽의 [신규]를 눌러요</p></div></div>
-<div class="flex gap-4 items-start"><div class="step-badge">STEP 2</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">사유와 결석일시 입력</strong>
-<figure class="guide-image-slot"><img src="assets/images/jjstar_d_atap-ex-01.webp" alt="출석인정 사유·결석일시·상세사유 입력 예시" loading="lazy" /><figcaption>&lt; 출석인정 사유·결석일시·상세사유 입력 예시 &gt;</figcaption></figure>
-<p>해당하는 신청구분을 선택하고 결석 시작·종료 날짜와 시간을 입력해요. 상세사유에는 인정받으려는 사유를 구체적으로 적고 신청년도와 학기도 함께 확인해요.</p></div></div>
-<div class="flex gap-4 items-start"><div class="step-badge">STEP 3</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">신청내용과 제출서류 확인</strong>
-<p>입력한 내용과 인정 기준을 확인한 뒤 [저장]을 이용해요. 저장한 신청내역과 접수 상태를 확인하고 안내된 요청서와 증빙서류를 제출해요.</p></div></div>
-</div></section>
+  <p class="mb-6 text-gray-700 leading-relaxed">출석인정 사유와 결석일시를 입력하고 신청내역을 확인할 수 있어요</p>
+  <a href="https://jjstar.jj.ac.kr/" class="btn-direct" target="_blank" rel="noopener">출석인정신청(공결) 바로가기</a>
+  <hr class="border-t-2 border-gray-200 mb-12" />
+  <section class="guide-page-description">
+    <div class="flex items-center gap-2 mb-4 mt-5 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h3 style="margin: 0;">출석인정신청(공결) UI 한눈에 보기</h3>
+    </div>
+    <figure class="guide-image-slot">
+      <img src="assets/images/jjstar_d_atap-main.webp" alt="출석인정(일반)-신청내역과 접수상태" loading="lazy" />
+      <figcaption>&lt; 출석인정(일반)-신청내역과 접수상태 &gt;</figcaption>
+    </figure>
+    <div class="space-y-4 mb-8">
+      <div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div><div><strong class="text-gray-900">신청 구분 탭</strong><br><span class="text-gray-600">출석인정(일반)과 출석인정(취업사유) 중 해당하는 탭을 선택해요</span></div></div>
+      <div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div><div><strong class="text-gray-900">신청내역</strong><br><span class="text-gray-600">신청한 내용과 접수·승인 상태를 확인하고 출석인정요청서를 출력할 수 있어요</span></div></div>
+      <div class="flex gap-4 items-start"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div><div><strong class="text-gray-900">신청정보</strong><br><span class="text-gray-600">[신규]로 입력을 시작하고 신청구분과 결석일시·상세사유를 작성해요</span></div></div>
+    </div>
+  </section>
+  <div class="tip-box tip-box--with-character guide-extra-tip">
+    <div class="flex items-start gap-3"><div class="tip-box-content">
+      <p>* 일반사유는 저장 후 2주 이내에 출석인정요청서를 출력하고 본인 서명과 증빙서류를 준비해 학과사무실에 제출해요</p>
+      <p>원격강좌는 출석인정과 관계없이 수강해야 하므로 화면의 유의사항도 함께 살펴봐요</p>
+    </div></div>
+  </div>
+  <section class="guide-steps bg-gray-50 p-8 rounded-lg">
+    <h3 class="text-xl mb-6 font-bold">예시&#41; 일반 사유로 출석인정을 신청하려고 해요</h3>
+    <div class="space-y-8 mb-8">
+      <div class="flex gap-4 items-start"><div class="step-badge">STEP 1</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">일반 탭에서 신규 입력</strong><p>[출석인정(일반)] 탭을 선택하고 화면 오른쪽 위의 [신규]를 눌러요</p></div></div>
+      <div class="flex gap-4 items-start"><div class="step-badge">STEP 2</div><div class="text-gray-700 pt-1 flex-1">
+        <strong class="text-gray-900">인정사유와 결석일시 입력</strong>
+        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_atap-ex-01.webp" alt="일반 출석인정-신청구분·결석일시·상세사유" loading="lazy" /><figcaption>&lt; 일반 출석인정 신청정보 &gt;</figcaption></figure>
+        <p>신청구분에서 해당하는 인정사유를 선택해요</p>
+        <p>결석 시작·종료 날짜와 시간을 입력하고 Enter 또는 Tab을 눌러 입력값을 확정해요</p>
+        <p>상세사유를 구체적으로 적고 신청년도와 학기도 함께 확인해요</p>
+      </div></div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start"><div class="step-badge">STEP 3</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">유의사항을 읽고 저장 확인</strong></div></div>
+        <div style="display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 1rem;"><figure class="guide-image-slot" style="flex: 1 1 280px; max-width: 581px; display: flex; flex-direction: column; margin: 0;">
+  <div style="flex: 1;"><img src="assets/images/jjstar_d_atap-ex-02.webp" alt="유의사항 확인" loading="lazy" style="width: 100%; max-width: 581px; height: auto;" /></div>
+  <figcaption>&lt; 유의사항 확인 &gt;</figcaption>
+</figure><figure class="guide-image-slot" style="flex: 1 1 280px; max-width: 581px; display: flex; flex-direction: column; margin: 0;">
+  <div style="flex: 1;"><img src="assets/images/jjstar_d_atap-ex-03.webp" alt="신청정보 저장 확인" loading="lazy" style="width: 100%; max-width: 581px; height: auto;" /></div>
+  <figcaption>&lt; 저장 확인 &gt;</figcaption>
+</figure></div>
+        <div class="text-gray-700"><p>신청정보 아래의 필수 유의사항을 읽고 [저장]을 눌러요</p><p>유의사항을 확인했는지 묻는 창에서 [예]를 선택하고 이어지는 저장 확인 창에서도 내용을 살펴본 뒤 [예]를 눌러요</p></div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start"><div class="step-badge">STEP 4</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">신청내역 확인과 요청서 출력</strong></div></div>
+        <div style="display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 1rem;"><figure class="guide-image-slot" style="flex: 1 1 280px; max-width: 581px; display: flex; flex-direction: column; margin: 0;">
+  <div style="flex: 1;"><img src="assets/images/jjstar_d_atap-ex-04.webp" alt="신청정보 정상 처리 안내" loading="lazy" style="width: 100%; max-width: 581px; height: auto;" /></div>
+  <figcaption>&lt; 저장 처리 안내 &gt;</figcaption>
+</figure><figure class="guide-image-slot" style="flex: 1 1 280px; max-width: 581px; display: flex; flex-direction: column; margin: 0;">
+  <div style="flex: 1;"><img src="assets/images/jjstar_d_atap-ex-05.webp" alt="출석인정요청서 출력 확인" loading="lazy" style="width: 100%; max-width: 581px; height: auto;" /></div>
+  <figcaption>&lt; 요청서 출력 확인 &gt;</figcaption>
+</figure></div>
+        <div class="text-gray-700"><p>정상 처리 안내를 닫고 신청내역에 입력한 내용이 추가됐는지 확인해요</p><p>출력할 신청내역의 출석인정요청서 항목을 누르고 출력 확인 창에서 [예]를 선택해요</p><p>열린 요청서를 인쇄하고 본인 서명과 증빙서류를 준비해요</p></div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex gap-4 items-start"><div class="step-badge">STEP 5</div><div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">취업사유로 신청하는 경우</strong></div></div>
+        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_atap-ex-07.webp" alt="출석인정(취업사유)-회사정보·증빙서류·개인정보 동의" loading="lazy" /><figcaption>&lt; 취업사유 신청정보와 서류 안내 &gt;</figcaption></figure>
+        <div class="text-gray-700">
+          <p>[출석인정(취업사유)] 탭에서는 취업시작일과 회사명·회사연락처를 입력해요</p>
+          <p>1차서류의 재직(계약)증명서·4대보험가입확인서·기타 및 중도퇴직자 증빙과 2차서류 항목을 살펴봐요</p>
+          <p>중도퇴직자는 취업종료일과 취업종료사유 항목도 함께 확인해요</p>
+          <p>필수 개인정보 수집 동의에서 재직사항·4대보험 가입내역과 신청일로부터 5년 보관 안내를 읽고 동의 여부를 선택해요</p>
+          <p>취업사유는 신청 후 출석인정요청서를 출력해 담당교수의 서명을 받고 증빙서류와 함께 학과사무실에 제출해요</p>
+          <p>서류접수기간은 해당 학기의 학사공지와 유의사항을 확인하고 2차서류는 화면에 표시된 제출기간에 맞춰 준비해요</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="tip-box tip-box--with-character guide-extra-tip">
+    <div class="flex items-start gap-3"><div class="tip-box-content">
+      <p>* 삭제가 필요한 신청내역만 선택한 뒤 [삭제]를 눌러요</p>
+      <p>선택한 내역이 맞는지 확인하고 삭제 확인 창에서 [예]를 선택해요</p>
+      <figure class="guide-image-slot" style="max-width: 581px; margin-left: auto; margin-right: auto;"><img src="assets/images/jjstar_d_atap-ex-06.webp" alt="선택한 신청내역 삭제 확인" loading="lazy" style="max-width: 581px; height: auto;" /><figcaption>&lt; 신청내역 삭제 확인 &gt;</figcaption></figure>
+    </div></div>
+  </div>
 </section>
   </section>
 </article>
