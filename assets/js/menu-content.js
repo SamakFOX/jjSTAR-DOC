@@ -6,7 +6,7 @@ window.JJSTAR_CONTENT = (() => {
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
   function menuTitle(node) {
-    if (node.children || node.guideStatus === 'pending') return escape(node.title);
+    if (node.children || node.externalUrl || node.guideStatus === 'pending') return escape(node.title);
     const split = node.title.lastIndexOf(' ');
     const prefix = split < 0 ? '' : escape(node.title.slice(0, split + 1));
     const ending = escape(node.title.slice(split + 1));
@@ -17,8 +17,9 @@ window.JJSTAR_CONTENT = (() => {
   function withDirectLink(html, current) {
     const existing = /<a\b(?=[^>]*(?:class=["'][^"']*\bbtn-direct\b(?!-)|id=["']direct-link["']))[^>]*>[\s\S]*?<\/a>/i;
     if (current.showDirectLink === false) return html.replace(new RegExp(existing.source, 'gi'), '');
-    if (!current.directUrl) return html;
-    const button = `<a href="${escape(current.directUrl)}" id="direct-link" class="btn-direct" data-guide-menu="${escape(current.code)}" target="_blank" rel="noopener">${escape(current.title)} 바로가기</a>`;
+    const destination = current.linkOnly === false && current.externalUrl ? current.externalUrl : current.directUrl;
+    if (!destination) return html;
+    const button = `<a href="${escape(destination)}" id="direct-link" class="btn-direct" data-guide-menu="${escape(current.code)}" target="_blank" rel="noopener">${escape(current.title)} 바로가기</a>`;
     if (existing.test(html)) return html.replace(existing, () => button);
     const explanation = /<section\b[^>]*class=["'][^"']*\bguide-page-description\b[^"']*["'][^>]*>/i;
     if (explanation.test(html)) return html.replace(explanation, match => `${button}\n${match}`);
@@ -28,14 +29,14 @@ window.JJSTAR_CONTENT = (() => {
   function hiddenChildren(current) {
     return (current.children || []).flatMap(node => node.children
       ? node.children.filter(leaf => node.hideInNav || leaf.hideInNav)
-      : node.hideInNav ? [node] : []).filter(node => node.enabled !== false);
+      : node.hideInNav ? [node] : []).filter(node => node.enabled !== false && !node.externalUrl);
   }
 
   function overview(current) {
     const inlineCodes = new Set(hiddenChildren(current).map(node => node.code));
     const list = nodes => `<ul>${nodes.filter(node => node.enabled !== false).map(node => `
-      <li class="${node.children ? 'toctree-l1' : 'toctree-l2'}${inlineCodes.has(node.code) ? ' is-info' : ''}">
-        <a href="${inlineCodes.has(node.code) ? '#' + escape(node.code) : escape(node.path)}" class="reference internal">
+      <li${node.externalUrl ? ` id="${escape(node.code)}"` : ''} class="${node.children ? 'toctree-l1' : 'toctree-l2'}${inlineCodes.has(node.code) ? ' is-info' : ''}">
+        <a href="${node.externalUrl ? escape(node.externalUrl) : inlineCodes.has(node.code) ? '#' + escape(node.code) : escape(node.path)}" class="reference ${node.externalUrl ? 'external' : 'internal'}"${node.externalUrl ? ' target="_blank" rel="noopener"' : ''}>
           <span class="menu-title">${menuTitle(node)}</span>
           ${node.description ? `<span class="menu-desc">${escape(node.description)}</span>` : ''}
           ${node.guideStatus === 'pending' ? '<span class="menu-desc">상세 안내 준비 중</span>' : ''}
@@ -195,18 +196,20 @@ window.JJSTAR_CONTENT = (() => {
 
   async function load(current, absoluteBase, signal) {
     let html;
+    const linkOnly = current.externalUrl && current.linkOnly !== false;
     if (current.hideInNav && current.parentOverview) {
       html = await loadOverview(current.parentOverview, absoluteBase, signal);
     } else if (current.generatedOverview) {
       html = await loadOverview(current, absoluteBase, signal);
-    } else if (current.guideStatus === 'pending') html = pending(current);
+    } else if (linkOnly) html = overview({ title: current.title, children: [current] });
+    else if (current.guideStatus === 'pending') html = pending(current);
     else {
       html = await fetchText(current.contentPath || current.path, absoluteBase, signal);
       if (current.contentAnchor) html = `<article class="guide-article" no-image>
         <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
         <h1>${escape(current.title)}</h1>${embeddedSections(html, current)}</article>`;
     }
-    if (!current.generatedOverview && !(current.hideInNav && current.parentOverview)) {
+    if (!linkOnly && !current.generatedOverview && !(current.hideInNav && current.parentOverview)) {
       html = withDirectLink(html, current);
     }
     return html.replace(/src="(?!https?:|data:|\/\/)([^"]*)"/g, (_, path) =>

@@ -58,22 +58,68 @@ for (const [i, leaf] of leaves.entries()) {
 }
 const content = context.window.JJSTAR_CONTENT;
 const paths = new Set(all.map(n => n.path));
+const expectedExternalUrls = {
+  L04CEGD: 'http://jj.webminwon.kr/',
+  L04CEIS: 'http://jj.webminwon.kr/',
+  L04CEHI: 'http://jj.webminwon.kr/',
+  L04WEBG: 'https://docs.jjstar.site/',
+  L04PDFG: 'https://jjstar.jj.ac.kr/upload/univGuide.pdf',
+  L04BASK: 'https://sugang.jj.ac.kr/',
+  L04ENRA: 'https://sugang.jj.ac.kr/',
+  L04AHAL: 'https://aha.jj.ac.kr/',
+  L04QNAA: 'https://www.jj.ac.kr/jj/community/itbaro.do?mode=list',
+  L04PSYC: 'https://happyjcc.jj.ac.kr/happyjcc/test/test01.do',
+  L04PSCN: 'https://happyjcc.jj.ac.kr/happyjcc/counsel/individual02.do'
+};
+const detailedExternalCodes = new Set(['L04QNAA', 'L04PSYC', 'L04PSCN']);
+const externalUrls = new Set(Object.values(expectedExternalUrls));
+assert.equal(leaves.filter(node => node.externalUrl).length, Object.keys(expectedExternalUrls).length);
+for (const [code, url] of Object.entries(expectedExternalUrls)) {
+  const node = leaves.find(leaf => leaf.code === code);
+  assert.equal(node.externalUrl, url);
+  assert.equal(node.hideInNav, !detailedExternalCodes.has(code));
+  if (detailedExternalCodes.has(code)) assert.equal(node.linkOnly, false);
+  assert.match(node.description, /[가-힣]/);
+  const group = groups.find(mid => mid.children.some(leaf => leaf.code === code));
+  assert.ok(!content.hiddenChildren(group).some(leaf => leaf.code === code));
+  const row = content.overview(group).match(new RegExp(`<li id="${code}"[\\s\\S]*?</li>`))?.[0];
+  assert.ok(row?.includes(`href="${url}" class="reference external" target="_blank" rel="noopener"`));
+  assert.ok(row.includes(node.description));
+  assert.ok(!row.includes('guide-required-marker') && !row.includes('<img'));
+}
 for (const overview of [...service, ...groups]) {
   const html = content.overview(overview);
   const inline = new Set(content.hiddenChildren(overview).map(node => node.code));
   if (overview.overviewPath) assert.ok(fs.existsSync(overview.overviewPath));
   for (const match of html.matchAll(/href="([^"]+)"/g)) {
-    assert.ok(paths.has(match[1]) || (match[1].startsWith('#') && inline.has(match[1].slice(1))));
+    assert.ok(paths.has(match[1]) || externalUrls.has(match[1]) || (match[1].startsWith('#') && inline.has(match[1].slice(1))));
   }
   for (const child of overview.children) {
-    assert.ok(html.includes(inline.has(child.code) ? '#' + child.code : child.path), `Missing child: ${child.code}`);
+    assert.ok(html.includes(child.externalUrl || (inline.has(child.code) ? '#' + child.code : child.path)), `Missing child: ${child.code}`);
   }
 }
 for (const leaf of leaves.filter(n => n.guideStatus !== 'embedded')) {
   const before = requests;
   const html = await content.load(leaf, 'https://example.test/guide/');
   assert.ok(!html.includes('usage-draft') && !html.includes('data-usage-menu'), `Inspection hint remains: ${leaf.code}`);
-  if (leaf.guideStatus === 'pending') {
+  if (leaf.externalUrl && leaf.linkOnly !== false) {
+    assert.equal(requests, before, 'External link must not fetch the old detailed guide');
+    assert.ok(html.includes(leaf.externalUrl) && !html.includes('<img') && !html.includes('btn-direct'));
+  } else if (leaf.externalUrl && leaf.linkOnly === false) {
+    assert.ok(requests === before || requests === before + 1);
+    assert.ok(html.includes(`href="${leaf.externalUrl}" id="direct-link" class="btn-direct"`));
+    const original = fs.readFileSync(leaf.path, 'utf8');
+    assert.equal((html.match(/<img\b/g) || []).length, (original.match(/<img\b/g) || []).length);
+    for (const match of original.matchAll(/<(p|h[1-6]|figcaption)\b[^>]*>[\s\S]*?<\/\1>/gi)) {
+      assert.ok(html.includes(match[0]), `Existing guide prose changed: ${leaf.code}`);
+    }
+    for (const match of original.matchAll(/\bsrc="([^"]+)"/g)) {
+      assert.ok(html.includes(new URL(match[1], 'https://example.test/guide/').href), `Existing guide image lost: ${leaf.code}`);
+    }
+    const group = groups.find(mid => mid.children.some(node => node.code === leaf.code));
+    const withParent = await content.load({ ...leaf, parentOverview: group }, 'https://example.test/guide/');
+    assert.equal(withParent, html, `Navigation must retain the detailed guide: ${leaf.code}`);
+  } else if (leaf.guideStatus === 'pending') {
     assert.equal(requests, before, 'Pending guide must not request a nonexistent file');
     assert.ok(html.includes('상세 이용 안내는 준비 중'));
   } else assert.ok(requests === before || requests === before + 1);
@@ -144,6 +190,12 @@ assert.ok(search.filterMenu(menu, 'star관리').some(cat => cat.children.some(mi
 vm.runInContext(fs.readFileSync('assets/js/menu-views.js', 'utf8'), context);
 const visible = context.window.JJSTAR_MENU_VIEWS.select(menu, '').menu;
 const shownCodes = new Set(visible.flatMap(cat => cat.children.flatMap(group => group.children || [group])).map(n => n.code));
+for (const code of detailedExternalCodes) {
+  assert.ok(shownCodes.has(code), `Detailed external guide hidden from navigation: ${code}`);
+  const node = leaves.find(leaf => leaf.code === code);
+  const found = search.filterMenu(menu, node.title).flatMap(cat => cat.children.flatMap(mid => mid.children || [])).some(leaf => leaf.code === code);
+  assert.ok(found, `Detailed external guide missing from search: ${code}`);
+}
 for (const code of ['L04BEST', 'L04MYCP', 'L04STID', 'L04DBMJ', 'L04READ', 'L04SDMJ', 'L04PLEX', 'L04LVLB', 'L04LCVT', 'L04OPTB']) {
   assert.ok(leaves.some(n => n.code === code), `Retained menu missing: ${code}`);
 }
