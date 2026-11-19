@@ -1,21 +1,17 @@
 window.JJSTAR_MENU_VIEWS = (() => {
   const hiddenCodes = new Set([
     'L04ADFA', // 학사관리 FAQ
-    'L04AHAC', // AHA 교육이수증
     'L04ATTD', // 출결확인
     'L04BEST', // beSTAR 신청
     'L04CEHI', // 제증명 발급내역
     'L04CEIS', // 제증명 발급
-    'L04CMMT', // 공동체 멘토상담 입력
-    'L04CMRP', // 공동체 활동 결과보고
     'L04CRAP', // 학점인정신청
     'L04CRSM', // 교육과정 시뮬레이션
     'L04DBMJ', // 복수/부 전공 신청
-    'L04DMBI', // 학생생활관비 납입고지서
-    'L04DMPG', // 입사서약서 작성
     'L04EDCR', // 교육과정조회
+    'L04EDCRB', // 교육과정편람
+    'L04SGGD', // 수강편람
     'L04GECR', // 교양 교육과정 조회
-    'L04GTWY', // GATEWAY 설문
     'L04LCVT', // 로컬벤처
     'L04LVLB', // 리빙랩
     'L04MCRR', // My 교육과정 조회
@@ -26,9 +22,7 @@ window.JJSTAR_MENU_VIEWS = (() => {
     'L04PERS', // 교직 적/인성 검사
     'L04PLEX', // 입학 전 학습경험 등록
     'L04READ', // 재입학 신청
-    'L04ROOM', // 관실신청
     'L04STID', // 학생증
-    'L04TRAP', // 해외 연수 신청
   ]);
 
   const homeHiddenCodes = new Set([

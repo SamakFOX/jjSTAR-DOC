@@ -180,7 +180,7 @@ window.JJSTAR_CONTENT = (() => {
       const pageStrings = window.JJSTAR_STRINGS?.[node.code];
       if (desc && pageStrings?.desc) desc.innerHTML = pageStrings.desc;
       if (desc && !desc.closest('.guide-page-description, .guide-steps, .tip-box')) heading.after(desc);
-      if (node.directUrl) {
+      if (node.directUrl && node.showDirectLink !== false) {
         const link = fragment(withDirectLink('<h1></h1>', node)).querySelector('.btn-direct');
         link.removeAttribute('id');
         const anchor = desc && desc.parentNode === heading.parentNode ? desc : heading;

@@ -2,7 +2,11 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import threading
 import unittest
+from unittest import mock
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 spec = importlib.util.spec_from_file_location('local_editor', Path(__file__).with_name('server.py'))
 editor = importlib.util.module_from_spec(spec)
@@ -159,6 +163,29 @@ class EditorTests(unittest.TestCase):
             payload['changes'][0]['gapAfter'] = count
             with self.assertRaises(ValueError): editor.save(payload)
             self.assertEqual(editor.read(self.page), self.source)
+
+    def test_permission_error_keeps_source_and_reports_file_access(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        payload = self.payload(state, state['blocks'][-1], '변경 문구')
+        server = editor.PreviewServer(('127.0.0.1', 0), editor.Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        base = f'http://127.0.0.1:{server.server_port}'
+        request = Request(base + '/__editor/save', data=json.dumps(payload).encode(), headers={
+            'Content-Type': 'application/json', 'Origin': base, 'X-Editor-Token': editor.TOKEN})
+        try:
+            with mock.patch.object(editor, 'atomic_write', side_effect=PermissionError('access denied')):
+                with self.assertRaises(HTTPError) as caught:
+                    urlopen(request)
+            response = json.loads(caught.exception.read())
+            self.assertEqual(caught.exception.code, 400)
+            self.assertEqual(response['code'], 'FILE_ACCESS_DENIED')
+            self.assertIn('편집 내용은 화면에 남아 있어요', response['error'])
+            self.assertEqual(self.page.read_bytes(), self.source.encode())
+        finally:
+            server.shutdown()
+            thread.join()
+            server.server_close()
 
 
 if __name__ == '__main__':

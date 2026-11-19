@@ -357,6 +357,12 @@ class Handler(SimpleHTTPRequestHandler):
             self.send(save(json.loads(self.rfile.read(length))))
         except FileExistsError as error:
             self.send(dict(error=str(error)), status=409)
+        except PermissionError as error:
+            self.log_error('Save permission error: %r', error)
+            self.send(dict(code='FILE_ACCESS_DENIED', error=(
+                '파일 쓰기 권한이 거부됐어요. 원본 파일과 백업 폴더의 읽기 전용 설정, '
+                '다른 프로그램의 파일 잠금을 확인해 주세요. 편집 내용은 화면에 남아 있어요'
+            )), status=400)
         except (ValueError, OSError, KeyError, TypeError) as error:
             self.send(dict(error=str(error)), status=400)
 

@@ -111,6 +111,7 @@ window.JJSTAR_MENU = [
         "children": [
           {"title":"장학 공지사항","miniLabel":"장학 공지","code":"L04SCHN","path":"pages/L04SCHN.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019967","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","장학관리","장학 공지사항"],"sourceRow":21,"description":"장학금과 관련된 공지와 안내","contentPath":"pages/L03SCHL.html","contentAnchor":"L04SCHN","guideStatus":"embedded"},
           {"title":"장학금 조회","miniLabel":"장학금 조회","code":"L04SCHQ","path":"pages/L04SCHQ.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021781","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","장학관리","장학금 조회"],"sourceRow":22,"guideStatus":"existing"},
+          {"title":"장학금 온라인신청","miniLabel":"장학금 온라인신청","code":"L04SCHP","path":"pages/L04SCHP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019968","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","장학관리","장학금 온라인신청"],"guideStatus":"existing","description":"신청 가능한 장학금과 접수기간을 확인하고, 장학금별 신청서와 서류를 제출할 수 있어요"},
           {"title":"장학금 지급계좌관리","miniLabel":"계좌 관리","code":"L04SCHA","path":"pages/L04SCHA.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019969","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","장학관리","장학금 지급계좌관리"],"sourceRow":23,"description":"장학금을 지급받을 계좌 정보 등록·수정","guideStatus":"existing"},
           {"title":"장학금 수혜현황","miniLabel":"수혜 현황","code":"L04SCHS","path":"pages/L04SCHS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019970","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","장학관리","장학금 수혜현황"],"sourceRow":24,"description":"재학 중 받은 장학금 내역","guideStatus":"existing"}
         ]
@@ -127,8 +128,8 @@ window.JJSTAR_MENU = [
         "children": [
           {"title":"사제동행교수선택","miniLabel":"사제 동행","code":"L04SAJE","path":"pages/L04SAJE.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019964","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","사제동행교수선택"],"sourceRow":25,"sourceAliases":["사제동행교수선택(신규)"],"description":"지도교수 선택 및 선정내역","guideStatus":"existing"},
           {"title":"공동체구성 및 활동내역","miniLabel":"공동체 구성&활동","code":"L04CMAC","path":"pages/L04CMAC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020862","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","공동체구성 및 활동내역"],"sourceRow":27,"description":"소속 공동체 팀원 정보 및 활동 현황 확인","guideStatus":"existing"},
-          {"title":"공동체 활동 결과보고","miniLabel":"활동 결과보고","code":"L04CMRP","path":"pages/L04CMRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020863","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","공동체 활동 결과보고"],"sourceRow":28,"description":"활동 종료 후 결과보고서 온라인 작성 및 제출","guideStatus":"existing"},
-          {"title":"공동체 멘토상담 입력","miniLabel":"멘토 상담","code":"L04CMMT","path":"pages/L04CMMT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020864","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","공동체 멘토상담 입력"],"sourceRow":29,"description":"멘토 교수님 상담 일지 등록 및 관리","guideStatus":"existing"},
+          {"title":"공동체 활동 결과보고","miniLabel":"활동 결과보고","code":"L04CMRP","path":"pages/L04CMRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020863","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","공동체 활동 결과보고"],"sourceRow":28,"description":"RC 공동체의 주차별 활동보고서와 활동일지를 확인하는 메뉴에요","guideStatus":"existing"},
+          {"title":"공동체 멘토상담 입력","miniLabel":"멘토 상담","code":"L04CMMT","path":"pages/L04CMMT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020864","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","공동체 멘토상담 입력"],"sourceRow":29,"description":"RC 공동체 멘토가 팀원의 상담일지를 작성하고 확인하는 메뉴에요","guideStatus":"existing"},
           {"title":"전공상담신청","miniLabel":"전공상담신청","code":"L04MJCN","path":"pages/L04MJCN.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021782","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","전공상담신청"],"sourceRow":30,"guideStatus":"existing"},
           {"title":"RC설문진단","miniLabel":"RC설문진단","code":"L04RCSU","path":"pages/L04RCSU.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021783","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","RC설문진단"],"sourceRow":31,"guideStatus":"existing"},
           {"title":"My MAP","miniLabel":"MY MAP","code":"L04MYMP","path":"pages/L04MYMP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020822","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","공동체","My MAP"],"sourceRow":26,"description":"나의 대학생활 성과를 담은 포트폴리오 맵 조회","guideStatus":"existing","operationStatus":"retained"}
@@ -146,7 +147,7 @@ window.JJSTAR_MENU = [
           {"title":"진단검사 및 만족도조사","miniLabel":"진단검사 및 만족도조사","code":"L04DIAS","path":"pages/L04DIAS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020161","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","진단검사·인적성검사","진단검사 및 만족도조사"],"sourceRow":32,"guideStatus":"existing"},
           {"title":"ABEEK 설문조사","miniLabel":"ABEEK 설문","code":"L04ABEK","path":"pages/L04ABEK.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020039","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","진단검사·인적성검사","ABEEK 설문조사"],"sourceRow":33,"description":"ABEEK 설문 관련 도움말","guideStatus":"existing"},
           {"title":"교직 적/인성 검사","miniLabel":"교직 적/인성","code":"L04PERS","path":"pages/L04PERS.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020040","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","진단검사·인적성검사","교직 적/인성 검사"],"sourceRow":34,"description":"교직 적/인성 관련 도움말","guideStatus":"existing"},
-          {"title":"GATEWAY 설문","miniLabel":"GATEWAY 설문","code":"L04GTWY","path":"pages/L04GTWY.html","enabled":true,"hideInNav":false,"directUrl":"https://jjstar.jj.ac.kr/","guideStatus":"existing","description":"GATEWAY 설문을 확인하는 메뉴예요","sourceMenuPath":["STAR 지원","진단검사·인적성검사","GATEWAY 설문"],"sourceDomId":"M000022960"}
+          {"title":"GATEWAY 설문","miniLabel":"GATEWAY 설문","code":"L04GTWY","path":"pages/L04GTWY.html","enabled":true,"hideInNav":false,"directUrl":"https://jjstar.jj.ac.kr/","guideStatus":"existing","description":"나에게 필요한 교내 지원을 찾고 담당 부서와 신청 방법을 안내받는 설문이에요","sourceMenuPath":["STAR 지원","진단검사·인적성검사","GATEWAY 설문"],"sourceDomId":"M000022960"}
         ]
       },
       {
@@ -159,6 +160,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "children": [
           {"title":"공지사항","miniLabel":"공지","code":"L04IFNT","path":"pages/L04IFNT.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020160","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","커뮤니티","공지사항"],"sourceRow":35,"guideStatus":"existing"},
+          {"title":"일반공지","miniLabel":"일반공지","code":"L04GNNT","path":"pages/L04GNNT.html","enabled":true,"hideInNav":true,"sourceDomId":"M000022731","directUrl":"https://jjstar.jj.ac.kr/","showDirectLink":false,"sourceMenuPath":["STAR 지원","커뮤니티","일반공지"],"contentPath":"pages/L03CMTY.html","contentAnchor":"L04GNNT","guideStatus":"embedded"},
           {"title":"Q&A","miniLabel":"주요 질문","code":"L04QNAA","path":"pages/L04QNAA.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020159","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","커뮤니티","Q&A"],"sourceRow":36,"guideStatus":"existing","externalUrl":"https://www.jj.ac.kr/jj/community/itbaro.do?mode=list","linkOnly":false,"description":"학교 IT 서비스에 관한 문의 게시판으로 이동할 수 있어요"}
         ]
       },
@@ -189,6 +191,43 @@ window.JJSTAR_MENU = [
           {"title":"웹페이지 이용 매뉴얼","miniLabel":"웹페이지 이용 매뉴얼","code":"L04WEBG","path":"pages/L04WEBG.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020416","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","JJSTAR 이용 매뉴얼","웹페이지 이용 매뉴얼"],"sourceRow":40,"guideStatus":"existing","externalUrl":"https://docs.jjstar.site/","description":"JJSTAR의 메뉴별 사용 방법을 웹페이지로 살펴볼 수 있어요"},
           {"title":"대학생활 가이드 (PDF)","miniLabel":"대학생활 가이드 (PDF)","code":"L04PDFG","path":"pages/L04PDFG.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020417","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","JJSTAR 이용 매뉴얼","대학생활 가이드 (PDF)"],"sourceRow":41,"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/upload/univGuide.pdf","description":"대학생활 가이드를 PDF로 열어 학교생활에 필요한 정보를 확인할 수 있어요"}
         ]
+      },
+      {
+        "title": "교내사이트",
+        "miniLabel": "교내사이트",
+        "code": "L03CAMP",
+        "path": "pages/L03CAMP.html",
+        "enabled": true,
+        "hideInNav": false,
+        "generatedOverview": true,
+        "sourceDomId": "M000023071",
+        "description": "교내 사이트를 한곳에서 확인할 수 있어요",
+        "children": [
+          {"title":"사이버캠퍼스","miniLabel":"사이버캠퍼스","code":"L04CYBR","path":"pages/L04CYBR.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023092","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","사이버캠퍼스"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 사이버캠퍼스 메뉴를 통해 온라인 강의와 수업 자료를 이용할 수 있어요"},
+          {"title":"도서관 바로가기","miniLabel":"도서관 바로가기","code":"L04LIBR","path":"pages/L04LIBR.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023093","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","도서관 바로가기"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 도서관 바로가기 메뉴에서 자료 검색과 도서관 서비스를 이용할 수 있어요"},
+          {"title":"단과대학 홈페이지","miniLabel":"단과대학 홈페이지","code":"L04COLG","path":"pages/L04COLG.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023094","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","단과대학 홈페이지"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 단과대학 홈페이지 메뉴에서 소속 단과대학 홈페이지로 이동할 수 있어요"},
+          {"title":"학과 홈페이지","miniLabel":"학과 홈페이지","code":"L04DPHP","path":"pages/L04DPHP.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023095","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","학과 홈페이지"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 학과 홈페이지 메뉴에서 소속 학과 홈페이지로 이동할 수 있어요"},
+          {"title":"대학원 바로가기","miniLabel":"대학원 바로가기","code":"L04GRAD","path":"pages/L04GRAD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023096","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","대학원 바로가기"],"guideStatus":"existing","externalUrl":"https://graduate.jj.ac.kr/graduate/index.do","description":"대학원 홈페이지에서 전공과 입학·학사 안내를 확인할 수 있어요"},
+          {"title":"금주의 식단정보","miniLabel":"금주의 식단정보","code":"L04FOOD","path":"pages/L04FOOD.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023097","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내사이트","금주의 식단정보"],"guideStatus":"existing","externalUrl":"https://jj.ac.kr/jj/campuslife/food.do","description":"학교 식당의 이번 주 식단을 확인할 수 있어요"}
+        ]
+      },
+      {
+        "title": "교내서비스",
+        "miniLabel": "교내서비스",
+        "code": "L03CSVC",
+        "path": "pages/L03CSVC.html",
+        "enabled": true,
+        "hideInNav": false,
+        "generatedOverview": true,
+        "sourceDomId": "M000023091",
+        "description": "학교에서 제공하는 온라인 서비스를 이용할 수 있어요",
+        "children": [
+          {"title":"웹메일","miniLabel":"웹메일","code":"L04MAIL","path":"pages/L04MAIL.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023098","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내서비스","웹메일"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 웹메일 메뉴에서 학교 메일을 이용할 수 있어요"},
+          {"title":"MS365","miniLabel":"MS365","code":"L04MS65","path":"pages/L04MS65.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023099","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내서비스","MS365"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 MS365 메뉴에서 학교 계정용 Microsoft 365를 이용할 수 있어요"},
+          {"title":"원격지원","miniLabel":"원격지원","code":"L04RMOT","path":"pages/L04RMOT.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023100","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내서비스","원격지원"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 원격지원 메뉴를 통해 원격 지원을 요청할 수 있어요"},
+          {"title":"애플 온 캠퍼스","miniLabel":"애플 온 캠퍼스","code":"L04APOC","path":"pages/L04APOC.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023101","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내서비스","애플 온 캠퍼스"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 애플 온 캠퍼스 메뉴에서 교육 할인 서비스를 이용할 수 있어요"},
+          {"title":"모바일 다운로드 센터","miniLabel":"모바일 다운로드 센터","code":"L04MDWN","path":"pages/L04MDWN.html","enabled":true,"hideInNav":true,"sourceDomId":"M000023102","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["STAR 지원","교내서비스","모바일 다운로드 센터"],"guideStatus":"existing","externalUrl":"https://jjstar.jj.ac.kr/","description":"JJSTAR의 모바일 다운로드 센터 메뉴에서 학교용 모바일 앱을 확인할 수 있어요"}
+        ]
       }
     ],
     "overviewPath": "pages/L02SUPP.html"
@@ -217,7 +256,7 @@ window.JJSTAR_MENU = [
           {"title":"수강신청 내역","miniLabel":"수강 내역","code":"L04ENRV","path":"pages/L04ENRV.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021004","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","수강관리","수강신청 내역"],"sourceRow":50,"sourceAliases":["수강신청 내역조회"],"description":"수강 내역 관련 도움말","contentPath":"pages/L03COUR.html","contentAnchor":"L04ENRV","guideStatus":"embedded"},
           {"title":"강좌시간표/수업계획서","miniLabel":"강좌시간표/수업계획서","code":"L04CLPL","path":"pages/L04CLPL.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020011","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","수강관리","강좌시간표/수업계획서"],"sourceRow":51,"description":"시간표 & 계획서 관련 도움말","guideStatus":"existing","sourceAliases":["강좌시간표/수업계획서 조회"]},
           {"title":"AHA 바로가기","miniLabel":"AHA 링크","code":"L04AHAL","path":"pages/L04AHAL.html","enabled":true,"hideInNav":true,"sourceDomId":"M000021784","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","수강관리","AHA 바로가기"],"sourceRow":52,"description":"AHA 사이트에서 학습 프로그램과 교육 안내를 확인할 수 있어요","contentPath":"pages/L03ADMN.html","contentAnchor":"L04AHAL","guideStatus":"embedded","externalUrl":"https://aha.jj.ac.kr/"},
-          {"title":"AHA 교육이수증","miniLabel":"AHA 이수증","code":"L04AHAC","path":"pages/L04AHAC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021785","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","수강관리","AHA 교육이수증"],"sourceRow":53,"description":"AHA 이수증 관련 도움말","guideStatus":"existing"}
+          {"title":"AHA 교육이수증","miniLabel":"AHA 이수증","code":"L04AHAC","path":"pages/L04AHAC.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021785","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","수강관리","AHA 교육이수증"],"sourceRow":53,"description":"학번·성명·년도로 AHA 교육 이수내역을 조회하는 메뉴에요","guideStatus":"existing"}
         ]
       },
       {
@@ -313,6 +352,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "overviewPath": "pages/L03SERV.html",
         "children": [
+          {"title":"사회봉사 공지사항","miniLabel":"사회봉사 공지사항","code":"L04SVNT","path":"pages/L04SVNT.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020031","directUrl":"https://jjstar.jj.ac.kr/","showDirectLink":false,"sourceMenuPath":["학사정보","사회봉사","사회봉사 공지사항"],"contentPath":"pages/L03SERV.html","contentAnchor":"L04SVNT","guideStatus":"embedded"},
           {"title":"사회봉사 교과목신청","miniLabel":"사봉 교과목","code":"L04SVAP","path":"pages/L04SVAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020032","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","사회봉사","사회봉사 교과목신청"],"sourceRow":76,"description":"사봉 교과목 관련 도움말","guideStatus":"existing"},
           {"title":"사회봉사 신청내역 및 인증 확인","miniLabel":"사봉 내역","code":"L04SVCK","path":"pages/L04SVCK.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020033","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","사회봉사","사회봉사 신청내역 및 인증 확인"],"sourceRow":77,"sourceAliases":["신청내역 및 인증 확인"],"description":"사봉 내역 관련 도움말","guideStatus":"existing"},
           {"title":"사회봉사 현황","miniLabel":"사회봉사 현황","code":"L04SVST","path":"pages/L04SVST.html","enabled":true,"hideInNav":false,"sourceDomId":"M000021864","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","사회봉사","사회봉사 현황"],"sourceRow":78,"guideStatus":"existing"},
@@ -332,6 +372,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "overviewPath": "pages/L03OVSV.html",
         "children": [
+          {"title":"해외봉사 공지사항","miniLabel":"해외봉사 공지사항","code":"L04OVNT","path":"pages/L04OVNT.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020072","directUrl":"https://jjstar.jj.ac.kr/","showDirectLink":false,"sourceMenuPath":["학사정보","해외봉사","해외봉사 공지사항"],"contentPath":"pages/L03OVSV.html","contentAnchor":"L04OVNT","guideStatus":"embedded"},
           {"title":"해외봉사 신청","miniLabel":"해봉 신청","code":"L04OVAP","path":"pages/L04OVAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020073","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","해외봉사","해외봉사 신청"],"sourceRow":83,"description":"봉사단 파견 참가 온라인 신청","guideStatus":"existing"},
           {"title":"해외봉사 신청 내역 확인","miniLabel":"신청 내역","code":"L04OVCK","path":"pages/L04OVCK.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020074","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","해외봉사","해외봉사 신청 내역 확인"],"sourceRow":84,"description":"신청서 심사 진행 및 최종 선발 결과 조회","guideStatus":"existing"},
           {"title":"해외봉사 결과보고서 작성","miniLabel":"결과 보고서","code":"L04OVRP","path":"pages/L04OVRP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020075","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["학사정보","해외봉사","해외봉사 결과보고서 작성"],"sourceRow":85,"sourceAliases":["해외봉사 결과보고서 제출"],"description":"파견 종료 후 활동 결과서 및 소감문 제출","guideStatus":"existing"}
@@ -663,7 +704,8 @@ window.JJSTAR_MENU = [
         "overviewPath": "pages/L03BUSS.html",
         "children": [
           {"title":"통학버스 노선도","miniLabel":"버스 노선도","code":"L04BUSM","path":"pages/L04BUSM.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019984","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","통학버스","통학버스 노선도"],"sourceRow":141,"description":"지역별 버스 노선과 정류장 위치 확인","contentPath":"pages/L03BUSS.html","contentAnchor":"L04BUSM","guideStatus":"embedded"},
-          {"title":"통학버스 신청","miniLabel":"탑승 신청","code":"L04BUSA","path":"pages/L04BUSA.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019985","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","통학버스","통학버스 신청"],"sourceRow":142,"description":"통학버스 이용신청 방법","guideStatus":"existing"}
+          {"title":"통학버스 신청","miniLabel":"탑승 신청","code":"L04BUSA","path":"pages/L04BUSA.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019985","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","통학버스","통학버스 신청"],"sourceRow":142,"description":"지역별 통학버스 노선을 확인하고 신청내역과 취소·환불을 관리할 수 있어요","guideStatus":"existing"},
+          {"title":"통학버스 안내","miniLabel":"버스 안내","code":"L04BUSI","path":"pages/L04BUSI.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019986","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","통학버스","통학버스 안내"],"description":"통학버스 신청과 운영 변경사항을 게시물로 확인할 수 있어요","contentPath":"pages/L03BUSS.html","contentAnchor":"L04BUSI","guideStatus":"embedded"}
         ]
       },
       {
@@ -693,10 +735,11 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "overviewPath": "pages/L03DORM.html",
         "children": [
+          {"title":"학생생활관 공지사항","miniLabel":"학생생활관 공지사항","code":"L04DMNT","path":"pages/L04DMNT.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019992","directUrl":"https://jjstar.jj.ac.kr/","showDirectLink":false,"sourceMenuPath":["대학생활","학생생활관","학생생활관 공지사항"],"contentPath":"pages/L03DORM.html","contentAnchor":"L04DMNT","guideStatus":"embedded"},
           {"title":"학생생활관 입사 신청","miniLabel":"입사","code":"L04DMAP","path":"pages/L04DMAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020002","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","학생생활관 입사 신청"],"sourceRow":145,"description":"온라인 기숙사 입사신청","guideStatus":"existing"},
-          {"title":"입사서약서 작성","miniLabel":"서약서 작성","code":"L04DMPG","path":"pages/L04DMPG.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020001","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","입사서약서 작성"],"sourceRow":146,"description":"기숙사 입사를 위한 서약서 작성","contentPath":"pages/L03DORM.html","contentAnchor":"L04DMPG","guideStatus":"embedded"},
-          {"title":"관실신청","miniLabel":"관실 신청","code":"L04ROOM","path":"pages/L04ROOM.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019993","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","관실신청"],"sourceRow":147,"description":"원하는 방(관실) 신청","guideStatus":"existing"},
-          {"title":"학생생활관비 납입고지서","miniLabel":"납입 고지서","code":"L04DMBI","path":"pages/L04DMBI.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019998","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","학생생활관비 납입고지서"],"sourceRow":148,"description":"해당학기 기숙사비 납부고지서 확인","contentPath":"pages/L03DORM.html","contentAnchor":"L04DMBI","guideStatus":"embedded"},
+          {"title":"입사서약서 작성","miniLabel":"서약서 작성","code":"L04DMPG","path":"pages/L04DMPG.html","enabled":true,"hideInNav":true,"sourceDomId":"M000020001","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","입사서약서 작성"],"sourceRow":146,"description":"학생생활관 입사정보와 서약 내용을 확인하고 필요한 서류와 동의사항을 작성하는 메뉴에요","contentPath":"pages/L03DORM.html","contentAnchor":"L04DMPG","guideStatus":"embedded"},
+          {"title":"관실신청","miniLabel":"관실 신청","code":"L04ROOM","path":"pages/L04ROOM.html","enabled":true,"hideInNav":false,"sourceDomId":"M000019993","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","관실신청"],"sourceRow":147,"description":"입사 신청정보에 따라 생활관의 층과 호실을 선택하는 메뉴에요","guideStatus":"existing"},
+          {"title":"학생생활관비 납입고지서","miniLabel":"납입 고지서","code":"L04DMBI","path":"pages/L04DMBI.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019998","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","학생생활관비 납입고지서"],"sourceRow":148,"description":"학생생활관비 고지 내역과 납부 안내를 확인하고 납입고지서를 출력하는 메뉴에요","contentPath":"pages/L03DORM.html","contentAnchor":"L04DMBI","guideStatus":"embedded"},
           {"title":"학생생활관비 납부확인서","miniLabel":"납부 확인서","code":"L04DMCF","path":"pages/L04DMCF.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019994","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","학생생활관비 납부확인서"],"sourceRow":149,"description":"전체 기숙사비 납부 결과 및 확인서 출력","contentPath":"pages/L03DORM.html","contentAnchor":"L04DMCF","guideStatus":"embedded"},
           {"title":"늦은귀사신청","miniLabel":"늦은 귀사","code":"L04LATR","path":"pages/L04LATR.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019995","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","늦은귀사신청"],"sourceRow":150,"description":"통금시간 이후 귀사 필요시 신청","contentPath":"pages/L03DORM.html","contentAnchor":"L04LATR","guideStatus":"embedded"},
           {"title":"상벌점","miniLabel":"상벌점","code":"L04PNTS","path":"pages/L04PNTS.html","enabled":true,"hideInNav":true,"sourceDomId":"M000019997","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","학생생활관","상벌점"],"sourceRow":151,"description":"기숙사 유지를 위한 상벌점 조회","contentPath":"pages/L03DORM.html","contentAnchor":"L04PNTS","guideStatus":"embedded","sourceAliases":["상벌점조회"]},
@@ -716,7 +759,7 @@ window.JJSTAR_MENU = [
         "generatedOverview": true,
         "overviewPath": "pages/L03OVTR.html",
         "children": [
-          {"title":"해외 연수 신청","miniLabel":"연수 신청","code":"L04TRAP","path":"pages/L04TRAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020463","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","해외연수","해외 연수 신청"],"sourceRow":156,"description":"어학연수, 교환학생 등 대학 해외 연수 프로그램 참가 신청","guideStatus":"existing"},
+          {"title":"해외 연수 신청","miniLabel":"연수 신청","code":"L04TRAP","path":"pages/L04TRAP.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020463","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","해외연수","해외 연수 신청"],"sourceRow":156,"description":"해외 연수 모집공고를 살펴보고 신청내역을 확인하는 메뉴에요","guideStatus":"existing"},
           {"title":"해외 입·출국 신고","miniLabel":"입출국 신고","code":"L04TRDG","path":"pages/L04TRDG.html","enabled":true,"hideInNav":false,"sourceDomId":"M000020464","directUrl":"https://jjstar.jj.ac.kr/","sourceMenuPath":["대학생활","해외연수","해외 입·출국 신고"],"sourceRow":157,"description":"연수 파견 전 출국 신고 및 복귀 후 입국 신고 접수","guideStatus":"existing"}
         ]
       },

@@ -22,8 +22,8 @@ const all = menu.flatMap(cat => [cat, ...cat.children.flatMap(mid => [mid, ...(m
 // The normal check must work in a fresh clone without local analysis outputs.
 const source = process.argv[2] ? JSON.parse(fs.readFileSync(process.argv[2], 'utf8')) : null;
 assert.equal(service.length, 7);
-assert.equal(groups.length, 41);
-assert.equal(leaves.length, 178);
+assert.equal(groups.length, 43);
+assert.equal(leaves.length, 195);
 assert.equal(new Set(all.map(n => n.code)).size, all.length);
 assert.equal(new Set(all.map(n => n.path)).size, all.length);
 for (const field of ['title', 'miniLabel', 'code', 'path', 'enabled']) {
@@ -59,6 +59,17 @@ for (const [i, leaf] of leaves.entries()) {
 const content = context.window.JJSTAR_CONTENT;
 const paths = new Set(all.map(n => n.path));
 const expectedExternalUrls = {
+  L04CYBR: "https://jjstar.jj.ac.kr/",
+  L04LIBR: "https://jjstar.jj.ac.kr/",
+  L04COLG: "https://jjstar.jj.ac.kr/",
+  L04DPHP: "https://jjstar.jj.ac.kr/",
+  L04GRAD: "https://graduate.jj.ac.kr/graduate/index.do",
+  L04FOOD: "https://jj.ac.kr/jj/campuslife/food.do",
+  L04MAIL: "https://jjstar.jj.ac.kr/",
+  L04MS65: "https://jjstar.jj.ac.kr/",
+  L04RMOT: "https://jjstar.jj.ac.kr/",
+  L04APOC: "https://jjstar.jj.ac.kr/",
+  L04MDWN: "https://jjstar.jj.ac.kr/",
   L04CEGD: 'http://jj.webminwon.kr/',
   L04CEIS: 'http://jj.webminwon.kr/',
   L04CEHI: 'http://jj.webminwon.kr/',
@@ -205,8 +216,43 @@ for (const code of ['L04BEST', 'L04STID', 'L04DBMJ', 'L04READ', 'L04PLEX', 'L04L
 for (const code of ['L04MYCP', 'L04SDMJ']) {
   assert.ok(shownCodes.has(code), `Completed retained guide hidden: ${code}`);
 }
+const generalNotice = leaves.find(node => node.code === 'L04GNNT');
+assert.equal(generalNotice.contentPath, 'pages/L03CMTY.html');
+assert.equal(generalNotice.contentAnchor, 'L04GNNT');
+assert.equal(generalNotice.showDirectLink, false);
+const generalNoticeWithoutExtraction = await content.load({ ...generalNotice, contentAnchor: undefined }, 'https://example.test/guide/');
+assert.ok(!generalNoticeWithoutExtraction.includes('btn-direct'));
+const generalNoticeSource = fs.readFileSync(generalNotice.contentPath, 'utf8');
+const generalNoticeSection = generalNoticeSource.match(/<section\b[^>]*id="L04GNNT"[\s\S]*?<\/section>/)?.[0];
+assert.ok(generalNoticeSection);
+assert.equal((generalNoticeSection.match(/<img\b/g) || []).length, 1);
+assert.ok(!/<p\b|btn-direct|<h[1-6]\b/.test(generalNoticeSection));
+for (const code of ['L04SVNT', 'L04OVNT', 'L04DMNT']) {
+  const notice = leaves.find(node => node.code === code);
+  assert.equal(notice.showDirectLink, false);
+  assert.equal(notice.guideStatus, 'embedded');
+  const raw = fs.readFileSync(notice.contentPath, 'utf8');
+  const anchor = raw.indexOf('id="' + code + '"');
+  const start = raw.lastIndexOf('<section', anchor);
+  const end = raw.indexOf('</section>', anchor);
+  assert.ok(anchor >= 0 && start >= 0 && end > start, code);
+  const section = raw.slice(start, end + 10);
+  assert.equal((section.match(/<img\b/g) || []).length, 1);
+  assert.equal((section.match(/<figcaption\b/g) || []).length, 1);
+  assert.ok(!/<p\b|btn-direct|<h[1-6]\b/.test(section));
+}
+assert.ok(!shownCodes.has('L04EDCRB') && !shownCodes.has('L04SGGD'));
 assert.ok(leaves.some(n => n.code === 'L04NCRD'));
 assert.ok(leaves.some(n => n.code === 'L04NVCR'));
 assert.notEqual(leaves.find(n => n.code === 'L04BEST').path, leaves.find(n => n.code === 'L04CRAP').path);
 assert.ok(!leaves.some(n => /서베이|Survey|Micro/.test(n.title)));
-console.log(`PASS: 7/41/178 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, overview links, ${requests} existing guide loads, retained menu visibility, distinct recommendation routes, source anchors, search, syntax.`);
+
+const busGuide = leaves.find(node => node.code === 'L04BUSI');
+assert.equal(busGuide.sourceDomId, 'M000019986');
+assert.equal(busGuide.contentPath, 'pages/L03BUSS.html');
+assert.equal(busGuide.contentAnchor, 'L04BUSI');
+assert.equal(busGuide.guideStatus, 'embedded');
+assert.equal(JSON.stringify(groups.find(node => node.code === 'L03BUSS').children.map(node => node.code)), JSON.stringify(['L04BUSM', 'L04BUSA', 'L04BUSI']));
+assert.ok(shownCodes.has('L04GTWY'), 'Completed guide hidden: L04GTWY');
+assert.ok(shownCodes.has('L04TRAP'), 'Completed guide hidden: L04TRAP');
+console.log(`PASS: 7/43/195 hierarchy${source ? ' and external source reconciliation' : ''}, unique routes, overview links, ${requests} existing guide loads, retained menu visibility, distinct recommendation routes, source anchors, search, syntax.`);

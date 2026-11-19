@@ -10,9 +10,39 @@
   }
   async function request(url, options) {
     const response = await fetch(url, {cache: 'no-store', ...options});
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || '요청을 처리하지 못했어요');
+    const text = await response.text();
+    let result;
+    try {
+      if (!text.trim()) throw new Error('empty');
+      result = JSON.parse(text);
+      if (!result || typeof result !== 'object') throw new Error('invalid');
+    } catch (_) {
+      const message = text.trim() ? '서버가 올바른 편집 응답을 보내지 않았어요' : '서버 응답이 비어 있어요';
+      const error = new Error(`${message} (HTTP ${response.status})`);
+      error.status = response.status;
+      throw error;
+    }
+    if (!response.ok) {
+      const error = new Error(result.error || `요청을 처리하지 못했어요 (HTTP ${response.status})`);
+      error.status = response.status;
+      error.responseFormat = 'json';
+      error.code = result.code;
+      throw error;
+    }
     return result;
+  }
+  async function saveChanges(payload) {
+    const body = JSON.stringify(payload);
+    const send = () => request('/__editor/save', {method:'POST',
+      headers:{'Content-Type':'application/json','X-Editor-Token':config.token}, body});
+    try { return await send(); }
+    catch (error) {
+      if (error.status !== 403 || error.responseFormat !== 'json') throw error;
+      const current = await request('/__editor/config');
+      if (typeof current.token !== 'string' || !current.token) throw new Error('편집 연결을 갱신하지 못했어요. 문구를 보관한 뒤 편집기를 다시 열어 주세요');
+      config.token = current.token;
+      return send();
+    }
   }
   function blocks() { return [...(doc?.querySelectorAll('[data-local-block]') || [])]; }
   function snapshot() {
@@ -53,10 +83,12 @@
     update();
   }
   function undo() {
+    if (busy) return;
     if (!past.length) return;
     future.push(snapshot()); restore(past.pop());
   }
   function redo() {
+    if (busy) return;
     if (!future.length) return;
     past.push(snapshot()); restore(future.pop());
   }
@@ -92,6 +124,7 @@
     block.before(wrapper); wrapper.append(row); row.append(content); content.append(block);
   }
   function toggleTipBox() {
+    if (busy) return;
     const block = activeBlock;
     const spec = state?.blocks.find(b => b.id === block?.dataset.localBlock);
     if (!block?.isConnected || !spec?.tip?.allowed) {
@@ -102,6 +135,7 @@
     renderTipBox(block); renderGaps(block); update();
   }
   function addGap(side) {
+    if (busy) return;
     const block = activeBlock;
     const spec = state?.blocks.find(b => b.id === block?.dataset.localBlock);
     if (spec && !spec.gap) {
@@ -173,6 +207,7 @@
     return root;
   }
   function apply(format) {
+    if (busy) return;
     if (!selectionRange || selectionRange.collapsed || !activeBlock?.isConnected || !selectionRange.toString().trim()) {
       status('서식을 적용할 문구를 한 문단 안에서 드래그해 주세요', true); return;
     }
@@ -227,6 +262,7 @@
     update();
   }
   function insertText(text) {
+    if (busy) return;
     const selection = doc.getSelection();
     if (!selection.rangeCount) return;
     const range = selection.getRangeAt(0);
@@ -245,8 +281,9 @@
     update();
   }
   async function load(path, force = false) {
+    if (busy && !force) { $('pages').value = state?.path || path; return false; }
     if (!force && changes().length && !confirm('저장하지 않은 변경 내용을 버리고 다른 문서를 열까요?')) {
-      $('pages').value = state.path; return;
+      $('pages').value = state.path; return false;
     }
     busy = true; $('review').disabled = true; status('문서를 불러오고 있어요');
     try {
@@ -262,6 +299,7 @@
         originals.set(e.dataset.localBlock, e.innerHTML);
         e.addEventListener('focus', () => { activeBlock = e; });
         e.addEventListener('beforeinput', event => {
+          if (busy) { event.preventDefault(); return; }
           if (['insertParagraph', 'insertLineBreak'].includes(event.inputType)) {
             event.preventDefault(); insertText('\n');
           } else record();
@@ -283,8 +321,8 @@
       doc.addEventListener('keydown', shortcut);
       const query = new URL(location.href); query.searchParams.set('path', path); history.replaceState(null, '', query);
       $('pages').value = path;
-    } catch (error) { status(error.message, true); busy = false; return; }
-    busy = false; update();
+    } catch (error) { status(error.message, true); busy = false; return false; }
+    busy = false; update(); return true;
   }
   function readable(markup) {
     const t = document.createElement('template');
@@ -321,6 +359,10 @@
   }
   function shortcut(event) {
     if (!(event.ctrlKey || event.metaKey)) return;
+    if (busy) {
+      if (['s', 'z', 'y', 'b'].includes(event.key.toLowerCase())) event.preventDefault();
+      return;
+    }
     if (event.key.toLowerCase() === 's') { event.preventDefault(); review(); }
     if (event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? redo() : undo(); }
     if (event.key.toLowerCase() === 'y') { event.preventDefault(); redo(); }
@@ -346,19 +388,33 @@
     doc.documentElement.dataset.theme = theme;
     doc.body.dataset.theme = theme;
   };
-  $('save').onclick = async () => {
+  async function saveDocument() {
+    if (busy) return;
     busy = true; $('save').disabled = true;
+    let saved = false;
     try {
-      const y = frame.contentWindow.scrollY;
-      const result = await request('/__editor/save', {method:'POST', headers:{'Content-Type':'application/json','X-Editor-Token':config.token},
-        body:JSON.stringify({path:state.path, versions:state.versions, changes:changes()})});
+      let y = 0;
+      try { y = frame.contentWindow.scrollY; } catch (_) {}
+      const result = await saveChanges({path:state.path, versions:state.versions, changes:changes()});
+      saved = true;
       $('reviewDialog').close();
-      await load(state.path, true);
-      frame.contentWindow.scrollTo(0, y);
+      if (!await load(state.path, true)) {
+        status(`원본 파일 저장 완료 · 미리보기를 다시 불러오지 못했어요. 편집 중인 문구는 그대로 두었어요. [다시 불러오기]로 확인해 주세요 · 백업: ${result.backup || '변경 없음'}`, true);
+        return;
+      }
+      try { frame.contentWindow.scrollTo(0, y); }
+      catch (_) {
+        status(`원본 파일 저장 완료 · 이전 스크롤 위치를 복원하지 못했어요. 저장된 내용은 미리보기에서 확인할 수 있어요 · 백업: ${result.backup || '변경 없음'}`, true);
+        return;
+      }
       status(`저장 완료 · 백업: ${result.backup || '변경 없음'} · 일반 프리뷰는 새로고침해 주세요`);
-    } catch (error) { status(error.message, true); $('reviewDialog').close(); }
+    } catch (error) {
+      status(saved ? `원본 파일 저장 완료 · 미리보기 갱신 중 오류가 났어요: ${error.message}` : error.message, true);
+      $('reviewDialog').close();
+    }
     finally { busy = false; $('save').disabled = false; $('review').disabled = !changes().length; }
-  };
+  }
+  $('save').onclick = saveDocument;
   document.addEventListener('keydown', shortcut);
   window.addEventListener('beforeunload', event => { if (changes().length) { event.preventDefault(); event.returnValue = ''; } });
   function pageOptions() {

@@ -77,6 +77,13 @@ python tools/local-editor/server.py --port 8765
 - 자동 백업은 `outputs/local-editor-backups/저장시각/` 아래에 원래 폴더 구조대로 남아요
 - 편집기의 되돌리기는 저장 전 편집 이력에만 적용돼요. 저장한 내용을 되돌리려면 백업과 원본을 비교해 필요한 문구를 복구해요
 
+### 저장 중 오류가 날 때
+
+- 서버를 다시 실행한 뒤 오래 열린 편집 창에서 저장 권한이 만료되면 연결 정보를 새로 받아 한 번 다시 저장해요
+- 파일 쓰기 권한이 거부되면 원본 파일과 `outputs/local-editor-backups` 폴더의 읽기 전용 설정, 다른 프로그램의 파일 잠금을 확인해요. 입력한 문구는 편집 화면에 남아요
+- 파일 변경 충돌 안내가 나오면 편집한 문구를 복사해 두고 **다시 불러오기** 후 적용해요. 다른 창에서 바꾼 내용을 덮어쓰지 않아요
+- **저장 완료** 뒤 미리보기 갱신 안내가 나오면 원본 저장은 끝난 상태예요. 저장을 반복하기보다 일반 프리뷰를 새로고침해 확인해요
+
 ## 편집 범위
 
 본문의 문구·소제목·이미지 설명을 편집해요. 메뉴명, 자동 생성 메뉴 목록, 이미지 파일·배치, 스크립트로 생성되는 내용은 기존 코드나 설정에서 관리해요
@@ -93,5 +100,6 @@ VS Code 터미널(PowerShell):
 python tools/local-editor/test_server.py
 node --check tools/local-editor/editor.js
 node tools/local-editor/test-formatting.mjs
+node tools/local-editor/test-saving.mjs
 node scripts/test-menu.mjs
 ```
