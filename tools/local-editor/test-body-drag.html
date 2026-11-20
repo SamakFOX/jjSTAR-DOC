@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>본문 드래그 검증</title></head>
+<body><h1>본문 드래그 검증</h1><pre id="result">실행 중</pre>
+<script src="body-drag.js"></script>
+<script>
+(async () => {
+  const results = [], assert = (value,message) => { if (!value) throw new Error(message); };
+  const sleep = ms => new Promise(resolve => setTimeout(resolve,ms));
+  const frameTick = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  let current;
+  async function fixture(markup = '<section id="a" class="item"><h2>첫 영역</h2><p>본문 하나</p></section><section id="b" class="item"><h2>둘째 영역</h2><p>본문 둘</p></section><section id="c" class="item"><h2>셋째 영역</h2><p>본문 셋</p></section>', css = '') {
+    if (current) { current.api.destroy(); current.frame.remove(); }
+    const frame = document.createElement('iframe'); frame.width = '760'; frame.height = '420'; frame.title = '본문 드래그 시험 화면'; document.body.append(frame);
+    const doc = frame.contentDocument;
+    doc.open(); doc.write('<!doctype html><html><head><style>html{scroll-behavior:auto}body{margin:0;padding:40px;font:14px sans-serif}article{width:600px;max-width:100%;min-height:200px}.item{box-sizing:border-box;height:80px;padding:10px;margin:14px 0;border:1px solid #ccc}h2,p{margin:0 0 4px}figure{margin:14px 0}'+css+'</style></head><body><article id="root">'+markup+'</article></body></html>'); doc.close();
+    await frameTick();
+    const root = doc.getElementById('root'), state = {selected:doc.getElementById('a'),selectedItems:null,busy:false,noTargets:false,blocked:new Set(),calls:[],changes:[],errors:[],targetQueries:0};
+    const normal = element => element?.closest('figure,[data-image-group]') || element;
+    const available = source => state.noTargets || source?.hasAttribute('data-locked') ? [] : [...source.parentElement.children].filter(target => target !== source && !target.hasAttribute('data-locked') && !state.blocked.has(target));
+    const api = JJSTAR_EDITOR_BODY_DRAG.create({doc,root,getSelection:() => state.selected,getSelections:() => state.selectedItems || [state.selected],getParent:() => state.parent,
+      selectParent:() => { state.selected=state.parent;state.selectedItems=null;state.parent=null;state.parentSelections=(state.parentSelections||0)+1; },isBusy:() => state.busy,
+      normalize:normal,getTargets:source => { state.targetQueries++; return state.overrideTargets || available(source); },
+      canDrop:(source,target) => !state.noTargets && !source.hasAttribute('data-locked') && !target.hasAttribute('data-locked') && !state.blocked.has(target),
+      move:(source,target,side) => {
+        if (state.throwMove) throw new Error('이동 조건이 변경됐어요');
+        const members = (state.selectedItems || [source]).slice().sort((a,b) => a === b ? 0 : a.compareDocumentPosition(b) & 4 ? -1 : 1);
+        state.calls.push({source:source.id,target:target.id,side,members:members.map(element => element.id)});
+        const fragment=doc.createDocumentFragment();members.forEach(element=>fragment.append(element));
+        if (side === 'before') target.before(fragment); else target.after(fragment);
+      },select:element => { state.selected = element; },onDragChange:value => state.changes.push(value),onError:error => state.errors.push(error.message)});
+    const handle = doc.querySelector('.local-body-drag-handle'), line = doc.querySelector('.local-body-drop-line');
+    const start = () => {
+      const transfer = new DataTransfer(), event = new DragEvent('dragstart',{bubbles:true,cancelable:true,dataTransfer:transfer});
+      handle.dispatchEvent(event); return {transfer,event};
+    };
+    const point = (target,side = 'after',axis = 'y') => {
+      const rect = target.getBoundingClientRect();
+      return {clientX:axis === 'x' ? rect.left + rect.width * (side === 'before' ? .2 : .8) : rect.left + rect.width / 2,
+        clientY:axis === 'y' ? rect.top + rect.height * (side === 'before' ? .2 : .8) : rect.top + rect.height / 2};
+    };
+    const event = (type,transfer,coordinates,target = doc) => {
+      const result = new DragEvent(type,{bubbles:true,cancelable:true,dataTransfer:transfer,...coordinates}); target.dispatchEvent(result); return result;
+    };
+    current = {frame,doc,root,state,api,handle,line,start,point,event}; return current;
+  }
+  async function test(name,run) { await run(); results.push({name,pass:true}); }
+  try {
+    await test('본문과 분리된 손잡이를 표시하고 원본 속성 유지',async () => {
+      const f = await fixture(), before = f.root.outerHTML;
+      f.api.refresh(); assert(!f.handle.hidden,'손잡이 누락');
+      assert(!f.root.contains(f.handle) && !f.root.contains(f.line),'편집 UI가 본문 안에 생성됨');
+      assert(f.root.outerHTML === before && !f.root.querySelector('[draggable],[data-local-editor-ui]'),'본문에 편집 속성 삽입');
+    });
+    await test('이동 가능한 형제가 없으면 손잡이 숨김',async () => {
+      const f = await fixture(); f.state.noTargets = true; f.api.refresh();
+      assert(f.handle.hidden,'형제 없는 영역에 손잡이 노출');
+      assert(f.start().event.defaultPrevented,'허용되지 않은 드래그 시작');
+    });
+    await test('본문 상위 묶음 버튼으로 묶음 전체를 저장 변경 없이 선택',async () => {
+      const f=await fixture('<section id="group"><p id="a">안쪽 항목</p></section><p id="b">바깥 항목</p>'),before=f.root.outerHTML;
+      f.state.parent=f.doc.getElementById('group');f.api.refresh();
+      const button=f.doc.querySelector('.local-body-parent');
+      assert(f.handle.hidden&&!button.hidden,'안쪽 이동 대상이 없어도 상위 선택 버튼은 표시');
+      button.click();
+      assert(f.state.parentSelections===1&&f.state.selected.id==='group'&&!f.handle.hidden&&button.hidden,'상위 전체 선택 실패');
+      assert(f.root.outerHTML===before&&!f.state.calls.length,'묶음 선택이 원본을 변경');
+    });
+    await test('고정 본문·숨긴 화면에서는 상위 묶음 버튼도 숨김',async () => {
+      const f=await fixture();f.state.parent=f.root;f.api.refresh();
+      const button=f.doc.querySelector('.local-body-parent');assert(button.hidden,'본문 저장 컨테이너를 상위 선택');
+      f.state.parent=f.doc.getElementById('a');f.state.selected=f.state.parent.querySelector('p');f.api.refresh();assert(!button.hidden,'상위 선택 버튼 누락');
+      f.state.busy=true;f.api.refresh();assert(button.hidden,'잠금 상태에서 상위 선택 표시');
+      f.state.busy=false;f.root.hidden=true;f.api.refresh();assert(button.hidden,'숨긴 본문에서 상위 선택 표시');
+    });
+    await test('읽기 전용과 숨긴 본문은 손잡이 금지',async () => {
+      const f = await fixture(); f.state.busy = true; f.api.refresh(); assert(f.handle.hidden,'읽기 전용에서 노출');
+      f.state.busy = false; f.root.hidden = true; f.api.refresh(); assert(f.handle.hidden,'숨긴 본문에서 노출');
+      f.root.hidden = false; f.api.refresh(); assert(!f.handle.hidden,'복귀 후 손잡이 미표시');
+      f.state.selected.style.visibility = 'hidden'; f.api.refresh(); assert(f.handle.hidden,'숨긴 선택 영역에서 노출');
+    });
+    await test('텍스트·그림 자체에서는 드래그를 시작하지 않음',async () => {
+      const f = await fixture(), paragraph = f.doc.querySelector('#a p');
+      paragraph.dispatchEvent(new DragEvent('dragstart',{bubbles:true,dataTransfer:new DataTransfer()}));
+      assert(!f.state.changes.length && f.line.hidden,'본문 드래그가 손잡이 없이 시작됨');
+      assert(!paragraph.hasAttribute('draggable') && !paragraph.hasAttribute('contenteditable'),'본문 편집 속성을 바꿈');
+    });
+    await test('전달 데이터에 일반 텍스트와 HTML을 넣지 않음',async () => {
+      const f = await fixture(), {transfer} = f.start();
+      assert(transfer.getData('application/x-jjstar-block') === 'move','이동 데이터 누락');
+      assert(!transfer.getData('text/plain') && !transfer.getData('text/html'),'부모 편집기에 삽입될 문자 데이터 생성');
+      f.api.cancel();
+    });
+    await test('세로 형제의 앞뒤 파란 삽입선과 이동',async () => {
+      const f = await fixture(), target = f.doc.getElementById('b'), {transfer} = f.start();
+      f.event('dragover',transfer,f.point(target,'before'));
+      assert(!f.line.hidden && f.line.dataset.axis === 'y' && f.line.dataset.side === 'before','앞 삽입선 누락');
+      f.event('dragover',transfer,f.point(target,'after'));
+      assert(f.line.dataset.side === 'after','뒤 삽입선 갱신 실패');
+      f.event('drop',transfer,f.point(target,'after'),target);
+      assert(f.state.calls.length === 1 && target.nextElementSibling.id === 'a','형제 드롭 실패');
+      assert(f.line.hidden && f.state.changes.join(',') === 'true,false','드롭 뒤 상태 정리 실패');
+    });
+    await test('가로 카드에는 세로 삽입선 적용',async () => {
+      const f = await fixture(undefined,'article{display:flex;gap:12px}.item{width:180px;flex:0 0 180px}');
+      const target = f.doc.getElementById('b'), {transfer} = f.start();
+      f.event('dragover',transfer,f.point(target,'before','x'));
+      assert(!f.line.hidden && f.line.dataset.axis === 'x' && f.line.dataset.side === 'before','가로 카드 삽입선 오류');
+      assert(parseFloat(f.line.style.height) > parseFloat(f.line.style.width),'삽입선 방향 오류'); f.api.cancel();
+    });
+    await test('이미지·캡션 선택을 이미지 묶음으로 정규화',async () => {
+      const f = await fixture('<figure id="a" class="item"><img alt="예시"><figcaption>이미지 설명</figcaption></figure><p id="b" class="item">다음 문단</p>');
+      f.state.selected = f.doc.querySelector('figcaption'); f.api.refresh(); const before = f.root.outerHTML;
+      f.start(); assert(f.state.selected.id === 'a','캡션을 별도 이동 단위로 사용');
+      f.api.cancel(); assert(f.root.outerHTML === before,'묶음 정규화로 본문 변경');
+    });
+    await test('다중선택 드래그 시작은 선택 개수와 DOM 순서를 유지',async () => {
+      const f=await fixture(),a=f.doc.getElementById('a'),c=f.doc.getElementById('c');
+      f.state.selected=c;f.state.selectedItems=[c,a];f.api.refresh();f.start();
+      assert(f.state.selectedItems.length===2&&f.state.selected===c,'드래그 시작으로 단일 선택됨');
+      assert(f.handle.dataset.selectionCount==='2','다중 선택 손잡이 개수 누락');f.api.cancel();
+    });
+    await test('비연속 선택 사이의 미선택 형제에도 놓을 수 있음',async () => {
+      const f=await fixture(),a=f.doc.getElementById('a'),b=f.doc.getElementById('b'),c=f.doc.getElementById('c');
+      f.state.selected=c;f.state.selectedItems=[c,a];f.api.refresh();const {transfer}=f.start();
+      f.event('dragover',transfer,f.point(b));assert(!f.line.hidden,'선택 전체 사각형이 사이 항목을 막음');
+      f.event('drop',transfer,f.point(b));
+      assert([...f.root.children].map(element=>element.id).join(',')==='b,a,c','다중 이동 순서 또는 미선택 항목 손실');
+      assert(f.state.calls.length===1&&f.state.calls[0].members.join(',')==='a,c','다중 이동이 한 번에 전달되지 않음');
+    });
+    await test('선택 멤버 위와 서로 다른 부모 선택은 드롭 금지',async () => {
+      const f=await fixture(),a=f.doc.getElementById('a'),c=f.doc.getElementById('c');
+      f.state.selected=c;f.state.selectedItems=[a,c];f.api.refresh();const {transfer}=f.start();
+      f.event('dragover',transfer,f.point(a));assert(f.line.hidden,'선택 멤버를 이동 대상으로 표시');
+      f.event('drop',transfer,f.point(a));assert(!f.state.calls.length,'선택 멤버 안으로 이동');
+      f.state.selected=a;f.state.selectedItems=[a,f.doc.querySelector('#b p')];f.api.refresh();
+      assert(f.handle.hidden,'다른 부모의 다중 선택을 허용');
+    });
+    await test('다른 부모·자기 하위·잠긴 대상 거부',async () => {
+      const f = await fixture(), source = f.doc.getElementById('a'), child = f.doc.querySelector('#b p');
+      f.state.overrideTargets = [child,source.querySelector('p')]; f.api.refresh(); assert(f.handle.hidden,'다른 부모 또는 하위 항목 허용');
+      f.state.overrideTargets = null; f.doc.getElementById('b').setAttribute('data-locked',''); f.doc.getElementById('c').setAttribute('data-locked','');
+      f.api.refresh(); assert(f.handle.hidden,'잠긴 대상만 있어도 손잡이 표시');
+    });
+    await test('드롭 직전 조건을 다시 확인',async () => {
+      const f = await fixture(), target = f.doc.getElementById('b'), before = f.root.outerHTML, {transfer} = f.start();
+      f.event('dragover',transfer,f.point(target)); f.state.noTargets = true;
+      f.event('drop',transfer,f.point(target));
+      assert(!f.state.calls.length && f.root.outerHTML === before && f.line.hidden,'달라진 조건을 무시하고 이동');
+    });
+    await test('Escape와 dragend 취소는 문서 유지',async () => {
+      for (const kind of ['Escape','dragend']) {
+        const f = await fixture(), before = f.root.outerHTML, {transfer} = f.start();
+        f.event('dragover',transfer,f.point(f.doc.getElementById('b')));
+        if (kind === 'Escape') f.doc.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
+        else f.event('dragend',transfer,{});
+        assert(!f.state.calls.length && f.root.outerHTML === before && f.line.hidden,'취소 후 본문 또는 표시 변경');
+        assert(f.state.changes.join(',') === 'true,false','취소 알림 누락');
+      }
+    });
+    await test('영역 밖 드롭과 외부 드래그를 처리하지 않음',async () => {
+      const f = await fixture(), external = new DataTransfer();
+      assert(!f.event('dragover',external,{clientX:100,clientY:100}).defaultPrevented,'외부 드래그 가로채기');
+      const {transfer} = f.start(); f.event('dragover',transfer,{clientX:-100,clientY:-100});
+      assert(f.line.hidden,'영역 밖에 삽입선 표시');
+      f.event('drop',transfer,{clientX:-100,clientY:-100}); assert(!f.state.calls.length && f.state.changes.at(-1) === false,'밖 드롭이 이동 또는 상태 잔존');
+    });
+    await test('본문 drop 기본동작과 상위 전파 방지',async () => {
+      const f = await fixture(), target = f.doc.getElementById('b'); let bubbled = 0;
+      target.addEventListener('drop',() => bubbled++); const {transfer} = f.start();
+      const event = f.event('drop',transfer,f.point(target),target);
+      assert(event.defaultPrevented && !bubbled,'기본 문자 삽입 또는 상위 drop 전파');
+    });
+    await test('긴 선택 영역의 보이는 위쪽에 손잡이 유지',async () => {
+      const f = await fixture(), tail = f.doc.createElement('div'); tail.style.height = '800px'; f.doc.body.append(tail);
+      f.doc.getElementById('a').style.height = '700px'; f.doc.defaultView.scrollTo(0,180); f.api.refresh();
+      const rect = f.handle.getBoundingClientRect();
+      assert(!f.handle.hidden && rect.top >= 0 && rect.bottom <= f.doc.defaultView.innerHeight,'긴 선택의 손잡이가 화면 밖으로 나감');
+      f.doc.defaultView.scrollTo(0,900); f.api.refresh(); assert(f.handle.hidden,'완전히 화면 밖인 선택의 손잡이 노출');
+    });
+    await test('resize와 scroll 뒤 손잡이 좌표 재계산',async () => {
+      const f = await fixture(), initial = parseFloat(f.handle.style.left);
+      f.root.style.marginLeft = '35px'; f.doc.defaultView.dispatchEvent(new Event('resize')); await frameTick();
+      assert(parseFloat(f.handle.style.left) > initial,'resize 좌표 미갱신');
+      f.doc.defaultView.dispatchEvent(new Event('scroll')); await frameTick(); assert(!f.handle.hidden,'scroll 뒤 손잡이 누락');
+    });
+    await test('끝부분 자동 스크롤과 취소 후 정지',async () => {
+      const markup = Array.from({length:18},(_,index) => '<section id="'+String.fromCharCode(97+index)+'" class="item">항목 '+index+'</section>').join('');
+      const f = await fixture(markup), {transfer} = f.start();
+      f.event('dragover',transfer,{clientX:180,clientY:f.doc.defaultView.innerHeight-4}); await sleep(100);
+      assert(f.doc.defaultView.scrollY > 0,'끝부분 자동 스크롤 미작동');
+      f.api.cancel(); const y = f.doc.defaultView.scrollY; await sleep(70); assert(f.doc.defaultView.scrollY === y,'취소 후 스크롤 지속');
+    });
+    await test('스크롤은 같은 선택의 대상 목록을 재탐색하지 않음',async () => {
+      const f = await fixture(), count = f.state.targetQueries;
+      f.doc.defaultView.dispatchEvent(new Event('scroll')); await frameTick();
+      assert(f.state.targetQueries === count,'좌표 갱신마다 대상 전수 조회');
+      assert(!f.handle.hidden,'좌표 갱신 후 손잡이 누락');
+    });
+    await test('resize로 형제 표시 상태가 바뀌면 이동 가능 여부 갱신',async () => {
+      const f = await fixture(), target = f.doc.getElementById('b');
+      target.style.display = 'none';f.doc.getElementById('c').style.display = 'none';f.api.refresh();
+      assert(f.handle.hidden,'보이는 형제 없이 손잡이 표시');
+      target.style.display = 'block';f.doc.defaultView.dispatchEvent(new Event('resize'));await frameTick();
+      assert(!f.handle.hidden,'resize 뒤 새로 보이는 형제 누락');
+      target.style.display = 'none';f.doc.defaultView.dispatchEvent(new Event('resize'));await frameTick();
+      assert(f.handle.hidden,'resize 뒤 숨긴 형제의 캐시 잔존');
+    });
+    await test('이미지 로딩 뒤 이동 가능한 형제 상태 갱신',async () => {
+      const f = await fixture(), target = f.doc.getElementById('b'), image = f.doc.createElement('img');target.append(image);
+      target.style.display = 'none';f.doc.getElementById('c').style.display = 'none';f.api.refresh();
+      assert(f.handle.hidden,'보이는 형제 없이 손잡이 표시');
+      target.style.display = 'block';image.dispatchEvent(new Event('load'));await frameTick();
+      assert(!f.handle.hidden,'이미지 load 뒤 대상 갱신 누락');
+    });
+    await test('화면 중앙 드래그는 자동 스크롤 프레임을 계속 예약하지 않음',async () => {
+      const f = await fixture(), view = f.doc.defaultView, original = view.requestAnimationFrame;
+      let frames = 0;
+      view.requestAnimationFrame = callback => { frames++; return original.call(view,callback); };
+      try {
+        const {transfer} = f.start();f.event('dragover',transfer,f.point(f.doc.getElementById('b')));await sleep(100);
+        assert(frames < 3,'스크롤이 필요 없는 위치에서 지속적인 프레임 예약');
+        f.api.cancel();
+      } finally { view.requestAnimationFrame = original; }
+    });
+    await test('읽기 전용 전환 중 드래그 취소',async () => {
+      const f = await fixture(), {transfer} = f.start(); f.event('dragover',transfer,f.point(f.doc.getElementById('b')));
+      f.state.busy = true; f.api.refresh();
+      assert(f.handle.hidden && f.line.hidden && f.state.changes.join(',') === 'true,false','읽기 전용 전환 후 드래그 잔존');
+    });
+    await test('이동 오류와 destroy는 모든 UI·이벤트 정리',async () => {
+      const f = await fixture(); f.state.throwMove = true; const {transfer} = f.start();
+      f.event('drop',transfer,f.point(f.doc.getElementById('b')));
+      assert(f.line.hidden && f.state.errors.length === 1 && f.state.changes.at(-1) === false,'이동 오류 후 정리 실패');
+      f.start(); f.api.destroy(); f.api.destroy();
+      assert(!f.doc.querySelector('[data-local-editor-ui="body-drag"]'),'destroy 후 편집 UI 잔존');
+      assert(!f.event('drop',new DataTransfer(),{clientX:100,clientY:100}).defaultPrevented,'destroy 후 이벤트 처리 잔존');
+    });
+    document.title = 'PASS · 본문 드래그 검증'; document.getElementById('result').textContent = JSON.stringify({pass:true,count:results.length,results},null,2);
+  } catch (error) {
+    document.title = 'FAIL · 본문 드래그 검증'; document.getElementById('result').textContent = JSON.stringify({pass:false,count:results.length,results,error:error.message,stack:error.stack},null,2);
+  } finally { if (current) { current.api.destroy(); current.frame.remove(); } }
+})();
+</script></body></html>

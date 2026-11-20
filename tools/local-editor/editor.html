@@ -32,10 +32,14 @@
     <button data-gap="clear">추가 GAP 취소</button>
     <button id="undo" disabled>되돌리기</button>
     <button id="redo" disabled>다시 실행</button>
-    <label><input type="checkbox" id="dark"> 다크 화면</label>
+    <div class="view-controls">
+      <button id="codeToggle" type="button" aria-pressed="false" aria-controls="sourceView" disabled>코드로 보기</button>
+      <label><input type="checkbox" id="dark"> 다크 화면</label>
+    </div>
   </div>
-  <p class="help">본문을 클릭해서 편집하고 왼쪽에서 구성을 추가해요 · 이미지를 더블클릭하면 파일명·설명을 설정해요 · Ctrl+S는 저장 전 확인</p>
+  <p class="help">Ctrl+클릭으로 여러 항목, Shift+클릭으로 범위를 선택해 함께 이동해요 · 글자 드래그: 문구 선택 · 이미지 더블클릭: 파일명·설명 · Ctrl+S: 저장 전 확인</p>
   <div id="status" role="status">편집기를 준비하고 있어요</div>
+  <nav id="selectionPath" class="selection-path" aria-label="본문 선택 경로" hidden></nav>
   <main class="editor-workspace">
     <aside class="structure-panel" aria-label="문서 구성 편집">
       <section class="panel-section">
@@ -71,11 +75,23 @@
         <p id="selectedBlock" class="selected-block">본문이나 구성 목록에서 항목을 선택해 주세요</p>
         <div class="block-actions"><button id="moveUp">위로</button><button id="moveDown">아래로</button><button id="duplicateBlock">복제</button><button id="deleteBlock" class="danger">삭제</button></div>
         <button id="editImage" class="full-width">이미지 파일명·설명</button>
+        <div class="spacing-controls">
+          <label for="spacingSize">선택 앞·뒤 여백</label>
+          <select id="spacingSize" aria-label="앞뒤 여백 크기">
+            <option value="0">0px · 여백 제거</option><option value="8">8px</option><option value="12">12px</option><option value="16">16px</option><option value="24" selected>24px</option><option value="32">32px</option><option value="48">48px</option><option value="70">70px</option>
+          </select>
+          <div class="spacing-actions"><button id="spacingBefore" type="button">앞 여백</button><button id="spacingAfter" type="button">뒤 여백</button><button id="spacingClear" type="button">여백 제거</button></div>
+        </div>
         <p class="panel-help">삭제와 순서 변경도 저장 전에는 되돌릴 수 있어요</p>
       </section>
     </aside>
     <iframe id="preview" title="가이드 편집 프리뷰" sandbox="allow-same-origin"></iframe>
+    <section id="sourceView" aria-label="본문 HTML 보기" hidden>
+      <p>현재 편집 내용의 본문 HTML · 읽기 전용</p>
+      <textarea id="sourceCode" readonly spellcheck="false" wrap="off" aria-label="현재 편집 내용의 HTML 코드"></textarea>
+    </section>
   </main>
+  <button id="autoSpacing" type="button" title="이동한 이미지와 문구 사이의 좁은 간격을 보정해요" hidden>간격 자동보정</button>
   <dialog id="reviewDialog">
     <h2>변경 내용 확인</h2>
     <p>문구·구성·이미지 설정을 원본에 저장하며, 저장 전 파일은 자동으로 백업해요</p>
@@ -90,6 +106,7 @@
     <p class="panel-help">아직 없는 파일명도 설정할 수 있어요 같은 이름의 이미지를 assets/images 폴더에 넣으면 가이드에 표시돼요</p>
     <div class="actions"><button id="imageCancel">취소</button><button id="imageApply" class="primary">적용</button></div>
   </dialog>
+  <script src="/tools/local-editor/body-drag.js"></script>
   <script src="/__editor/structure.js"></script>
   <script src="/__editor/editor.js"></script>
 </body>

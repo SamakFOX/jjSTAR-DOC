@@ -17,26 +17,128 @@
   }
   const iframe = document.createElement('iframe'); iframe.hidden = true; document.body.append(iframe);
   const doc = iframe.contentDocument;
-  doc.open(); doc.write('<!doctype html><html><head></head><body><section class="guide-detail"><!--local-region:r0:start--><h1>상단 제목</h1><!--local-region:r0:end--><!--local-region:r1:start--><section id="T1"><h2 data-local-block="0">원래 섹션</h2><p data-local-block="1">원래 설명</p><figure class="guide-image-slot"><img src="/assets/images/original.webp" alt="원래 이미지"><figcaption data-local-block="2">원래 설명 이미지</figcaption></figure></section><!--local-region:r1:end--><!--local-region:r2:start--><p data-local-block="3">마지막 문단</p><!--local-region:r2:end--></section></body></html>'); doc.close();
+  doc.open(); doc.write('<!doctype html><html><head></head><body><section class="guide-detail"><!--local-region:r0:start--><h1>상단 제목</h1><!--local-region:r0:end--><!--local-region:r1:start--><section id="T1"><h2 data-local-block="0">원래 섹션</h2><p data-local-block="1">원래 설명</p><figure class="guide-image-slot"><img src="/assets/images/original.webp" alt="원래 이미지"><figcaption data-local-block="2">원래 설명 이미지</figcaption></figure></section><!--local-region:r1:end--><!--local-region:r2:start--><p data-local-block="3">마지막 문단</p><!--local-region:r2:end--><!--local-region:r3:start--><h2>고정 경계</h2><!--local-region:r3:end--><!--local-region:r4:start--><div class="mb-3"><img src="/assets/images/legacy.webp" alt="기존 이미지"><p data-local-block="4">기존 이미지 캡션</p></div><!--local-region:r4:end--></section></body></html>'); doc.close();
   const state = {path:'pages/L04SAMPLE.html',structure:{allowed:true},regions:[
     {id:'r0',tag:'h1',label:'상단 제목',protected:true,anchorIds:[]},
     {id:'r1',tag:'section',label:'원래 섹션',protected:false,anchorIds:['T1']},
-    {id:'r2',tag:'p',label:'마지막 문단',protected:false,anchorIds:[]}
+    {id:'r2',tag:'p',label:'마지막 문단',protected:false,anchorIds:[]},
+    {id:'r3',tag:'h2',label:'고정 경계',protected:true,anchorIds:[]},
+    {id:'r4',tag:'div',label:'기존 이미지 캡션',protected:false,anchorIds:[]}
   ]};
-  const errors = [], history = [];
-  let api, count = 0;
+  const errors = [], history = [], selections = [], moves = [];
+  let api, count = 0, busy = false;
   const confirm = window.confirm; window.confirm = () => true;
   const bindText = () => doc.querySelectorAll('[data-local-block]').forEach(element => element.contentEditable = 'true');
-  api = JJSTAR_EDITOR_BLOCKS.create({doc,state,ui,beforeChange:() => history.push(api.snapshot()),onChange:() => count++,bindText,isBusy:() => false,message:(message,error) => { if (error) errors.push(message); },request:async () => ({images:[{name:'existing.webp',path:'assets/images/existing.webp'}]})});
+  api = JJSTAR_EDITOR_BLOCKS.create({doc,state,ui,beforeChange:() => history.push(api.snapshot()),onChange:() => count++,bindText,isBusy:() => busy,message:(message,error) => { if (error) errors.push(message); },request:async () => ({images:[{name:'existing.webp',path:'assets/images/existing.webp'}]}),onSelectionChange:(element,path) => selections.push({element,path}),onMove:elements => moves.push(elements)});
+  const initial = api.snapshot();
   const select = text => {
-    const button = [...ui.outline.querySelectorAll('button')].find(button => button.textContent.includes(text));
+    const button = [...ui.outline.querySelectorAll('.outline-item')].find(button => button.textContent.includes(text));
     assert(button,'선택할 영역 없음: ' + text); button.onclick();
   };
   const test = (name,fn) => { fn(); results.push({name,pass:true}); };
+  const rowFor = element => {
+    api.select(element);
+    const row = ui.outline.querySelector('.outline-row.selected');
+    assert(row,'선택한 트리 행이 없음'); return row;
+  };
+  const drop = (source,target,side = 'after') => {
+    const from = rowFor(source), to = rowFor(target), transfer = new DataTransfer();
+    to.getBoundingClientRect = () => ({top:10,height:20,bottom:30,left:0,right:200,width:200});
+    from.dispatchEvent(new DragEvent('dragstart',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+    const clientY = side === 'before' ? 15 : 25;
+    const over = new DragEvent('dragover',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY});
+    to.dispatchEvent(over);
+    to.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY}));
+    from.dispatchEvent(new DragEvent('dragend',{bubbles:true,dataTransfer:transfer}));
+    return over.defaultPrevented;
+  };
+  const itemByText = text => {
+    const item = [...ui.outline.querySelectorAll('.outline-item')].find(item => item.textContent.includes(text));
+    assert(item,'선택할 항목 없음: ' + text); return item;
+  };
+  const clickItem = (text,modifiers = {}) => itemByText(text).dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,...modifiers}));
+  const multiFixture = () => {
+    api.restore(initial); doc.getSelection()?.removeAllRanges(); history.length = 0;
+    const section = doc.getElementById('T1');
+    for (const [index,text] of ['다중 가','다중 나','다중 다','다중 라'].entries()) {
+      const paragraph = doc.createElement('p'); paragraph.id = 'multi-' + index; paragraph.textContent = text; section.append(paragraph);
+    }
+    api.refresh();
+    return [...section.querySelectorAll('[id^="multi-"]')];
+  };
+  const multiOrder = () => [...doc.getElementById('T1').children].filter(element => element.id.startsWith('multi-')).map(element => element.id).join(',');
+  const dropSelected = (sourceText,targetText,side = 'after') => {
+    const from = itemByText(sourceText).closest('.outline-row'), to = itemByText(targetText).closest('.outline-row'), transfer = new DataTransfer();
+    to.getBoundingClientRect = () => ({top:10,height:20,bottom:30,left:0,right:200,width:200});
+    from.dispatchEvent(new DragEvent('dragstart',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+    to.dispatchEvent(new DragEvent('dragover',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY:side === 'before' ? 15 : 25}));
+    to.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY:side === 'before' ? 15 : 25}));
+    from.dispatchEvent(new DragEvent('dragend',{bubbles:true,dataTransfer:transfer}));
+  };
+  const parentFixture = (top = false) => {
+    api.restore(initial); doc.getSelection()?.removeAllRanges();
+    const group = doc.createElement('div'); group.id = 'parent-group'; group.className = 'space-y-4 mb-8';
+    for (let number = 1; number <= 5; number++) {
+      const row = doc.createElement('div'); row.className = 'flex gap-4 items-start'; row.id = 'parent-row-' + number;
+      row.innerHTML = '<div>' + number + '</div><p>부모 행 ' + number + '</p>'; group.append(row);
+    }
+    if (top) {
+      select('마지막 문단'); ui.insertType.value = 'section'; ui.insertPosition.value = 'after'; ui.insertBlock.onclick();
+      api.getSelectedElements()[0].replaceWith(group); api.markText(group);
+    } else doc.getElementById('T1').append(group);
+    api.refresh(); history.length = 0;
+    return {group,rows:[...group.children]};
+  };
+  const parentRowItem = element => {
+    const title = '묶음 · ' + element.textContent.trim().replace(/\s+/g,' ').slice(0,48);
+    const item = [...ui.outline.querySelectorAll('.outline-item')].find(item => item.textContent === title);
+    assert(item,'부모 행을 찾지 못함: ' + title); return item;
+  };
+  const chooseRows = (rows,count = rows.length) => {
+    api.select(rows[0]);
+    rows.slice(1,count).forEach(row => parentRowItem(row).dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true})));
+  };
   try {
     test('원래 HTML을 변경하지 않고 시작', () => {
       assert(!api.changed(),'초기 상태가 변경으로 표시됨'); assert(api.layout() === undefined,'변경 없는 저장에 layout 포함');
       assert(ui.outline.querySelectorAll('button').length >= 6,'하위 영역 목록 누락');
+    });
+    test('figure와 기존 이미지 묶음은 기본 접힘', () => {
+      const figure = doc.querySelector('figure'), legacy = doc.querySelector('img[src*=legacy]').parentElement;
+      for (const group of [figure,legacy]) {
+        const row = rowFor(group);
+        assert(row.querySelector('.outline-toggle').getAttribute('aria-expanded') === 'false','이미지 묶음이 처음부터 펼쳐짐');
+        assert(![...ui.outline.querySelectorAll('.outline-item')].some(item => item.textContent.startsWith('캡션 ·')),'접힌 이미지의 캡션이 중복 표시됨');
+      }
+      assert(!api.changed(),'선택만으로 변경 처리됨');
+    });
+    test('이미지 묶음 펼침과 하위 선택은 저장 내용을 바꾸지 않음', () => {
+      const legacy = doc.querySelector('img[src*=legacy]').parentElement;
+      rowFor(legacy).querySelector('.outline-toggle').click();
+      assert([...ui.outline.querySelectorAll('.outline-item')].some(item => item.textContent.startsWith('캡션 · 기존 이미지 캡션')),'기존 캡션 행 누락');
+      api.select(legacy.querySelector('p'));
+      assert(ui.moveUp.disabled && ui.moveDown.disabled && ui.deleteBlock.disabled && ui.duplicateBlock.disabled,'이미지·캡션 분리 허용');
+      assert(!ui.editImage.disabled,'캡션 선택 후 이미지 설정 불가');
+      assert(!api.changed() && api.layout() === undefined,'접힘 UI가 저장 변경에 포함됨');
+      api.restore(initial);
+    });
+    test('본문 이미지·캡션 클릭은 이미지 묶음을 선택', () => {
+      for (const selector of ['figure img','figure figcaption','img[src*=legacy]','img[src*=legacy] + p']) {
+        api.restore(initial);
+        doc.querySelector(selector).dispatchEvent(new MouseEvent('click',{bubbles:true}));
+        const row = ui.outline.querySelector('.outline-row.selected');
+        assert(row.querySelector('.outline-item').textContent.startsWith('이미지 묶음 ·'),'본문 클릭이 하위 이미지 또는 캡션을 선택함');
+        assert(row.querySelector('.outline-toggle').getAttribute('aria-expanded') === 'false','본문 클릭으로 이미지 묶음이 불필요하게 펼쳐짐');
+      }
+      api.restore(initial);
+    });
+    test('기존 이미지 더블클릭은 캡션을 함께 설정', () => {
+      const image = doc.querySelector('img[src*=legacy]');
+      image.dispatchEvent(new MouseEvent('dblclick',{bubbles:true,cancelable:true}));
+      assert(ui.imageDialog.open,'기존 이미지 설정 창 누락');
+      assert(ui.imageFields.querySelector('[data-image-field="caption"]').value === '기존 이미지 캡션','더블클릭으로 캡션 연결 손실');
+      ui.imageDialog.close(); assert(!api.changed(),'이미지 설정 열기만으로 변경 처리됨');
+      api.restore(initial);
     });
     test('고정 영역은 삭제와 이동 제한', () => {
       select('상단 제목'); assert(ui.deleteBlock.disabled && ui.moveUp.disabled,'고정 영역 관리 버튼 활성화');
@@ -103,6 +205,443 @@
     test('구성 변경이 저장 전 확인 목록에 표시', () => {
       assert(api.summary().some(item => item.startsWith('추가')),'추가 변경 요약 누락'); assert(count >= 7,'변경 이벤트 누락');
       assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    test('기존 이미지의 캡션 설정 유지', () => {
+      api.restore(initial);
+      select('이미지 묶음 · 기존 이미지 캡션'); ui.editImage.onclick();
+      const field = ui.imageFields.querySelector('fieldset');
+      assert(field.querySelector('[data-image-field="caption"]').value === '기존 이미지 캡션','기존 캡션을 읽지 못함');
+      field.querySelector('[data-image-field="caption"]').value = '바뀐 기존 캡션';
+      ui.imageApply.onclick({preventDefault(){}});
+      assert(doc.querySelector('img[src*=legacy]').nextElementSibling.textContent === '바뀐 기존 캡션','기존 캡션 변경 실패');
+      assert(api.layout().find(item => item.id === 'r4').html.includes('바뀐 기존 캡션'),'기존 캡션 저장 누락');
+    });
+    test('형제 문단 드래그와 한 번의 되돌리기', () => {
+      api.restore(initial); history.length = 0;
+      const section = doc.getElementById('T1'), paragraph = section.querySelector('p'), figure = section.querySelector('figure');
+      assert(drop(paragraph,figure),'형제 드롭이 허용되지 않음');
+      assert(figure.nextElementSibling === paragraph,'형제 순서 변경 실패');
+      assert(history.length === 1,'드롭 한 번이 여러 되돌리기 단계로 기록됨');
+      assert(api.layout().find(item => item.id === 'r1').html.includes('<figure'),'변경된 영역 누락');
+      api.restore(history.pop());
+      assert(!api.changed() && doc.getElementById('T1').querySelector('p').nextElementSibling.matches('figure'),'드롭 되돌리기 실패');
+    });
+    test('드래그 앞뒤 삽입선과 취소는 내용 유지', () => {
+      api.restore(initial);
+      const paragraph = doc.getElementById('T1').querySelector('p'), figure = doc.querySelector('figure');
+      const from = rowFor(paragraph), to = rowFor(figure), transfer = new DataTransfer();
+      to.getBoundingClientRect = () => ({top:10,height:20});
+      const originalRow = from;
+      from.dispatchEvent(new DragEvent('dragstart',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+      api.refresh();
+      assert(from.isConnected && from === originalRow,'드래그 중 행이 교체됨');
+      to.dispatchEvent(new DragEvent('dragover',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY:15}));
+      assert(to.classList.contains('drop-before'),'앞 삽입선 누락');
+      to.dispatchEvent(new DragEvent('dragover',{bubbles:true,cancelable:true,dataTransfer:transfer,clientY:25}));
+      assert(to.classList.contains('drop-after') && !to.classList.contains('drop-before'),'뒤 삽입선 갱신 실패');
+      from.dispatchEvent(new DragEvent('dragend',{bubbles:true,dataTransfer:transfer}));
+      assert(!ui.outline.querySelector('.drop-before,.drop-after,.dragging') && !api.changed(),'드래그 취소 후 변경 또는 표시 잔존');
+    });
+    test('최상위 이동은 마커와 영역 순서를 함께 유지', () => {
+      api.restore(initial); history.length = 0;
+      const section = doc.getElementById('T1'), last = doc.querySelector('[data-local-block="3"]');
+      assert(drop(last,section,'before'),'최상위 형제 드롭 거부');
+      assert(api.layout().map(item => item.id).join(',') === 'r0,r2,r1,r3,r4','영역 배열 순서 불일치');
+      const markup = doc.querySelector('.guide-detail').innerHTML;
+      assert(markup.indexOf('local-region:r2:start') < markup.indexOf('local-region:r1:start'),'마커 순서 불일치');
+      assert(history.length === 1,'최상위 이동 기록 불일치');
+      api.restore(history.pop()); assert(!api.changed(),'최상위 되돌리기 실패');
+    });
+    test('다른 부모·순환·고정 경계 드롭 차단', () => {
+      for (const target of ['cross-parent','cycle','barrier']) {
+        api.restore(initial); history.length = 0;
+        const section = doc.getElementById('T1'), paragraph = section.querySelector('p');
+        const source = target === 'barrier' ? doc.querySelector('img[src*=legacy]').parentElement : target === 'cycle' ? section : paragraph;
+        const destination = target === 'cross-parent' ? doc.querySelector('[data-local-block="3"]') : target === 'cycle' ? paragraph : section;
+        const clean = api.getCodeHTML(), countBefore = errors.length;
+        assert(!drop(source,destination),'허용되면 안 되는 드롭: ' + target);
+        assert(api.getCodeHTML() === clean && !api.changed() && !history.length,'차단된 드롭이 문서를 바꿈');
+        assert(errors.length === countBefore+1,'제한 사유 안내 누락'); errors.splice(countBefore);
+      }
+    });
+    test('위아래 행 버튼도 형제 이동과 경계 검사를 공유', () => {
+      api.restore(initial);
+      const paragraph = doc.getElementById('T1').querySelector('p');
+      rowFor(paragraph).querySelector('.outline-move.down').click();
+      assert(doc.getElementById('T1').lastElementChild === paragraph,'행 아래 버튼 이동 실패');
+      const legacy = doc.querySelector('img[src*=legacy]').parentElement;
+      assert(rowFor(legacy).querySelector('.outline-move.up').disabled,'보호 경계를 넘는 행 버튼 활성화');
+    });
+    test('미저장 GAP·팁은 안쪽 이동 제한, 영역 전체 이동 허용', () => {
+      for (const kind of ['gap','tip']) {
+        api.restore(initial); history.length = 0;
+        const section = doc.getElementById('T1'), paragraph = section.querySelector('p'), figure = section.querySelector('figure');
+        let wrapper;
+        if (kind === 'gap') {
+          wrapper = doc.createElement('div'); wrapper.className = 'guide-spacer-v'; wrapper.dataset.localGapOwner = paragraph.dataset.localBlock;
+          paragraph.dataset.localGapAfter = '1'; paragraph.after(wrapper);
+        } else {
+          wrapper = doc.createElement('div'); wrapper.className = 'tip-box'; wrapper.dataset.localTipOwner = paragraph.dataset.localBlock;
+          paragraph.before(wrapper); wrapper.append(paragraph);
+        }
+        api.select(paragraph); assert(ui.moveUp.disabled && ui.moveDown.disabled,'미저장 구성의 분리 이동 허용');
+        const clean = api.getCodeHTML(), errorCount = errors.length;
+        assert(!drop(paragraph,figure) && api.getCodeHTML() === clean,'미저장 구성 드롭으로 분리됨'); errors.splice(errorCount);
+        const last = doc.querySelector('[data-local-block="3"]');
+        assert(drop(section,last,'after'),'미저장 구성이 든 최상위 영역 이동 거부');
+        assert(wrapper.closest('#T1') === section && paragraph.closest('#T1') === section,'소유 구성 분리됨');
+      }
+    });
+    test('접힘·선택 상태는 되돌리기와 반복 갱신 후 유지', () => {
+      api.restore(initial);
+      const figure = doc.querySelector('figure');
+      rowFor(figure).querySelector('.outline-toggle').click();
+      api.select(figure.querySelector('figcaption')); const saved = api.snapshot();
+      api.restore(saved);
+      const row = ui.outline.querySelector('.outline-row.selected');
+      assert(row.querySelector('.outline-item').textContent.startsWith('캡션 ·'),'하위 선택 복원 실패');
+      assert([...ui.outline.querySelectorAll('.outline-toggle')].some(button => button.getAttribute('aria-expanded') === 'true'),'접힘 상태 복원 실패');
+      api.refresh(); assert(ui.outline.querySelector('.outline-row.selected') === row,'갱신 시 행을 불필요하게 재생성함');
+    });
+    test('목록 갱신은 스크롤과 버튼 포커스를 유지', () => {
+      api.restore(initial);
+      const hidden = uiRoot.hidden, rootStyle = uiRoot.style.cssText, outlineStyle = ui.outline.style.cssText;
+      try {
+        uiRoot.hidden = false; uiRoot.style.cssText = 'position:fixed;left:-10000px;top:0;width:260px;height:300px;overflow:hidden';
+        ui.outline.style.cssText = 'height:80px;overflow:auto';
+        [...ui.outline.children].forEach(row => row.style.minHeight = '32px');
+        const row = rowFor(doc.querySelector('[data-local-block="3"]')), button = row.querySelector('.outline-item');
+        button.focus({preventScroll:true}); ui.outline.scrollTop = 40;
+        const scrollTop = ui.outline.scrollTop; assert(scrollTop > 0,'스크롤 시험 영역이 만들어지지 않음');
+        api.refresh();
+        assert(document.activeElement === button,'갱신 시 버튼 포커스 손실');
+        assert(ui.outline.scrollTop === scrollTop,'갱신 시 목록 스크롤 초기화');
+      } finally {
+        uiRoot.hidden = hidden; uiRoot.style.cssText = rootStyle; ui.outline.style.cssText = outlineStyle;
+        api.restore(initial);
+      }
+    });
+    test('코드 보기와 저장 중에는 구조 변경 차단', () => {
+      api.restore(initial); busy = true; api.refresh();
+      const paragraph = doc.getElementById('T1').querySelector('p'), row = rowFor(paragraph), clean = api.getCodeHTML();
+      assert(ui.moveUp.disabled && ui.moveDown.disabled && ui.insertBlock.disabled && !row.draggable,'읽기 전용에서 구조 편집 활성화');
+      ui.moveDown.onclick(); assert(api.getCodeHTML() === clean && !api.changed(),'읽기 전용 구조 변경');
+      busy = false; api.refresh();
+    });
+    test('코드 HTML은 편집용 속성과 영역 주석을 포함하지 않음', () => {
+      const html = api.getCodeHTML();
+      assert(!/data-local-|local-region:|local-structure-selected|contenteditable/.test(html),'코드 HTML에 임시 편집 정보 잔존');
+      assert(html.includes('id="T1"') && html.includes('기존 이미지 캡션'),'코드 HTML에서 원본 구성 손실');
+      assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    test('선택 경로는 저장 컨테이너 없이 실제 그룹 순서 제공', () => {
+      api.restore(initial);
+      const section = doc.getElementById('T1'), figure = section.querySelector('figure'), caption = figure.querySelector('figcaption');
+      api.select(caption);
+      const path = api.getSelectionPath();
+      assert(path.map(item => item.element).every((element,index) => element === [section,figure,caption][index]) && path.length === 3,'실제 그룹 경로 불일치');
+      assert(path.map(item => item.label).join(',') === '섹션,이미지 묶음,캡션','짧은 경로 이름 불일치');
+      assert(!path.some(item => item.element === doc.querySelector('.guide-detail')),'저장 컨테이너를 경로에 포함');
+      assert(!api.changed(),'선택 경로 조회가 변경 처리됨');
+    });
+    test('상위 묶음 선택은 한 단계만 이동하고 스크롤 유지', () => {
+      api.restore(initial);
+      const figure = doc.querySelector('figure'); let scrolled = 0;
+      figure.scrollIntoView = () => scrolled++;
+      api.select(figure.querySelector('figcaption'));
+      assert(api.selectParent() && api.getSelectionPath().at(-1).element === figure,'바로 상위 이미지 묶음 선택 실패');
+      assert(!scrolled,'상위 선택으로 스크롤 변경');
+      assert(api.selectParent() && api.getSelectionPath().at(-1).element === doc.getElementById('T1'),'상위 섹션 선택 실패');
+      assert(!api.selectParent(),'저장 컨테이너까지 상위 선택을 허용');
+    });
+    test('선택 콜백은 선택과 되돌린 실제 노드를 전달', () => {
+      api.restore(initial);
+      const paragraph = doc.getElementById('T1').querySelector('p');
+      api.select(paragraph); const saved = api.snapshot(), first = selections.at(-1);
+      assert(first.element === paragraph && first.path.at(-1).element === paragraph,'선택 콜백 경로 누락');
+      api.select(doc.querySelector('figure')); api.restore(saved);
+      const restored = selections.at(-1);
+      assert(restored.element !== paragraph && restored.element.isConnected,'되돌리기 콜백에 과거 노드 전달');
+      assert(restored.path.every(item => item.element.isConnected) && restored.path.at(-1).element === restored.element,'되돌린 경로 노드 불일치');
+    });
+    test('본문의 빈 div 그룹 공간을 클릭해 전체 묶음 선택', () => {
+      api.restore(initial);
+      const section = doc.getElementById('T1'), group = doc.createElement('div'); group.className = 'flex gap-4'; group.innerHTML = '<div><p>한쪽 내용</p></div><div><p>다른쪽 내용</p></div>';
+      section.append(group); api.refresh();
+      group.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+      assert(api.getSelectionPath().at(-1).element === group,'빈 공간이 다른 섹션을 선택함');
+      assert(api.getSelectionPath().at(-1).label === '행 묶음','행 그룹 이름 불일치');
+      api.select(group.querySelector('p'));
+      assert(api.selectParent() && api.getSelectionPath().at(-1).element === group.firstElementChild,'내용 그룹을 건너뜀');
+      assert(api.selectParent() && api.getSelectionPath().at(-1).element === group,'행 그룹으로 선택 이동 실패');
+    });
+    test('GAP·팁 wrapper 추가 후 소유 영역과 루트 인덱스 갱신', () => {
+      api.restore(initial);
+      const paragraph = doc.querySelector('[data-local-block="3"]'); api.select(paragraph);
+      const wrapper = doc.createElement('div'); wrapper.className = 'tip-box'; wrapper.dataset.localTipOwner = '3';
+      paragraph.before(wrapper); wrapper.append(paragraph);
+      const gap = doc.createElement('div'); gap.className = 'guide-spacer-v'; gap.dataset.localGapOwner = '3'; paragraph.after(gap);
+      api.markText(paragraph); api.refresh(); api.select(paragraph);
+      assert(api.getSelectionPath()[0].element === wrapper,'새 루트를 인덱스에 반영하지 못함');
+      assert(ui.moveUp.disabled && ui.moveDown.disabled,'GAP·팁이 든 내부 문단 이동 허용');
+      api.select(wrapper); ui.insertType.value = 'paragraph'; ui.insertPosition.value = 'inside'; ui.insertBlock.onclick();
+      const entry = api.layout().find(item => item.id === 'r2');
+      assert(entry.html.includes('마지막 문단') && entry.html.includes('여기에 설명을 입력하세요'),'새 wrapper 영역 저장 누락');
+      assert(!/data-local-|local-region:/.test(entry.html),'인덱스 또는 편집 속성을 저장함');
+    });
+    test('본문 문구와 인라인 서식 변경 후 트리 내용 갱신', () => {
+      api.restore(initial);
+      const paragraph = doc.getElementById('T1').querySelector('p'); paragraph.innerHTML = '<strong>바뀐 설명</strong>';
+      api.markText(paragraph); api.refresh();
+      paragraph.querySelector('strong').dispatchEvent(new MouseEvent('click',{bubbles:true}));
+      assert(api.getSelectionPath().at(-1).element === paragraph,'인라인 요소의 소유 문단을 찾지 못함');
+      assert(ui.outline.querySelector('.outline-row.selected .outline-item').textContent.includes('바뀐 설명'),'트리의 문구가 오래된 내용');
+      assert(api.getCodeHTML().includes('<strong>바뀐 설명</strong>'),'코드 보기에서 현재 서식 누락');
+      api.restore(initial);
+      assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    test('Ctrl·Cmd 토글은 DOM 순서로 선택하고 저장 변경을 만들지 않음', () => {
+      const [a,,c] = multiFixture(); api.select(c); clickItem('다중 가',{ctrlKey:true});
+      assert(api.getSelectedElements().map(element => element.id).join(',') === 'multi-0,multi-2','선택 배열이 DOM 순서와 다름');
+      assert(ui.outline.querySelectorAll('.outline-row.selected').length === 2 && !api.changed(),'선택 표시 또는 dirty 상태 오류');
+      clickItem('다중 가',{metaKey:true}); assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === c,'Cmd 선택 토글 실패');
+      clickItem('다중 다',{ctrlKey:true}); assert(!api.getSelectedElements().length,'마지막 선택을 해제하지 못함');
+    });
+    test('Shift 범위는 실제 같은 부모의 항목만 선택', () => {
+      const [a,b,c] = multiFixture(); api.select(a); clickItem('다중 다',{shiftKey:true});
+      assert(api.getSelectedElements().every((element,index) => element === [a,b,c][index]) && api.getSelectedElements().length === 3,'Shift 범위 선택 실패');
+      assert(!api.changed() && !history.length,'범위 선택이 편집 이력에 포함됨');
+    });
+    test('트리 체크박스로 항목 추가·제외와 Shift 범위 선택', () => {
+      const [a,,c] = multiFixture(); api.select(a);
+      const check = itemByText('다중 다').closest('.outline-row').querySelector('.outline-select'); check.click();
+      assert(api.getSelectedElements().map(element => element.id).join(',') === 'multi-0,multi-2' && check.checked,'체크박스 추가 실패');
+      check.click(); assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === a,'체크박스 제외 실패');
+      api.select(a);
+      itemByText('다중 다').closest('.outline-row').querySelector('.outline-select').dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,shiftKey:true}));
+      assert(api.getSelectedElements().length === 3 && api.getSelectedElements().at(-1) === c,'체크박스 Shift 범위 실패');
+    });
+    test('서로 다른 부모·상하위·고정 경계 다중 선택 차단', () => {
+      const [a] = multiFixture(); api.select(a); const before = errors.length;
+      clickItem('마지막 문단',{ctrlKey:true});
+      assert(api.getSelectedElements().length === 1 && errors.at(-1).includes('같은 부모'),'다른 부모 선택 허용');
+      clickItem('섹션 · 원래 섹션',{ctrlKey:true});
+      assert(api.getSelectedElements()[0] === a && errors.at(-1).includes('상위'),'상하위 동시 선택 허용');
+      api.select(doc.getElementById('T1')); clickItem('이미지 묶음 · 기존 이미지 캡션',{ctrlKey:true});
+      assert(api.getSelectedElements().length === 1 && errors.at(-1).includes('고정'),'고정 경계 동시 선택 허용');
+      errors.splice(before);
+    });
+    test('다중 이미지 선택은 항상 캡션과 묶음으로 정규화', () => {
+      const [a] = multiFixture(), figure = doc.querySelector('figure'); api.select(figure.querySelector('figcaption'));
+      clickItem('다중 가',{ctrlKey:true});
+      assert(api.getSelectedElements().length === 2 && api.getSelectedElements()[0] === figure,'캡션이 별도 이동 항목으로 남음');
+      figure.querySelector('img').dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true}));
+      assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === a,'본문 이미지 묶음 토글 실패');
+    });
+    test('선택한 여러 문단을 한 번에 드래그하고 한 번에 되돌림', () => {
+      const [a,,c] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      const before = api.getCodeHTML(); history.length = 0; dropSelected('다중 가','다중 라');
+      assert(multiOrder() === 'multi-1,multi-3,multi-0,multi-2','선택 또는 미선택 항목 상대 순서 손실');
+      assert(history.length === 1 && api.getSelectedElements().map(element => element.id).join(',') === 'multi-0,multi-2','다중 드래그 선택 또는 이력 손실');
+      assert(api.layout().find(item => item.id === 'r1').html.includes('다중 나'),'미선택 항목이 저장에서 사라짐');
+      api.restore(history.pop()); assert(api.getCodeHTML() === before && api.getSelectedElements().length === 2,'다중 이동 되돌리기 실패');
+    });
+    test('선택한 항목 안으로 드롭하면 변경과 이력을 만들지 않음', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      const before = api.getCodeHTML(); history.length = 0; dropSelected('다중 가','다중 다');
+      assert(api.getCodeHTML() === before && !history.length && !api.changed(),'선택 내부 드롭으로 변경 발생');
+    });
+    test('행 화살표와 상단 화살표가 다중 선택을 유지하며 이동', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      itemByText('다중 가').closest('.outline-row').querySelector('.outline-move.down').click();
+      assert(multiOrder() === 'multi-1,multi-3,multi-0,multi-2' && api.getSelectedElements().length === 2,'행 아래 버튼이 선택을 해제함');
+      ui.moveUp.click();
+      assert(multiOrder() === 'multi-1,multi-0,multi-2,multi-3' && history.length === 2,'상단 위 버튼 다중 이동 실패');
+    });
+    test('최상위 다중 이동은 영역 마커·배열·연결 ID 유지', () => {
+      api.restore(initial); select('마지막 문단'); ui.insertType.value = 'paragraph'; ui.insertPosition.value = 'after'; ui.insertBlock.onclick();
+      const destination = api.getSelectedElements()[0]; destination.textContent = '다중 목적지'; api.markText(destination); api.refresh();
+      const newId = api.layout().find(item => item.id.startsWith('new-')).id;
+      api.select(doc.getElementById('T1')); clickItem('마지막 문단',{ctrlKey:true}); history.length = 0;
+      dropSelected('섹션 · 원래 섹션','다중 목적지');
+      assert(api.layout().map(item => item.id).join(',') === ['r0',newId,'r1','r2','r3','r4'].join(','),'최상위 다중 배열 불일치');
+      const html = doc.querySelector('.guide-detail').innerHTML;
+      assert(html.indexOf('local-region:'+newId+':start') < html.indexOf('local-region:r1:start') && html.indexOf('local-region:r1:end') < html.indexOf('local-region:r2:start'),'다중 마커 순서 불일치');
+      assert(doc.getElementById('T1') && history.length === 1,'연결 ID 또는 단일 트랜잭션 손실');
+      api.restore(history.pop()); assert(api.getSelectedElements().length === 2,'최상위 선택 배열 복원 실패');
+    });
+    test('다중일 때 추가·복제·삭제·이미지 설정 차단', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      assert(['insertBlock','duplicateBlock','deleteBlock','editImage'].every(name => ui[name].disabled),'다중에서 위험 동작 버튼 활성화');
+      const before = api.getCodeHTML(), errorCount = errors.length;
+      ui.insertType.value = 'paragraph'; ui.insertBlock.onclick(); ui.deleteBlock.onclick(); ui.duplicateBlock.onclick();
+      assert(api.getCodeHTML() === before && !history.length,'직접 호출로 다중 구성을 바꿈'); errors.splice(errorCount);
+    });
+    test('스냅샷이 선택 배열·주 선택·Shift 기준점을 함께 복원', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true}); const saved = api.snapshot();
+      clickItem('다중 가',{ctrlKey:true}); api.restore(saved);
+      assert(api.getSelectedElements().map(element => element.id).join(',') === 'multi-0,multi-2','선택 배열 복원 실패');
+      assert(api.getSelectionPath().at(-1).element.id === 'multi-2','주 선택 복원 실패');
+      clickItem('다중 라',{shiftKey:true}); assert(api.getSelectedElements().map(element => element.id).join(',') === 'multi-2,multi-3','Shift 기준점 복원 실패');
+    });
+    test('상위 묶음과 일반 선택은 다중 선택을 해제', () => {
+      const [a,b] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      assert(api.selectParent() && api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === doc.getElementById('T1'),'상위 선택에서 다중 해제 실패');
+      api.select(a); clickItem('다중 다',{ctrlKey:true}); api.select(b);
+      assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === b,'일반 선택에서 다중 해제 실패');
+    });
+    test('본문 Ctrl·Shift 선택은 글자 드래그 범위를 침해하지 않음', () => {
+      const [a,,c] = multiFixture(); api.select(a);
+      c.dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true})); assert(api.getSelectedElements().length === 2,'본문 Ctrl 다중 선택 실패');
+      api.select(a); c.dispatchEvent(new MouseEvent('click',{bubbles:true,shiftKey:true})); assert(api.getSelectedElements().length === 3,'본문 Shift 범위 선택 실패');
+      api.select(a); const range = doc.createRange(); range.selectNodeContents(a); const text = doc.getSelection(); text.removeAllRanges(); text.addRange(range); const words = text.toString();
+      a.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,button:0,clientX:10,clientY:10}));
+      c.dispatchEvent(new MouseEvent('mousemove',{bubbles:true,clientX:60,clientY:40}));
+      c.dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true,clientX:60,clientY:40}));
+      assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === a && text.toString() === words,'글자 선택을 블록 선택으로 바꿈');
+      text.removeAllRanges();
+    });
+    test('다중 선택은 저장 HTML에 UI 상태를 포함하지 않음', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      assert(!/local-structure-selected|data-local-|outline-select|local-region:/.test(api.getCodeHTML()),'다중 UI 정보가 본문 코드에 포함됨');
+      api.restore(initial); assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    test('실제 다중 이동에만 한 번 이동 콜백 발생', () => {
+      const [a] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true}); const count = moves.length;
+      dropSelected('다중 가','다중 라');
+      assert(moves.length === count+1 && moves.at(-1).map(element => element.id).join(',') === 'multi-0,multi-2','다중 이동 콜백 누락 또는 중복');
+      dropSelected('다중 가','다중 다'); assert(moves.length === count+1,'변경 없는 드롭에 콜백 발생');
+      api.restore(history.pop()); assert(moves.length === count+1,'되돌리기에 이동 콜백 발생');
+    });
+    test('문단 앞뒤 여백을 px로 추가하고 같은 영역에 저장', () => {
+      const [a] = multiFixture(); api.select(a);
+      assert(api.setSpacing('before',18) && api.setSpacing('after',32),'직접 여백 추가 실패');
+      assert(a.previousElementSibling.matches('.guide-spacer-v') && a.previousElementSibling.style.height === '18px','앞 여백 값 오류');
+      assert(a.nextElementSibling.matches('.guide-spacer-v') && a.nextElementSibling.style.height === '32px','뒤 여백 값 오류');
+      const html = api.layout().find(item => item.id === 'r1').html;
+      assert(html.includes('height: 18px') && html.includes('height: 32px') && !/data-local-|local-region:/.test(html),'여백 저장 구조 오류');
+      assert(api.getSelectedElements()[0] === a && history.length === 2,'여백 적용이 선택 또는 이력을 바꿈');
+    });
+    test('여백 높이 수정·0 제거·변경 없는 취소는 추가 이력 없음', () => {
+      const [a] = multiFixture(); api.select(a); assert(!api.clearSpacing() && !history.length,'여백 없는 초기화가 변경 처리됨');
+      api.setSpacing('before',16); assert(api.setSpacing('before',28),'기존 여백 높이 변경 실패');
+      assert(a.previousElementSibling.style.height === '28px','기존 여백 높이 유지');
+      const count = history.length; assert(!api.setSpacing('before',28) && history.length === count,'같은 높이에 이력 추가');
+      assert(api.setSpacing('before',0) && !a.previousElementSibling.matches('.guide-spacer-v'),'0 입력으로 여백 제거 실패');
+      assert(!api.clearSpacing(),'이미 없어진 여백이 다시 변경 처리됨');
+    });
+    test('앞뒤 여백 함께 제거는 한 번에 되돌림', () => {
+      const [a] = multiFixture(); api.select(a); api.setSpacing('before',18); api.setSpacing('after',26);
+      history.length = 0; const before = api.getCodeHTML(); assert(api.clearSpacing() && history.length === 1,'앞뒤 제거가 여러 트랜잭션');
+      assert(!a.previousElementSibling.matches('.guide-spacer-v') && !a.nextElementSibling.matches('.guide-spacer-v'),'앞뒤 여백이 남음');
+      api.restore(history.pop()); assert(api.getCodeHTML() === before,'앞뒤 여백 되돌리기 실패');
+    });
+    test('최상위 여백은 별도 영역 마커와 함께 추가·제거', () => {
+      api.restore(initial); history.length = 0; const p = doc.querySelector('[data-local-block="3"]'); api.select(p);
+      assert(api.setSpacing('before',22),'최상위 여백 추가 실패');
+      const added = api.layout().find(item => item.id.startsWith('new-')); assert(added.html.includes('guide-spacer-v') && added.html.includes('22px'),'별도 여백 영역 누락');
+      assert(doc.querySelector('.guide-detail').innerHTML.includes('local-region:'+added.id+':start'),'여백 마커 누락');
+      assert(api.clearSpacing() && !api.layout()?.some(item => item.id === added.id),'여백 영역 제거 실패');
+      api.restore(history.pop()); assert(api.layout().some(item => item.id === added.id),'여백 영역 되돌리기 실패');
+    });
+    test('다중 여백은 선택 바깥 경계만 조절', () => {
+      const [a,b,c] = multiFixture(); api.select(a); clickItem('다중 다',{ctrlKey:true});
+      api.setSpacing('before',20); api.setSpacing('after',30);
+      assert(a.previousElementSibling.style.height === '20px' && c.nextElementSibling.style.height === '30px','다중 바깥 여백 오류');
+      assert(a.nextElementSibling === b && b.nextElementSibling === c,'중간 미선택 항목 간격을 바꿈');
+      assert(api.getSelectedElements().length === 2,'여백 적용으로 다중 선택 손실');
+    });
+    test('inline span의 태그와 문구를 유지하며 바깥 여백 추가', () => {
+      api.restore(initial); select('마지막 문단'); ui.insertType.value = 'paragraph'; ui.insertPosition.value = 'after'; ui.insertBlock.onclick();
+      const old = api.getSelectedElements()[0], span = doc.createElement('span'); span.className = 'text-gray-600'; span.innerHTML = '태그를 <strong>유지하는</strong> 문구'; old.replaceWith(span);
+      api.markText(span); api.refresh(); api.select(span); const before = span.outerHTML;
+      api.setSpacing('before',18); api.setSpacing('after',24);
+      assert(span.tagName === 'SPAN' && span.outerHTML === before && span.previousElementSibling.style.height === '18px' && span.nextElementSibling.style.height === '24px','inline 태그 변환 또는 여백 누락');
+    });
+    test('문단 안 inline 선택은 문단 밖에 여백을 배치', () => {
+      const [a] = multiFixture(), span = doc.createElement('span'); span.textContent = '문단 속 문구'; a.replaceChildren(span); api.markText(a); api.refresh(); api.select(span);
+      api.setSpacing('after',20);
+      assert(span.parentElement === a && !a.querySelector('.guide-spacer-v') && a.nextElementSibling.style.height === '20px','문단 안에 div 여백을 삽입');
+    });
+    test('grid 배치와 연결 주소가 있는 여백은 보존', () => {
+      const [a] = multiFixture(), section = doc.getElementById('T1'); section.style.display = 'grid'; api.select(a); let blocked = false;
+      try { api.setSpacing('before',24); } catch (_) { blocked = true; }
+      assert(blocked && !api.correctSpacing([a]) && !history.length,'grid 내부 간격 자동 변경');
+      section.style.display = ''; const spacer = doc.createElement('div'); spacer.className = 'guide-spacer-v'; spacer.id = 'spacing-anchor'; spacer.style.height = '12px'; a.before(spacer); api.refresh();
+      blocked = false; const before = api.getCodeHTML(); try { api.clearSpacing(); } catch (_) { blocked = true; }
+      assert(blocked && !history.length && api.getCodeHTML() === before,'연결 주소 여백 제거 또는 부분 변경');
+    });
+    test('자동보정은 이미지·텍스트 경계만 보완하고 한 번에 되돌림', () => {
+      multiFixture(); const figure = doc.querySelector('figure'); api.select(figure); const before = api.getCodeHTML(); history.length = 0;
+      assert(api.correctSpacing([figure]) && history.length === 1,'자동보정 실패 또는 이력 중복');
+      assert(figure.previousElementSibling.style.height === '24px' && figure.nextElementSibling.style.height === '24px','이미지 앞뒤 보완 누락');
+      assert(!api.correctSpacing([figure]) && history.length === 1,'충분한 여백을 반복 보정');
+      api.restore(history.pop()); assert(api.getCodeHTML() === before,'자동보정 전체 되돌리기 실패');
+    });
+    test('이미 충분한 간격과 텍스트 사이에는 자동보정하지 않음', () => {
+      const [a,b] = multiFixture(), figure = doc.querySelector('figure'), previous = figure.previousElementSibling;
+      figure.getBoundingClientRect = () => ({top:100,bottom:200}); previous.getBoundingClientRect = () => ({top:20,bottom:70}); a.getBoundingClientRect = () => ({top:230,bottom:250});
+      assert(!api.correctSpacing([figure]) && !history.length,'충분한 이미지 간격에 변경 발생');
+      assert(!api.correctSpacing([b]) && !history.length,'텍스트 사이 간격을 자동 변경');
+      api.restore(initial); assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    test('겹친 이미지·본문 경계에는 간격 자동보정을 적용하지 않음', () => {
+      const [a] = multiFixture(), figure = doc.querySelector('figure'), previous = figure.previousElementSibling;
+      figure.getBoundingClientRect = () => ({top:100,bottom:200}); previous.getBoundingClientRect = () => ({top:20,bottom:120}); a.getBoundingClientRect = () => ({top:180,bottom:250});
+      const before = api.getCodeHTML();
+      assert(!api.correctSpacing([figure]) && !history.length && api.getCodeHTML() === before,'음수 간격을 일반 여백으로 보정');
+      api.restore(initial);
+    });
+    test('일부 형제 선택은 유지하고 전체 형제 선택만 부모 이동으로 승격', () => {
+      const {group,rows} = parentFixture(); chooseRows(rows,4);
+      assert(api.getSelectedElements().length === 4 && api.getMoveElements().length === 4,'일부 선택을 부모로 승격');
+      parentRowItem(rows[4]).dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true}));
+      assert(api.getSelectedElements().length === 5 && api.getMoveElements().length === 1 && api.getMoveElements()[0] === group,'전체 선택 부모 이동 단위 누락');
+      assert(api.getSelectionPath().at(-1).element === rows[4] && !api.changed(),'부모 승격이 논리 선택 또는 dirty를 변경');
+    });
+    test('전체 형제의 부모를 이동해도 논리 선택·기준점·앵커 보존', () => {
+      const {group,rows} = parentFixture(); chooseRows(rows); const before = api.getCodeHTML();
+      const figure = doc.querySelector('figure'), moveCount = moves.length; ui.moveUp.click();
+      assert(group.nextElementSibling === figure && api.getSelectedElements().length === 5,'부모 이동 후 논리 선택 손실');
+      assert(api.getSelectionPath().at(-1).element === rows[4] && doc.getElementById('T1') && group.id === 'parent-group','주 선택 또는 연결 ID 손실');
+      assert(history.length === 1 && moves.length === moveCount+1 && moves.at(-1)[0] === group,'부모 이동이 한 트랜잭션으로 기록되지 않음');
+      api.restore(history.pop()); assert(api.getCodeHTML() === before && api.getSelectedElements().length === 5,'부모 이동 되돌리기 실패');
+      const fresh = doc.getElementById('parent-row-3'); parentRowItem(fresh).dispatchEvent(new MouseEvent('click',{bubbles:true,shiftKey:true}));
+      assert(api.getSelectedElements().map(element => element.id).join(',') === 'parent-row-3,parent-row-4,parent-row-5','부모 이동 전 Shift 기준점 손실');
+    });
+    test('부모 승격 후 한 항목을 제외하면 개별 형제 이동으로 복귀', () => {
+      const {group,rows} = parentFixture(); chooseRows(rows);
+      parentRowItem(rows[4]).dispatchEvent(new MouseEvent('click',{bubbles:true,ctrlKey:true}));
+      assert(api.getSelectedElements().length === 4 && api.getMoveElements().length === 4 && !api.getMoveElements().includes(group),'부모 승격이 Ctrl 토글에 혼입');
+    });
+    test('최상위 부모 승격은 마커 배열과 논리 선택을 함께 복원', () => {
+      const {group,rows} = parentFixture(true); chooseRows(rows); const before = api.layout().map(item => item.id).join(',');
+      const previous = group.previousElementSibling; ui.moveUp.click();
+      assert(group.nextElementSibling === previous && api.getSelectedElements().length === 5,'최상위 부모 이동 실패');
+      assert(api.layout().map(item => item.id).join(',') !== before && history.length === 1,'최상위 마커 순서 미변경 또는 이력 중복');
+      api.restore(history.pop());
+      assert(api.layout().map(item => item.id).join(',') === before && api.getSelectedElements().length === 5,'최상위 부모 되돌리기 실패');
+    });
+    test('숨긴 미선택 항목·직접 문구·미저장 팁이 있으면 부모 승격 금지', () => {
+      for (const kind of ['hidden','text','tip']) {
+        const {group,rows} = parentFixture(); chooseRows(rows);
+        if (kind === 'hidden') { const extra = doc.createElement('p'); extra.hidden = true; extra.textContent = '미선택 숨은 내용'; group.append(extra); }
+        if (kind === 'text') group.prepend(doc.createTextNode('선택하지 않은 직접 문구'));
+        if (kind === 'tip') group.dataset.localTipOwner = 'temporary';
+        api.markText(rows[0]); api.refresh();
+        assert(!api.getMoveElements().includes(group),'부모 승격 제한 누락: ' + kind);
+      }
+    });
+    test('전체 형제 선택의 간격 조절에는 부모 승격을 적용하지 않음', () => {
+      const {group,rows} = parentFixture(); chooseRows(rows); api.setSpacing('before',18);
+      assert(rows[0].previousElementSibling?.matches('.guide-spacer-v') && rows[0].previousElementSibling.style.height === '18px','간격 API에 이동 승격이 혼입');
+      assert(group.previousElementSibling?.matches('figure'),'부모 바깥 간격을 변경');
+    });
+    test('본문 전체 묶음 클릭과 상위 선택은 단일 묶음 선택으로 전환', () => {
+      const {group,rows} = parentFixture(); chooseRows(rows); group.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+      assert(api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === group,'본문 부모 묶음 클릭 실패');
+      chooseRows(rows); assert(api.selectParent() && api.getSelectedElements().length === 1 && api.getSelectedElements()[0] === group,'상위 묶음 선택 실패');
+      api.restore(initial); assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
     });
     document.getElementById('result').textContent = JSON.stringify({pass:true,count:results.length,results},null,2);
     document.title = 'PASS · 로컬 편집기 구성 검증';

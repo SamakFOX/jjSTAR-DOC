@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>편집기 통합 검증</title><style>
+body{margin:0;font:13px sans-serif}#result{max-height:100px;overflow:auto;white-space:pre-wrap;margin:0;padding:8px}iframe{display:block;width:100%;height:1050px;border:1px solid #cbd5e1;box-sizing:border-box}
+</style></head><body><pre id="result">검증 중</pre><iframe id="editor" src="/__editor/?path=pages/L02MAIN.html" title="편집기 검증 화면"></iframe><script>
+(async()=>{
+ const results=[],assert=(v,m)=>{if(!v)throw new Error(m)},frame=document.getElementById('editor');
+ const wait=async fn=>{for(let i=0;i<1000;i++){if(fn())return;await new Promise(r=>setTimeout(r,20))}throw new Error('편집기 응답 시간 초과')};
+ const test=(name,fn)=>{fn();results.push({name,pass:true})};
+ let w,d,originalFetch;
+ try{
+  await wait(()=>{try{return frame.contentDocument.getElementById('status')?.textContent.includes('저장된 상태')}catch(_){return false}});
+  w=frame.contentWindow;d=w.document;const preview=d.getElementById('preview'),body=preview.contentDocument;
+  const state=await(await fetch('/__editor/page?path=pages/L02MAIN.html')).json();
+  const beforeVersion=JSON.stringify(state.versions),beforeFrame=preview.srcdoc;
+  originalFetch=w.fetch;let fetches=0,posts=[],fixtureMode=false;
+  w.fetch=async(url,options={})=>{
+   fetches++;
+   if(options.method==='POST'){
+    assert(String(url)==='/__editor/save','예상하지 못한 쓰기 요청');posts.push(JSON.parse(options.body));
+    return new w.Response(JSON.stringify({error:'검증용 충돌 응답'}),{status:409,headers:{'Content-Type':'application/json'}});
+   }
+   const response=await originalFetch.call(w,url,options);
+   if(fixtureMode&&String(url).startsWith('/__editor/page?')){
+    const value=await response.json();
+    value.html='<article class="guide-detail"><!--local-region:sample:start--><section><div class="mb-3"><img src="assets/images/jjstar_home_profile.webp" alt="검증 이미지" style="width:500px;height:140px;object-fit:cover"><p data-local-block="sample-caption">이미지 설명</p></div><p class="text-xl mb-2 font-bold" data-local-block="sample-title">내 학교생활의 시작점</p><span class="text-gray-600" data-local-block="sample-description">전공·커리어로드맵을 살펴봐요</span><hr></section><!--local-region:sample:end--></article>';
+    value.regions=[{id:'sample',tag:'section',label:'간격 검증',protected:false,anchorIds:[]}];
+    value.structure={allowed:true};value.blocks=[];
+    return new w.Response(JSON.stringify(value),{status:200,headers:{'Content-Type':'application/json'}});
+   }
+   return response;
+  };
+  const paragraph=body.querySelector('[data-local-block]'),original=paragraph.innerHTML;
+  paragraph.dispatchEvent(new body.defaultView.InputEvent('beforeinput',{bubbles:true,cancelable:true,inputType:'insertText',data:' 시험'}));
+  paragraph.innerHTML+=' 전환 시험 문구';paragraph.dispatchEvent(new body.defaultView.InputEvent('input',{bubbles:true,inputType:'insertText',data:' 시험'}));
+  test('본문 수정은 저장 전 상태로 표시',()=>assert(!d.getElementById('review').disabled,'변경 내용 누락'));
+  const numberedGroup=body.querySelector('.space-y-4.mb-8'),innerBlock=numberedGroup.querySelector('[data-local-block]');
+  innerBlock.dispatchEvent(new body.defaultView.MouseEvent('click',{bubbles:true}));
+  test('본문 클릭으로 상위 묶음 선택 경로 표시',()=>{
+   assert(!d.getElementById('selectionPath').hidden,'선택 경로 누락');
+   assert(d.querySelectorAll('#selectionPath [data-selection-index]').length>=3,'상위 묶음 계층 누락');
+  });
+  const previousPath=d.querySelectorAll('#selectionPath [data-selection-index]').length,previousScroll=body.defaultView.scrollY;
+  d.querySelector('#selectionPath [data-parent-selection]').click();
+  test('상위 묶음 버튼은 한 단계 위를 화면 점프 없이 선택',()=>{
+   assert(d.querySelectorAll('#selectionPath [data-selection-index]').length===previousPath-1,'한 단계 상위 선택 실패');
+   assert(body.defaultView.scrollY===previousScroll,'상위 선택 중 스크롤 이동');
+  });
+  d.querySelector('#selectionPath [data-selection-index="0"]').click();
+  test('본문 선택 경로에서 전체 묶음을 직접 선택',()=>assert(numberedGroup.classList.contains('local-structure-selected'),'전체 묶음 선택 실패'));
+  numberedGroup.dispatchEvent(new body.defaultView.MouseEvent('click',{bubbles:true}));
+  test('묶음의 빈 공간 클릭도 해당 묶음을 선택',()=>assert(numberedGroup.classList.contains('local-structure-selected'),'빈 공간 선택 실패'));
+  body.defaultView.scrollTo(0,300);const beforeScroll=body.defaultView.scrollY;
+  const beforeToggle=fetches;
+  d.getElementById('codeToggle').click();
+  test('다크 화면 왼쪽의 코드 보기 버튼',()=>assert(d.getElementById('codeToggle').getBoundingClientRect().right<=d.getElementById('dark').parentElement.getBoundingClientRect().left,'버튼 위치 오류'));
+  test('현재 작업본 코드는 읽기 전용',()=>{
+   assert(!d.getElementById('sourceView').hidden&&preview.hidden,'코드 화면 미전환');
+   const code=d.getElementById('sourceCode');assert(code.readOnly&&code.value.includes('전환 시험 문구'),'현재 내용이 아닌 코드');
+   assert(!/data-local-|contenteditable=|local-region:|local-structure-selected|local-changed/.test(code.value),'편집용 표시 잔존');
+  });
+  test('코드 보기 중 화면 변경 버튼 잠금',()=>{
+   assert(d.querySelector('[data-format]').disabled&&d.getElementById('undo').disabled,'서식·이력 버튼 활성화');
+   assert(d.getElementById('insertBlock').disabled&&d.getElementById('moveUp').disabled,'구성 버튼 활성화');
+   assert(d.getElementById('selectionPath').hidden,'코드 보기 중 본문 선택 경로 노출');
+  });
+  d.getElementById('dark').click();
+  test('코드 보기의 다크 화면 전환',()=>assert(d.body.dataset.editorTheme==='dark'&&body.body.dataset.theme==='dark','테마 불일치'));
+  d.getElementById('codeToggle').click();
+  test('화면 전환은 재조회와 문서 교체 없이 작업본 유지',()=>{
+   assert(fetches===beforeToggle,'불필요한 서버 재조회');assert(preview.contentDocument===body&&preview.srcdoc===beforeFrame,'프리뷰 문서 교체');
+   assert(paragraph.innerHTML.includes('전환 시험 문구')&&!d.getElementById('review').disabled,'미저장 내용 손실');
+   assert(body.defaultView.scrollY===beforeScroll,'이전 스크롤 위치 손실');
+  });
+  d.getElementById('undo').click();
+  test('코드 전환 후 되돌리기 유지',()=>assert(body.querySelector('[data-local-block]').innerHTML===original,'원래 문구 복원 실패'));
+  d.getElementById('redo').click();
+  test('코드 전환 후 다시 실행 유지',()=>assert(body.querySelector('[data-local-block]').innerHTML.includes('전환 시험 문구'),'다시 실행 실패'));
+  const inlineDescription=body.querySelector('.max-w-1200 > span[data-local-block]');
+  inlineDescription.scrollIntoView({block:'center'});inlineDescription.dispatchEvent(new body.defaultView.MouseEvent('click',{bubbles:true}));
+  test('기존 span 설명도 본문에서 블록으로 선택',()=>assert(inlineDescription.classList.contains('local-structure-selected'),'기존 설명 블록 선택 누락'));
+  const group=body.querySelector('img[src*="home_profile"]').parentElement;
+  group.scrollIntoView({block:'center'});group.dispatchEvent(new body.defaultView.MouseEvent('click',{bubbles:true}));
+  await wait(()=>{const h=body.querySelector('.local-body-drag-handle');return h&&!h.hidden&&h.getBoundingClientRect().width>0});
+  test('본문 이동 손잡이는 가이드 본문 바깥에 표시',()=>{
+   const overlay=body.querySelector('[data-local-editor-ui="body-drag"]');
+   assert(overlay&&!body.getElementById('viewer').contains(overlay),'편집용 UI가 본문 안에 삽입됨');
+   assert(body.querySelector('.local-body-drag-handle').draggable,'손잡이 드래그 비활성');
+   assert(!group.hasAttribute('draggable'),'본문 이미지에 드래그 속성 추가');
+  });
+  d.getElementById('codeToggle').click();
+  test('코드 보기에서 본문 손잡이 숨김과 직렬화 제외',()=>{
+   const handle=body.querySelector('.local-body-drag-handle');
+   assert(handle.hidden||body.defaultView.getComputedStyle(handle).display==='none','코드 보기 중 손잡이 표시');
+   assert(!/data-local-editor-ui|local-body-drag-handle|local-body-drop-line/.test(d.getElementById('sourceCode').value),'본문 이동 UI가 코드에 포함됨');
+  });
+  d.getElementById('sourceCode').dispatchEvent(new w.KeyboardEvent('keydown',{key:'s',ctrlKey:true,bubbles:true,cancelable:true}));
+  test('코드 보기에서 저장 전 확인 지원',()=>assert(d.getElementById('reviewDialog').open,'저장 확인창 누락'));
+  d.getElementById('save').click();await wait(()=>d.getElementById('status').textContent.includes('검증용 충돌 응답'));
+  test('저장 충돌 시 코드와 미저장 내용 유지',()=>{
+   assert(posts.length===1,'저장 중복 실행');assert(posts[0].changes.some(x=>x.html.includes('전환 시험 문구')),'문구 전송 누락');
+   assert(!/data-local-editor-ui|local-body-drag-handle|local-body-drop-line/.test(JSON.stringify(posts[0])),'본문 이동 UI가 저장 요청에 포함됨');
+   assert(preview.contentDocument===body&&d.getElementById('sourceCode').value.includes('전환 시험 문구'),'실패 후 작업본 손실');
+   assert(d.getElementById('codeToggle').disabled===false,'전환 버튼 복구 안 됨');
+  });
+  const after=await(await fetch('/__editor/page?path=pages/L02MAIN.html')).json();
+  test('검증 중 실제 가이드 파일은 불변',()=>assert(JSON.stringify(after.versions)===beforeVersion,'원본 버전 변경'));
+  d.getElementById('codeToggle').click();w.confirm=()=>true;fixtureMode=true;d.getElementById('reload').click();
+  await wait(()=>d.getElementById('status').textContent.includes('저장된 상태'));
+  const multiBody=preview.contentDocument;
+  const parts=()=>{const image=multiBody.querySelector('img[src*="home_profile"]').parentElement;return {image,title:[...image.parentElement.children].find(x=>x.textContent==='내 학교생활의 시작점'),description:[...image.parentElement.children].find(x=>x.matches('span')&&x.textContent.includes('전공·커리어로드맵'))}};
+  const clickBlock=(element,ctrlKey=false)=>element.dispatchEvent(new multiBody.defaultView.MouseEvent('click',{bubbles:true,ctrlKey}));
+  const spacingParent=parts().title.parentElement,spacingStyle=spacingParent.getAttribute('style');
+  const spacingErrors=[],onSpacingError=event=>spacingErrors.push(event.message);
+  w.addEventListener('error',onSpacingError);clickBlock(parts().title);spacingParent.style.display='grid';
+  try{
+   for(const id of ['spacingBefore','spacingAfter','spacingClear']){
+    d.getElementById(id).click();
+    test(id+'의 제한 사유는 상태줄에 표시하고 원문 유지',()=>{
+     assert(d.getElementById('status').classList.contains('error')&&d.getElementById('status').textContent.includes('격자 배치'),'간격 제한 안내 누락');
+     assert(!spacingErrors.length&&d.getElementById('review').disabled,'처리하지 않은 예외 또는 원문 변경');
+    });
+   }
+  }finally{spacingStyle===null?spacingParent.removeAttribute('style'):spacingParent.setAttribute('style',spacingStyle);w.removeEventListener('error',onSpacingError)}
+  let selectedParts=parts();selectedParts.image.scrollIntoView({block:'center'});clickBlock(selectedParts.image);clickBlock(selectedParts.title,true);clickBlock(selectedParts.description,true);
+  test('여러 블록 선택 개수와 단일 문구 기능 잠금',()=>{
+   assert(d.getElementById('selectionPath').textContent.includes('3개 선택'),'다중 선택 개수 누락');
+   assert(d.querySelector('[data-format]').disabled&&d.getElementById('tipBox').disabled,'다중 선택에서 문구 기능 활성화');
+   assert(d.getElementById('duplicateBlock').disabled&&d.getElementById('editImage').disabled,'다중 선택에서 단일 구성 기능 활성화');
+  });
+  const transferTimer=w.setTimeout;let expireSpacing=null,offerDelay=0;
+  w.setTimeout=(callback,delay,...args)=>{if(delay===10000){expireSpacing=callback;offerDelay=delay}return transferTimer.call(w,callback,delay,...args)};
+  const spacerCount=multiBody.querySelectorAll('.guide-spacer-v').length;
+  try{
+   d.getElementById('moveDown').click();
+   test('여러 블록은 순서대로 한꺼번에 이동하고 자동보정은 대기',()=>{
+    selectedParts=parts();assert(selectedParts.image.nextElementSibling===selectedParts.title&&selectedParts.title.nextElementSibling===selectedParts.description,'다중 이동 순서 손실');
+    assert(!d.getElementById('autoSpacing').hidden&&offerDelay===10000,'이동 뒤 10초 보정 버튼 누락');
+    assert(multiBody.querySelectorAll('.guide-spacer-v').length===spacerCount,'버튼 없이 자동 간격 변경');
+   });
+   await wait(()=>d.getElementById('autoSpacing').style.visibility==='visible');
+   test('자동보정 버튼은 이동한 본문 오른쪽에 플로팅 표시',()=>{
+    const button=d.getElementById('autoSpacing'),rect=button.getBoundingClientRect(),area=preview.getBoundingClientRect();
+    assert(w.getComputedStyle(button).position==='fixed'&&!button.closest('.toolbar'),'버튼이 도구 모음에 남음');
+    assert(rect.left>=area.left&&rect.right<=area.right&&rect.top>=area.top&&rect.bottom<=area.bottom,'버튼이 편집 본문 밖에 표시');
+    assert(rect.left>area.left+area.width/2,'본문 오른쪽 배치 오류');
+   });
+   const savedRAF=w.requestAnimationFrame;let floatingFrames=0;
+   w.requestAnimationFrame=callback=>{floatingFrames++;return savedRAF.call(w,callback)};
+   try{
+    for(let i=0;i<10;i++)multiBody.defaultView.dispatchEvent(new Event('scroll'));
+    await new Promise(resolve=>w.setTimeout(resolve,100));
+    test('플로팅 위치는 스크롤 이벤트를 한 프레임으로 합치고 반복 계산하지 않음',()=>assert(floatingFrames===1,'불필요한 위치 계산: '+floatingFrames));
+   }finally{w.requestAnimationFrame=savedRAF}
+   expireSpacing();test('10초 경과 콜백은 보정 제안만 닫음',()=>assert(d.getElementById('autoSpacing').hidden&&multiBody.querySelectorAll('.guide-spacer-v').length===spacerCount,'만료 뒤 본문 변경 또는 버튼 잔존'));
+  }finally{w.setTimeout=transferTimer}
+  d.getElementById('undo').click();
+  test('다중 이동은 한 번의 되돌리기로 원복',()=>assert(d.getElementById('review').disabled,'다중 이동 되돌리기가 한 번에 끝나지 않음'));
+  d.getElementById('redo').click();
+  test('다중 이동 다시 실행은 선택 배열 유지',()=>assert(d.getElementById('selectionPath').textContent.includes('3개 선택')&&!d.getElementById('review').disabled,'다중 다시 실행 실패'));
+  d.getElementById('spacingSize').value='24';d.getElementById('spacingBefore').click();
+  test('다중 선택 범위 앞 여백을 직접 설정',()=>{
+   const gap=parts().image.previousElementSibling;assert(gap.matches('.guide-spacer-v')&&gap.style.height==='24px','앞 여백 설정 실패');
+  });
+  d.getElementById('spacingAfter').click();
+  test('다중 선택 범위 뒤 여백을 직접 설정',()=>{
+   const gap=parts().description.nextElementSibling;assert(gap.matches('.guide-spacer-v')&&gap.style.height==='24px','뒤 여백 설정 실패');
+  });
+  d.getElementById('spacingClear').click();
+  test('여백 제거는 선택 범위 바깥의 여백만 정리',()=>assert(multiBody.querySelectorAll('.guide-spacer-v').length===spacerCount,'선택한 여백이 정리되지 않음'));
+  selectedParts=parts();clickBlock(selectedParts.title);clickBlock(selectedParts.description,true);d.getElementById('moveUp').click();
+  test('텍스트를 이미지 앞으로 옮겨도 버튼 전에는 보정하지 않음',()=>{
+   const p=parts();assert(p.description.nextElementSibling===p.image,'텍스트 앞 이동 실패');
+   assert(!d.getElementById('autoSpacing').hidden&&multiBody.querySelectorAll('.guide-spacer-v').length===spacerCount,'선택적 보정 조건 실패');
+  });
+  d.getElementById('autoSpacing').click();
+  test('자동보정 버튼은 좁은 텍스트와 이미지 간격만 보완',()=>{
+   const p=parts(),gap=p.image.getBoundingClientRect().top-p.description.getBoundingClientRect().bottom;
+   assert(gap>=20&&gap<=32,'보정 후 간격 오류: '+gap);assert(d.getElementById('autoSpacing').hidden,'보정 뒤 버튼 잔존');
+  });
+  d.getElementById('undo').click();
+  test('간격 보정도 한 번의 되돌리기로 취소',()=>assert(multiBody.querySelectorAll('.guide-spacer-v').length===spacerCount,'간격 보정 되돌리기 실패'));
+  const finalVersion=await(await fetch('/__editor/page?path=pages/L02MAIN.html')).json();
+  test('다중 이동과 간격 검증 뒤에도 실제 문서는 불변',()=>assert(JSON.stringify(finalVersion.versions)===beforeVersion,'검증 중 원본 변경'));
+  fixtureMode=false;d.getElementById('reload').click();await wait(()=>d.getElementById('status').textContent.includes('저장된 상태'));
+  const finalBody=preview.contentDocument,finalGroup=finalBody.querySelector('.space-y-4.mb-8');
+  finalGroup.querySelector('[data-local-block]').dispatchEvent(new finalBody.defaultView.MouseEvent('click',{bubbles:true}));
+  finalGroup.scrollIntoView({block:'center'});
+  document.title='PASS 편집기 통합 검증';document.getElementById('result').textContent=JSON.stringify({pass:true,count:results.length,results});
+ }catch(error){document.title='FAIL 편집기 통합 검증';document.getElementById('result').textContent=JSON.stringify({pass:false,error:error.message,stack:error.stack,results})}
+ finally{if(w&&originalFetch)w.fetch=originalFetch}
+})();
+</script></body></html>

@@ -4,6 +4,10 @@
   let config, state, doc, selectionRange, activeBlock, structure;
   let boundText = new WeakSet();
   let originals = new Map(), past = [], future = [], busy = false;
+  let codeView = false, previewScrollY = 0;
+  let selectionPathElements = [], selectionPathCount = 0;
+  let lastMovedElements = [], autoSpacingTimer = null;
+  let autoSpacingFrame = 0, autoSpacingListeners = [];
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function status(message, error = false) {
     $('status').textContent = message;
@@ -55,14 +59,130 @@
       .map(([id, html, gapBefore, gapAfter, tipBox]) => ({id, html, gapBefore, gapAfter, tipBox}));
   }
   function pendingCount() { return changes().length + (structure?.summary().length || 0); }
+  function hideAutoSpacing() {
+    if (autoSpacingTimer) clearTimeout(autoSpacingTimer);
+    if (autoSpacingFrame) cancelAnimationFrame(autoSpacingFrame);
+    autoSpacingFrame = 0;
+    autoSpacingListeners.forEach(remove => remove()); autoSpacingListeners = [];
+    autoSpacingTimer = null; lastMovedElements = []; $('autoSpacing').hidden = true;
+  }
+  function positionAutoSpacing() {
+    autoSpacingFrame = 0;
+    const button = $('autoSpacing');
+    if (button.hidden) return;
+    if (lastMovedElements.some(element => !element.isConnected)) { hideAutoSpacing(); return; }
+    const frameRect = frame.getBoundingClientRect();
+    if (busy || codeView || frame.hidden || !frameRect.width || !frameRect.height) { button.style.visibility = 'hidden'; return; }
+    const rectangles = lastMovedElements.map(element => element.getBoundingClientRect()).filter(rect => rect.width && rect.height);
+    const top = Math.min(...rectangles.map(rect => rect.top)), bottom = Math.max(...rectangles.map(rect => rect.bottom));
+    const leftEdge = Math.min(...rectangles.map(rect => rect.left)), rightEdge = Math.max(...rectangles.map(rect => rect.right));
+    if (!rectangles.length || bottom <= 0 || top >= frame.clientHeight || rightEdge <= 0 || leftEdge >= frame.clientWidth
+      || frameRect.bottom <= 0 || frameRect.top >= innerHeight) { button.style.visibility = 'hidden'; return; }
+    const frameLeft = frameRect.left + frame.clientLeft, frameTop = frameRect.top + frame.clientTop;
+    const right = frameLeft + rightEdge;
+    const maxRight = Math.min(innerWidth,frameRect.right) - 8, minLeft = Math.max(8,frameRect.left + 8);
+    const width = button.offsetWidth, height = button.offsetHeight;
+    const left = right + width + 12 <= maxRight ? right + 8 : right - width - 8;
+    const minTop = Math.max(8,frameRect.top + 8), maxTop = Math.min(innerHeight,frameRect.bottom) - height - 8;
+    button.style.left = Math.max(minLeft,Math.min(left,maxRight-width)) + 'px';
+    button.style.top = Math.max(minTop,Math.min(frameTop+top+4,maxTop)) + 'px';
+    button.style.visibility = 'visible';
+  }
+  function queueAutoSpacing() {
+    if (!autoSpacingFrame && !$('autoSpacing').hidden) autoSpacingFrame = requestAnimationFrame(positionAutoSpacing);
+  }
+  function showAutoSpacing(elements) {
+    hideAutoSpacing();
+    lastMovedElements = elements.filter(element => element.isConnected);
+    if (!lastMovedElements.length) return;
+    $('autoSpacing').hidden = false; $('autoSpacing').disabled = busy || codeView;
+    $('autoSpacing').style.visibility = 'hidden';
+    for (const [target,type,capture] of [[window,'resize',false],[frame.contentWindow,'scroll',true],[frame.contentWindow,'resize',false],[doc,'load',true]]) {
+      const options = {capture,passive:true};
+      target.addEventListener(type,queueAutoSpacing,options);
+      autoSpacingListeners.push(() => target.removeEventListener(type,queueAutoSpacing,options));
+    }
+    queueAutoSpacing();
+    autoSpacingTimer = setTimeout(hideAutoSpacing,10000);
+  }
+  function selectedElements() { return structure?.getSelectedElements?.() || []; }
+  function singleTextAction() {
+    if (selectedElements().length < 2) return true;
+    status('문구를 편집하려면 한 항목만 선택해 주세요 여러 항목은 함께 이동할 수 있어요', true);
+    return false;
+  }
+  function renderSelectionPath() {
+    const bar = $('selectionPath'), path = structure?.getSelectionPath() || [];
+    const count = selectedElements().length;
+    bar.hidden = codeView || !path.length;
+    const same = count === selectionPathCount && path.length === selectionPathElements.length && path.every((part,index) => part.element === selectionPathElements[index]);
+    if (!same) {
+      selectionPathCount = count;
+      selectionPathElements = path.map(part => part.element);
+      bar.replaceChildren();
+      const parent = document.createElement('button'); parent.type = 'button'; parent.textContent = '↑ 상위 묶음';
+      parent.dataset.parentSelection = 'true'; parent.onclick = () => structure?.selectParent(); bar.append(parent);
+      const label = document.createElement('span'); label.textContent = count > 1 ? `${count}개 선택 · 함께 이동` : '선택 경로'; bar.append(label);
+      path.forEach((part,index) => {
+        if (index) { const separator = document.createElement('span'); separator.textContent = '›'; separator.setAttribute('aria-hidden','true'); bar.append(separator); }
+        const button = document.createElement('button'); button.type = 'button'; button.textContent = part.label;
+        button.title = part.element.textContent.trim().replace(/\s+/g,' ').slice(0,90) || part.label;
+        button.dataset.selectionIndex = String(index); button.onclick = () => structure?.select(part.element,false);
+        button.setAttribute('aria-current',String(index === path.length-1)); bar.append(button);
+      });
+      if (count > 1) {
+        const clear = document.createElement('button'); clear.type = 'button'; clear.textContent = '선택 해제';
+        clear.dataset.clearSelection = 'true'; clear.onclick = () => structure?.select(null); bar.append(clear);
+      }
+    }
+    bar.querySelectorAll('button').forEach(button => {
+      const unavailable = button.dataset.clearSelection ? false : button.dataset.parentSelection ? path.length < 2 : Number(button.dataset.selectionIndex) === path.length-1;
+      button.disabled = busy || codeView || unavailable;
+    });
+  }
+  function refreshCodeView() {
+    if (!codeView || !doc) return;
+    const viewer = doc.getElementById('viewer');
+    if (!viewer) return;
+    const copy = viewer.cloneNode(true);
+    window.JJSTAR_EDITOR_BLOCKS.cleanTree(copy);
+    $('sourceCode').value = copy.innerHTML;
+  }
+  function updateViewControls() {
+    $('codeToggle').disabled = busy || !doc;
+    $('codeToggle').textContent = codeView ? '화면으로 보기' : '코드로 보기';
+    $('codeToggle').setAttribute('aria-pressed', String(codeView));
+    frame.hidden = codeView;
+    $('sourceView').hidden = !codeView;
+    document.querySelectorAll('[data-format],[data-gap],#tipBox').forEach(button => button.disabled = busy || codeView || selectedElements().length > 1);
+    const spacingLocked = busy || codeView || !selectedElements().length || typeof structure?.setSpacing !== 'function';
+    for (const id of ['spacingSize','spacingBefore','spacingAfter','spacingClear']) $(id).disabled = spacingLocked;
+    if (lastMovedElements.some(element => !element.isConnected)) hideAutoSpacing();
+    $('autoSpacing').disabled = busy || codeView;
+    queueAutoSpacing();
+    renderSelectionPath();
+  }
+  function toggleCodeView() {
+    if (busy || !doc) return;
+    if (!codeView) {
+      try { previewScrollY = frame.contentWindow.scrollY; } catch (_) {}
+    }
+    codeView = !codeView;
+    refreshCodeView(); update();
+    if (codeView) $('sourceCode').focus({preventScroll:true});
+    else {
+      try { frame.contentWindow.scrollTo(0, previewScrollY); } catch (_) {}
+    }
+  }
   function update() {
     const count = pendingCount();
     $('review').disabled = busy || !count;
-    $('undo').disabled = !past.length;
-    $('redo').disabled = !future.length;
+    $('undo').disabled = busy || codeView || !past.length;
+    $('redo').disabled = busy || codeView || !future.length;
     blocks().forEach(e => e.classList.toggle('local-changed', e.innerHTML !== originals.get(e.dataset.localBlock)
       || Number(e.dataset.localGapBefore || 0) > 0 || Number(e.dataset.localGapAfter || 0) > 0 || e.dataset.localTipBox === 'true'));
     structure?.refresh();
+    refreshCodeView(); updateViewControls();
     if (!busy) status(count ? `${count}개 항목 변경 · 아직 저장하지 않았어요` : `${state?.path || ''} · 저장된 상태`);
   }
   function record() {
@@ -129,7 +249,7 @@
     block.before(wrapper); wrapper.append(row); row.append(content); content.append(block);
   }
   function toggleTipBox() {
-    if (busy) return;
+    if (busy || !singleTextAction()) return;
     const block = activeBlock;
     const spec = blockSpec(block);
     if (!block?.isConnected || !spec?.tip?.allowed) {
@@ -140,7 +260,7 @@
     renderTipBox(block); renderGaps(block); structure?.markText(block); update();
   }
   function addGap(side) {
-    if (busy) return;
+    if (busy || !singleTextAction()) return;
     const block = activeBlock;
     const spec = blockSpec(block);
     if (spec && !spec.gap) {
@@ -173,7 +293,7 @@
       boundText.add(e);
       e.addEventListener('focus', () => { activeBlock = e; });
       e.addEventListener('beforeinput', event => {
-        if (busy) { event.preventDefault(); return; }
+        if (busy || !singleTextAction()) { event.preventDefault(); return; }
         if (['insertParagraph','insertLineBreak'].includes(event.inputType)) {
           event.preventDefault(); insertText('\n');
         } else record();
@@ -235,7 +355,7 @@
     return root;
   }
   function apply(format) {
-    if (busy) return;
+    if (busy || !singleTextAction()) return;
     if (!selectionRange || selectionRange.collapsed || !activeBlock?.isConnected || !selectionRange.toString().trim()) {
       status('서식을 적용할 문구를 한 문단 안에서 드래그해 주세요', true); return;
     }
@@ -290,7 +410,7 @@
     update();
   }
   function insertText(text) {
-    if (busy) return;
+    if (busy || !singleTextAction()) return;
     const selection = doc.getSelection();
     if (!selection.rangeCount) return;
     const range = selection.getRangeAt(0);
@@ -313,14 +433,15 @@
     if (!force && (typeof structure !== 'undefined' && structure?.changed() || changes().length) && !confirm('저장하지 않은 변경 내용을 버리고 다른 문서를 열까요?')) {
       $('pages').value = state.path; return false;
     }
-    busy = true; $('review').disabled = true; status('문서를 불러오고 있어요');
+    busy = true; $('review').disabled = true; updateViewControls(); status('문서를 불러오고 있어요');
     try {
       const next = await request('/__editor/page?path=' + encodeURIComponent(path));
+      structure?.destroy();
       await new Promise(resolve => {
         frame.onload = resolve;
         frame.srcdoc = `<!doctype html><html lang="ko" translate="no" class="notranslate" data-theme="${$('dark').checked ? 'dark' : 'light'}"><head><meta charset="utf-8"><meta name="google" content="notranslate"><base href="${escape(location.origin)}/"><link rel="stylesheet" href="assets/css/style.css?v=editor"><link rel="stylesheet" href="assets/css/style_l3.css?v=${Date.now()}"><style>${config.styles}\nhtml{height:100%;overflow-x:hidden;overflow-y:auto;scrollbar-gutter:stable;background:var(--sidebar-bg);color-scheme:light}html[data-theme=dark]{background:#111827;color-scheme:dark}body{margin:0;min-width:0;min-height:100%;height:auto;overflow:visible;background:var(--sidebar-bg)}.viewer{margin:0 auto!important;padding:20px!important;max-width:850px;width:100%;overflow:visible;height:auto} [data-local-block]{outline:1px dashed transparent;outline-offset:4px;cursor:text} [data-local-block]:hover{outline-color:#b3cbe3} [data-local-block]:focus{outline:2px solid #0083c3} .local-changed{outline-color:#e2b900} [data-local-block] img{pointer-events:none} [data-local-block] span.guide-button-label{cursor:text} [data-local-gap-owner]{display:flex;align-items:center;justify-content:center;outline:1px dashed #d5ad28;background:rgba(243,208,42,.08);color:#9a7600;font:600 12px Pretendard,sans-serif;user-select:none}</style></head><body data-theme="${$('dark').checked ? 'dark' : 'light'}"><main id="viewer" class="viewer">${next.html}</main></body></html>`;
       });
-      state = next; doc = frame.contentDocument;
+      state = next; doc = frame.contentDocument; previewScrollY = 0;
       originals = new Map(); past = []; future = []; selectionRange = null; activeBlock = null;
       boundText = new WeakSet();
       blocks().forEach(e => originals.set(e.dataset.localBlock, e.innerHTML));
@@ -328,7 +449,7 @@
       bindEditable();
       if (window.JJSTAR_EDITOR_BLOCKS) structure = window.JJSTAR_EDITOR_BLOCKS.create({doc,state,
         ui:Object.fromEntries(['outline','structureStatus','selectedBlock','insertType','insertPosition','imageColumns','insertBlock','moveUp','moveDown','duplicateBlock','deleteBlock','editImage','imageDialog','imageFields','imageSuggestions','imageApply','imageCancel','imageSummary'].map(id => [id,$(id)])),
-        beforeChange:record,onChange:update,bindText:bindEditable,isBusy:() => busy,message:status,request});
+        beforeChange:record,onChange:update,onMove:showAutoSpacing,onSelectionChange:updateViewControls,bindText:bindEditable,isBusy:() => busy || codeView,message:status,request});
       doc.addEventListener('selectionchange', rememberSelection);
       doc.addEventListener('click', event => {
         const link = event.target.closest('a');
@@ -342,7 +463,7 @@
       doc.addEventListener('keydown', shortcut);
       const query = new URL(location.href); query.searchParams.set('path', path); history.replaceState(null, '', query);
       $('pages').value = path;
-    } catch (error) { status(error.message, true); busy = false; return false; }
+    } catch (error) { status(error.message, true); busy = false; updateViewControls(); return false; }
     busy = false; update(); return true;
   }
   function readable(markup) {
@@ -390,6 +511,7 @@
       if (['s', 'z', 'y', 'b'].includes(event.key.toLowerCase())) event.preventDefault();
       return;
     }
+    if (codeView && ['z', 'y', 'b'].includes(event.key.toLowerCase())) { event.preventDefault(); return; }
     if (event.key.toLowerCase() === 's') { event.preventDefault(); review(); }
     if (event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? redo() : undo(); }
     if (event.key.toLowerCase() === 'y') { event.preventDefault(); redo(); }
@@ -404,6 +526,26 @@
     button.addEventListener('click', () => addGap(button.dataset.gap));
   });
   $('undo').onclick = undo; $('redo').onclick = redo;
+  $('codeToggle').onclick = toggleCodeView;
+  function runSpacing(action) {
+    if (busy || codeView) return;
+    try { return action(); }
+    catch (error) { status(error.message, true); }
+  }
+  $('spacingBefore').onclick = () => runSpacing(() => structure?.setSpacing?.('before',Number($('spacingSize').value)));
+  $('spacingAfter').onclick = () => runSpacing(() => structure?.setSpacing?.('after',Number($('spacingSize').value)));
+  $('spacingClear').onclick = () => runSpacing(() => structure?.clearSpacing?.());
+  $('autoSpacing').onclick = () => {
+    if (busy || codeView) return;
+    const elements = lastMovedElements.filter(element => element.isConnected);
+    try {
+      if (elements.length === lastMovedElements.length && elements.length) runSpacing(() => {
+        const changed = structure?.correctSpacing?.(elements);
+        if (changed === false) status('보정할 좁은 이미지·텍스트 간격이 없어요');
+        return changed;
+      });
+    } finally { hideAutoSpacing(); }
+  };
   $('tipBox').addEventListener('mousedown', event => event.preventDefault());
   $('tipBox').onclick = toggleTipBox;
   $('review').onclick = review; $('cancelSave').onclick = () => $('reviewDialog').close();
@@ -412,16 +554,18 @@
   $('dark').onchange = () => {
     if (!doc) return;
     const theme = $('dark').checked ? 'dark' : 'light';
+    document.body.dataset.editorTheme = theme;
     doc.documentElement.dataset.theme = theme;
     doc.body.dataset.theme = theme;
   };
   async function saveDocument() {
     if (busy) return;
     busy = true; $('save').disabled = true;
+    updateViewControls();
     let saved = false;
     try {
-      let y = 0;
-      try { y = frame.contentWindow.scrollY; } catch (_) {}
+      let y = codeView ? previewScrollY : 0;
+      try { if (!codeView) y = frame.contentWindow.scrollY; } catch (_) {}
       const layout = typeof structure !== 'undefined' ? structure?.layout() : undefined;
       const result = await saveChanges({path:state.path, versions:state.versions, changes:changes(), ...(layout ? {layout} : {})});
       saved = true;
@@ -430,6 +574,7 @@
         status(`원본 파일 저장 완료 · 미리보기를 다시 불러오지 못했어요. 편집 중인 문구는 그대로 두었어요. [다시 불러오기]로 확인해 주세요 · 백업: ${result.backup || '변경 없음'}`, true);
         return;
       }
+      previewScrollY = y;
       try { frame.contentWindow.scrollTo(0, y); }
       catch (_) {
         status(`원본 파일 저장 완료 · 이전 스크롤 위치를 복원하지 못했어요. 저장된 내용은 미리보기에서 확인할 수 있어요 · 백업: ${result.backup || '변경 없음'}`, true);
@@ -440,7 +585,7 @@
       status(saved ? `원본 파일 저장 완료 · 미리보기 갱신 중 오류가 났어요: ${error.message}` : error.message, true);
       $('reviewDialog').close();
     }
-    finally { busy = false; $('save').disabled = false; $('review').disabled = !(changes().length || typeof structure !== 'undefined' && structure?.changed()); if (typeof structure !== 'undefined') structure?.refresh(); }
+    finally { busy = false; $('save').disabled = false; $('review').disabled = !(changes().length || typeof structure !== 'undefined' && structure?.changed()); if (typeof structure !== 'undefined') structure?.refresh(); updateViewControls(); }
   }
   $('save').onclick = saveDocument;
   document.addEventListener('keydown', shortcut);

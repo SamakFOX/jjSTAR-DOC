@@ -1,5 +1,6 @@
 import importlib.util
 import json
+from collections import Counter
 from pathlib import Path
 import tempfile
 import threading
@@ -42,6 +43,125 @@ class StructureTests(unittest.TestCase):
 
     def layout(self, state):
         return [dict(id=r['id']) for r in state['regions']]
+
+    def assert_reordered_save(self, state, result):
+        saved = editor.read(self.page)
+        original_nodes = editor.SourceParser(state['source']).nodes
+        saved_nodes = editor.SourceParser(saved).nodes
+        for attribute in ['id', 'src']:
+            original = Counter(n['attrs'][attribute] for n in original_nodes if n['attrs'].get(attribute))
+            current = Counter(n['attrs'][attribute] for n in saved_nodes if n['attrs'].get(attribute))
+            self.assertEqual(current, original, f'{attribute} 누락 또는 중복')
+        self.assertEqual(Counter(line.strip() for line in saved.splitlines() if line.strip()),
+                         Counter(line.strip() for line in state['source'].splitlines() if line.strip()))
+        self.assertNotIn('\n', saved.replace('\r\n', ''))
+        for marker in ['local-region:', 'data-local-', 'contenteditable', 'local-structure-selected']:
+            self.assertNotIn(marker, saved)
+        self.assertEqual(result['saved'], 1)
+        backup = editor.ROOT / result['backup'] / 'pages/L04CHECK.html'
+        self.assertEqual(backup.read_bytes(), state['source'].encode())
+        self.assertEqual(editor.read(editor.ROOT / 'data/strings.js'), self.strings)
+        reopened = self.state()
+        self.assertTrue(reopened['structure']['allowed'])
+        self.assertEqual(reopened['source'], saved)
+        self.assertEqual(reopened['versions'][state['path']], editor.digest(saved))
+        return saved, reopened
+
+    def assert_layout_rejected_without_writes(self, state, layout):
+        page_before = self.page.read_bytes()
+        strings_before = (editor.ROOT / 'data/strings.js').read_bytes()
+        backup_root = editor.ROOT / 'outputs/local-editor-backups'
+        backups_before = set(backup_root.rglob('*')) if backup_root.exists() else set()
+        with mock.patch.object(editor, 'atomic_write', wraps=editor.atomic_write) as write:
+            with self.assertRaises(ValueError):
+                self.save(state, layout)
+            write.assert_not_called()
+        self.assertEqual(self.page.read_bytes(), page_before)
+        self.assertEqual((editor.ROOT / 'data/strings.js').read_bytes(), strings_before)
+        self.assertEqual(set(backup_root.rglob('*')) if backup_root.exists() else set(), backups_before)
+
+    def test_image_caption_groups_move_and_reopen_without_loss(self):
+        groups = [
+            '<figure class="guide-image-slot"><img src="assets/images/sample.webp?v=example" '
+            'width="800" height="400" loading="lazy"><figcaption>그림 설명</figcaption></figure>',
+            '<div class="mb-3"><img src="assets/images/sample.webp?v=example" '
+            'width="800" height="400" class="w-full h-auto"><p class="text-center">그림 설명</p></div>'
+        ]
+        for group in groups:
+            with self.subTest(group=group.split('>')[0]):
+                source = ('<article class="guide-detail">\r\n  <h1>제목</h1>\r\n  <p>소개</p>'
+                          '\r\n  <!-- 본문 -->\r\n  <section id="T1"><h2>이용 안내</h2>'
+                          '<p>기존 설명 &amp; 안내</p></section>\r\n  ' + group +
+                          '\r\n  <p>마지막 설명</p>\r\n</article>\r\n')
+                state = self.state(source)
+                region = next(r for r in state['regions'] if 'sample.webp' in source[r['_start']:r['_end']])
+                layout = self.layout(state)
+                index = next(i for i, entry in enumerate(layout) if entry['id'] == region['id'])
+                layout[index], layout[index + 1] = layout[index + 1], layout[index]
+                saved, reopened = self.assert_reordered_save(state, self.save(state, layout))
+                self.assertIn(group, saved)
+                self.assertLess(saved.index('<p>마지막 설명</p>'), saved.index(group))
+                self.assertEqual(len(reopened['regions']), len(state['regions']))
+
+    def test_nested_sibling_reorder_keeps_anchors_and_untouched_source(self):
+        first = ('<div id="step-one" class="guide-flow-card"><strong>첫 안내</strong>'
+                 '<p>첫 설명 &amp; 안내</p><figure class="guide-image-slot">'
+                 '<img src="assets/images/first.webp"><figcaption>첫 그림 설명</figcaption></figure></div>')
+        second = ('<div id="step-two" class="guide-flow-card"><strong>다음 안내</strong>'
+                  '<p>다음 설명</p><figure class="guide-image-slot">'
+                  '<img src="assets/images/second.webp"><figcaption>다음 그림 설명</figcaption></figure></div>')
+        section = ('<section id="T1"><h2>이용 순서</h2><div class="guide-flow-row">\r\n  ' +
+                   first + '\r\n  ' + second + '\r\n</div></section>')
+        source = ('<article>\r\n  <h1>제목</h1>\r\n  <p>소개</p>\r\n  ' + section +
+                  '\r\n  <section id="T2"><h2>별도 안내</h2><p>변경하지 않는 문구</p></section>\r\n</article>\r\n')
+        state = self.state(source)
+        region = next(r for r in state['regions'] if 'T1' in r['anchorIds'])
+        layout = self.layout(state)
+        next(entry for entry in layout if entry['id'] == region['id'])['html'] = section.replace(
+            first + '\r\n  ' + second, second + '\r\n  ' + first)
+        saved, reopened = self.assert_reordered_save(state, self.save(state, layout))
+        self.assertLess(saved.index(second), saved.index(first))
+        moved = next(r for r in reopened['regions'] if 'T1' in r['anchorIds'])
+        self.assertEqual(source[:region['_start']] + source[region['_end']:],
+                         saved[:moved['_start']] + saved[moved['_end']:])
+
+    def test_nested_figure_and_caption_move_before_description(self):
+        description = '<p>그림과 함께 읽는 기존 설명</p>'
+        figure = ('<figure class="guide-image-slot"><img src="assets/images/detail.webp">'
+                  '<figcaption>변경하지 않는 그림 설명</figcaption></figure>')
+        section = ('<section id="T1"><h2>사용 방법</h2><div class="guide-flow-card">\r\n  ' +
+                   description + '\r\n  ' + figure + '\r\n</div></section>')
+        source = ('<article>\r\n  <h1>제목</h1>\r\n  <p>소개</p>\r\n  ' + section + '\r\n</article>\r\n')
+        state = self.state(source)
+        region = next(r for r in state['regions'] if 'T1' in r['anchorIds'])
+        layout = self.layout(state)
+        next(entry for entry in layout if entry['id'] == region['id'])['html'] = section.replace(
+            description + '\r\n  ' + figure, figure + '\r\n  ' + description)
+        saved, _ = self.assert_reordered_save(state, self.save(state, layout))
+        self.assertIn(figure, saved)
+        self.assertLess(saved.index(figure), saved.index(description))
+
+    def test_nested_anchor_loss_is_rejected_before_backup_or_write(self):
+        section = ('<section id="T1"><div id="first"><p>첫 설명</p></div>\r\n  '
+                   '<div id="second"><p>다음 설명</p></div></section>')
+        state = self.state('<article>\r\n<h1>제목</h1>\r\n<p>소개</p>\r\n' + section + '\r\n</article>\r\n')
+        region = next(r for r in state['regions'] if 'T1' in r['anchorIds'])
+        for anchor in ['T1', 'first', 'second']:
+            with self.subTest(anchor=anchor):
+                layout = self.layout(state)
+                next(entry for entry in layout if entry['id'] == region['id'])['html'] = section.replace(
+                    f' id="{anchor}"', '', 1)
+                self.assert_layout_rejected_without_writes(state, layout)
+
+    def test_replaced_region_rejects_editor_attributes_and_markers(self):
+        state = self.state()
+        for content in ['<section data-local-block="1"><p>설명</p></section>',
+                        '<section><p contenteditable="true">설명</p></section>',
+                        '<section><!--local-region:r1:start--><p>설명</p></section>']:
+            with self.subTest(content=content):
+                layout = self.layout(state)
+                layout[2]['html'] = content
+                self.assert_layout_rejected_without_writes(state, layout)
 
     def test_add_section_image_reopen_and_backup(self):
         state = self.state()
@@ -114,12 +234,10 @@ class StructureTests(unittest.TestCase):
     def test_protected_regions_and_barriers(self):
         state = self.state()
         for layout in [self.layout(state)[1:], [self.layout(state)[2], *self.layout(state)[:2], self.layout(state)[3]]]:
-            with self.assertRaises(ValueError):
-                self.save(state, layout)
+            self.assert_layout_rejected_without_writes(state, layout)
         layout = self.layout(state)
         layout[0]['html'] = '<h2>새 상단</h2>'
-        with self.assertRaises(ValueError):
-            self.save(state, layout)
+        self.assert_layout_rejected_without_writes(state, layout)
         self.assertEqual(self.page.read_bytes(), self.source.encode())
 
     def test_anchor_preservation_and_duplicate_ids(self):

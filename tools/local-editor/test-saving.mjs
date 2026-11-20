@@ -20,9 +20,10 @@ function setup(queue) {
   const draft = [{id: '4', html: '수정한 문구', gapBefore: 0, gapAfter: 0, tipBox: false}];
   const context = vm.createContext({
     config: {token: 'old-token'}, state: {path: 'pages/L04CHECK.html', versions: {page: 'old'}},
-    doc: {marker: 'original-document'}, busy: false,
+    doc: {marker: 'original-document'}, busy: false, codeView: false, previewScrollY: 0,
     frame: {srcdoc: 'original-frame', contentWindow: {scrollY: 120, scrollTo() {}}},
     changes: () => draft, status: (...args) => messages.push(args), $: id => nodes[id],
+    updateViewControls() {},
     load: async () => true,
     fetch: async (url, options) => {
       calls.push({url, options});
@@ -141,6 +142,18 @@ await test('scroll position read failure cannot prevent saving', async () => {
   assert.equal(t.calls.length, 1);
   assert.equal(restoredY, 0);
   assert.match(t.messages.at(-1)[0], /^저장 완료/);
+});
+
+await test('saving from code view preserves the last visible preview position', async () => {
+  const t = setup([response(200, {saved: 1})]);
+  t.context.codeView = true; t.context.previewScrollY = 480;
+  let restoredY;
+  t.context.frame.contentWindow.scrollTo = (_, y) => { restoredY = y; };
+  t.context.frame.contentWindow.scrollY = 0;
+  await t.context.saveDocument();
+  assert.equal(t.context.previewScrollY, 480);
+  assert.equal(restoredY, 480);
+  assert.equal(t.calls.length, 1);
 });
 
 await test('unexpected preview errors after saving are reported separately', async () => {

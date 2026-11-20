@@ -16,7 +16,7 @@
     </figure>
     <p class="mb-8 guide-section-links"><a href="#login" class="inline-tab-badge">로그인하기</a> <a href="#otp"
         class="inline-tab-badge">OTP 처음
-        등록하기</a> <a href="#main" class="inline-tab-badge">메인화면 확인하기</a></p>
+        등록하기</a> <a href="#otp-login" class="inline-tab-badge">등록 후 OTP로 인증하기</a> <a href="#main" class="inline-tab-badge">메인화면 확인하기</a></p>
   </section>
 
   <section id="login" class="guide-steps bg-gray-50 p-8 rounded-lg">
@@ -146,9 +146,10 @@
       <div class="text-gray-700 pt-1 flex-1"><strong class="text-gray-900">인증번호 입력하면 로그인 완료!</strong>
         <p>JJSTAR 인증화면으로 돌아와 앱에 표시된 6자리 인증번호를 입력하고 <span class="guide-button-label guide-button-label--jjstar">인증하고
             계속</span>을 눌러요. 인증번호는 30초마다 바뀌므로 입력 중 번호가 바뀌었다면 새 번호를 확인해 다시 입력해요</p>
-        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_otp-06.webp" alt="인증번호 입력 완료"
-            loading="lazy" />
-          <figcaption>&lt; 인증번호 입력 후 계속 &gt;</figcaption>
+        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_otp-06.webp?v=36a4f84d1b"
+            alt="Google OTP 앱의 JJSTAR 인증번호를 등록 화면에 입력하고 인증하고 계속을 선택하는 화면"
+            width="5724" height="4237" loading="lazy" />
+          <figcaption>&lt; JJSTAR 인증번호 입력 후 등록 완료 &gt;</figcaption>
         </figure>
       </div>
     </div>
@@ -167,14 +168,44 @@
   </section>
 
   <div class="guide-spacer-v"></div>
+  <section id="otp-login" class="guide-steps bg-gray-50 p-8 rounded-lg">
+    <div class="flex items-center gap-2 mb-6 guide-section-heading">
+      <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
+      <h2 style="margin: 0;">등록 후 OTP로 인증하기</h2>
+    </div>
+    <p class="mb-8 text-gray-700">OTP를 등록한 뒤 다시 로그인하면 인증 방법을 선택하고 앱의 인증번호를 입력해요</p>
+    <div class="guide-flow-row">
+      <div class="guide-flow-card">
+        <div class="guide-flow-card-heading"><span class="step-badge">STEP 1</span><strong class="text-gray-900">구글 OTP 인증 선택하기</strong></div>
+        <p><strong>2차 인증</strong> 창에서 <span class="guide-button-label">구글 OTP 인증</span>을 선택해요</p>
+        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_otp-07.webp?v=639af9008f"
+            alt="구글 OTP 인증, SMS OTP 인증, 이메일 OTP 인증 중 인증 방법을 선택하는 2차 인증 화면"
+            width="3603" height="2657" loading="lazy" />
+          <figcaption>&lt; 2차 인증 방법 선택 &gt;</figcaption>
+        </figure>
+      </div>
+      <div class="guide-flow-card">
+        <div class="guide-flow-card-heading"><span class="step-badge">STEP 2</span><strong class="text-gray-900">인증번호 입력하고 로그인하기</strong></div>
+        <p>Google OTP 앱의 JJSTAR 항목에서 6자리 인증번호를 확인한 뒤 입력칸에 번호를 입력하고 <span class="guide-button-label guide-button-label--jjstar">인증하기</span>를 눌러요</p>
+        <figure class="guide-image-slot"><img src="assets/images/jjstar_d_otp-08.webp?v=cb5fb24ba2"
+            alt="6자리 인증번호 입력칸과 인증하기 버튼이 표시된 구글 OTP 인증 화면"
+            width="3159" height="1903" loading="lazy" />
+          <figcaption>&lt; 구글 OTP 인증번호 입력 &gt;</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="guide-spacer-v"></div>
   <section id="main" class="guide-page-description">
     <div class="flex items-center gap-2 mb-4 guide-section-heading">
       <img src="assets/images/jjstar-head-title.svg" alt="" width="24" height="24" />
       <h2 style="margin: 0;">메인화면 확인하기</h2>
     </div>
     <p>인증을 마치고 나의 프로필과 주요 서비스가 표시된 메인화면이 열리면 로그인 완료예요</p>
-    <figure class="guide-image-slot"><img src="assets/images/jjstar_d_login-05.webp"
-        alt="로그인 후 프로필, 주요 메뉴와 One-Stop 서비스가 표시된 JJSTAR 메인화면" loading="lazy" />
+    <figure class="guide-image-slot"><img src="assets/images/jjstar_home_main.webp?v=fb37aa192a"
+        alt="로그인 후 프로필, 주요 메뉴와 One-Stop 서비스가 표시된 JJSTAR 메인화면"
+        width="10684" height="6888" loading="lazy" />
       <figcaption>&lt; 로그인 완료 후 메인화면 &gt;</figcaption>
     </figure>
     <p>메인화면의 기능은 <a href="pages/L02MAIN.html" class="reference internal inline-tab-badge"><strong
