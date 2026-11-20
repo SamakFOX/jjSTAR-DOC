@@ -168,4 +168,38 @@ await test('saving blocks editing shortcuts and the browser save dialog', async 
   assert.equal(t.calls.length, 0);
 });
 
+await test('structural layout is saved together with the same document versions', async () => {
+  const t = setup([response(200, {saved: 1, backup: 'outputs/backup'})]);
+  const layout = [{id:'r0'}, {id:'new-1',html:'<p>새 문단</p>'}];
+  t.context.structure = {layout:() => layout, changed:() => true, refresh() {}};
+  await t.context.saveDocument();
+  const payload = JSON.parse(t.calls[0].options.body);
+  assert.deepEqual(payload.layout, layout);
+  assert.equal(payload.path, 'pages/L04CHECK.html');
+  assert.deepEqual(payload.versions, {page:'old'});
+  assert.equal(t.calls.length, 1);
+});
+
+await test('unchanged structure does not rewrite the original source layout', async () => {
+  const t = setup([response(200, {saved: 1})]);
+  t.context.structure = {layout:() => undefined, changed:() => false, refresh() {}};
+  await t.context.saveDocument();
+  assert.equal('layout' in JSON.parse(t.calls[0].options.body), false);
+});
+
+await test('a structural save failure keeps the full layout draft and review action', async () => {
+  const t = setup([response(409, {error:'다른 창에서 파일이 변경됐어요'})]);
+  const layout = [{id:'r0'}, {id:'new-1',html:'<figure><img src="assets/images/example.webp"></figure>'}];
+  const structure = {layout:() => layout, changed:() => true, refresh() {}};
+  t.context.structure = structure;
+  t.context.changes = () => [];
+  let loaded = false; t.context.load = async () => { loaded = true; };
+  await t.context.saveDocument();
+  assert.equal(t.context.structure, structure);
+  assert.equal(t.context.structure.layout(), layout);
+  assert.equal(loaded, false);
+  assert.equal(t.nodes.review.disabled, false);
+  assert.equal(t.calls.length, 1);
+});
+
 console.log(`PASS: ${checks} saving checks`);

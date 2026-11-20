@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>가이드 문구 편집</title>
+  <title>가이드 편집기</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/__editor/editor.css">
 </head>
 <body>
   <header>
-    <strong>가이드 문구 편집</strong>
+    <strong>가이드 편집기</strong>
     <input id="search" type="search" placeholder="메뉴명 또는 코드 검색" aria-label="메뉴 검색">
     <select id="pages" aria-label="편집할 문서"></select>
     <button id="reload">다시 불러오기</button>
@@ -34,15 +34,63 @@
     <button id="redo" disabled>다시 실행</button>
     <label><input type="checkbox" id="dark"> 다크 화면</label>
   </div>
-  <p class="help">문구를 클릭해서 수정하세요 · 드래그한 문구에 서식을 적용할 수 있어요 · Enter는 줄바꿈 · Ctrl+S는 저장 전 확인 · 메뉴명·자동 메뉴 목록·이미지는 원래 설정에서 관리해요</p>
+  <p class="help">본문을 클릭해서 편집하고 왼쪽에서 구성을 추가해요 · 이미지를 더블클릭하면 파일명·설명을 설정해요 · Ctrl+S는 저장 전 확인</p>
   <div id="status" role="status">편집기를 준비하고 있어요</div>
-  <iframe id="preview" title="가이드 편집 프리뷰" sandbox="allow-same-origin"></iframe>
+  <main class="editor-workspace">
+    <aside class="structure-panel" aria-label="문서 구성 편집">
+      <section class="panel-section">
+        <h2>문서 구성</h2>
+        <p id="structureStatus" class="panel-help" role="status">문서를 불러오면 섹션 목록이 표시돼요</p>
+        <nav id="outline" aria-label="섹션 및 블록 목록"></nav>
+      </section>
+      <section class="panel-section insertion-panel">
+        <h2>구성 추가</h2>
+        <label for="insertType">추가할 내용</label>
+        <select id="insertType">
+          <option value="section">섹션 · 아이콘 제목과 본문</option>
+          <option value="heading">소제목</option>
+          <option value="paragraph">본문 문단</option>
+          <option value="image">이미지 홀더</option>
+          <option value="tip">캐릭터 팁박스</option>
+          <option value="step">STEP 안내</option>
+          <option value="divider">얇은 구분선</option>
+        </select>
+        <div class="panel-fields">
+          <div><label for="insertPosition">추가 위치</label>
+            <select id="insertPosition"><option value="after">선택 항목 뒤</option><option value="inside">선택 영역 안</option><option value="before">선택 항목 앞</option></select>
+          </div>
+          <div><label for="imageColumns">이미지 배치</label>
+            <select id="imageColumns"><option value="1">1장</option><option value="2">2장 나란히</option><option value="3">3장 나란히</option></select>
+          </div>
+        </div>
+        <button id="insertBlock" class="primary full-width">선택한 구성 추가</button>
+        <p class="panel-help">새 구성의 제목·내용은 본문에서 바로 수정할 수 있어요</p>
+      </section>
+      <section class="panel-section selection-panel">
+        <h2>선택한 구성</h2>
+        <p id="selectedBlock" class="selected-block">본문이나 구성 목록에서 항목을 선택해 주세요</p>
+        <div class="block-actions"><button id="moveUp">위로</button><button id="moveDown">아래로</button><button id="duplicateBlock">복제</button><button id="deleteBlock" class="danger">삭제</button></div>
+        <button id="editImage" class="full-width">이미지 파일명·설명</button>
+        <p class="panel-help">삭제와 순서 변경도 저장 전에는 되돌릴 수 있어요</p>
+      </section>
+    </aside>
+    <iframe id="preview" title="가이드 편집 프리뷰" sandbox="allow-same-origin"></iframe>
+  </main>
   <dialog id="reviewDialog">
     <h2>변경 내용 확인</h2>
-    <p>수정한 문구만 원본에 저장하며, 저장 전 파일은 자동으로 백업해요</p>
+    <p>문구·구성·이미지 설정을 원본에 저장하며, 저장 전 파일은 자동으로 백업해요</p>
     <div id="changes"></div>
     <div class="actions"><button id="cancelSave">계속 편집</button><button id="save" class="primary">원본 파일에 저장</button></div>
   </dialog>
+  <dialog id="imageDialog" aria-labelledby="imageDialogTitle">
+    <h2 id="imageDialogTitle">이미지 설정</h2>
+    <p id="imageSummary">파일명은 assets/images 폴더를 기준으로 입력해요</p>
+    <div id="imageFields"></div>
+    <datalist id="imageSuggestions"></datalist>
+    <p class="panel-help">아직 없는 파일명도 설정할 수 있어요 같은 이름의 이미지를 assets/images 폴더에 넣으면 가이드에 표시돼요</p>
+    <div class="actions"><button id="imageCancel">취소</button><button id="imageApply" class="primary">적용</button></div>
+  </dialog>
+  <script src="/__editor/structure.js"></script>
   <script src="/__editor/editor.js"></script>
 </body>
 </html>

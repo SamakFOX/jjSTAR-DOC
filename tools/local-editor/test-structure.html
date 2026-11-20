@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>로컬 편집기 구성 검증</title></head>
+<body><h1>로컬 편집기 구성 검증</h1><pre id="result">실행 중</pre>
+<script src="structure.js"></script>
+<script>
+(async () => {
+  const results = [];
+  const assert = (value,message) => { if (!value) throw new Error(message); };
+  const uiRoot = document.createElement('div'); uiRoot.hidden = true; document.body.append(uiRoot);
+  const ids = ['outline','structureStatus','selectedBlock','insertType','insertPosition','imageColumns','insertBlock','moveUp','moveDown','duplicateBlock','deleteBlock','editImage','imageDialog','imageFields','imageSuggestions','imageApply','imageCancel','imageSummary'];
+  const ui = Object.fromEntries(ids.map(id => {
+    const element = document.createElement(id === 'imageDialog' ? 'dialog' : ['insertType','insertPosition','imageColumns'].includes(id) ? 'select' : ['insertBlock','moveUp','moveDown','duplicateBlock','deleteBlock','editImage','imageApply','imageCancel'].includes(id) ? 'button' : id === 'imageSuggestions' ? 'datalist' : 'div');
+    element.id = id; uiRoot.append(element); return [id,element];
+  }));
+  for (const [id,values] of [['insertType',['section','heading','paragraph','tip','step','divider','image']],['insertPosition',['after','inside','before']],['imageColumns',['1','2','3']]]) for (const value of values) {
+    const option = document.createElement('option'); option.value = option.textContent = value; ui[id].append(option);
+  }
+  const iframe = document.createElement('iframe'); iframe.hidden = true; document.body.append(iframe);
+  const doc = iframe.contentDocument;
+  doc.open(); doc.write('<!doctype html><html><head></head><body><section class="guide-detail"><!--local-region:r0:start--><h1>상단 제목</h1><!--local-region:r0:end--><!--local-region:r1:start--><section id="T1"><h2 data-local-block="0">원래 섹션</h2><p data-local-block="1">원래 설명</p><figure class="guide-image-slot"><img src="/assets/images/original.webp" alt="원래 이미지"><figcaption data-local-block="2">원래 설명 이미지</figcaption></figure></section><!--local-region:r1:end--><!--local-region:r2:start--><p data-local-block="3">마지막 문단</p><!--local-region:r2:end--></section></body></html>'); doc.close();
+  const state = {path:'pages/L04SAMPLE.html',structure:{allowed:true},regions:[
+    {id:'r0',tag:'h1',label:'상단 제목',protected:true,anchorIds:[]},
+    {id:'r1',tag:'section',label:'원래 섹션',protected:false,anchorIds:['T1']},
+    {id:'r2',tag:'p',label:'마지막 문단',protected:false,anchorIds:[]}
+  ]};
+  const errors = [], history = [];
+  let api, count = 0;
+  const confirm = window.confirm; window.confirm = () => true;
+  const bindText = () => doc.querySelectorAll('[data-local-block]').forEach(element => element.contentEditable = 'true');
+  api = JJSTAR_EDITOR_BLOCKS.create({doc,state,ui,beforeChange:() => history.push(api.snapshot()),onChange:() => count++,bindText,isBusy:() => false,message:(message,error) => { if (error) errors.push(message); },request:async () => ({images:[{name:'existing.webp',path:'assets/images/existing.webp'}]})});
+  const select = text => {
+    const button = [...ui.outline.querySelectorAll('button')].find(button => button.textContent.includes(text));
+    assert(button,'선택할 영역 없음: ' + text); button.onclick();
+  };
+  const test = (name,fn) => { fn(); results.push({name,pass:true}); };
+  try {
+    test('원래 HTML을 변경하지 않고 시작', () => {
+      assert(!api.changed(),'초기 상태가 변경으로 표시됨'); assert(api.layout() === undefined,'변경 없는 저장에 layout 포함');
+      assert(ui.outline.querySelectorAll('button').length >= 6,'하위 영역 목록 누락');
+    });
+    test('고정 영역은 삭제와 이동 제한', () => {
+      select('상단 제목'); assert(ui.deleteBlock.disabled && ui.moveUp.disabled,'고정 영역 관리 버튼 활성화');
+    });
+    test('기존 섹션에 문단 추가 및 원래 앵커 유지', () => {
+      select('섹션 · 원래 섹션'); ui.insertType.value = 'paragraph'; ui.insertPosition.value = 'inside'; ui.insertBlock.onclick();
+      const layout = api.layout(), changed = layout.find(entry => entry.id === 'r1');
+      assert(changed.html.includes('여기에 설명을 입력하세요'),'문단 추가 실패');
+      assert(changed.html.includes('id="T1"'),'기존 앵커 손실');
+      assert(!changed.html.includes('data-local-') && !changed.html.includes('contenteditable'),'임시 편집 속성 저장');
+      assert(!('html' in layout.find(entry => entry.id === 'r0')),'고정 영역 직렬화');
+    });
+    test('추가 후 되돌리기 및 재적용', () => {
+      const after = api.snapshot(); api.restore(history.pop());
+      assert(!api.changed(),'되돌린 뒤 초기 상태와 다름');
+      assert(!doc.getElementById('T1').textContent.includes('여기에 설명을 입력하세요'),'추가 문단 잔존');
+      api.restore(after); assert(api.changed(),'다시 실행 상태 복구 실패');
+    });
+    test('앵커가 있는 섹션은 삭제·중복 제한', () => {
+      select('섹션 · 원래 섹션'); assert(ui.deleteBlock.disabled && ui.duplicateBlock.disabled,'연결 앵커 삭제 허용');
+    });
+    test('새 섹션 추가·복제·순서 이동·삭제', () => {
+      select('마지막 문단'); ui.insertType.value = 'section'; ui.insertPosition.value = 'after'; ui.insertBlock.onclick();
+      const first = api.layout().find(entry => entry.id.startsWith('new-'));
+      assert(first?.html.includes('jjstar-head-title.svg'),'기존 디자인 제목 누락');
+      ui.duplicateBlock.onclick(); assert(api.layout().filter(entry => entry.id.startsWith('new-')).length === 2,'섹션 복제 실패');
+      const before = api.layout().map(entry => entry.id).join(','); ui.moveUp.onclick();
+      assert(api.layout().map(entry => entry.id).join(',') !== before,'섹션 순서 이동 실패');
+      ui.deleteBlock.onclick(); assert(api.layout().filter(entry => entry.id.startsWith('new-')).length === 1,'섹션 삭제 실패');
+    });
+    test('잘못된 이미지 파일명 거부', () => {
+      for (const name of ['../outside.webp','https://example.com/p.png','test<script>.png','test.exe']) {
+        let blocked = false; try { JJSTAR_EDITOR_BLOCKS.safeName(name); } catch (_) { blocked = true; }
+        assert(blocked,'허용되면 안 되는 파일명: ' + name);
+      }
+      assert(JJSTAR_EDITOR_BLOCKS.safeName('assets/images/예시-01.webp') === '예시-01.webp','로컬 이미지 경로 정규화 실패');
+    });
+    select('마지막 문단'); ui.insertType.value = 'image'; ui.imageColumns.value = '3'; ui.insertPosition.value = 'after'; ui.insertBlock.onclick();
+    await Promise.resolve();
+    test('세 장 이미지 파일명·설명·캡션 배치', () => {
+      assert(ui.imageFields.querySelectorAll('fieldset').length === 3,'이미지3장 필드 누락');
+      [...ui.imageFields.querySelectorAll('fieldset')].forEach((field,index) => {
+        field.querySelector('[data-image-field="name"]').value = `sample-${index+1}.webp`;
+        field.querySelector('[data-image-field="alt"]').value = `화면 설명 ${index+1}`;
+        field.querySelector('[data-image-field="caption"]').value = `하단 설명 ${index+1}`;
+      });
+      ui.imageApply.onclick({preventDefault(){}});
+      const image = api.layout().find(entry => entry.html?.includes('sample-1.webp'));
+      assert(image?.html.includes('guide-image-row'),'가로배치 누락');
+      assert((image.html.match(/<figure/g) || []).length === 3,'이미지 개수 불일치');
+      assert(image.html.includes('sample-3.webp') && image.html.includes('하단 설명 3'),'마지막 이미지 설명 누락');
+      assert(!/data-local-|local-image-missing|local-structure-selected|contenteditable/.test(image.html),'편집용 속성 잔존');
+    });
+    test('기존 이미지의 이름과 설명 변경', () => {
+      select('원래 설명 이미지'); ui.editImage.onclick();
+      const field = ui.imageFields.querySelector('fieldset');
+      field.querySelector('[data-image-field="name"]').value = 'replacement.webp';
+      field.querySelector('[data-image-field="alt"]').value = '변경한 이미지 설명';
+      field.querySelector('[data-image-field="caption"]').value = '변경한 하단 설명';
+      ui.imageApply.onclick({preventDefault(){}});
+      const region = api.layout().find(entry => entry.id === 'r1');
+      assert(region.html.includes('assets/images/replacement.webp') && region.html.includes('변경한 이미지 설명') && region.html.includes('변경한 하단 설명'),'기존 이미지 변경 저장 실패');
+    });
+    test('구성 변경이 저장 전 확인 목록에 표시', () => {
+      assert(api.summary().some(item => item.startsWith('추가')),'추가 변경 요약 누락'); assert(count >= 7,'변경 이벤트 누락');
+      assert(!errors.length,'예상하지 못한 오류: ' + errors.join('/'));
+    });
+    document.getElementById('result').textContent = JSON.stringify({pass:true,count:results.length,results},null,2);
+    document.title = 'PASS · 로컬 편집기 구성 검증';
+  } catch (error) {
+    document.getElementById('result').textContent = JSON.stringify({pass:false,results,error:error.message,stack:error.stack},null,2);
+    document.title = 'FAIL · 로컬 편집기 구성 검증';
+  } finally { window.confirm = confirm; }
+})();
+</script></body></html>

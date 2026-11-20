@@ -75,6 +75,23 @@ class EditorTests(unittest.TestCase):
         self.assertIsNone(result['backup'])
         self.assertFalse((editor.ROOT / 'outputs').exists())
 
+    def test_text_edit_preserves_inline_anchor(self):
+        source = '<article><h1>제목</h1><p>소개</p><ul><li><span id="manual-menu">이용 매뉴얼</span>을 선택해요</li></ul></article>'
+        self.page.write_bytes(source.encode())
+        state = editor.prepare('pages/L04CHECK.html')
+        block = next(b for b in state['blocks'] if 'manual-menu' in b['html'])
+        with self.assertRaises(ValueError):
+            editor.save(self.payload(state, block, '새 문구'))
+        self.assertEqual(editor.read(self.page), source)
+        editor.save(self.payload(state, block, '<span id="manual-menu"><strong>매뉴얼</strong></span>을 열어요'))
+        self.assertIn('<span id="manual-menu"><strong>매뉴얼</strong></span>을 열어요', editor.read(self.page))
+
+    def test_text_edit_rejects_duplicate_inline_id(self):
+        state = editor.prepare('pages/L04CHECK.html')
+        with self.assertRaises(ValueError):
+            editor.save(self.payload(state, state['blocks'][-1], '<span id="repeat">하나</span><span id="repeat">둘</span>'))
+        self.assertEqual(self.page.read_bytes(), self.source.encode())
+
     def test_tip_box_with_text_edit_and_gaps(self):
         state = editor.prepare('pages/L04CHECK.html')
         block = state['blocks'][-1]

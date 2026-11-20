@@ -1,7 +1,8 @@
 (() => {
   const $ = id => document.getElementById(id);
   const frame = $('preview');
-  let config, state, doc, selectionRange, activeBlock;
+  let config, state, doc, selectionRange, activeBlock, structure;
+  let boundText = new WeakSet();
   let originals = new Map(), past = [], future = [], busy = false;
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function status(message, error = false) {
@@ -45,21 +46,24 @@
     }
   }
   function blocks() { return [...(doc?.querySelectorAll('[data-local-block]') || [])]; }
-  function snapshot() {
+  function textSnapshot() {
     return blocks().map(e => [e.dataset.localBlock, e.innerHTML, Number(e.dataset.localGapBefore || 0), Number(e.dataset.localGapAfter || 0), e.dataset.localTipBox === 'true']);
   }
+  function snapshot() { return {text:textSnapshot(), structure:structure?.snapshot()}; }
   function changes() {
-    return snapshot().filter(([id, html, before, after, tipBox]) => originals.get(id) !== html || before || after || tipBox)
+    return textSnapshot().filter(([id, html, before, after, tipBox]) => originals.has(id) && (originals.get(id) !== html || before || after || tipBox))
       .map(([id, html, gapBefore, gapAfter, tipBox]) => ({id, html, gapBefore, gapAfter, tipBox}));
   }
+  function pendingCount() { return changes().length + (structure?.summary().length || 0); }
   function update() {
-    const edits = changes();
-    $('review').disabled = busy || !edits.length;
+    const count = pendingCount();
+    $('review').disabled = busy || !count;
     $('undo').disabled = !past.length;
     $('redo').disabled = !future.length;
     blocks().forEach(e => e.classList.toggle('local-changed', e.innerHTML !== originals.get(e.dataset.localBlock)
       || Number(e.dataset.localGapBefore || 0) > 0 || Number(e.dataset.localGapAfter || 0) > 0 || e.dataset.localTipBox === 'true'));
-    if (!busy) status(edits.length ? `${edits.length}개 항목 변경 · 아직 저장하지 않았어요` : `${state?.path || ''} · 저장된 상태`);
+    structure?.refresh();
+    if (!busy) status(count ? `${count}개 항목 변경 · 아직 저장하지 않았어요` : `${state?.path || ''} · 저장된 상태`);
   }
   function record() {
     const current = snapshot();
@@ -68,7 +72,8 @@
     future = [];
   }
   function restore(values) {
-    const map = new Map(values.map(([id, html, before, after, tipBox]) => [id, {html, before, after, tipBox}]));
+    structure?.restore(values.structure);
+    const map = new Map(values.text.map(([id, html, before, after, tipBox]) => [id, {html, before, after, tipBox}]));
     blocks().forEach(e => {
       const saved = map.get(e.dataset.localBlock);
       if (!saved) return;
@@ -79,7 +84,7 @@
       renderTipBox(e);
       renderGaps(e);
     });
-    selectionRange = null;
+    selectionRange = null; activeBlock = null;
     update();
   }
   function undo() {
@@ -126,18 +131,18 @@
   function toggleTipBox() {
     if (busy) return;
     const block = activeBlock;
-    const spec = state?.blocks.find(b => b.id === block?.dataset.localBlock);
+    const spec = blockSpec(block);
     if (!block?.isConnected || !spec?.tip?.allowed) {
       status('팁박스로 바꿀 본문 문단을 클릭해 주세요. 기존 팁박스·제목·상단 소개는 전환하지 않아요', true); return;
     }
     record();
     block.dataset.localTipBox = String(block.dataset.localTipBox !== 'true');
-    renderTipBox(block); renderGaps(block); update();
+    renderTipBox(block); renderGaps(block); structure?.markText(block); update();
   }
   function addGap(side) {
     if (busy) return;
     const block = activeBlock;
-    const spec = state?.blocks.find(b => b.id === block?.dataset.localBlock);
+    const spec = blockSpec(block);
     if (spec && !spec.gap) {
       status('GAP 기능을 사용하려면 최신 편집 서버에 접속해 주세요', true); return;
     }
@@ -153,7 +158,30 @@
       block.dataset.localGapBefore = 0;
       block.dataset.localGapAfter = 0;
     } else block.dataset[key] = Number(block.dataset[key] || 0) + 1;
-    renderGaps(block); update();
+    renderGaps(block); structure?.markText(block); update();
+  }
+  function blockSpec(block) {
+    const id = block?.dataset.localBlock;
+    return state?.blocks.find(b => b.id === id) || (id && structure?.ownsText(id) ? {
+      gap:{allowed:block.matches('p,h2,h3,h4,h5,h6')}, tip:{allowed:block.matches('p') && !block.closest('.tip-box,figure')}
+    } : null);
+  }
+  function bindEditable() {
+    blocks().forEach(e => {
+      e.contentEditable = 'true'; e.spellcheck = false;
+      if (boundText.has(e)) return;
+      boundText.add(e);
+      e.addEventListener('focus', () => { activeBlock = e; });
+      e.addEventListener('beforeinput', event => {
+        if (busy) { event.preventDefault(); return; }
+        if (['insertParagraph','insertLineBreak'].includes(event.inputType)) {
+          event.preventDefault(); insertText('\n');
+        } else record();
+      });
+      e.addEventListener('input', () => { structure?.markText(e); update(); });
+      e.addEventListener('paste', event => { event.preventDefault(); insertText(event.clipboardData.getData('text/plain')); });
+      e.addEventListener('drop', event => event.preventDefault());
+    });
   }
   function rememberSelection() {
     const selection = doc.getSelection();
@@ -282,7 +310,7 @@
   }
   async function load(path, force = false) {
     if (busy && !force) { $('pages').value = state?.path || path; return false; }
-    if (!force && changes().length && !confirm('저장하지 않은 변경 내용을 버리고 다른 문서를 열까요?')) {
+    if (!force && (typeof structure !== 'undefined' && structure?.changed() || changes().length) && !confirm('저장하지 않은 변경 내용을 버리고 다른 문서를 열까요?')) {
       $('pages').value = state.path; return false;
     }
     busy = true; $('review').disabled = true; status('문서를 불러오고 있어요');
@@ -294,20 +322,13 @@
       });
       state = next; doc = frame.contentDocument;
       originals = new Map(); past = []; future = []; selectionRange = null; activeBlock = null;
-      blocks().forEach(e => {
-        e.contentEditable = 'true'; e.spellcheck = false;
-        originals.set(e.dataset.localBlock, e.innerHTML);
-        e.addEventListener('focus', () => { activeBlock = e; });
-        e.addEventListener('beforeinput', event => {
-          if (busy) { event.preventDefault(); return; }
-          if (['insertParagraph', 'insertLineBreak'].includes(event.inputType)) {
-            event.preventDefault(); insertText('\n');
-          } else record();
-        });
-        e.addEventListener('input', update);
-        e.addEventListener('paste', event => { event.preventDefault(); insertText(event.clipboardData.getData('text/plain')); });
-        e.addEventListener('drop', event => event.preventDefault());
-      });
+      boundText = new WeakSet();
+      blocks().forEach(e => originals.set(e.dataset.localBlock, e.innerHTML));
+      structure = null;
+      bindEditable();
+      if (window.JJSTAR_EDITOR_BLOCKS) structure = window.JJSTAR_EDITOR_BLOCKS.create({doc,state,
+        ui:Object.fromEntries(['outline','structureStatus','selectedBlock','insertType','insertPosition','imageColumns','insertBlock','moveUp','moveDown','duplicateBlock','deleteBlock','editImage','imageDialog','imageFields','imageSuggestions','imageApply','imageCancel','imageSummary'].map(id => [id,$(id)])),
+        beforeChange:record,onChange:update,bindText:bindEditable,isBusy:() => busy,message:status,request});
       doc.addEventListener('selectionchange', rememberSelection);
       doc.addEventListener('click', event => {
         const link = event.target.closest('a');
@@ -331,8 +352,14 @@
   }
   function review() {
     const edits = changes();
-    if (!edits.length || busy) return;
+    if ((!edits.length && !structure?.changed()) || busy) return;
     $('changes').replaceChildren();
+    for (const note of structure?.summary() || []) {
+      const row = document.createElement('section'); row.className = 'change structure-change';
+      const label = document.createElement('small'); label.textContent = state.path;
+      const text = document.createElement('p'); text.textContent = note;
+      row.append(label,text); $('changes').append(row);
+    }
     for (const edit of edits) {
       const block = state.blocks.find(b => b.id === edit.id);
       const row = document.createElement('section'); row.className = 'change';
@@ -395,7 +422,8 @@
     try {
       let y = 0;
       try { y = frame.contentWindow.scrollY; } catch (_) {}
-      const result = await saveChanges({path:state.path, versions:state.versions, changes:changes()});
+      const layout = typeof structure !== 'undefined' ? structure?.layout() : undefined;
+      const result = await saveChanges({path:state.path, versions:state.versions, changes:changes(), ...(layout ? {layout} : {})});
       saved = true;
       $('reviewDialog').close();
       if (!await load(state.path, true)) {
@@ -412,11 +440,11 @@
       status(saved ? `원본 파일 저장 완료 · 미리보기 갱신 중 오류가 났어요: ${error.message}` : error.message, true);
       $('reviewDialog').close();
     }
-    finally { busy = false; $('save').disabled = false; $('review').disabled = !changes().length; }
+    finally { busy = false; $('save').disabled = false; $('review').disabled = !(changes().length || typeof structure !== 'undefined' && structure?.changed()); if (typeof structure !== 'undefined') structure?.refresh(); }
   }
   $('save').onclick = saveDocument;
   document.addEventListener('keydown', shortcut);
-  window.addEventListener('beforeunload', event => { if (changes().length) { event.preventDefault(); event.returnValue = ''; } });
+  window.addEventListener('beforeunload', event => { if (pendingCount()) { event.preventDefault(); event.returnValue = ''; } });
   function pageOptions() {
     const keyword = $('search').value.trim().toLowerCase();
     const pages = config.pages.filter(p => `${p.title} ${p.path}`.toLowerCase().includes(keyword) || p.path === state?.path);

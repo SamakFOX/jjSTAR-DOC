@@ -2,6 +2,7 @@ window.JJSTAR_MENU_VIEWS = (() => {
   const hiddenCodes = new Set([
     'L04ADFA', // 학사관리 FAQ
     'L04ATTD', // 출결확인
+    'L04AWRD', // 성적우수상내역
     'L04BEST', // beSTAR 신청
     'L04CEHI', // 제증명 발급내역
     'L04CEIS', // 제증명 발급
@@ -10,6 +11,7 @@ window.JJSTAR_MENU_VIEWS = (() => {
     'L04DBMJ', // 복수/부 전공 신청
     'L04EDCR', // 교육과정조회
     'L04EDCRB', // 교육과정편람
+    'L04EXCH', // 학습경험 인증 현황
     'L04SGGD', // 수강편람
     'L04GECR', // 교양 교육과정 조회
     'L04LCVT', // 로컬벤처
