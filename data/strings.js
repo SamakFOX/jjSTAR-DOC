@@ -12,7 +12,7 @@ window.JJSTAR_STRINGS = {
     "L04GRAD": {"desc":"대학원 홈페이지에서 전공과 입학·학사 안내를 확인할 수 있어요","btnText":"대학원 바로가기"},
     "L04FOOD": {"desc":"학교 식당의 이번 주 식단을 확인할 수 있어요","btnText":"금주의 식단정보 바로가기"},
     "L04MAIL": {"desc":"JJSTAR의 웹메일 메뉴에서 학교 메일을 이용할 수 있어요","btnText":"웹메일 바로가기"},
-    "L04MS65": {"desc":"JJSTAR의 MS365 메뉴에서 학교 계정용 Microsoft 365를 이용할 수 있어요","btnText":"MS365 바로가기"},
+    "L04MS65": {"desc":"JJSTAR의 Office 365 메뉴에서 학교 계정용 Office 365를 이용할 수 있어요","btnText":"Office 365 바로가기"},
     "L04RMOT": {"desc":"JJSTAR의 원격지원 메뉴를 통해 원격 지원을 요청할 수 있어요","btnText":"원격지원 바로가기"},
     "L04APOC": {"desc":"JJSTAR의 애플 온 캠퍼스 메뉴에서 교육 할인 서비스를 이용할 수 있어요","btnText":"애플 온 캠퍼스 바로가기"},
     "L04MDWN": {"desc":"JJSTAR의 모바일 다운로드 센터 메뉴에서 학교용 모바일 앱을 확인할 수 있어요","btnText":"모바일 다운로드 센터 바로가기"},
