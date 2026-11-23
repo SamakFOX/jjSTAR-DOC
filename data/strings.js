@@ -94,8 +94,7 @@ window.JJSTAR_STRINGS = {
         "desc": "전주대가 제공하는 상담서비스들을 활용해, 나를 조금 더 심층적으로 탐색해볼 수 있는 메뉴에요"
     },
     "L03BUSS": {
-        "desc": "통학버스 신청과 운행 정보를 확인하는 메뉴에요",
-        "heroImage": "assets/images/jjstar_dm_buss.webp"
+        "desc": "통학버스 신청과 운행 정보를 확인하는 메뉴에요"
     },
     "L03DORM": {
         "desc": "기숙사 안내사항부터 신청과 기숙사를 이용하며 필요한 서비스들을 모아놓은 메뉴에요"
