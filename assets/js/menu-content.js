@@ -33,6 +33,7 @@ window.JJSTAR_CONTENT = (() => {
   }
 
   function overview(current) {
+    const heroImage = !current.overviewPath && window.JJSTAR_STRINGS?.[current.code]?.heroImage;
     const inlineCodes = new Set(hiddenChildren(current).map(node => node.code));
     const list = nodes => `<ul>${nodes.filter(node => node.enabled !== false).map(node => `
       <li${node.externalUrl ? ` id="${escape(node.code)}"` : ''} class="${node.children ? 'toctree-l1' : 'toctree-l2'}${inlineCodes.has(node.code) ? ' is-info' : ''}">
@@ -46,6 +47,7 @@ window.JJSTAR_CONTENT = (() => {
     return `<article class="guide-article" no-image>
       <nav id="auto-breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-gray-500"></nav>
       <h1>${escape(current.title)}</h1>
+      ${heroImage ? `<img src="${escape(heroImage)}" alt="${escape(current.title)}" style="width: 100%; height: auto;" decoding="async">` : ''}
       <p class="guide-lead">하위 메뉴를 선택하면 이용 안내를 확인할 수 있어요</p>
       <section class="rst-content"><div class="toctree-wrapper">${list(current.children || [])}</div></section>
     </article>`;

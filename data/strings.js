@@ -47,19 +47,23 @@ window.JJSTAR_STRINGS = {
     },
     "L02COMP": {
         "homeDesc": "나의 역량을 진단하고, 비교과 프로그램과 다양한 활동으로 역량을 키울 수 있어요",
-        "desc": "핵심역량과 전공역량을 진단하고 starT·비교과 프로그램에 참여하는 메뉴예요"
+        "desc": "핵심역량과 전공역량을 진단하고 starT·비교과 프로그램에 참여하는 메뉴예요",
+        "heroImage": "assets/images/jjstar_comp_main.webp"
     },
     "L02CARE": {
         "homeDesc": "진로·직무를 탐색하고 상담을 통해 나에게 맞는 방향을 찾아갈 수 있어요",
-        "desc": "직무와 진로를 탐색하고 진단검사·상담 서비스를 이용하는 메뉴예요"
+        "desc": "직무와 진로를 탐색하고 진단검사·상담 서비스를 이용하는 메뉴예요",
+        "heroImage": "assets/images/jjstar_care_main.webp"
     },
     "L02JOBS": {
         "homeDesc": "취업과 창업에 필요한 경험을 쌓고, 실무에 도움이 되는 역량을 키울 수 있어요",
-        "desc": "창업·취업 정보와 현장실습학기제 참여에 필요한 메뉴를 확인할 수 있어요"
+        "desc": "창업·취업 정보와 현장실습학기제 참여에 필요한 메뉴를 확인할 수 있어요",
+        "heroImage": "assets/images/jjstar_jobs_main.webp"
     },
     "L02MYPG": {
         "homeDesc": "나의 정보·역량·활동 이력을 한곳에서 확인하고, 목표를 향한 준비 상태를 점검할 수 있어요",
-        "desc": "나의 정보와 취업역량, 수상·인증 내역을 확인할 수 있어요"
+        "desc": "나의 정보와 취업역량, 수상·인증 내역을 확인할 수 있어요",
+        "heroImage": "assets/images/jjstar_mypg_main.webp"
     },
     "L03SURV": {
         "desc": "진단·만족도 조사와 공학인증 설문, 교직 적·인성 검사를 확인할 수 있어요"
